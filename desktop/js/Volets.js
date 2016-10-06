@@ -15,8 +15,6 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
 			if (typeof(data.result.geoloc) !== 'undefined') {
 				var coordinate=data.result.geoloc.configuration.coordinate.split(",");
-				//alert(coordinate[0]);
-				//alert(coordinate[1]);
 				var map = new google.maps.Map(document.getElementById('map'), {
 					center: {lat: parseInt(coordinate[0]), lng:parseInt(coordinate[1])},
 					mapTypeId: 'satellite',

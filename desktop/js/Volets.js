@@ -57,12 +57,16 @@ function addCmdToTable(_cmd) {
 		myLatLng = _cmd.logicalId.split(","); 
 	else 
 		myLatLng=coordinate;
-	new google.maps.Marker({
+	var position=new google.maps.Marker({
 		position: {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])},
 		map: map,
 		draggable:true,
 		title: _cmd.name
 	  });
+	google.maps.event.addListener(position,'drag', function(event) {
+		//$('.cmdAttr[data-l1key=name]")
+		alert("La nouvelle coordonnée du marqueur est : "+event.latLng);
+	});
 	new google.maps.Marker({
 		position: PolyLigneDroitZone(myLatLng),
 		map: map,
@@ -93,7 +97,6 @@ function addCmdToTable(_cmd) {
 		map: map,
 		strokeWeight: 2
 	});
-	
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td class="name">';
 	tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';

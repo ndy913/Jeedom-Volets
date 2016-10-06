@@ -13,8 +13,9 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		success: function(data) {
 			if (!data.result)
 				$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
+			var coordinate=data.result.geoloc.configuration.coordinate.split(",");
 			var map = new google.maps.Map(document.getElementById('map'), {
-				center: {lat: -34.397, lng: 150.644},
+				center: {lat: coordinate[0], lng: coordinate[1]},
 				mapTypeId: 'satellite',
 				scrollwheel: false,
 				zoom: 8

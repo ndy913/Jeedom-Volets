@@ -18,7 +18,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				//alert(coordinate[0]);
 				//alert(coordinate[1]);
 				var map = new google.maps.Map(document.getElementById('map'), {
-					//center: {lat: coordinate[0], lng: coordinate[1]},
+					center: {lat: parseInt(coordinate[0]), parseInt(lng: coordinate[1])},
 					mapTypeId: 'satellite',
 					scrollwheel: false,
 					zoom: 8

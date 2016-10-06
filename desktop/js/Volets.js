@@ -53,9 +53,9 @@ function addCmdToTable(_cmd) {
 	var _cmd = {configuration: {}};
 	}
 	var myLatLng;
-	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
+	/*if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
 		myLatLng = _cmd.logicalId.split(","); 
-	else 
+	else */
 		myLatLng=coordinate;
 	var position=new google.maps.Marker({
 		position: {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])},
@@ -64,7 +64,7 @@ function addCmdToTable(_cmd) {
 		title: _cmd.name
 	  });
 	google.maps.event.addListener(position,'drag', function(event) {
-		$('#'+event.title).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng);
+		$('#'+event.title).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng.toString());
 	});
 	new google.maps.Polyline({
 		path: PolyLigneNord(myLatLng),
@@ -93,7 +93,7 @@ function addCmdToTable(_cmd) {
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '" id="' + init(_cmd.name) + '">';
     tr += '<td class="name">';
 	tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
-	tr += '<input class="cmdAttr form-control input-sm" data-l1key="logicalId" style="display : none;">';
+	tr += '<input class="cmdAttr form-control input-sm" data-l1key="logicalId">';
 	tr += '<input class="cmdAttr form-control input-sm" data-l1key="name">   ';
 	tr += '</td>';
 	

@@ -12,7 +12,7 @@ try {
 		if(is_object($heliotrope)){
 			$result['heliotrope']=utils::o2a($heliotrope->getCmd());
 			$geoloc=eqLogic::byId($heliotrope->getConfiguration('geoloc'));
-			if(is_object($equipement)){
+			if(is_object($geoloc)){
 				$result['geoloc']=utils::o2a($geoloc);
 			}
 		}

@@ -64,15 +64,8 @@ function addCmdToTable(_cmd) {
 		title: _cmd.name
 	  });
 	google.maps.event.addListener(position,'drag', function(event) {
-		//$('.cmdAttr[data-l1key=name]")
-		alert("La nouvelle coordonnée du marqueur est : "+event.latLng);
+		$('#'+event.title).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng);
 	});
-	new google.maps.Marker({
-		position: PolyLigneDroitZone(myLatLng),
-		map: map,
-		draggable:true,
-		title: _cmd.name
-	  });
 	new google.maps.Polyline({
 		path: PolyLigneNord(myLatLng),
 		geodesic: true,
@@ -97,7 +90,7 @@ function addCmdToTable(_cmd) {
 		map: map,
 		strokeWeight: 2
 	});
-    var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
+    var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '" id="' + init(_cmd.name) + '">';
     tr += '<td class="name">';
 	tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
 	tr += '<input class="cmdAttr form-control input-sm" data-l1key="logicalId" style="display : none;">';

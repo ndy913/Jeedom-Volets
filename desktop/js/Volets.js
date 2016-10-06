@@ -30,7 +30,9 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 function PolyLigneCoordinate(Coordinate) {
 	var coord=[
 		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])},
-		{lat: parseFloat(Coordinate[0])+10, lng: parseFloat(Coordinate[1])}
+		{lat: parseFloat(Coordinate[0])+ (1 / 60) , lng: parseFloat(Coordinate[1])},
+		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])- (1 / 60)},
+		{lat: parseFloat(Coordinate[0])+ (1 / 60) , lng: parseFloat(Coordinate[1])+ (1 / 60)}
 	];
 	return coord
 }

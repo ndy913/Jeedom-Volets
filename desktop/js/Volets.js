@@ -43,11 +43,10 @@ function addCmdToTable(_cmd) {
 		myLatLng = _cmd.logicalId.split(","); 
 	else 
 		myLatLng=coordinate;
-	flightPlanCoordinates = ;
 	var marker = new google.maps.Marker({
 		position: myLatLng,
 		map: map,
-		 draggable:true,
+		draggable:true,
 		title: _cmd.name
 	  });
 	var flightPath = new google.maps.Polyline({

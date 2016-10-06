@@ -92,11 +92,11 @@ $eqLogics = eqLogic::byType('Volets');
 				?>
 			</select>
 			<div class="col-lg-2"></div>
-			<div id="map"></div>
                 </div>
             </fieldset> 
             
         </form>
+	<div id="map" style="height: 100%;"></div>
          <div class="form-actions" align="right">
                     <a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
                     <a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>

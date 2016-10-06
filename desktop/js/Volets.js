@@ -34,6 +34,13 @@ function PolyLigneNord(Coordinate) {
 	];
 	return coord
 }
+function PolyLignePerpendiculaire(Coordinate) {
+	var coord=[
+		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])},
+		{lat: parseFloat(Coordinate[0])+ (10 / 3600) , lng: parseFloat(Coordinate[1])+ (10 / 3600)}
+	];
+	return coord
+}
 function PolyLigneDroitZone(Coordinate) {
 	var coord=[
 		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])- (10 / 3600)},
@@ -67,7 +74,15 @@ function addCmdToTable(_cmd) {
 	new google.maps.Polyline({
 		path: PolyLigneDroitZone(myLatLng),
 		geodesic: true,
-		strokeColor: '#FF0000',
+		strokeColor: '#40A497',
+		strokeOpacity: 1.0,
+		map: map,
+		strokeWeight: 2
+	});
+	new google.maps.Polyline({
+		path: PolyLignePerpendiculaire(myLatLng),
+		geodesic: true,
+		strokeColor: '#40A497',
 		strokeOpacity: 1.0,
 		map: map,
 		strokeWeight: 2

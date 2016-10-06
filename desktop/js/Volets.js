@@ -30,7 +30,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 function PolyLigneCoordinate(Coordinate) {
 	var coord=[
 		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])},
-		{lat: parseFloat(Coordinate[0])+100, lng: parseFloat(Coordinate[1])}
+		{lat: parseFloat(Coordinate[0])+10, lng: parseFloat(Coordinate[1])}
 	];
 	return coord
 }
@@ -38,29 +38,31 @@ function addCmdToTable(_cmd) {
 	if (!isset(_cmd)) {
 	var _cmd = {configuration: {}};
 	}
-	var flightPlanCoordinates = [];/*[
-		{lat: 37.772, lng: -122.214},
-		{lat: 21.291, lng: -157.821},
-		{lat: -18.142, lng: 178.431},
-		{lat: -27.467, lng: 153.027}
-		];*/
+	var myLatLng;
 	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
-		flightPlanCoordinates = PolyLigneCoordinate(_cmd.logicalId.split(",")); 
+		myLatLng = _cmd.logicalId.split(","); 
 	else 
-		flightPlanCoordinates = PolyLigneCoordinate(coordinate);
+		myLatLng=coordinate;
+	flightPlanCoordinates = ;
+	var marker = new google.maps.Marker({
+		position: myLatLng,
+		map: map,
+		 draggable:true,
+		title: _cmd.name
+	  });
 	var flightPath = new google.maps.Polyline({
-	path: flightPlanCoordinates,
-	geodesic: true,
-	strokeColor: '#FF0000',
-	strokeOpacity: 1.0,
-	strokeWeight: 2
+		path: PolyLigneCoordinate(myLatLng),
+		geodesic: true,
+		strokeColor: '#FF0000',
+		strokeOpacity: 1.0,
+		strokeWeight: 2
 	});
-
 	flightPath.setMap(map);
 	
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td class="name">';
 	tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
+	tr += '<input class="cmdAttr form-control input-sm" data-l1key="logicalId" style="display : none;">';
 	tr += '<input class="cmdAttr form-control input-sm" data-l1key="name">   ';
 	tr += '</td>';
 	

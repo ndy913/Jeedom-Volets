@@ -27,12 +27,17 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		}
 	});
 });
-function PolyLigneCoordinate(Coordinate) {
+function PolyLigneNord(Coordinate) {
 	var coord=[
 		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])},
-		{lat: parseFloat(Coordinate[0])+ (1 / 60) , lng: parseFloat(Coordinate[1])},
-		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])- (1 / 60)},
-		{lat: parseFloat(Coordinate[0])+ (1 / 60) , lng: parseFloat(Coordinate[1])+ (1 / 60)}
+		{lat: parseFloat(Coordinate[0])+ (10 / 3600) , lng: parseFloat(Coordinate[1])}
+	];
+	return coord
+}
+function PolyLigneDroitZone(Coordinate) {
+	var coord=[
+		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])- (1 / 3600)},
+		{lat: parseFloat(Coordinate[0]) , lng: parseFloat(Coordinate[1])+ (10 /3 600)}
 	];
 	return coord
 }
@@ -45,20 +50,28 @@ function addCmdToTable(_cmd) {
 		myLatLng = _cmd.logicalId.split(","); 
 	else 
 		myLatLng=coordinate;
-	var marker = new google.maps.Marker({
-		position: myLatLng,
+	new google.maps.Marker({
+		position: {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])},
 		map: map,
 		draggable:true,
 		title: _cmd.name
 	  });
-	var flightPath = new google.maps.Polyline({
-		path: PolyLigneCoordinate(myLatLng),
+	new google.maps.Polyline({
+		path: PolyLigneNord(myLatLng),
 		geodesic: true,
 		strokeColor: '#FF0000',
 		strokeOpacity: 1.0,
+		map: map,
 		strokeWeight: 2
 	});
-	flightPath.setMap(map);
+	new google.maps.Polyline({
+		path: PolyLigneDroitZone(myLatLng),
+		geodesic: true,
+		strokeColor: '#FF0000',
+		strokeOpacity: 1.0,
+		map: map,
+		strokeWeight: 2
+	});
 	
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td class="name">';

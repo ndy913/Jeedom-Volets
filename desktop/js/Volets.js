@@ -13,15 +13,17 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		success: function(data) {
 			if (!data.result)
 				$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
-			var coordinates=data.result.geoloc.configuration.coordinate;
-			alert(coordinates);
-			var coordinate=coordinates.split(",");
-			var map = new google.maps.Map(document.getElementById('map'), {
-				center: {lat: coordinate[0], lng: coordinate[1]},
-				mapTypeId: 'satellite',
-				scrollwheel: false,
-				zoom: 8
-			});
+			if (typeof(data.result.geoloc.configuration.coordinate) !== 'undefined') {
+				var coordinate=data.result.geoloc.configuration.coordinate.split(",");
+				alert(coordinate[0]);
+				alert(coordinate[1]);
+				var map = new google.maps.Map(document.getElementById('map'), {
+					center: {lat: coordinate[0], lng: coordinate[1]},
+					mapTypeId: 'satellite',
+					scrollwheel: false,
+					zoom: 8
+				});
+			}
 		}
 	});
 });

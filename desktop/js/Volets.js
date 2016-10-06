@@ -19,8 +19,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				map = new google.maps.Map(document.getElementById('map'), {
 					center: {lat:parseFloat(coordinate[0]), lng:parseFloat(coordinate[1])},
 					mapTypeId: 'satellite',
-					scrollwheel: false,
-					zoom: 18
+					scrollwheel: true,
+					zoom: 20
 				});
 			}
 		}

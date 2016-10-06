@@ -74,19 +74,24 @@ $eqLogics = eqLogic::byType('Volets');
                     </div>
                 </div>
                 <div class="form-group">
-					<label class="col-sm-2 control-label" ></label>
-					<div class="col-sm-9">
-						<input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
-						<input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
-					</div>
+			<label class="col-sm-2 control-label" ></label>
+			<div class="col-sm-9">
+				<input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
+				<input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
+			</div>
                 </div>
-				<legend><i class="fa fa-wrench"></i>  {{Configuration}}</legend>
+		<legend><i class="fa fa-wrench"></i>  {{Configuration}}</legend>
                 <div class="form-group">
-                   <label class="col-lg-2 control-label">{{Compteur Téléinfo}}</label>
-                    <div class="col-lg-2">
-                        <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="compteur" placeholder="{{Choisir le compteur Téléinfo}}"/>
-						<a style="display : inline-block;margin:5px;"class="btn btn-default btn-xs cursor bt_selectCmdExpression" style="position : relative; top : 3px;" title="{{Rechercher une commande}}" id="ObjetTransmit"><i class="fa fa-list-alt"></i></a>
-                    </div>
+			<label class="col-lg-2 control-label">{{Héliotrope}}</label>
+			<select class="eqLogicAttr" data-l1key="configuration" data-l2key="heliotrope">
+				<option>Aucun</option>
+				<?php
+					foreach(eqLogic::byType('heliotrope') as $heliotrope)
+						echo '<option value="'.$heliotrope->getId().'">'.$heliotrope->getName().'</option>';
+				?>
+			</select>
+			<div class="col-lg-2"></div>
+			<div id="map"></div>
                 </div>
             </fieldset> 
             
@@ -96,7 +101,7 @@ $eqLogics = eqLogic::byType('Volets');
                     <a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
                 </div>
 
-        <legend><i class="fa fa-list-alt"></i>  {{Tableau de commandes}}</legend>
+        <legend><i class="fa fa-list-alt"></i>  {{Mes Volets}}</legend>
        <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>

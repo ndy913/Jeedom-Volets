@@ -5,7 +5,7 @@ if (!isConnect('admin')) {
 sendVarToJS('eqType', 'Volets');
 $eqLogics = eqLogic::byType('Volets');
 ?>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
 <div class="row row-overflow">
     <div class="col-lg-2">
         <div class="bs-sidebar">

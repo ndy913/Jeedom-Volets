@@ -10,11 +10,11 @@ try {
 		$result=array();
 		$heliotrope=eqLogic::byId(init('heliotrope'));
 		if(is_object($heliotrope)){
-			$result['heliotrope']=utils::o2a($heliotrope);
-		}
-		$equipement=eqLogic::byId(init('id'));
-		if(is_object($equipement)){
-			//$result['Volets']=utils::o2a($equipement->getCmds());
+			$result['heliotrope']=utils::o2a($heliotrope->getCmd());
+			$geoloc=eqLogic::byId($heliotrope->getConfiguration('geoloc'));
+			if(is_object($equipement)){
+				$result['geoloc']=utils::o2a($geoloc);
+			}
 		}
 		ajax::success($result);
 	}

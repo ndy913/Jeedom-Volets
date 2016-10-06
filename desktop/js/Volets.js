@@ -1,11 +1,29 @@
-function initMap() {
-	var map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat: -34.397, lng: 150.644},
-		mapTypeId: 'satellite',
-		scrollwheel: false,
-		zoom: 8
+$('body').on('change','.eqlogicAttr[data-l1key=configuration][data-l2key=heliotrope]',fonction(){
+	$.ajax({
+		type: 'POST',            
+		async: false,
+		url: 'plugins/Volets/core/ajax/Volets.ajax.php',
+		data:{
+			action: 'getInformation',
+			id:$('.eqlogicAttr[data-l1key=id]').val(),
+			heliotrope:$(this).val(),
+		},
+		dataType: 'json',
+		global: false,
+		error: function(request, status, error) {},
+		success: function(data) {
+			if (!data.result)
+				$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
+			var map = new google.maps.Map(document.getElementById('map'), {
+				center: {lat: -34.397, lng: 150.644},
+				mapTypeId: 'satellite',
+				scrollwheel: false,
+				zoom: 8
+			});
+		}
 	});
-}
+});
+
 function addCmdToTable(_cmd) {
     if (!isset(_cmd)) {
         var _cmd = {configuration: {}};

@@ -20,7 +20,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					center: {lat: parseInt(coordinate[0]), lng:parseInt(coordinate[1])},
 					mapTypeId: 'satellite',
 					scrollwheel: false,
-					zoom: 12
+					zoom: 18
 				});
 			}
 		}

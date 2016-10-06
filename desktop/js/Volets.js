@@ -36,8 +36,8 @@ function PolyLigneNord(Coordinate) {
 }
 function PolyLigneDroitZone(Coordinate) {
 	var coord=[
-		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])- (1 / 3600)},
-		{lat: parseFloat(Coordinate[0]) , lng: parseFloat(Coordinate[1])+ (10 /3 600)}
+		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])- (10 / 3600)},
+		{lat: parseFloat(Coordinate[0]) , lng: parseFloat(Coordinate[1])+ (10 / 3600)}
 	];
 	return coord
 }

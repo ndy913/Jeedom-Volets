@@ -63,6 +63,12 @@ function addCmdToTable(_cmd) {
 		draggable:true,
 		title: _cmd.name
 	  });
+	new google.maps.Marker({
+		position: PolyLigneDroitZone(myLatLng),
+		map: map,
+		draggable:true,
+		title: _cmd.name
+	  });
 	new google.maps.Polyline({
 		path: PolyLigneNord(myLatLng),
 		geodesic: true,

@@ -23,6 +23,18 @@ try {
     if (!isConnect('admin')) {
         throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
+    if (init('action') == 'getInformation') {
+        $result=array();
+        $heliotrope=eqLogic::byId(init('heliotrope'));
+        if(is_object($heliotrope)){
+           $result['heliotrope']=utils::o2a($heliotrope);
+        }
+        $equipement=eqLogic::byId(init('id'));
+        if(is_object($equipement)){
+           $result['Volets']=utils::o2a($equipement->getCmds());
+        }
+		ajax::success($result);
+	}
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {

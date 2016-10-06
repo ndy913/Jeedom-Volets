@@ -7,7 +7,7 @@
 	<licence>AGPL</licence>
 	<author>Halbout Michael</author>
 	<installation>Aucune</installation>
-	<category>automation</category>
-    <require>2.0</require>
+	<category>Organisation</category>
+   	<require>2.0</require>
 </info>
 

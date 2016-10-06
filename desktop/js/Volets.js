@@ -1,11 +1,11 @@
-$('body').on('change','.eqlogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
+$('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
 	$.ajax({
 		type: 'POST',            
 		async: false,
 		url: 'plugins/Volets/core/ajax/Volets.ajax.php',
 		data:{
 			action: 'getInformation',
-			id:$('.eqlogicAttr[data-l1key=id]').val(),
+			id:$('.eqLogicAttr[data-l1key=id]').val(),
 			heliotrope:$(this).val(),
 		},
 		dataType: 'json',

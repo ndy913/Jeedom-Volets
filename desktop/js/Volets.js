@@ -5,7 +5,6 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		url: 'plugins/Volets/core/ajax/Volets.ajax.php',
 		data:{
 			action: 'getInformation',
-			id:$('.eqLogicAttr[data-l1key=id]').val(),
 			heliotrope:$(this).val(),
 		},
 		dataType: 'json',

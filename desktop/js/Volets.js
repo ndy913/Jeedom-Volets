@@ -17,7 +17,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 			if (typeof(data.result.geoloc) !== 'undefined') {
 				var coordinate=data.result.geoloc.configuration.coordinate.split(",");
 				map = new google.maps.Map(document.getElementById('map'), {
-					center: {lat: parseInt(coordinate[0]), lng:parseInt(coordinate[1])},
+					center: {lat:parseFloat(coordinate[0]), lng:parseFloat(coordinate[1])},
 					mapTypeId: 'satellite',
 					scrollwheel: false,
 					zoom: 18

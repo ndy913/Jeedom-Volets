@@ -1,4 +1,4 @@
-$('body').on('change','.eqlogicAttr[data-l1key=configuration][data-l2key=heliotrope]',fonction(){
+$('body').on('change','.eqlogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
 	$.ajax({
 		type: 'POST',            
 		async: false,

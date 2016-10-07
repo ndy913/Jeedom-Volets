@@ -84,20 +84,20 @@ function addCmdToTable(_cmd) {
 	  });
 	TracePolyLigne(myLatLng);
 	google.maps.event.addListener(position,'drag', function(event) {
-		myLatLng=event.latLng;//.toString().replace("(", "").replace(")", "");
-		//TracePolyLigne(myLatLng.split(","));
-		var Coord=$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val().split(",");
-		Coord[0]=myLatLng[0];
-		Coord[1]=myLatLng[1];
-		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(Coord);
+		var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
+		var =myLatLng.split(",");
+		myLatLng[0]=newCoord[0];
+		myLatLng[1]=newCoord[1];
+		TracePolyLigne(myLatLng);
+		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
 	});
 	google.maps.event.addListener(angle,'drag', function(event) {
-		myLatLng=event.latLng;//.toString().replace("(", "").replace(")", "");
-		//TracePolyLigne(myLatLng.split(","));
-		var Coord=$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val().split(",");
-		Coord[2]=myLatLng[0];
-		Coord[3]=myLatLng[1];
-		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(Coord);
+		var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
+		var =myLatLng.split(",");
+		myLatLng[2]=newCoord[0];
+		myLatLng[3]=newCoord[1];
+		TracePolyLigne(myLatLng);
+		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
 	});
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td class="name">';

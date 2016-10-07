@@ -64,7 +64,7 @@ function addCmdToTable(_cmd) {
 		title: _cmd.name
 	  });
 	google.maps.event.addListener(position,'drag', function(event) {
-		alert(event.toString());
+		alert(event.join(""));
 		$('#'+event.title).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng.toString());
 	});
 	new google.maps.Polyline({

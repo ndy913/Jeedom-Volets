@@ -17,12 +17,12 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
 			if (typeof(data.result.geoloc) !== 'undefined') {
 				coordinate=data.result.geoloc.configuration.coordinate.split(",");
-				map = new google.maps.Map(document.getElementById('map'), {
-					center: {lat:parseFloat(coordinate[0]), lng:parseFloat(coordinate[1])},
-					mapTypeId: 'satellite',
-					scrollwheel: true,
-					zoom: 20
-				});
+			map = new google.maps.Map(document.getElementById('map'), {
+				center: {lat:parseFloat(coordinate[0]), lng:parseFloat(coordinate[1])},
+				mapTypeId: 'satellite',
+				scrollwheel: true,
+				zoom: 20
+			});
 			}
 		}
 	});
@@ -67,7 +67,7 @@ function addCmdToTable(_cmd) {
 	/*if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
 		myLatLng = _cmd.logicalId.split(","); 
 	else */
-		myLatLng=coordinate.push(parseFloat(Coordinate[0])+ (1 / 3600)).push( parseFloat(Coordinate[1])+ (1 / 3600));
+		myLatLng=coordinate.push(parseFloat(coordinate[0])+ (1 / 3600)).push( parseFloat(coordinate[1])+ (1 / 3600));
 	var position=new google.maps.Marker({
 		position: {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])},
 		map: map,

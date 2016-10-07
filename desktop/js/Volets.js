@@ -48,26 +48,9 @@ function PolyLigneDroitZone(Coordinate) {
 	];
 	return coord
 }
-function addCmdToTable(_cmd) {
-	if (!isset(_cmd)) {
-	var _cmd = {configuration: {}};
-	}
-	var myLatLng;
-	/*if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
-		myLatLng = _cmd.logicalId.split(","); 
-	else */
-		myLatLng=coordinate;
-	var position=new google.maps.Marker({
-		position: {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])},
-		map: map,
-		draggable:true,
-		title: _cmd.name
-	  });
-	google.maps.event.addListener(position,'drag', function(event) {
-		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(event.latLng);
-	});
+function TracePolyLigne(Coordinate) {
 	new google.maps.Polyline({
-		path: PolyLigneNord(myLatLng),
+		path: PolyLigneNord(Coordinate),
 		geodesic: true,
 		strokeColor: '#FF0000',
 		strokeOpacity: 1.0,
@@ -75,7 +58,7 @@ function addCmdToTable(_cmd) {
 		strokeWeight: 2
 	});
 	new google.maps.Polyline({
-		path: PolyLigneDroitZone(myLatLng),
+		path: PolyLigneDroitZone(Coordinate),
 		geodesic: true,
 		strokeColor: '#40A497',
 		strokeOpacity: 1.0,
@@ -83,12 +66,34 @@ function addCmdToTable(_cmd) {
 		strokeWeight: 2
 	});
 	new google.maps.Polyline({
-		path: PolyLignePerpendiculaire(myLatLng),
+		path: PolyLignePerpendiculaire(Coordinate),
 		geodesic: true,
 		strokeColor: '#40A497',
 		strokeOpacity: 1.0,
 		map: map,
 		strokeWeight: 2
+	});
+}
+function addCmdToTable(_cmd) {
+	if (!isset(_cmd)) {
+	var _cmd = {configuration: {}};
+	}
+	var myLatLng;
+	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
+		myLatLng = _cmd.logicalId.split(","); 
+	else 
+		myLatLng=coordinate;
+	var position=new google.maps.Marker({
+		position: {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])},
+		map: map,
+		draggable:true,
+		title: _cmd.name
+	  });
+	TracePolyLigne(myLatLng);
+	google.maps.event.addListener(position,'drag', function(event) {
+		myLatLng=event.latLng;
+		TracePolyLigne(myLatLng);
+		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
 	});
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td class="name">';

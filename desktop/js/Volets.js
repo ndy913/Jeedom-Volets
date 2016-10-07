@@ -85,17 +85,17 @@ function addCmdToTable(_cmd) {
 	TracePolyLigne(myLatLng);
 	google.maps.event.addListener(position,'drag', function(event) {
 		var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
-		var newCoord=myLatLng.split(",");
+		var newCoord=newLatLng.split(",");
 		myLatLng[0]=newCoord[0];
 		myLatLng[1]=newCoord[1];
 		TracePolyLigne(myLatLng);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
 	});
 	google.maps.event.addListener(angle,'drag', function(event) {
-		var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
-		var newCoord=myLatLng.split(",");
-		myLatLng[2]=newCoord[0];
-		myLatLng[3]=newCoord[1];
+		//var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
+		//var newCoord=newLatLng.split(",");
+		myLatLng[2]=event.latLng.lat;//newCoord[0];
+		myLatLng[3]=event.latLng.lng;//newCoord[1];
 		TracePolyLigne(myLatLng);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
 	});

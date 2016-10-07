@@ -67,7 +67,9 @@ function addCmdToTable(_cmd) {
 	/*if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
 		myLatLng = _cmd.logicalId.split(","); 
 	else */
-		myLatLng=coordinate.push(parseFloat(coordinate[0])+ (1 / 3600)).push( parseFloat(coordinate[1])+ (1 / 3600));
+		myLatLng=coordinate
+		myLatLng.push(parseFloat(coordinate[0])+ (1 / 3600));
+		myLatLng.push(parseFloat(coordinate[1])+ (1 / 3600));
 	var position=new google.maps.Marker({
 		position: {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])},
 		map: map,

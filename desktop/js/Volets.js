@@ -85,7 +85,7 @@ function addCmdToTable(_cmd) {
 	TracePolyLigne(myLatLng);
 	google.maps.event.addListener(position,'drag', function(event) {
 		var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
-		var =myLatLng.split(",");
+		var newCoord=myLatLng.split(",");
 		myLatLng[0]=newCoord[0];
 		myLatLng[1]=newCoord[1];
 		TracePolyLigne(myLatLng);
@@ -93,7 +93,7 @@ function addCmdToTable(_cmd) {
 	});
 	google.maps.event.addListener(angle,'drag', function(event) {
 		var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
-		var =myLatLng.split(",");
+		var newCoord=myLatLng.split(",");
 		myLatLng[2]=newCoord[0];
 		myLatLng[3]=newCoord[1];
 		TracePolyLigne(myLatLng);

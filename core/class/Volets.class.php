@@ -2,11 +2,21 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class Volets extends eqLogic {
-   	public function preUpdate() {
-    }  
-    public function preInsert() {
+	protected function getAngle($latitudeOrigine,$longitudeOrigne, $latitudeDest,$longitudeDest) {
+		$longDelta = $longitudeDest - $longitudeOrigne;
+		$y = sin($longDelta) * cos($latitudeDest);
+		$x = cos($latitudeOrigine)*sin($latitudeDest) - sin($latitudeOrigine)*cos($latitudeDest)*.cos($longDelta);
+		$angle = rad2deg(atan2(y, x));
+		while ($angle < 0) {
+			$angle += 360;
+		}
+		return  $angle % 360;
+	}
+  	public function preUpdate() {
+    	}  
+   	public function preInsert() {
 	}    
-    public function postSave() {
+    	public function postSave() {
 	}	
 	public static function AddCmd($Equipement,$Name,$_logicalId,$Type="info", $SubType='') 	{
 		$Commande = $Equipement->getCmd(null,$_logicalId);

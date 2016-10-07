@@ -64,12 +64,15 @@ function addCmdToTable(_cmd) {
 	var _cmd = {configuration: {}};
 	}
 	var myLatLng;
-	/*if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
+	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
 		myLatLng = _cmd.logicalId.split(","); 
-	else */
+	else {
 		myLatLng=coordinate
 		myLatLng.push(parseFloat(coordinate[0]));
 		myLatLng.push(parseFloat(coordinate[1])+ (1 / 3600));
+		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
+	}
+	
 	var position=new google.maps.Marker({
 		position: {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])},
 		map: map,

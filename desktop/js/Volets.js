@@ -79,9 +79,10 @@ function addCmdToTable(_cmd) {
 	var _cmd = {configuration: {}};
 	}
 	var myLatLng;
-	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
+	/*if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
 		myLatLng = _cmd.logicalId.split(","); 
-	else 
+	else */
+	alert(_cmd.logicalId);
 		myLatLng=coordinate;
 	var position=new google.maps.Marker({
 		position: {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])},

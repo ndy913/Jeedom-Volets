@@ -28,8 +28,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 	});
 });
 function PolyLignePerpendiculaire(Coordinate) {
-	var LatPer=parseFloat(Coordinate[0])+(parseFloat(Coordinate[0])-parseFloat(Coordinate[2]));
-	var LngPer=parseFloat(Coordinate[1])+(parseFloat(Coordinate[1])-parseFloat(Coordinate[3]));
+	var LatPer=parseFloat(Coordinate[0])+((parseFloat(Coordinate[0])-parseFloat(Coordinate[2]))/2);
+	var LngPer=parseFloat(Coordinate[1])+((parseFloat(Coordinate[1])-parseFloat(Coordinate[3]))/2);
 	var coord=[
 		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])},
 		{lat: LatPer , lng: LngPer}

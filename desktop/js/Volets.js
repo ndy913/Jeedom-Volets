@@ -32,7 +32,7 @@ function PolyLignePerpendiculaire(Coordinate) {
 	var LngPer=parseFloat(Coordinate[1])+(parseFloat(Coordinate[1])-parseFloat(Coordinate[3]));
 	var coord=[
 		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])},
-		{lat: parseFloat(Coordinate[0]) , lng: parseFloat(Coordinate[1])}
+		{lat: LatPer , lng: LngPer}
 	];
 	return coord
 }

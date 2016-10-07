@@ -64,8 +64,7 @@ function addCmdToTable(_cmd) {
 		title: _cmd.name
 	  });
 	google.maps.event.addListener(position,'drag', function(event) {
-		alert(event.join(""));
-		$('#'+event.title).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng.toString());
+		$('#'+position.getTitle()).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng);
 	});
 	new google.maps.Polyline({
 		path: PolyLigneNord(myLatLng),

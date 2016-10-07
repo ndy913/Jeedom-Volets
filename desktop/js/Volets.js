@@ -27,14 +27,14 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		}
 	});
 });
-function PolyLigneNord(Coordinate) {
+function PolyLignePerpendiculaire(Coordinate) {
 	var coord=[
 		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])},
 		{lat: parseFloat(Coordinate[0])+ (10 / 3600) , lng: parseFloat(Coordinate[1])}
 	];
 	return coord
 }
-function PolyLignePerpendiculaire(Coordinate) {
+function PolyLigneOrientation(Coordinate) {
 	var coord=[
 		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])},
 		{lat: parseFloat(Coordinate[2]) , lng: parseFloat(Coordinate[3])}
@@ -43,7 +43,7 @@ function PolyLignePerpendiculaire(Coordinate) {
 }
 function TracePolyLigne(Coordinate) {
 	new google.maps.Polyline({
-		path: PolyLigneNord(Coordinate),
+		path: PolyLignePerpendiculaire(Coordinate),
 		geodesic: true,
 		strokeColor: '#FF0000',
 		strokeOpacity: 1.0,
@@ -51,7 +51,7 @@ function TracePolyLigne(Coordinate) {
 		strokeWeight: 2
 	});
 	new google.maps.Polyline({
-		path: PolyLignePerpendiculaire(Coordinate),
+		path: PolyLigneOrientation(Coordinate),
 		geodesic: true,
 		strokeColor: '#40A497',
 		strokeOpacity: 1.0,
@@ -68,7 +68,7 @@ function addCmdToTable(_cmd) {
 		myLatLng = _cmd.logicalId.split(","); 
 	else */
 		myLatLng=coordinate
-		myLatLng.push(parseFloat(coordinate[0])+ (1 / 3600));
+		myLatLng.push(parseFloat(coordinate[0]));
 		myLatLng.push(parseFloat(coordinate[1])+ (1 / 3600));
 	var position=new google.maps.Marker({
 		position: {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])},

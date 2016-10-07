@@ -92,8 +92,8 @@ function addCmdToTable(_cmd) {
 	  });
 	TracePolyLigne(myLatLng);
 	google.maps.event.addListener(position,'drag', function(event) {
-		myLatLng=event.latLng;
-		TracePolyLigne(myLatLng);
+		myLatLng=event.latLng.replace("(", "").replace(")", "");
+		TracePolyLigne(myLatLng.split(","));
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
 	});
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';

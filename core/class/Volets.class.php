@@ -10,7 +10,7 @@ class Volets extends eqLogic {
 		while ($angle < 0) {
 			$angle += 360;
 		}
-		return  $angle % 360;
+		return  $angle;
 	}
   	public function preUpdate() {
     	}  

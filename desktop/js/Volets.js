@@ -64,10 +64,7 @@ function addCmdToTable(_cmd) {
 		title: _cmd.name
 	  });
 	google.maps.event.addListener(position,'drag', function(event) {
-		alert(_cmd.name);
-		//$('#'+position.getTitle()).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng);
-		$('#'+_cmd.name).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng);
-		//$('.'+_cmd.id).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng);
+		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(event.latLng);
 	});
 	new google.maps.Polyline({
 		path: PolyLigneNord(myLatLng),
@@ -93,7 +90,7 @@ function addCmdToTable(_cmd) {
 		map: map,
 		strokeWeight: 2
 	});
-    var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '" id="' + init(_cmd.name) + '">';
+    var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td class="name">';
 	tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
 	tr += '<input class="cmdAttr form-control input-sm" data-l1key="logicalId">';

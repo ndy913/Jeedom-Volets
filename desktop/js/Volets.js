@@ -51,7 +51,7 @@ function TracePolyLigne(Coordinate) {
 		strokeWeight: 2
 	});
 	new google.maps.Polyline({
-		path: PolyLigneDroitZone(Coordinate),
+		path: PolyLignePerpendiculaire(Coordinate),
 		geodesic: true,
 		strokeColor: '#40A497',
 		strokeOpacity: 1.0,

@@ -64,9 +64,10 @@ function addCmdToTable(_cmd) {
 		title: _cmd.name
 	  });
 	google.maps.event.addListener(position,'drag', function(event) {
+		alert(_cmd.name);
 		//$('#'+position.getTitle()).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng);
-		alert(
-		$('.'+_cmd.logicalId).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng);
+		$('#'+_cmd.name).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng);
+		//$('.'+_cmd.id).find('.cmdAttr[data-l1key=logicalId]').val(event.latLng);
 	});
 	new google.maps.Polyline({
 		path: PolyLigneNord(myLatLng),

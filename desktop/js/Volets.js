@@ -1,5 +1,5 @@
 var map;
-var Coordinates= new Array();
+var Coordinates= new Object();
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
 	$.ajax({
 		type: 'POST',            
@@ -18,7 +18,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 			if (typeof(data.result.geoloc) !== 'undefined') {
 				var center=data.result.geoloc.configuration.coordinate.split(",");
 				alert(center.join(""));
-				Coordinates.Center= new Array();
+				Coordinates.Center= new Object();
 				Coordinates.Center.lat=parseFloat(center[0]);
 				Coordinates.Center.lng=parseFloat(center[1]);
 				alert(Coordinates.join(""));
@@ -67,7 +67,7 @@ function addCmdToTable(_cmd) {
 	/*if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
 		myLatLng = _cmd.logicalId.split(","); 
 	else {*/
-		Coordinates.Position= new Array();
+		Coordinates.Position= new Object();
 		Coordinates.Position.lat=Coordinates.Center.lat;
 		Coordinates.Position.lng=Coordinates.Center.lng+ (1 / 3600);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);

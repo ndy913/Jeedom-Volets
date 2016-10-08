@@ -61,14 +61,13 @@ function addCmdToTable(_cmd) {
 	var _cmd = {configuration: {}};
 	}
 	var myLatLng;
-	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
+	/*if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
 		myLatLng = _cmd.logicalId.split(","); 
-	else {
-		myLatLng=Coordinates
+	else {*/
 		Coordinates.Position.lat=parseFloat(Coordinates.Center.lat);
-		Coordinates.Position.lng=parseFloat(Coordinates.Center.lng)+ (1 / 3600));
+		Coordinates.Position.lng=parseFloat(Coordinates.Center.lng)+ (1 / 3600);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
-	}
+	//}
 	
 	var position=new google.maps.Marker({
 		position: Coordinates.Center,

@@ -1,5 +1,5 @@
 var map;
-var Coordinates;
+var Coordinates= new Object();
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
 	$.ajax({
 		type: 'POST',            

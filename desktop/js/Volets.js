@@ -17,6 +17,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
 			if (typeof(data.result.geoloc) !== 'undefined') {
 				var center=data.result.geoloc.configuration.coordinate.split(",");
+				alert(center.join(""));
 				Coordinates.Center= new Array();
 				Coordinates.Center.lat=parseFloat(center[0]);
 				Coordinates.Center.lng=parseFloat(center[1]);

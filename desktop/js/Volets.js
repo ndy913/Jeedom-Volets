@@ -17,6 +17,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
 			if (typeof(data.result.geoloc) !== 'undefined') {
 				var center=data.result.geoloc.configuration.coordinate.split(",");
+				Coordinates.Center= new Object();
 				Coordinates.Center.lat=center[0];
 				Coordinates.Center.lng=center[1];
 			map = new google.maps.Map(document.getElementById('map'), {
@@ -64,6 +65,7 @@ function addCmdToTable(_cmd) {
 	/*if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
 		myLatLng = _cmd.logicalId.split(","); 
 	else {*/
+		Coordinates.Position= new Object();
 		Coordinates.Position.lat=parseFloat(Coordinates.Center.lat);
 		Coordinates.Position.lng=parseFloat(Coordinates.Center.lng)+ (1 / 3600);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);

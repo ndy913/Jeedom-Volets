@@ -30,7 +30,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 	});
 });
 function PolyLignePerpendiculaire(Coordinate) {
-	var LatPer=parseFloat(Coordinate.Center.lat])+((parseFloat(Coordinate.Center.lat)-parseFloat(Coordinate.Position.lat))/2);
+	var LatPer=parseFloat(Coordinate.Center.lat)+((parseFloat(Coordinate.Center.lat)-parseFloat(Coordinate.Position.lat))/2);
 	var LngPer=parseFloat(Coordinate.Center.lng)+((parseFloat(Coordinate.Center.lng)-parseFloat(Coordinate.Position.lng))/2);
 	var coord=[
 		Coordinate.Center,

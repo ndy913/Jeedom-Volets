@@ -66,8 +66,8 @@ function addCmdToTable(_cmd) {
 		myLatLng = _cmd.logicalId.split(","); 
 	else {*/
 		Coordinates.Position= new Array();
-		Coordinates.Position.lat=parseFloat(Coordinates.Center.lat);
-		Coordinates.Position.lng=parseFloat(Coordinates.Center.lng)+ (1 / 3600);
+		Coordinates.Position.lat=Coordinates.Center.lat;
+		Coordinates.Position.lng=Coordinates.Center.lng+ (1 / 3600);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
 	//}
 	
@@ -83,7 +83,7 @@ function addCmdToTable(_cmd) {
 		draggable:true,
 		title: _cmd.name
 	  });
-	TracePolyLigne(myLatLng);
+	//TracePolyLigne(myLatLng);
 	google.maps.event.addListener(position,'drag', function(event) {
 		/*var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
 		var newCoord=newLatLng.split(",");

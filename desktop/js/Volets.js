@@ -1,5 +1,5 @@
 var map;
-var coordinate;
+var Coordinates;
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
 	$.ajax({
 		type: 'POST',            
@@ -16,9 +16,11 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 			if (!data.result)
 				$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
 			if (typeof(data.result.geoloc) !== 'undefined') {
-				coordinate=data.result.geoloc.configuration.coordinate.split(",");
+				var center=data.result.geoloc.configuration.coordinate.split(",");
+				Coordinates.Center.lat=center[0];
+				Coordinates.Center.lng=center[1];
 			map = new google.maps.Map(document.getElementById('map'), {
-				center: {lat:parseFloat(coordinate[0]), lng:parseFloat(coordinate[1])},
+				center: Coordinates,
 				mapTypeId: 'satellite',
 				scrollwheel: true,
 				zoom: 20
@@ -28,18 +30,11 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 	});
 });
 function PolyLignePerpendiculaire(Coordinate) {
-	var LatPer=parseFloat(Coordinate[0])+((parseFloat(Coordinate[0])-parseFloat(Coordinate[2]))/2);
-	var LngPer=parseFloat(Coordinate[1])+((parseFloat(Coordinate[1])-parseFloat(Coordinate[3]))/2);
+	var LatPer=parseFloat(Coordinate.Center.lat])+((parseFloat(Coordinate.Center.lat)-parseFloat(Coordinate.Position.lat))/2);
+	var LngPer=parseFloat(Coordinate.Center.lng)+((parseFloat(Coordinate.Center.lng)-parseFloat(Coordinate.Position.lng))/2);
 	var coord=[
-		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])},
+		Coordinate.Center,
 		{lat: LatPer , lng: LngPer}
-	];
-	return coord
-}
-function PolyLigneOrientation(Coordinate) {
-	var coord=[
-		{lat: parseFloat(Coordinate[0]), lng: parseFloat(Coordinate[1])},
-		{lat: parseFloat(Coordinate[2]) , lng: parseFloat(Coordinate[3])}
 	];
 	return coord
 }
@@ -53,7 +48,7 @@ function TracePolyLigne(Coordinate) {
 		strokeWeight: 2
 	});
 	new google.maps.Polyline({
-		path: PolyLigneOrientation(Coordinate),
+		path: Coordinates,
 		geodesic: true,
 		strokeColor: '#40A497',
 		strokeOpacity: 1.0,
@@ -69,40 +64,43 @@ function addCmdToTable(_cmd) {
 	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
 		myLatLng = _cmd.logicalId.split(","); 
 	else {
-		myLatLng=coordinate
-		myLatLng.push(parseFloat(coordinate[0]));
-		myLatLng.push(parseFloat(coordinate[1])+ (1 / 3600));
+		myLatLng=Coordinates
+		Coordinates.Position.lat=parseFloat(Coordinates.Center.lat);
+		Coordinates.Position.lng=parseFloat(Coordinates.Center.lng)+ (1 / 3600));
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
 	}
 	
 	var position=new google.maps.Marker({
-		position: {lat: parseFloat(myLatLng[0]), lng: parseFloat(myLatLng[1])},
+		position: Coordinates.Center,
 		map: map,
 		draggable:true,
 		title: _cmd.name
 	  });
 	var angle=new google.maps.Marker({
-		position: {lat: parseFloat(myLatLng[2]), lng: parseFloat(myLatLng[3])},
+		position:Coordinates.Position,
 		map: map,
 		draggable:true,
 		title: _cmd.name
 	  });
 	TracePolyLigne(myLatLng);
 	google.maps.event.addListener(position,'drag', function(event) {
-		var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
+		/*var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
 		var newCoord=newLatLng.split(",");
 		myLatLng[0]=newCoord[0];
-		myLatLng[1]=newCoord[1];
-		TracePolyLigne(myLatLng);
-		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
+		myLatLng[1]=newCoord[1];*/
+		Coordinates.Center=event.latLng;
+		TracePolyLigne(Coordinates);
+		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(Coordinates);
 	});
 	google.maps.event.addListener(angle,'drag', function(event) {
-		var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
+		/*var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
 		var newCoord=newLatLng.split(",");
 		myLatLng[2]=newCoord[0];
-		myLatLng[3]=newCoord[1];
-		TracePolyLigne(myLatLng);
-		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
+		myLatLng[3]=newCoord[1];*/
+		
+		Coordinates.Position=event.latLng;
+		TracePolyLigne(Coordinates);
+		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(Coordinates);
 	});
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td class="name">';

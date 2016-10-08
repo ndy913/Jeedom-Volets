@@ -20,6 +20,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				Coordinates.Center= new Array();
 				Coordinates.Center.lat=parseFloat(center[0]);
 				Coordinates.Center.lng=parseFloat(center[1]);
+				alert(Coordinates.join(""));
 			map = new google.maps.Map(document.getElementById('map'), {
 				center: Coordinates.Center,
 				mapTypeId: 'satellite',

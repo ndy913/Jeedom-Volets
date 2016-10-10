@@ -136,8 +136,8 @@ function AddZone(_zone){
 	
 	$('#tab_zones').append($('<li>')
 		.append($('<a href="#tab_' + init(_zone.id) + '">')
-			.append($('<span class="cmdAttr" data-l1key="icon">')
-				.text(_zone.icon))));
+			.append($(_zone.icon)
+				.text(_zone.name))));
 
 	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" id="tab_' +init(_zone.id) + '">')	
 		.append($('<div class="btn-group pull-right" role="group">')

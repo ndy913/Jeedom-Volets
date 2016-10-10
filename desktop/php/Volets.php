@@ -96,7 +96,33 @@ $eqLogics = eqLogic::byType('Volets');
 			<a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
 			<a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
 		</div>
-		<legend><i class="fa fa-list-alt"></i>  {{Mes Zones}}</legend>
+		<div class="row" style="padding-left:25px;">
+			<ul class="nav nav-tabs" id="tab_modes">
+				<li><a class="btn tooltips" id="tab_add"><i class="fa fa-plus-circle"></i> {{Ajouter}}</a></li>
+				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>
+				
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane" id="tab_parametre">
+					<br/>
+					<form class="form-horizontal">
+						<div id="div_programmations"></div>
+						<form class="form-horizontal">
+							<div class="form-group">
+								<fieldset class="col-md-6">
+									<legend>{{Configuration}} </legend>
+								</fieldset>
+								<fieldset class="col-md-6">
+									<legend>{{Affichage}} </legend>
+									<div></div>
+								</fieldset>
+							</div>
+						</form>
+					</form>	
+				</div>
+			</div>
+		</div>
+		<!--legend><i class="fa fa-list-alt"></i>  {{Mes Zones}}</legend>
 		<a class="btn btn-success btn-sm cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>Ajouter une zone</a>
 		<table id="table_cmd" class="table table-bordered table-condensed">
 			<thead>
@@ -105,7 +131,7 @@ $eqLogics = eqLogic::byType('Volets');
 				</tr>
 			</thead>
 			<tbody></tbody>
-		</table>
+		</table-->
 		<form class="form-horizontal">
 			<fieldset>
 				<div class="form-actions">

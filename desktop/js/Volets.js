@@ -180,12 +180,12 @@ $('#tab_zones a').click(function(e) {
 $('body').on('click','.ActionAttr[data-action=add]',function(){
 	addAction({},  '{{Action}}',$(this).closest('.cmd').find('.div_action'));
 });
-$('body').on('click','.modeAction[data-l1key=removeIcon]'), function () {
+$('body').on('click','.modeAction[data-l1key=removeIcon]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id");
 	$("#tab_modes").find("[href="+zoneId+"]").find('.icon').parent().remove();
 	$(this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val('');
 });
-$('body').on('click','.modeAction[data-l1key=chooseIcon]'), function () {
+$('body').on('click','.modeAction[data-l1key=chooseIcon]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id");
 	var _this = this;
    	chooseIcon(function (_icon) {
@@ -193,7 +193,7 @@ $('body').on('click','.modeAction[data-l1key=chooseIcon]'), function () {
 		$(_this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val('');
     	});
 });
-$('body').on('click','.modeAction[data-l1key=removeZone]'), function () {
+$('body').on('click','.modeAction[data-l1key=removeZone]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id");
 	$("#tab_modes").find("[href="+zoneId+"]").remove();
 	$(this).closest('.cmd').remove();

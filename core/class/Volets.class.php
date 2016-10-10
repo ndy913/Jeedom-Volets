@@ -49,20 +49,23 @@ class VoletsCmd extends cmd {
 		//Rechercher position du soleil => heliotrope
 		$heliotrope=eqlogic::byId($this->getEqLogic()->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
-			$Azimuth=$heliotrope->getCmd(null,'');
+			$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
+			log::add('Volets','debug','L\'angle du soleil est '.$Azimuth.'°');
 			//Calculer de l'angle de ma zone
 			$Coord=json_decode($this->getLogicalId(),true);
+			
 			$Angle=$this->getAngle($Coord['Center']['lat'],
 					       $Coord['Center']['lng'],
 					       $Coord['Position']['lat'],
 					       $Coord['Position']['lng']);
-			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de'.$Angle.'°');
+			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
 			//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 			if($Azimuth>$Angle&&$Azimuth>$Angle-180){
 				$value=true;
 			}
 			else
 				$value=false;
+			log::add('Volets','debug','Le statut de la zone est a '.$value);
 			$this->setCollectDate(date('Y-m-d H:i:s'));
 			$this->save();
 			$this->event($value);

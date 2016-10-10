@@ -123,50 +123,6 @@ function addCmdToTable(_cmd) {
 	$('#table_cmd tbody tr:last').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	*/
 }
-var liste_zones = {};
-
-$('#tab_zones a').click(function(e) {
-    e.preventDefault();
-    $(this).tab('show');
-});
-/**************** Actions Boutons ***********/
-$('#bt_addActionPresent').on('click', function() {
-    addAction({}, 'action_present', '{{Action}}');
-});
-$('#bt_addActionExitPresent').on('click', function() {
-    addAction({}, 'action_exit_present', '{{Action}}');
-});
-$('#bt_addActionAbsent').on('click', function() {
-    addAction({}, 'action_absent', '{{Action}}');
-});
-$('#bt_addActionExitAbsent').on('click', function() {
-    addAction({}, 'action_exit_absent', '{{Action}}');
-});
-$('#bt_addActionNuit').on('click', function() {
-    addAction({}, 'action_nuit', '{{Action}}');
-});
-$('#bt_addActionExitNuit').on('click', function() {
-    addAction({}, 'action_exit_nuit', '{{Action}}');
-});
-$('#bt_addActionTravail').on('click', function() {
-    addAction({}, 'action_travail', '{{Action}}');
-});
-$('#bt_addActionExitTravail').on('click', function() {
-    addAction({}, 'action_exit_travail', '{{Action}}');
-});
-$('#bt_addActionSimuON').on('click', function() {
-    addAction({}, 'action_simulation_on', '{{Action}}');
-});
-$('#bt_addActionSimuOFF').on('click', function() {
-    addAction({}, 'action_simulation_off', '{{Action}}');
-});
-$('#tab_add').on('click', function() {
-    bootbox.prompt("Nom ?", function (result) {
-        if (result !== null && result != '') {
-            AddZone({name: result});
-        }
-    });
-});
 function AddZone(_zone){
 	/*if (init(_zone.name) == '') {
         return;
@@ -182,8 +138,8 @@ function AddZone(_zone){
 	
 	$('#tab_zones').append($('<li>')
 		.append($('<a class="cmdAttr" href="#tab_' + init(_zone.id) + '" data-l1key="name" zone_name="' + zone_without_space+ '">')
-			.append($('<span class="cmdAttr" data-l1key="icon">')
-				.text(_zone.icon))));
+			/*.append($('<span class="cmdAttr" data-l1key="icon">')
+				.text(_zone.icon))*/));
 
 	var NewMode = $('<div style="margin-right:20px" class="tab-pane tabAttr" id="tab_' + zone_without_space + '">')	
 		.append($('<br/>'))
@@ -389,3 +345,48 @@ function addAction(_action, _type, _name, _el) {
         $('#div_' + _type + ' .' + _type + ':last').setValues(_action, '.expressionAttr');
     }
 }
+
+var liste_zones = {};
+
+$('#tab_zones a').click(function(e) {
+    e.preventDefault();
+    $(this).tab('show');
+});
+/**************** Actions Boutons ***********/
+$('#bt_addActionPresent').on('click', function() {
+    addAction({}, 'action_present', '{{Action}}');
+});
+$('#bt_addActionExitPresent').on('click', function() {
+    addAction({}, 'action_exit_present', '{{Action}}');
+});
+$('#bt_addActionAbsent').on('click', function() {
+    addAction({}, 'action_absent', '{{Action}}');
+});
+$('#bt_addActionExitAbsent').on('click', function() {
+    addAction({}, 'action_exit_absent', '{{Action}}');
+});
+$('#bt_addActionNuit').on('click', function() {
+    addAction({}, 'action_nuit', '{{Action}}');
+});
+$('#bt_addActionExitNuit').on('click', function() {
+    addAction({}, 'action_exit_nuit', '{{Action}}');
+});
+$('#bt_addActionTravail').on('click', function() {
+    addAction({}, 'action_travail', '{{Action}}');
+});
+$('#bt_addActionExitTravail').on('click', function() {
+    addAction({}, 'action_exit_travail', '{{Action}}');
+});
+$('#bt_addActionSimuON').on('click', function() {
+    addAction({}, 'action_simulation_on', '{{Action}}');
+});
+$('#bt_addActionSimuOFF').on('click', function() {
+    addAction({}, 'action_simulation_off', '{{Action}}');
+});
+$('#tab_add').on('click', function() {
+    bootbox.prompt("Nom ?", function (result) {
+        if (result !== null && result != '') {
+            AddZone({name: result});
+        }
+    });
+});

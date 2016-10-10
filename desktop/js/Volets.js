@@ -63,7 +63,7 @@ function addCmdToTable(_cmd) {
 	}
 	var myLatLng;
 	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
-		Coordinates = JSON.parse(_cmd.logicalId.split(",")); 
+		Coordinates = JSON.parse(_cmd.logicalId); 
 	else {
 		Coordinates.Position= new Object();
 		Coordinates.Position.lat=Coordinates.Center.lat;

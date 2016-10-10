@@ -38,11 +38,11 @@ class VoletsCmd extends cmd {
 		$longDelta = $longitudeDest - $longitudeOrigne;
 		$y = sin($longDelta) * cos($latitudeDest);
 		$x = cos($latitudeOrigine)*sin($latitudeDest) - sin($latitudeOrigine)*cos($latitudeDest)*cos($longDelta);
-		$angle = rad2deg(tan(y, x));
+		$angle = rad2deg(atan2($y, $x));
 		while ($angle < 0) {
 			$angle += 360;
 		}
-		return  $angle;
+		return  $angle % 360;
 	}
     public function execute($_options = null) {
 	    

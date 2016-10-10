@@ -30,10 +30,18 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		}
 	});
 });
+function TraceDirection() {
+	var milieu=new Array();
+	milieu['lat']=(Coordinates.Center.lat+Coordinates.Position.lat)/2;
+	milieu['lng']=(Coordinates.Center.lng+Coordinates.Position.lng)/2;
+	var perpendiculaire=new Array();
+	perpendiculaire['lat']=milieu['lat']+Math.cos(90);
+	perpendiculaire['lng']=milieu['lng']+Math.cos(90);
+	return [milieu,perpendiculaire];
+}
 function TracePolyLigne() {
 	new google.maps.Polyline({
-		path: [	Coordinates.Center,{lat: -1/Coordinates.Center.lat , lng:Coordinates.Center.lng}
-	];,
+		path: TraceDirection(),
 		geodesic: true,
 		strokeColor: '#FF0000',
 		strokeOpacity: 1.0,

@@ -62,15 +62,14 @@ function addCmdToTable(_cmd) {
 	var _cmd = {configuration: {}};
 	}
 	var myLatLng;
-	/*if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
+	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
 		Coordinates = JSON.parse(_cmd.logicalId.split(",")); 
-	else {*/
+	else {
 		Coordinates.Position= new Object();
 		Coordinates.Position.lat=Coordinates.Center.lat;
 		Coordinates.Position.lng=Coordinates.Center.lng+ (1 / 3600);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
-	//}
-	
+	}
 	var position=new google.maps.Marker({
 		position: Coordinates.Center,
 		map: map,

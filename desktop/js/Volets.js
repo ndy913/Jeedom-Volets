@@ -98,30 +98,6 @@ function addCmdToTable(_cmd) {
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
 	AddZone(_cmd);
-/*	var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
-	.append($('<td class="name">';
-	.append($('<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
-	.append($('<input class="cmdAttr form-control input-sm" data-l1key="logicalId">';
-	.append($('<input class="cmdAttr form-control input-sm" data-l1key="name">   ';
-	.append($('</td>';
-
-	.append($('<td class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType();
-	.append($('<span class="subType" subType="' + init(_cmd.subType) + '"></span></td>';
-	.append($('<td>';
-	.append($('<span><input type="checkbox" data-size="mini" data-label-text="{{Historiser}}" class="cmdAttr bootstrapSwitch" data-l1key="isHistorized" /></span> ';
-	.append($('</td>';
-	.append($('<td>';
-	if (is_numeric(_cmd.id)) {
-		.append($('<a class="btn btn-default btn-xs cmdAction expertModeVisible" data-action="configure"><i class="fa fa-cogs"></i></a> ';
-		.append($('<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> {{Tester}}</a>';
-	}
-	.append($('<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
-	.append($('</tr>';
-	$('#table_cmd tbody').append(tr);
-	$('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
-	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
-	$('#table_cmd tbody tr:last').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
-	*/
 }
 function AddZone(_zone){
 	if (init(_zone.name) == '') {
@@ -141,9 +117,6 @@ function AddZone(_zone){
 
 	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" id="tab_' +init(_zone.id) + '">')	
 		.append($('<div class="btn-group pull-right" role="group">')
-			.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="chooseName">')
-				.append($('<i class="fa fa-pencil">'))
-				.text('{{Modifier le nom}}'))
 			.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="chooseIcon">')
 				.append($('<i class="fa fa-flag">'))
 				.text('{{Modifier Icône}}'))
@@ -155,32 +128,20 @@ function AddZone(_zone){
 				.text('{{Supprimer}}')))
 		.append($('<form class="form-horizontal">')
 			.append($('<legend>')
-				.text('{{Pour être dans ce mode :}}')
-				.append($('<a class="btn btn-xs btn-success" id="bt_addCond' + zone_without_space + '" style="margin-left: 5px;">')
-					.append($('<i class="fa fa-plus-circle">'))
-					.text('{{Ajouter Déclencheur}}')))
-			.append($('<div id="div_cond_' + zone_without_space + '">')))
-		.append($('<form class="form-horizontal">')
-			.append($('<legend>')
 				.text('{{Une fois dans ce mode je dois :}}')
 				.append($('<a class="btn btn-success btn-xs" id="bt_addAction' + zone_without_space + '" style="margin-left: 5px;">')
 					.append($('<i class="fa fa-plus-circle">'))
 					.text('{{Ajouter Action}}')))
 			.append($('<div id="div_action_' + zone_without_space + '">')))	
 		.append($('<form class="form-horizontal">')
-			.append($('<legend>')
-				.text('{{En quittant ce mode je dois :}}')
-				.append($('<a class="btn btn-success btn-xs" id="bt_addActionExit' + zone_without_space + '" style="margin-left: 5px;">')
-					.append($('<i class="fa fa-plus-circle">'))
-					.text('{{Ajouter Action}}</a>')))
-			.append($('<div id="div_action_exit_' + zone_without_space + '">')))	
-		.append($('<form class="form-horizontal">')
-			.append($('<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">'))
-			.append($('<input class="cmdAttr form-control input-sm" data-l1key="logicalId">'))
-			.append($('<input class="cmdAttr form-control input-sm" data-l1key="name">'))
-			.append($('<input type="checkbox" data-size="mini" data-label-text="{{Historiser}}" class="cmdAttr bootstrapSwitch" data-l1key="isHistorized" />')));
+			.append($('<input class="cmdAttr" data-l1key="id"/>'))
+			.append($('<input class="cmdAttr" data-l1key="logicalId"/>'))
+			.append($('<input class="cmdAttr" data-l1key="name"/>'))
+			.append($('<input class="cmdAttr" data-l1key="type"/>'))
+			.append($('<input class="cmdAttr" data-l1key="subType"/>'))
+			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized"/>')));
 	$('.tab-content').append(NewMode);
-	$('.tab-content div:last').setValues(_zone, '.cmdAttr');
+	$('.tab-content').find('#tab_' +init(_zone.id)).setValues(_zone, '.cmdAttr');
 	$('#tab_zones a').on('click', function (e) {
 		e.preventDefault();
 		$(this).tab('show');

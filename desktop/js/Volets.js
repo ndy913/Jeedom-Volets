@@ -121,7 +121,7 @@ function AddZone(_zone){
 			.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="removeIcon">')
 				.append($('<i class="fa fa-trash">'))
 				.text('{{Supprimer l\'icône}}'))
-			.append($('<a class="modeAction btn btn-danger btn-sm" data-l1key="removeMode">')
+			.append($('<a class="modeAction btn btn-danger btn-sm" data-l1key="removeZone">')
 				.append($('<i class="fa fa-minus-circle">'))
 				.text('{{Supprimer}}')))
 		.append($('<form class="form-horizontal">')
@@ -137,6 +137,7 @@ function AddZone(_zone){
 			.append($('<input class="cmdAttr" data-l1key="name"/>'))
 			.append($('<input class="cmdAttr" data-l1key="type"/>'))
 			.append($('<input class="cmdAttr" data-l1key="subType"/>'))
+			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" />'))
 			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized"/>')));
 	$('.tab-content').append(NewMode);
 	$('.tab-content').find('#tab_' +init(_zone.id)).setValues(_zone, '.cmdAttr');
@@ -177,5 +178,23 @@ $('#tab_zones a').click(function(e) {
 });
 
 $('body').on('click','.ActionAttr[data-action=add]',function(){
-	addAction({},  '{{Action}}',$(this).colset(.cmd).find('.div_action'));
+	addAction({},  '{{Action}}',$(this).closest('.cmd').find('.div_action'));
 }
+$('body').on('click','.modeAction[data-l1key=removeIcon]'), function () {
+	var zoneId = $(this).closest('.tabAttr').attr("id");
+	$("#tab_modes").find("[href="+zoneId+"]").find('.icon').parent().remove();
+	$(this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val('');
+});
+$('body').on('click','.modeAction[data-l1key=chooseIcon]'), function () {
+	var zoneId = $(this).closest('.tabAttr').attr("id");
+	var _this = this;
+   	chooseIcon(function (_icon) {
+		$("#tab_modes").find("[href="+zoneId+"]").empty().append(_icon);
+		$(_this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val('');
+    	});
+});
+$('body').on('click','.modeAction[data-l1key=removeZone]'), function () {
+	var zoneId = $(this).closest('.tabAttr').attr("id");
+	$("#tab_modes").find("[href="+zoneId+"]").remove();
+	$(this).closest('.cmd').remove();
+});

@@ -107,8 +107,6 @@ function AddZone(_zone){
      	   // _zone.icon = '<i class="icon fa fa-dot-circle-o"><\/i>';
     	    _zone.icon = '';
   	  }
-	var zone_without_space = _zone.name.replace(" ","_");
-	var zone_with_spaces = 	_zone.name.replace("_"," ");
 	
 	$('#tab_zones').append($('<li>')
 		.append($('<a href="#tab_' + init(_zone.id) + '">')
@@ -128,11 +126,11 @@ function AddZone(_zone){
 				.text('{{Supprimer}}')))
 		.append($('<form class="form-horizontal">')
 			.append($('<legend>')
-				.text('{{Une fois dans ce mode je dois :}}')
-				.append($('<a class="btn btn-success btn-xs" id="bt_addAction' + zone_without_space + '" style="margin-left: 5px;">')
+				.text('{{Ajouter les actions a mener lorsque le soleil est dans la zone :}}')
+				.append($('<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">')
 					.append($('<i class="fa fa-plus-circle">'))
 					.text('{{Ajouter Action}}')))
-			.append($('<div id="div_action_' + zone_without_space + '">')))	
+			.append($('<div class="div_action">')))	
 		.append($('<form class="form-horizontal">')
 			.append($('<input class="cmdAttr" data-l1key="id"/>'))
 			.append($('<input class="cmdAttr" data-l1key="logicalId"/>'))
@@ -146,199 +144,38 @@ function AddZone(_zone){
 		e.preventDefault();
 		$(this).tab('show');
 	});
-	
-	$('#tab_zones').find('a[zone_name="'+zone_without_space+'"] i').attr("style","");
-	$('#bt_addAction' + zone_without_space).on('click', function() {
-		addAction({}, 'action_' + zone_without_space, '{{Action}}');
-	});
-	
-	$('#bt_addActionExit' + zone_without_space).on('click', function() {
-		addAction({}, 'action_exit_' + zone_without_space, '{{Action}}');
-	});
 }
-/**************** Commun ***********/
-$('body').undelegate('.modeAction[data-l1key=chooseIcon]', 'click').delegate('.modeAction[data-l1key=chooseIcon]', 'click', function () {
-    var zone_name = $(this).closest('.tabAttr ').attr("id");
-	zone_name = zone_name.substring(4);
-	var mode = $("#tab_zones").find("[zone_name="+zone_name+"]");
-    chooseIcon(function (_icon) {
-		//console.log(_icon);
-        mode.find('.cmdAttr[data-l1key=icon]').empty().append(_icon);
-    });
-});
-$('body').undelegate('.modeAction[data-l1key=chooseName]', 'click').delegate('.modeAction[data-l1key=chooseName]', 'click', function () {
-    var zone_name = $(this).closest('.tabAttr ').attr("id");
-	zone_name = zone_name.substring(4);
-	var mode = $("#tab_zones").find("[zone_name="+zone_name+"]");
-    
-	bootbox.prompt("{{Nouveau nom ?}}", function (result) {
-        if (result !== null) {
-			var result_with_space = result;
-			result = result.replace(' ','_');
-            mode.attr("href","#tab_" + result);
-            mode.attr("zone_name", result);
-			var _icon = mode.find('.cmdAttr[data-l1key=icon]');
-			mode.empty().append(_icon).append(" " + result_with_space);
-			$('.tab-content').find('#tab_' + zone_name).attr("id","tab_" + result);
-			$('.tab-content').find('#div_cond_' + zone_name).attr("id","div_cond_" + result);
-			$('.tab-content').find('#div_action_' + zone_name).attr("id","div_action_" + result);
-			$('.tab-content').find('#div_action_exit_' + zone_name).attr("id","div_action_exit_" + result);
-			
-			$('.tab-content').find('#bt_addCond' + zone_name).attr("id","bt_addCond" + result);
-			$('.tab-content').find('#bt_addAction' + zone_name).attr("id","bt_addAction" + result);
-			$('.tab-content').find('#bt_addActionExit' + zone_name).attr("id","bt_addActionExit" + result);		
-			
-			$('.tab-content').find('.cond_' + zone_name).attr("class","cond_" + result);
-			$('.tab-content').find('.action_' + zone_name).attr("class","action_" + result);
-			$('.tab-content').find('.action_exit_' + zone_name).attr("class","action_exit_" + result);	
-        }
-    });
-});
-$('body').undelegate('.modeAction[data-l1key=removeIcon]', 'click').delegate('.modeAction[data-l1key=removeIcon]', 'click', function () {
-    var zone_name = $(this).closest('.tabAttr ').attr("id");
-	zone_name = zone_name.substring(4);
-	var mode = $("#tab_zones").find("[zone_name="+zone_name+"]");
-    mode.find('.cmdAttr[data-l1key=icon]').empty();
-});
-$('body').undelegate('.modeAction[data-l1key=removeMode]', 'click').delegate('.modeAction[data-l1key=removeMode]', 'click', function () {
-    var zone_name = $(this).closest('.tabAttr ').attr("id");
-	bootbox.confirm("Êtes vous sûr ?", function(result) {
-		if(result == true){
-			$('.tab-content').find("#" + zone_name).remove();
-			zone_name = zone_name.substring(4);
-			var mode = $("#tab_zones").find("[zone_name="+zone_name+"]");
-			mode.remove();
-			$('#state_order_list').find('[zone_name="'+zone_name+'"]').remove();	
-		}
-	}); 
-});
-$("body").delegate(".listEquipement", 'click', function() {
-    var type = $(this).attr('data-type');
-    var el = $(this).closest('.' + type).find('.expressionAttr[data-l1key=eqLogic]');
-    jeedom.eqLogic.getSelectModal({}, function(result) {
-        //console.log(result);
-        el.value(result.human);
-    });
-});
-$("body").delegate(".listCmdAction", 'click', function() {
-    var type = $(this).attr('data-type');
-    var el = $(this).closest('.' + type).find('.expressionAttr[data-l1key=cmd]');
-    jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function(result) {
-        el.value(result.human);
-        jeedom.cmd.displayActionOption(el.value(), '', function(html) {
-            el.closest('.' + type).find('.actionOptions').html(html);
-        });
-    });
-});
-$(".eqLogic").delegate(".listCmdInfo", 'click', function () {
-    var el = $(this).closest('.form-group').find('.eqLogicAttr');
-    jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
-        if (el.attr('data-concat') == 1) {
-            el.atCaret('insert', result.human);
-        } else {
-            el.value(result.human);
-        }
-    });
-});
-$('body').delegate('.rename', 'click', function () {
-    var el = $(this);
-    bootbox.prompt("{{Nouveau nom ?}}", function (result) {
-        if (result !== null) {
-            el.text(result);
-            el.closest('.mode').find('.cmdAttr[data-l1key=name]').value(result);
-        }
-    });
-});
-$("body").delegate(".listCmdInfo", 'click', function() {
-	var type = $(this).attr('data-type');	
-	var el = $(this).closest('.' + type).find('.triggerAttr[data-l1key=cmd]');
-    jeedom.cmd.getSelectModal({cmd: {type: 'info', subtype: 'binary'}}, function(result) {
-        el.value(result.human);
-    });
-});
-$("body").delegate('.bt_removeAction', 'click', function() {
-    var type = $(this).attr('data-type');
-    $(this).closest('.' + type).remove();
-});
-$('body').delegate('.cmdAction.expressionAttr[data-l1key=cmd]', 'focusout', function (event) {
-    var type = $(this).attr('data-type')
-    var expression = $(this).closest('.' + type).getValues('.expressionAttr');
-    var el = $(this);
-    jeedom.cmd.displayActionOption($(this).value(), init(expression[0].options), function (html) {
-        el.closest('.' + type).find('.actionOptions').html(html);
-    })
-});
-function addAction(_action, _type, _name, _el) {
+function addAction(_action, _name, _el) {
     if (!isset(_action)) {
         _action = {};
     }
     if (!isset(_action.options)) {
         _action.options = {};
     }
-    var input = '';
-    var button = 'btn-default';
-    //input = 'has-warning';
-    button = 'btn-warning';
     
-    var div = '<div class="' + _type + '">';
-    div += '<div class="form-group ">';
+    var div = '<div class="form-group ">';
     div += '<label class="col-lg-1 control-label">' + _name + '</label>';
     div += '<div class="col-lg-1">';
-    div += '<a class="btn ' + button + ' btn-sm listCmdAction" data-type="' + _type + '"><i class="fa fa-list-alt"></i></a>';
+    div += '<a class="btn btn-warning btn-sm listCmdAction" ><i class="fa fa-list-alt"></i></a>';
     div += '</div>';
     div += '<div class="col-lg-3 ' + input + '">';
-    div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="' + _type + '" />';
+    div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd"  />';
     div += '</div>';
     div += '<div class="col-lg-6 actionOptions">';
     div += jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options);
     div += '</div>';
     div += '<div class="col-lg-1">';
-    div += '<i class="fa fa-minus-circle pull-left cursor bt_removeAction" data-type="' + _type + '"></i>';
+    div += '<i class="fa fa-minus-circle pull-left cursor bt_removeAction"></i>';
     div += '</div>';
-    div += '</div>';
-    if (isset(_el)) {
-        _el.find('.div_' + _type).append(div);
-        _el.find('.' + _type + ':last').setValues(_action, '.expressionAttr');
-    } else {
-        $('#div_' + _type).append(div);
-        $('#div_' + _type + ' .' + _type + ':last').setValues(_action, '.expressionAttr');
-    }
+        _el.append(div);
+        _el.setValues(_action, '.expressionAttr');
+  
 }
-
-var liste_zones = {};
-
 $('#tab_zones a').click(function(e) {
     e.preventDefault();
     $(this).tab('show');
 });
-/**************** Actions Boutons ***********/
-$('#bt_addActionPresent').on('click', function() {
-    addAction({}, 'action_present', '{{Action}}');
-});
-$('#bt_addActionExitPresent').on('click', function() {
-    addAction({}, 'action_exit_present', '{{Action}}');
-});
-$('#bt_addActionAbsent').on('click', function() {
-    addAction({}, 'action_absent', '{{Action}}');
-});
-$('#bt_addActionExitAbsent').on('click', function() {
-    addAction({}, 'action_exit_absent', '{{Action}}');
-});
-$('#bt_addActionNuit').on('click', function() {
-    addAction({}, 'action_nuit', '{{Action}}');
-});
-$('#bt_addActionExitNuit').on('click', function() {
-    addAction({}, 'action_exit_nuit', '{{Action}}');
-});
-$('#bt_addActionTravail').on('click', function() {
-    addAction({}, 'action_travail', '{{Action}}');
-});
-$('#bt_addActionExitTravail').on('click', function() {
-    addAction({}, 'action_exit_travail', '{{Action}}');
-});
-$('#bt_addActionSimuON').on('click', function() {
-    addAction({}, 'action_simulation_on', '{{Action}}');
-});
-$('#bt_addActionSimuOFF').on('click', function() {
-    addAction({}, 'action_simulation_off', '{{Action}}');
-});
+
+$('body').on('click','.ActionAttr[data-action=add]',function(){
+	addAction({},  '{{Action}}',$(this).colset(.cmd).find('.div_action'));
+}

@@ -31,17 +31,17 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 	});
 });
 function PolyLignePerpendiculaire(Coordinate) {
-	var LatPer=parseFloat(Coordinate.Center.lat)+((parseFloat(Coordinate.Center.lat)-parseFloat(Coordinate.Position.lat))/2);
-	var LngPer=parseFloat(Coordinate.Center.lng)+((parseFloat(Coordinate.Center.lng)-parseFloat(Coordinate.Position.lng))/2);
+	var LatPer=-1/Coordinate.Center.lat);
+	var LngPer=Coordinate.Center.lng);
 	var coord=[
 		Coordinate.Center,
 		{lat: LatPer , lng: LngPer}
 	];
 	return coord
 }
-function TracePolyLigne(Coordinate) {
+function TracePolyLigne() {
 	new google.maps.Polyline({
-		path: PolyLignePerpendiculaire(Coordinate),
+		path: PolyLignePerpendiculaire(Coordinates),
 		geodesic: true,
 		strokeColor: '#FF0000',
 		strokeOpacity: 1.0,
@@ -49,7 +49,7 @@ function TracePolyLigne(Coordinate) {
 		strokeWeight: 2
 	});
 	new google.maps.Polyline({
-		path: Coordinates,
+		path: [Coordinates.Center,Coordinates.Position];,
 		geodesic: true,
 		strokeColor: '#40A497',
 		strokeOpacity: 1.0,
@@ -83,15 +83,15 @@ function addCmdToTable(_cmd) {
 		draggable:true,
 		title: _cmd.name
 	  });
-	TracePolyLigne(Coordinates);
+	TracePolyLigne();
 	google.maps.event.addListener(position,'drag', function(event) {
 		Coordinates.Center=event.latLng;
-		TracePolyLigne(Coordinates);
+		TracePolyLigne();
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
 	google.maps.event.addListener(angle,'drag', function(event) {
 		Coordinates.Position=event.latLng;
-		TracePolyLigne(Coordinates);
+		TracePolyLigne();
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';

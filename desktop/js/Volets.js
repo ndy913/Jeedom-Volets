@@ -99,24 +99,24 @@ function addCmdToTable(_cmd) {
 	});
 	AddZone(_cmd);
 /*	var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
-	tr += '<td class="name">';
-	tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
-	tr += '<input class="cmdAttr form-control input-sm" data-l1key="logicalId">';
-	tr += '<input class="cmdAttr form-control input-sm" data-l1key="name">   ';
-	tr += '</td>';
+	.append($('<td class="name">';
+	.append($('<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
+	.append($('<input class="cmdAttr form-control input-sm" data-l1key="logicalId">';
+	.append($('<input class="cmdAttr form-control input-sm" data-l1key="name">   ';
+	.append($('</td>';
 
-	tr += '<td class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType();
-	tr += '<span class="subType" subType="' + init(_cmd.subType) + '"></span></td>';
-	tr += '<td>';
-	tr += '<span><input type="checkbox" data-size="mini" data-label-text="{{Historiser}}" class="cmdAttr bootstrapSwitch" data-l1key="isHistorized" /></span> ';
-	tr += '</td>';
-	tr += '<td>';
+	.append($('<td class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType();
+	.append($('<span class="subType" subType="' + init(_cmd.subType) + '"></span></td>';
+	.append($('<td>';
+	.append($('<span><input type="checkbox" data-size="mini" data-label-text="{{Historiser}}" class="cmdAttr bootstrapSwitch" data-l1key="isHistorized" /></span> ';
+	.append($('</td>';
+	.append($('<td>';
 	if (is_numeric(_cmd.id)) {
-		tr += '<a class="btn btn-default btn-xs cmdAction expertModeVisible" data-action="configure"><i class="fa fa-cogs"></i></a> ';
-		tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> {{Tester}}</a>';
+		.append($('<a class="btn btn-default btn-xs cmdAction expertModeVisible" data-action="configure"><i class="fa fa-cogs"></i></a> ';
+		.append($('<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fa fa-rss"></i> {{Tester}}</a>';
 	}
-	tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
-	tr += '</tr>';
+	.append($('<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
+	.append($('</tr>';
 	$('#table_cmd tbody').append(tr);
 	$('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
 	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
@@ -175,92 +175,124 @@ function AddZone(_zone){
         // _zone.icon = '<i class="icon fa fa-dot-circle-o"><\/i>';
         _zone.icon = '';
     }
-	var mode_without_space = _zone.name.replace(" ","_");
-	var mode_with_spaces = 	_zone.name.replace("_"," ");
-	console.log(mode_with_spaces);
-	/*var n_start = _zone.icon.indexOf('style');
-	var n_stop = _zone.icon.indexOf('"',_zone.icon.indexOf('"',n_start));
-	n_stop = _zone.icon.indexOf('"',_zone.icon.indexOf('"',n_stop + 1));
-	var mode_icon = _zone.icon.slice(0,n_start).concat(_zone.icon.slice(n_stop + 2, _zone.icon.length));*/
+	var zone_without_space = _zone.name.replace(" ","_");
+	var zone_with_spaces = 	_zone.name.replace("_"," ");
+	console.log(zone_with_spaces);
 	
-	$('#tab_zones').append('<li><a class="ModeAttr" href="#tab_' + mode_without_space + '" data-l1key="name" mode_name="' + mode_without_space+ '"><span class="ModeAttr" data-l1key="icon">'+_zone.icon+'</span>'+mode_with_spaces+'</a></li>');
+	$('#tab_zones').append($('<li>')
+		.append($('<a class="cmdAttr" href="#tab_' + init(_zone.id) + '" data-l1key="name" zone_name="' + zone_without_space+ '">')
+			.append($('<span class="cmdAttr" data-l1key="icon">')
+				.text(_zone.icon))));
 
-	var NewMode = '<div style="margin-right:20px" class="tab-pane tabAttr" id="tab_' + mode_without_space + '"> ';	
-	NewMode += '<br/><div class="btn-group pull-right" role="group"><a class="modeAction btn btn-default btn-sm" data-l1key="chooseName"><i class="fa fa-pencil"></i> {{Modifier le nom}}</a><a class="modeAction btn btn-default btn-sm" data-l1key="chooseIcon"><i class="fa fa-flag"></i> {{Modifier Icône}}</a><a class="modeAction btn btn-default btn-sm" data-l1key="removeIcon"><i class="fa fa-trash"></i> {{Supprimer l\'icône}}</a><a class="modeAction btn btn-danger btn-sm" data-l1key="removeMode"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a></div>';
-	NewMode += '<form class="form-horizontal"><legend>{{Pour être dans ce mode :}}<a class="btn btn-xs btn-success" id="bt_addCond' + mode_without_space + '" style="margin-left: 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter Déclencheur}}</a></legend>'
-	NewMode += '<div id="div_cond_' + mode_without_space + '"></div></form>'
-	NewMode += '<form class="form-horizontal"><legend>{{Une fois dans ce mode je dois :}}<a class="btn btn-success btn-xs" id="bt_addAction' + mode_without_space + '" style="margin-left: 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter Action}}</a>'
-	NewMode += '</legend><div id="div_action_' + mode_without_space + '"></div></form>'	
-	NewMode += '<form class="form-horizontal"><legend>{{En quittant ce mode je dois :}}<a class="btn btn-success btn-xs" id="bt_addActionExit' + mode_without_space + '" style="margin-left: 5px;"><i class="fa fa-plus-circle"></i> {{Ajouter Action}}</a>'
-    NewMode += '</legend><div id="div_action_exit_' + mode_without_space + '"></div></form></div>'	
+	var NewMode = $('<div style="margin-right:20px" class="tab-pane tabAttr" id="tab_' + zone_without_space + '">')	
+		.append($('<br/>'))
+		.append($('<div class="btn-group pull-right" role="group">')
+			.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="chooseName">')
+				.append($('<i class="fa fa-pencil">'))
+				.text('{{Modifier le nom}}'))
+			.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="chooseIcon">')
+				.append($('<i class="fa fa-flag">'))
+				.text('{{Modifier Icône}}'))
+			.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="removeIcon">')
+				.append($('<i class="fa fa-trash">'))
+				.text('{{Supprimer l\'icône}}'))
+			.append($('<a class="modeAction btn btn-danger btn-sm" data-l1key="removeMode">')
+				.append($('<i class="fa fa-minus-circle">'))
+				.text('{{Supprimer}}')))
+		.append($('<form class="form-horizontal">')
+			.append($('<legend>')
+				.text('{{Pour être dans ce mode :}}')
+				.append($('<a class="btn btn-xs btn-success" id="bt_addCond' + zone_without_space + '" style="margin-left: 5px;">')
+					.append($('<i class="fa fa-plus-circle">'))
+					.text('{{Ajouter Déclencheur}}')))
+			.append($('<div id="div_cond_' + zone_without_space + '">')))
+		.append($('<form class="form-horizontal">')
+			.append($('<legend>')
+				.text('{{Une fois dans ce mode je dois :}}')
+				.append($('<a class="btn btn-success btn-xs" id="bt_addAction' + zone_without_space + '" style="margin-left: 5px;">')
+					.append($('<i class="fa fa-plus-circle">'))
+					.text('{{Ajouter Action}}')))
+			.append($('<div id="div_action_' + zone_without_space + '">')))	
+		.append($('<form class="form-horizontal">')
+			.append($('<legend>')
+				.text('{{En quittant ce mode je dois :}}')
+				.append($('<a class="btn btn-success btn-xs" id="bt_addActionExit' + zone_without_space + '" style="margin-left: 5px;">')
+					.append($('<i class="fa fa-plus-circle">'))
+					.text('{{Ajouter Action}}</a>')))
+			.append($('<div id="div_action_exit_' + zone_without_space + '">')))	
+		.append($('<form class="form-horizontal">')
+			.append($('<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">'))
+			.append($('<input class="cmdAttr form-control input-sm" data-l1key="logicalId">'))
+			.append($('<input class="cmdAttr form-control input-sm" data-l1key="name">'))
+			.append($('<input type="checkbox" data-size="mini" data-label-text="{{Historiser}}" class="cmdAttr bootstrapSwitch" data-l1key="isHistorized" />')));
 	$('.tab-content').append(NewMode);
 	$('#tab_zones a').on('click', function (e) {
 		e.preventDefault();
 		$(this).tab('show');
 	});
 	
-	$('#tab_zones').find('a[mode_name="'+mode_without_space+'"] i').attr("style","");
-	$('#bt_addAction' + mode_without_space).on('click', function() {
-		addAction({}, 'action_' + mode_without_space, '{{Action}}');
+	$('#tab_zones').find('a[zone_name="'+zone_without_space+'"] i').attr("style","");
+	$('#bt_addAction' + zone_without_space).on('click', function() {
+		addAction({}, 'action_' + zone_without_space, '{{Action}}');
 	});
 	
-	$('#bt_addActionExit' + mode_without_space).on('click', function() {
-		addAction({}, 'action_exit_' + mode_without_space, '{{Action}}');
+	$('#bt_addActionExit' + zone_without_space).on('click', function() {
+		addAction({}, 'action_exit_' + zone_without_space, '{{Action}}');
 	});
 }
 /**************** Commun ***********/
 $('body').undelegate('.modeAction[data-l1key=chooseIcon]', 'click').delegate('.modeAction[data-l1key=chooseIcon]', 'click', function () {
-    var mode_name = $(this).closest('.tabAttr ').attr("id");
-	mode_name = mode_name.substring(4);
-	var mode = $("#tab_zones").find("[mode_name="+mode_name+"]");
+    var zone_name = $(this).closest('.tabAttr ').attr("id");
+	zone_name = zone_name.substring(4);
+	var mode = $("#tab_zones").find("[zone_name="+zone_name+"]");
     chooseIcon(function (_icon) {
 		//console.log(_icon);
-        mode.find('.ModeAttr[data-l1key=icon]').empty().append(_icon);
+        mode.find('.cmdAttr[data-l1key=icon]').empty().append(_icon);
     });
 });
 $('body').undelegate('.modeAction[data-l1key=chooseName]', 'click').delegate('.modeAction[data-l1key=chooseName]', 'click', function () {
-    var mode_name = $(this).closest('.tabAttr ').attr("id");
-	mode_name = mode_name.substring(4);
-	var mode = $("#tab_zones").find("[mode_name="+mode_name+"]");
+    var zone_name = $(this).closest('.tabAttr ').attr("id");
+	zone_name = zone_name.substring(4);
+	var mode = $("#tab_zones").find("[zone_name="+zone_name+"]");
     
 	bootbox.prompt("{{Nouveau nom ?}}", function (result) {
         if (result !== null) {
 			var result_with_space = result;
 			result = result.replace(' ','_');
             mode.attr("href","#tab_" + result);
-            mode.attr("mode_name", result);
-			var _icon = mode.find('.ModeAttr[data-l1key=icon]');
+            mode.attr("zone_name", result);
+			var _icon = mode.find('.cmdAttr[data-l1key=icon]');
 			mode.empty().append(_icon).append(" " + result_with_space);
-			$('.tab-content').find('#tab_' + mode_name).attr("id","tab_" + result);
-			$('.tab-content').find('#div_cond_' + mode_name).attr("id","div_cond_" + result);
-			$('.tab-content').find('#div_action_' + mode_name).attr("id","div_action_" + result);
-			$('.tab-content').find('#div_action_exit_' + mode_name).attr("id","div_action_exit_" + result);
+			$('.tab-content').find('#tab_' + zone_name).attr("id","tab_" + result);
+			$('.tab-content').find('#div_cond_' + zone_name).attr("id","div_cond_" + result);
+			$('.tab-content').find('#div_action_' + zone_name).attr("id","div_action_" + result);
+			$('.tab-content').find('#div_action_exit_' + zone_name).attr("id","div_action_exit_" + result);
 			
-			$('.tab-content').find('#bt_addCond' + mode_name).attr("id","bt_addCond" + result);
-			$('.tab-content').find('#bt_addAction' + mode_name).attr("id","bt_addAction" + result);
-			$('.tab-content').find('#bt_addActionExit' + mode_name).attr("id","bt_addActionExit" + result);		
+			$('.tab-content').find('#bt_addCond' + zone_name).attr("id","bt_addCond" + result);
+			$('.tab-content').find('#bt_addAction' + zone_name).attr("id","bt_addAction" + result);
+			$('.tab-content').find('#bt_addActionExit' + zone_name).attr("id","bt_addActionExit" + result);		
 			
-			$('.tab-content').find('.cond_' + mode_name).attr("class","cond_" + result);
-			$('.tab-content').find('.action_' + mode_name).attr("class","action_" + result);
-			$('.tab-content').find('.action_exit_' + mode_name).attr("class","action_exit_" + result);	
+			$('.tab-content').find('.cond_' + zone_name).attr("class","cond_" + result);
+			$('.tab-content').find('.action_' + zone_name).attr("class","action_" + result);
+			$('.tab-content').find('.action_exit_' + zone_name).attr("class","action_exit_" + result);	
         }
     });
 });
 $('body').undelegate('.modeAction[data-l1key=removeIcon]', 'click').delegate('.modeAction[data-l1key=removeIcon]', 'click', function () {
-    var mode_name = $(this).closest('.tabAttr ').attr("id");
-	mode_name = mode_name.substring(4);
-	var mode = $("#tab_zones").find("[mode_name="+mode_name+"]");
-    mode.find('.ModeAttr[data-l1key=icon]').empty();
+    var zone_name = $(this).closest('.tabAttr ').attr("id");
+	zone_name = zone_name.substring(4);
+	var mode = $("#tab_zones").find("[zone_name="+zone_name+"]");
+    mode.find('.cmdAttr[data-l1key=icon]').empty();
 });
 $('body').undelegate('.modeAction[data-l1key=removeMode]', 'click').delegate('.modeAction[data-l1key=removeMode]', 'click', function () {
-    var mode_name = $(this).closest('.tabAttr ').attr("id");
+    var zone_name = $(this).closest('.tabAttr ').attr("id");
 	bootbox.confirm("Êtes vous sûr ?", function(result) {
 		if(result == true){
-			$('.tab-content').find("#" + mode_name).remove();
-			mode_name = mode_name.substring(4);
-			var mode = $("#tab_zones").find("[mode_name="+mode_name+"]");
+			$('.tab-content').find("#" + zone_name).remove();
+			zone_name = zone_name.substring(4);
+			var mode = $("#tab_zones").find("[zone_name="+zone_name+"]");
 			mode.remove();
-			$('#state_order_list').find('[mode_name="'+mode_name+'"]').remove();	
+			$('#state_order_list').find('[zone_name="'+zone_name+'"]').remove();	
 		}
 	}); 
 });
@@ -297,7 +329,7 @@ $('body').delegate('.rename', 'click', function () {
     bootbox.prompt("{{Nouveau nom ?}}", function (result) {
         if (result !== null) {
             el.text(result);
-            el.closest('.mode').find('.modeAttr[data-l1key=name]').value(result);
+            el.closest('.mode').find('.cmdAttr[data-l1key=name]').value(result);
         }
     });
 });

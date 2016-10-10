@@ -147,27 +147,24 @@ function AddZone(_zone){
 	});
 }
 function addAction(_action, _name, _el) {
-    if (!isset(_action)) {
-        _action = {};
-    }
-    if (!isset(_action.options)) {
-        _action.options = {};
-    }
-    
-    var div = '<div class="form-group ">';
-    div += '<label class="col-lg-1 control-label">' + _name + '</label>';
-    div += '<div class="col-lg-1">';
-    div += '<a class="btn btn-warning btn-sm listCmdAction" ><i class="fa fa-list-alt"></i></a>';
-    div += '</div>';
-    div += '<div class="col-lg-3 ' + input + '">';
-    div += '<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd"  />';
-    div += '</div>';
-    div += '<div class="col-lg-6 actionOptions">';
-    div += jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options);
-    div += '</div>';
-    div += '<div class="col-lg-1">';
-    div += '<i class="fa fa-minus-circle pull-left cursor bt_removeAction"></i>';
-    div += '</div>';
+	if (!isset(_action)) {
+		_action = {};
+	}
+	if (!isset(_action.options)) {
+		_action.options = {};
+	}
+    	var div = $('<div class="form-group ">')
+  		.append($('<label class="col-lg-1 control-label">')
+			.text(_name))
+   		.append($('<div class="col-lg-1">')
+    			.append($('<a class="btn btn-warning btn-sm listCmdAction" >')
+				.append($('<i class="fa fa-list-alt">'))))
+    		.append($('<div class="col-lg-3">')
+   			.append($('<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd"  />')))
+   		.append($('<div class="col-lg-6 actionOptions">')
+    			.append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))
+ 		.append($('<div class="col-lg-1">')
+  			.append($('<i class="fa fa-minus-circle pull-left cursor bt_removeAction">')));
         _el.append(div);
         _el.setValues(_action, '.expressionAttr');
   

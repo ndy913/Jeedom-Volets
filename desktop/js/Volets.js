@@ -97,7 +97,7 @@ function addCmdToTable(_cmd) {
 		TracePolyLigne(Coordinates);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
-	AddZone(_cmd)
+	AddZone(_cmd);
 /*	var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
 	tr += '<td class="name">';
 	tr += '<input class="cmdAttr form-control input-sm" data-l1key="id" style="display : none;">';
@@ -128,14 +128,6 @@ var liste_zones = {};
 $('#tab_zones a').click(function(e) {
     e.preventDefault();
     $(this).tab('show');
-});
-$(document).ready(function() {
-	$('#picker_holiday_comeback').DateTimePicker({
-		fullMonthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
-		shortMonthNames: ["Jan", "Fev", "Mar", "Avr", "Mai", "Jui", "Juil", "Août", "Sep", "Oct", "Nov", "Dec"],
-		shortDayNames: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-		fullDayNames: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"]
-	});		
 });
 /**************** Actions Boutons ***********/
 $('#bt_addActionPresent').on('click', function() {

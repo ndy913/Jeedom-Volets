@@ -1,5 +1,4 @@
 var map;
-var Coordinates= new Object();
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
 	$.ajax({
 		type: 'POST',            
@@ -30,7 +29,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		}
 	});
 });
-function TraceDirection() {
+function TraceDirection(Coordinates) {
 	var milieu=new Array();
 	milieu['lat']=(Coordinates.Center.lat+Coordinates.Position.lat)/2;
 	milieu['lng']=(Coordinates.Center.lng+Coordinates.Position.lng)/2;
@@ -39,9 +38,9 @@ function TraceDirection() {
 	perpendiculaire['lng']=milieu['lng']+Math.cos(90);
 	return [milieu,perpendiculaire];
 }
-function TracePolyLigne() {
+function TracePolyLigne(Coordinates) {
 	/*new google.maps.Polyline({
-		path: TraceDirection(),
+		path: TraceDirection(Coordinates),
 		geodesic: true,
 		strokeColor: '#FF0000',
 		strokeOpacity: 1.0,
@@ -61,7 +60,7 @@ function addCmdToTable(_cmd) {
 	if (!isset(_cmd)) {
 	var _cmd = {configuration: {}};
 	}
-	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
+	var Coordinates= new Object();
 	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
 		Coordinates = _cmd.logicalId; 
 	else {
@@ -81,15 +80,15 @@ function addCmdToTable(_cmd) {
 		draggable:true,
 		title: _cmd.name
 	  });
-	TracePolyLigne();
+	TracePolyLigne(Coordinates);
 	google.maps.event.addListener(position,'drag', function(event) {
 		Coordinates.Center=event.latLng;
-		TracePolyLigne();
+		TracePolyLigne(Coordinates);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
 	google.maps.event.addListener(angle,'drag', function(event) {
 		Coordinates.Position=event.latLng;
-		TracePolyLigne();
+		TracePolyLigne(Coordinates);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
 	var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
@@ -113,6 +112,7 @@ function addCmdToTable(_cmd) {
 	tr += '</tr>';
 	$('#table_cmd tbody').append(tr);
 	$('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
+	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 	$('#table_cmd tbody tr:last').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	
 }

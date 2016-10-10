@@ -85,14 +85,14 @@ function addCmdToTable(_cmd) {
 	$('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
 	$('#table_cmd tbody tr:last').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
-	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
-		Coordinates = _cmd.logicalId; 
-	else {
+	//if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
+	//	Coordinates = _cmd.logicalId; 
+	//else {
 		Coordinates.Position= new Object();
 		Coordinates.Position.lat=Coordinates.Center.lat;
 		Coordinates.Position.lng=Coordinates.Center.lng+ (1 / 3600);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(myLatLng);
-	}
+	//}
 	var position=new google.maps.Marker({
 		position: Coordinates.Center,
 		map: map,

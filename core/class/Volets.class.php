@@ -2,27 +2,34 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class Volets extends eqLogic {
+	public static function pull($_option) {
+		$Volet = Volets::byId($_option['Volets_id']);
+		//log::add('Volets', 'debug', 'Objet mis à jour => ' . $_option['event_id'] . ' / ' . $_option['value']);
+		if (is_object($Volet) && $Volet->getIsEnable() == 1) {
+			foreach($Volet->getCmd() as $Commande)
+				$Commande->execute();
+		}
+	}
   	public function preUpdate() {
     	}  
    	public function preInsert() {
 	}    
     	public function postSave() {
-	}	
-	public static function AddCmd($Equipement,$Name,$_logicalId,$Type="info", $SubType='') 	{
-		$Commande = $Equipement->getCmd(null,$_logicalId);
-		if (!is_object($Commande)){
-			$Commande = new VoletsCmd();
-			$Commande->setId(null);
-			$Commande->setName($Name);
-			$Commande->setLogicalId($_logicalId);
-			$Commande->setEqLogic_id($Equipement->getId());
-			$Commande->setIsVisible(1);
-			$Commande->setType($Type);
-			$Commande->setSubType($SubType);
-			$Commande->save();
+		log::add('Volets', 'info', 'Activation des déclencheurs : ');
+		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
+		if (!is_object($listener)) {
+		    $listener = new listener();
 		}
-		return $Commande;
-	}
+		$listener->setClass('Volets');
+		$listener->setFunction('pull');
+		$listener->setOption(array('Volets_id' => intval($this->getId())));
+		$listener->emptyEvent();
+		
+		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
+		if(is_object($heliotrope))
+			$listener->addEvent($heliotrope->getCmd(null,'azimuth360'));
+		$listener->save();		
+	}	
 }
 
 class VoletsCmd extends cmd {

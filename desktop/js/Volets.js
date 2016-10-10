@@ -60,15 +60,16 @@ function addCmdToTable(_cmd) {
 	if (!isset(_cmd)) {
 	var _cmd = {configuration: {}};
 	}
-	var Coordinates= new Object();
-	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") {
+	var Coordinates;
+	/*if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") {
 		Coordinates = _cmd.logicalId; 
-	}else {
+	}else {*/
+		Coordinates= new Object();
 		Coordinates.Center=Center;
 		Coordinates.Position= new Object();
 		Coordinates.Position.lat=Coordinates.Center.lat;
 		Coordinates.Position.lng=Coordinates.Center.lng+ (1 / 3600);
-	}
+	//}
 	var position=new google.maps.Marker({
 		position: Coordinates.Center,
 		map: map,

@@ -62,13 +62,13 @@ function addCmdToTable(_cmd) {
 	var _cmd = {configuration: {}};
 	}
 	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
-	//if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
-	//	Coordinates = _cmd.logicalId; 
-	//else {
+	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
+		Coordinates = _cmd.logicalId; 
+	else {
 		Coordinates.Position= new Object();
 		Coordinates.Position.lat=Coordinates.Center.lat;
 		Coordinates.Position.lng=Coordinates.Center.lng+ (1 / 3600);
-	//}
+	}
 	var position=new google.maps.Marker({
 		position: Coordinates.Center,
 		map: map,

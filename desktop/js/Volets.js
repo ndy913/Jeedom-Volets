@@ -74,8 +74,6 @@ function addCmdToTable(_cmd) {
 		Coordinates.Position.lat=Coordinates.Center.lat;
 		Coordinates.Position.lng=Coordinates.Center.lng+ (1 / 3600);
 	}
-	alert(Coordinates.Center.lat+" , "+Coordinates.Center.lng);
-	alert(Coordinates.Position.lat+" , "+Coordinates.Position.lng);
 	var position=new google.maps.Marker({
 		position: Coordinates.Center,
 		map: map,

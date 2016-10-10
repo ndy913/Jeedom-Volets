@@ -40,14 +40,14 @@ function TraceDirection() {
 	return [milieu,perpendiculaire];
 }
 function TracePolyLigne() {
-	new google.maps.Polyline({
+	/*new google.maps.Polyline({
 		path: TraceDirection(),
 		geodesic: true,
 		strokeColor: '#FF0000',
 		strokeOpacity: 1.0,
 		map: map,
 		strokeWeight: 2
-	});
+	});*/
 	new google.maps.Polyline({
 		path: [Coordinates.Center,Coordinates.Position],
 		geodesic: true,

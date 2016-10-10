@@ -136,8 +136,8 @@ function AddZone(_zone){
 	
 	$('#tab_zones').append($('<li>')
 		.append($('<a href="#tab_' + init(_zone.id) + '">')
-			.append($(_zone.icon)
-				.text(_zone.name))));
+			.append($(_zone.icon))
+			.text(_zone.name)));
 
 	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" id="tab_' +init(_zone.id) + '">')	
 		.append($('<div class="btn-group pull-right" role="group">')
@@ -180,6 +180,7 @@ function AddZone(_zone){
 			.append($('<input class="cmdAttr form-control input-sm" data-l1key="name">'))
 			.append($('<input type="checkbox" data-size="mini" data-label-text="{{Historiser}}" class="cmdAttr bootstrapSwitch" data-l1key="isHistorized" />')));
 	$('.tab-content').append(NewMode);
+	$('.tab-content div:last').setValues(_zone, '.cmdAttr');
 	$('#tab_zones a').on('click', function (e) {
 		e.preventDefault();
 		$(this).tab('show');

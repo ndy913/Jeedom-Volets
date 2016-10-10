@@ -97,8 +97,8 @@ $eqLogics = eqLogic::byType('Volets');
 			<a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
 		</div>
 		<div class="row" style="padding-left:25px;">
-			<ul class="nav nav-tabs" id="tab_zones">
-				<li><a class="btn tooltips" id="tab_add"><i class="fa fa-plus-circle"></i> {{Ajouter}}</a></li>
+			<ul class="nav nav-tabs" id="tab_zones">	
+				<li><a class="btn tooltips cmdAction" data-action="add"><i class="fa fa-plus-circle"></i> {{Ajouter}}</a></li>
 				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>
 				
 			</ul>

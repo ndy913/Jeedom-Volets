@@ -63,7 +63,7 @@ function addCmdToTable(_cmd) {
 	}
 	var myLatLng;
 	/*if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
-		myLatLng = _cmd.logicalId.split(","); 
+		Coordinates = JSON.parse(_cmd.logicalId.split(",")); 
 	else {*/
 		Coordinates.Position= new Object();
 		Coordinates.Position.lat=Coordinates.Center.lat;
@@ -83,25 +83,16 @@ function addCmdToTable(_cmd) {
 		draggable:true,
 		title: _cmd.name
 	  });
-	//TracePolyLigne(myLatLng);
+	TracePolyLigne(Coordinates);
 	google.maps.event.addListener(position,'drag', function(event) {
-		/*var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
-		var newCoord=newLatLng.split(",");
-		myLatLng[0]=newCoord[0];
-		myLatLng[1]=newCoord[1];*/
 		Coordinates.Center=event.latLng;
 		TracePolyLigne(Coordinates);
-		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(Coordinates);
+		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
 	google.maps.event.addListener(angle,'drag', function(event) {
-		/*var newLatLng=event.latLng.toString().replace("(", "").replace(")", "");
-		var newCoord=newLatLng.split(",");
-		myLatLng[2]=newCoord[0];
-		myLatLng[3]=newCoord[1];*/
-		
 		Coordinates.Position=event.latLng;
 		TracePolyLigne(Coordinates);
-		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(Coordinates);
+		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td class="name">';

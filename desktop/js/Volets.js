@@ -1,4 +1,5 @@
 var map;
+var Center= new Object();
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
 	$.ajax({
 		type: 'POST',            
@@ -16,11 +17,10 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
 			if (typeof(data.result.geoloc) !== 'undefined') {
 				var center=data.result.geoloc.configuration.coordinate.split(",");
-				Coordinates.Center= new Object();
-				Coordinates.Center.lat=parseFloat(center[0]);
-				Coordinates.Center.lng=parseFloat(center[1]);
+				Center.lat=parseFloat(center[0]);
+				Center.lng=parseFloat(center[1]);
 				map = new google.maps.Map(document.getElementById('map'), {
-					center: Coordinates.Center,
+					center: Center,
 					mapTypeId: 'satellite',
 					scrollwheel: true,
 					zoom: 20
@@ -63,9 +63,8 @@ function addCmdToTable(_cmd) {
 	var Coordinates= new Object();
 	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") {
 		Coordinates = _cmd.logicalId; 
-		alert(Coordinates.Center.lat+","+Coordinates.Center.lng);
-		alert(Coordinates.Position.lat+","+Coordinates.Position.lng);
 	}else {
+		Coordinates.Center=Center;
 		Coordinates.Position= new Object();
 		Coordinates.Position.lat=Coordinates.Center.lat;
 		Coordinates.Position.lng=Coordinates.Center.lng+ (1 / 3600);

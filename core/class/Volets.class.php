@@ -56,7 +56,7 @@ class VoletsCmd extends cmd {
 					       $Coord['Center']['lng'],
 					       $Coord['Position']['lat'],
 					       $Coord['Position']['lng']);
-			log::add('Volets','debug','L\'angle de votre zone  par rapport au Nord est de'.$Angle-90.'°');
+			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de'.$Angle.'°');
 			//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 			if($Azimuth>$Angle&&$Azimuth>$Angle-180){
 				$value=true;

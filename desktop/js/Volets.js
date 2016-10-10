@@ -381,10 +381,3 @@ $('#bt_addActionSimuON').on('click', function() {
 $('#bt_addActionSimuOFF').on('click', function() {
     addAction({}, 'action_simulation_off', '{{Action}}');
 });
-$('#tab_add').on('click', function() {
-    bootbox.prompt("Nom ?", function (result) {
-        if (result !== null && result != '') {
-            AddZone({name: result});
-        }
-    });
-});

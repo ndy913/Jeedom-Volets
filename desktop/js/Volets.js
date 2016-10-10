@@ -30,18 +30,10 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		}
 	});
 });
-function PolyLignePerpendiculaire(Coordinate) {
-	var LatPer=-1/Coordinate.Center.lat);
-	var LngPer=Coordinate.Center.lng);
-	var coord=[
-		Coordinate.Center,
-		{lat: LatPer , lng: LngPer}
-	];
-	return coord
-}
 function TracePolyLigne() {
 	new google.maps.Polyline({
-		path: PolyLignePerpendiculaire(Coordinates),
+		path: [	Coordinates.Center,{lat: -1/Coordinates.Center.lat , lng:Coordinates.Center.lng}
+	];,
 		geodesic: true,
 		strokeColor: '#FF0000',
 		strokeOpacity: 1.0,

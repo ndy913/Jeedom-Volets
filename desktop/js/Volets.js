@@ -124,25 +124,22 @@ function addCmdToTable(_cmd) {
 	*/
 }
 function AddZone(_zone){
-	/*if (init(_zone.name) == '') {
-        return;
-    }
+	if (init(_zone.name) == '') {
+      		return;
+   	}
 	if (init(_zone.icon) == '') {
-        // _zone.icon = '<i class="icon fa fa-dot-circle-o"><\/i>';
-        _zone.icon = '';
-    }*/
-	alert('test');
+     	   // _zone.icon = '<i class="icon fa fa-dot-circle-o"><\/i>';
+    	    _zone.icon = '';
+  	  }
 	var zone_without_space = _zone.name.replace(" ","_");
 	var zone_with_spaces = 	_zone.name.replace("_"," ");
-	console.log(zone_with_spaces);
 	
 	$('#tab_zones').append($('<li>')
-		.append($('<a class="cmdAttr" href="#tab_' + init(_zone.id) + '" data-l1key="name" zone_name="' + zone_without_space+ '">')
-			/*.append($('<span class="cmdAttr" data-l1key="icon">')
-				.text(_zone.icon))*/));
+		.append($('<a href="#tab_' + init(_zone.id) + '">')
+			.append($('<span class="cmdAttr" data-l1key="icon">')
+				.text(_zone.icon))));
 
-	var NewMode = $('<div style="margin-right:20px" class="tab-pane tabAttr" id="tab_' + zone_without_space + '">')	
-		.append($('<br/>'))
+	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" id="tab_' +init(_zone.id) + '">')	
 		.append($('<div class="btn-group pull-right" role="group">')
 			.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="chooseName">')
 				.append($('<i class="fa fa-pencil">'))

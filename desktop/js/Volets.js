@@ -63,6 +63,10 @@ function addCmdToTable(_cmd) {
 	var Coordinates;
 	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") {
 		Coordinates = _cmd.logicalId; 
+		Coordinates.Center.lat=parseFloat(Coordinates.Center.lat);
+		Coordinates.Center.lng=parseFloat(Coordinates.Center.lng);
+		Coordinates.Position.lat=parseFloat(Coordinates.Position.lat);
+	      	Coordinates.Position.lng=parseFloat(Coordinates.Position.lng);
 	}else {
 		Coordinates= new Object();
 		Coordinates.Center=Center;

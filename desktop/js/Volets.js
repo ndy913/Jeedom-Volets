@@ -61,9 +61,11 @@ function addCmdToTable(_cmd) {
 	var _cmd = {configuration: {}};
 	}
 	var Coordinates= new Object();
-	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") 
+	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") {
 		Coordinates = _cmd.logicalId; 
-	else {
+		alert(Coordinates.Center.lat+","+Coordinates.Center.lng);
+		alert(Coordinates.Position.lat+","+Coordinates.Position.lng);
+	}else {
 		Coordinates.Position= new Object();
 		Coordinates.Position.lat=Coordinates.Center.lat;
 		Coordinates.Position.lng=Coordinates.Center.lng+ (1 / 3600);

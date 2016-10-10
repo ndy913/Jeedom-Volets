@@ -168,13 +168,14 @@ $('#tab_add').on('click', function() {
     });
 });
 function AddZone(_zone){
-	if (init(_zone.name) == '') {
+	/*if (init(_zone.name) == '') {
         return;
     }
 	if (init(_zone.icon) == '') {
         // _zone.icon = '<i class="icon fa fa-dot-circle-o"><\/i>';
         _zone.icon = '';
-    }
+    }*/
+	alert('test');
 	var zone_without_space = _zone.name.replace(" ","_");
 	var zone_with_spaces = 	_zone.name.replace("_"," ");
 	console.log(zone_with_spaces);

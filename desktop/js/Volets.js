@@ -153,14 +153,14 @@ function addAction(_action, _name, _el) {
 	if (!isset(_action.options)) {
 		_action.options = {};
 	}
-    var div = $('<div class="form-group ">')
+    var div = $('<div class="form-group">')
   		.append($('<label class="col-lg-1 control-label">')
 			.text(_name))
    		.append($('<div class="col-lg-1">')
     			.append($('<a class="btn btn-warning btn-sm listCmdAction" >')
 					.append($('<i class="fa fa-list-alt">'))))
 		.append($('<div class="col-lg-3">')
-			.append($('<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd"  />')))
+			.append($('<input class="expressionAttr form-control input-sm cmdAttr" data-l1key="configuration" data-l2key="action"/>')))
    		.append($('<div class="col-lg-6 actionOptions">')
     		.append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))))
  		.append($('<div class="col-lg-1">')
@@ -194,4 +194,11 @@ $('body').on('click','.modeAction[data-l1key=removeZone]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id");
 	$("#tab_modes").find("[href="+zoneId+"]").remove();
 	$(this).closest('.cmd').remove();
+});
+$("body").on('click', ".listEquipement", function() {
+    var el = $(this).closest('.form-group').find('.cmdAttr[data-l1key=configuration][data-l2key=action]');
+    jeedom.eqLogic.getSelectModal({}, function(result) {
+        //console.log(result);
+        el.value(result.human);
+    });
 });

@@ -140,6 +140,9 @@ function AddZone(_zone){
 			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" />'))
 			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized"/>')));
 	$('.tab-content').append(NewMode);
+	_zone.configuration.action.each(function(index, value) {
+		addAction(value,  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)).find('.div_action'));
+	 });
 	$('.tab-content').find('#tab_' +init(_zone.id)).setValues(_zone, '.cmdAttr');
 	$('#tab_zones a').on('click', function (e) {
 		e.preventDefault();

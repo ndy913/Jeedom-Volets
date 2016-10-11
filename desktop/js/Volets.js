@@ -111,13 +111,13 @@ function AddZone(_zone){
 		position: Coordinates.Center,
 		map: map,
 		draggable:true,
-		title: _zone.name
+		title: _zone.name + " - Gauche vue exterieur"
 	  });
 	var angle=new google.maps.Marker({
 		position:Coordinates.Position,
 		map: map,
 		draggable:true,
-		title: _zone.name
+		title: _zone.name  + " - Droite vue exterieur"
 	  });
 	TracePolyLigne(Coordinates);
 	google.maps.event.addListener(position,'drag', function(event) {
@@ -130,13 +130,13 @@ function AddZone(_zone){
 		TracePolyLigne(Coordinates);
 		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
-	if ($('#tab_zones #' + init(_zone.id)).length == 0) {
+	if (_zone.id != "new" && $('#tab_zones #' + init(_zone.id)).length == 0) {
 		$('#tab_zones').append($('<li id="' +init(_zone.id) + '">')
 			.append($('<a href="#tab_' + init(_zone.id) + '">')
 				.append($(_zone.icon))
 				.text(_zone.name)));
 	}
-	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" id="tab_' +init(_zone.id) + '">');
+	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" data-cmd_id="' +init(_zone.id) + '" id="tab_' +init(_zone.id) + '">');
 		NewMode.append($('<div class="row">')
 			.append($('<input class="cmdAttr" data-l1key="id"  style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="logicalId" style="display : none;"/>'))

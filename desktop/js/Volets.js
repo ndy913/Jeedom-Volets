@@ -187,14 +187,16 @@ function AddZone(_zone){
 		e.preventDefault();
 		$(this).tab('show');
 	});	
-	if (typeof(_zone.configuration.action.in) !== 'undefined') {
-		for(var index in _zone.configuration.action.in) { 
-			addAction(_zone.configuration.action.in[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionIn').find('.div_action'));
+	if (typeof(_zone.configuration.action) !== 'undefined') {
+		if (typeof(_zone.configuration.action.in) !== 'undefined') {
+			for(var index in _zone.configuration.action.in) { 
+				addAction(_zone.configuration.action.in[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionIn').find('.div_action'));
+			}
 		}
-	}
-	if (typeof(_zone.configuration.action.out) !== 'undefined') {
-		for(var index in _zone.configuration.action.out) { 
-			addAction(_zone.configuration.action.out[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionOut').find('.div_action'));
+		if (typeof(_zone.configuration.action.out) !== 'undefined') {
+			for(var index in _zone.configuration.action.out) { 
+				addAction(_zone.configuration.action.out[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionOut').find('.div_action'));
+			}
 		}
 	}
 }

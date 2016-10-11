@@ -64,9 +64,9 @@ function saveEqLogic(_eqLogic) {
 	if (typeof( _eqLogic.cmd) !== 'undefined') {
 		for(var index in  _eqLogic.cmd) { 
 			_eqLogic.cmd[index].configuration.action=new Object();
-			var cmd=$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id) + ']').find('ActionIn')
-			_eqLogic.cmd[index].configuration.action.in=cmd.find('.ActionIn').getValues('.expressionAttr');
-			_eqLogic.cmd[index].configuration.action.out=cmd.find('ActionOut').getValues('.expressionAttr');
+			var cmdParameters=$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id) + ']');
+			_eqLogic.cmd[index].configuration.action.in=cmdParameters.find('.ActionIn').getValues('.expressionAttr');
+			_eqLogic.cmd[index].configuration.action.out=cmdParameters.find('ActionOut').getValues('.expressionAttr');
 		}
 	}
     return _eqLogic;
@@ -94,51 +94,53 @@ function AddZone(_zone){
      	   // _zone.icon = '<i class="icon fa fa-dot-circle-o"><\/i>';
     	    _zone.icon = '';
   	  }
-	var Coordinates;
-	if (typeof(_zone.logicalId) !== 'undefined' && _zone.logicalId != "") {
-		Coordinates = _zone.logicalId; 
-		Coordinates.Center.lat=parseFloat(Coordinates.Center.lat);
-		Coordinates.Center.lng=parseFloat(Coordinates.Center.lng);
-		Coordinates.Position.lat=parseFloat(Coordinates.Position.lat);
-	      	Coordinates.Position.lng=parseFloat(Coordinates.Position.lng);
-	}else {
-		Coordinates= new Object();
-		Coordinates.Center=Center;
-		Coordinates.Position= new Object();
-		Coordinates.Position.lat=Coordinates.Center.lat;
-		Coordinates.Position.lng=Coordinates.Center.lng+ (1 / 3600);
-	}
-	var position=new google.maps.Marker({
-		position: Coordinates.Center,
-		map: map,
-		draggable:true,
-		title: _zone.name + " - Droite vue exterieur"
-	  });
-	var angle=new google.maps.Marker({
-		position:Coordinates.Position,
-		map: map,
-		draggable:true,
-		title: _zone.name  + " - Gauche vue exterieur"
-	  });
-	TracePolyLigne(Coordinates);
-	google.maps.event.addListener(position,'drag', function(event) {
-		Coordinates.Center=event.latLng;
-		TracePolyLigne(Coordinates);
-		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
-	});
-	google.maps.event.addListener(angle,'drag', function(event) {
-		Coordinates.Position=event.latLng;
-		TracePolyLigne(Coordinates);
-		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
-	});
+	if($('#tab_new').length>0;
+		$('#tab_new').remove();
 	if (_zone.id != "new" && $('#tab_zones #' + init(_zone.id)).length == 0) {
 		$('#tab_zones').append($('<li id="' +init(_zone.id) + '">')
 			.append($('<a href="#tab_' + init(_zone.id) + '">')
 				.append($(_zone.icon))
 				.text(_zone.name)));
+		var Coordinates;
+		if (typeof(_zone.logicalId) !== 'undefined' && _zone.logicalId != "") {
+			Coordinates = _zone.logicalId; 
+			Coordinates.Center.lat=parseFloat(Coordinates.Center.lat);
+			Coordinates.Center.lng=parseFloat(Coordinates.Center.lng);
+			Coordinates.Position.lat=parseFloat(Coordinates.Position.lat);
+			Coordinates.Position.lng=parseFloat(Coordinates.Position.lng);
+		}else {
+			Coordinates= new Object();
+			Coordinates.Center=Center;
+			Coordinates.Position= new Object();
+			Coordinates.Position.lat=Coordinates.Center.lat;
+			Coordinates.Position.lng=Coordinates.Center.lng+ (1 / 3600);
+		}
+		var position=new google.maps.Marker({
+			position: Coordinates.Center,
+			map: map,
+			draggable:true,
+			title: _zone.name + " - Droite vue exterieur"
+		  });
+		var angle=new google.maps.Marker({
+			position:Coordinates.Position,
+			map: map,
+			draggable:true,
+			title: _zone.name  + " - Gauche vue exterieur"
+		  });
+		TracePolyLigne(Coordinates);
+		google.maps.event.addListener(position,'drag', function(event) {
+			Coordinates.Center=event.latLng;
+			TracePolyLigne(Coordinates);
+			$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
+		});
+		google.maps.event.addListener(angle,'drag', function(event) {
+			Coordinates.Position=event.latLng;
+			TracePolyLigne(Coordinates);
+			$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
+		});
 	}
-	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" data-cmd_id="' +init(_zone.id) + '" id="tab_' +init(_zone.id) + '">');
-		NewMode.append($('<div class="row">')
+	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" data-cmd_id="' +init(_zone.id) + '" id="tab_' +init(_zone.id) + '">')
+		.append($('<div class="row">')
 			.append($('<input class="cmdAttr" data-l1key="id"  style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="logicalId" style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="name" style="display : none;"/>'))

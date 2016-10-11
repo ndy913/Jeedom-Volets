@@ -64,8 +64,9 @@ function saveEqLogic(_eqLogic) {
 	if (typeof( _eqLogic.cmd) !== 'undefined') {
 		for(var index in  _eqLogic.cmd) { 
 			_eqLogic.cmd[index].configuration.action=new Object();
-			 _eqLogic.cmd[index].configuration.action.in=$('#tab_' +init(_eqLogic.cmd[index].id+' .ActionIn')).getValues('.expressionAttr');
-			 _eqLogic.cmd[index].configuration.action.out=$('#tab_' +init(_eqLogic.cmd[index].id+' .ActionOut')).getValues('.expressionAttr');
+			var cmd=$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id) + ']').find('ActionIn')
+			_eqLogic.cmd[index].configuration.action.in=cmd.find('.ActionIn').getValues('.expressionAttr');
+			_eqLogic.cmd[index].configuration.action.out=cmd.find('ActionOut').getValues('.expressionAttr');
 		}
 	}
     return _eqLogic;
@@ -197,7 +198,7 @@ function AddZone(_zone){
 		e.preventDefault();
 		$(this).tab('show');
 	});	
-	/*if (typeof(_zone.configuration.action) !== 'undefined') {
+	if (typeof(_zone.configuration.action) !== 'undefined') {
 		if (typeof(_zone.configuration.action.in) !== 'undefined') {
 			for(var index in _zone.configuration.action.in) { 
 				if (typeof(_zone.configuration.action.in[index]) !== 'undefined') 
@@ -210,7 +211,7 @@ function AddZone(_zone){
 					addAction(_zone.configuration.action.out[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionOut').find('.div_action'));
 			}
 		}
-	}*/
+	}
 }
 function addAction(_action, _name, _el) {
 	if (!isset(_action)) {

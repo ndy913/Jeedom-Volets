@@ -63,7 +63,7 @@ function saveEqLogic(_eqLogic) {
     }	
 	if (typeof( _eqLogic.cmd) !== 'undefined') {
 		for(var index in  _eqLogic.cmd) { 
-			 _eqLogic.cmd[index].configration[action]=$('#tab_' +init(_eqLogic.cmd[index].id)).getValues('.expressionAttr');
+			 _eqLogic.cmd[index].configration.action=$('#tab_' +init(_eqLogic.cmd[index].id)).getValues('.expressionAttr');
 		}
 	}
     return _eqLogic;
@@ -136,19 +136,30 @@ function AddZone(_zone){
 			.append($('<a class="modeAction btn btn-danger btn-sm" data-l1key="removeZone">')
 				.append($('<i class="fa fa-minus-circle">'))
 				.text('{{Supprimer}}')))
-		.append($('<form class="form-horizontal">')
-			.append($('<legend>')
-				.text('{{Ajouter les actions a mener lorsque le soleil est dans la zone :}}')
-				.append($('<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">')
-					.append($('<i class="fa fa-plus-circle">'))
-					.text('{{Ajouter Action}}')))
-			.append($('<div class="div_action">')))	
+		.append($('<div class="row">')
+			.append($('<div class="col-lg-6">')
+				.append($('<form class="form-horizontal">')
+					.append($('<legend>')
+						.text('{{Ajouter les actions a mener lorsque le soleil est dans la zone :}}')
+						.append($('<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">')
+							.append($('<i class="fa fa-plus-circle">'))
+							.text('{{Ajouter Action}}')))
+					.append($('<div class="div_action">'))))
+			.append($('<div class="col-lg-6">')
+				.append($('<form class="form-horizontal">')
+					.append($('<legend>')
+						.text('{{Ajouter les actions a mener lorsque le soleil n\'est pas dans la zone :}}')
+						.append($('<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">')
+							.append($('<i class="fa fa-plus-circle">'))
+							.text('{{Ajouter Action}}')))
+					.append($('<div class="div_action">')))))
 		.append($('<form class="form-horizontal">')
 			.append($('<input class="cmdAttr" data-l1key="id"/>'))
 			.append($('<input class="cmdAttr" data-l1key="logicalId"/>'))
 			.append($('<input class="cmdAttr" data-l1key="name"/>'))
 			.append($('<input class="cmdAttr" data-l1key="type"/>'))
 			.append($('<input class="cmdAttr" data-l1key="subType"/>'))
+			.append($('<input class="cmdAttr" data-l1key="configuraton" data-l2key="action" />'))
 			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" />'))
 			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized"/>')));
 	$('.tab-content').append(NewMode);

@@ -72,7 +72,7 @@ class VoletsCmd extends cmd {
 			else
 				$action=json_decode($this->getConfiguration('action'),true)['out'];
 			foreach($action as $cmd)
-				cmd::byId($cmd['cmd'])->execute($cmd['option']
+				cmd::byId($cmd['cmd'])->execute($cmd['option']);
 		}
     }
 }

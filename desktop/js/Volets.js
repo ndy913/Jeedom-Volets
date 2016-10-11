@@ -122,14 +122,11 @@ function AddZone(_zone){
     	    _zone.icon = '';
   	  }
 	
-	if (typeof($('#tab_zones li #' + init(_zone.id))) == 'undefined') {
+	if (typeof($('#tab_zones li #' + init(_zone.id))) === 'undefined') {
 		$('#tab_zones').append($('<li id="' +init(_zone.id) + '">')
 			.append($('<a href="#tab_' + init(_zone.id) + '">')
 				.append($(_zone.icon))
 				.text(_zone.name)));
-	}
-	
-	if (typeof($('#tab_' + init(_zone.id))) == 'undefined') {
 		var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" id="tab_' +init(_zone.id) + '">')	
 			.append($('<div class="row">')
 				.append($('<input class="cmdAttr" data-l1key="id"  style="display : none;"/>'))

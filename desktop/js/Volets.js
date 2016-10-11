@@ -75,7 +75,10 @@ function addCmdToTable(_cmd) {
 		var _cmd = {configuration: {}};
 		bootbox.prompt("Nom ?", function (result) {
 			if (result !== null && result != '') 
-				AddZone({name: result});
+				_cmd.id="new";
+				_cmd.name=result;
+				AddZone(_cmd);
+			$('.eqLogicAction[data-action=save]').trigger('click');
 		});
 	}
 	else
@@ -133,13 +136,13 @@ function AddZone(_zone){
 				.append($(_zone.icon))
 				.text(_zone.name)));
 	}
-	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" id="tab_' +init(_zone.id) + '">')	
-		.append($('<div class="row">')
+	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" id="tab_' +init(_zone.id) + '">');
+		NewMode.append($('<div class="row">')
 			.append($('<input class="cmdAttr" data-l1key="id"  style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="logicalId" style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="name" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="type" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="subType" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="type" value="action" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="subType" value="other" style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" style="display : none;" />'))
 			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized" style="display : none;"/>'))
 			.append($('<div class="btn-group pull-right" role="group">')
@@ -188,6 +191,8 @@ function AddZone(_zone){
 					.append($('<div class="div_action">')))));
 	$('.tab-content').append(NewMode);
 	$('.tab-content').find('#tab_' +init(_zone.id)).setValues(_zone, '.cmdAttr');
+	if((_zone.id =="new")
+		$('.tab-content').find('#tab_' +init(_zone.id)).find('.cmdAttr[data-l1key=id]').val('');
 	$('#tab_zones a').on('click', function (e) {
 		e.preventDefault();
 		$(this).tab('show');

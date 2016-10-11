@@ -63,6 +63,9 @@ function saveEqLogic(_eqLogic) {
     }	
 	if (typeof( _eqLogic.cmd) !== 'undefined') {
 		for(var index in  _eqLogic.cmd) { 
+			_eqLogic.cmd[index].configration.action=new Object();
+			_eqLogic.cmd[index].configration.action.in=new Object();
+			_eqLogic.cmd[index].configration.action.out=new Object();
 			 _eqLogic.cmd[index].configration.action.in=$('#tab_' +init(_eqLogic.cmd[index].id+' .ActionIn')).getValues('.expressionAttr');
 			 _eqLogic.cmd[index].configration.action.out=$('#tab_' +init(_eqLogic.cmd[index].id+' .ActionOut')).getValues('.expressionAttr');
 		}
@@ -164,7 +167,6 @@ function AddZone(_zone){
 				.append($('<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="SeuilTemp">')))))
 		.append($('<div class="row">')
 			.append($('<div class="col-lg-6 ActionIn">')
-				.append($('<input class="cmdAttr" data-l1key="configuraton" data-l2key="action" data-l3key="in" style="display : none;"/>'))
 				.append($('<form class="form-horizontal">')
 					.append($('<legend>')
 						.text('{{Ajouter les actions a mener lorsque le soleil est dans la zone :}}')
@@ -173,7 +175,6 @@ function AddZone(_zone){
 							.text('{{Ajouter Action}}')))
 					.append($('<div class="div_action">'))))
 			.append($('<div class="col-lg-6 ActionOut">')
-				.append($('<input class="cmdAttr" data-l1key="configuraton" data-l2key="action" data-l3key="out" style="display : none;"/>'))
 				.append($('<form class="form-horizontal">')
 					.append($('<legend>')
 						.text('{{Ajouter les actions a mener lorsque le soleil n\'est pas dans la zone :}}')

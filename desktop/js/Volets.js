@@ -194,7 +194,7 @@ function AddZone(_zone){
 							.text('{{Ajouter Action}}')))
 					.append($('<div class="div_action">')))));
 	$('.TabCmdZone').append(NewMode);
-	$('.TabCmdZone .cmd[data-cmd_id=' + init(_zone.id)+ ']'.setValues(_zone, '.cmdAttr');
+	$('.TabCmdZone .cmd[data-cmd_id=' + init(_zone.id)+ ']').setValues(_zone, '.cmdAttr');
 	if(_zone.id =="new")
 		('.TabCmdZone #tab_' +init(_zone.id)).find('.cmdAttr[data-l1key=id]').val('');
 	$('#tab_zones a').on('click', function (e) {

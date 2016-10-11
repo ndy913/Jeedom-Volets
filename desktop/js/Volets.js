@@ -141,9 +141,12 @@ function AddZone(_zone){
 			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized"/>')));
 	$('.tab-content').append(NewMode);
 	if (typeof(_zone.configuration.action) !== 'undefined') {
-		_zone.configuration.action.each(function(index, value) {
+		/*_zone.configuration.action.each(function(index, value) {
 			addAction(value,  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)).find('.div_action'));
-		 });
+		 });*/
+		for(var index in _zone.configuration.action) { 
+			addAction(_zone.configuration.action[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)).find('.div_action'));
+		}
 	}
 	$('.tab-content').find('#tab_' +init(_zone.id)).setValues(_zone, '.cmdAttr');
 	$('#tab_zones a').on('click', function (e) {
@@ -167,7 +170,7 @@ function addAction(_action, _name, _el) {
 		.append($('<div class="col-lg-3">')
 			.append($('<input class="form-control input-sm cmdAttr" data-l1key="configuration" data-l2key="action"/>')))
    		.append($('<div class="col-lg-6 actionOptions">')
-    		.append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))))
+    			.append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))))
  		.append($('<div class="col-lg-1">')
   			.append($('<i class="fa fa-minus-circle pull-left cursor bt_removeAction">')));
         _el.append(div);

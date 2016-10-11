@@ -111,13 +111,13 @@ function AddZone(_zone){
 		position: Coordinates.Center,
 		map: map,
 		draggable:true,
-		title: _zone.name + " - Gauche vue exterieur"
+		title: _zone.name + " - Droite vue exterieur"
 	  });
 	var angle=new google.maps.Marker({
 		position:Coordinates.Position,
 		map: map,
 		draggable:true,
-		title: _zone.name  + " - Droite vue exterieur"
+		title: _zone.name  + " - Gauche vue exterieur"
 	  });
 	TracePolyLigne(Coordinates);
 	google.maps.event.addListener(position,'drag', function(event) {
@@ -200,12 +200,14 @@ function AddZone(_zone){
 	if (typeof(_zone.configuration.action) !== 'undefined') {
 		if (typeof(_zone.configuration.action.in) !== 'undefined') {
 			for(var index in _zone.configuration.action.in) { 
-				addAction(_zone.configuration.action.in[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionIn').find('.div_action'));
+				if (typeof(_zone.configuration.action.in[index]) !== 'undefined') 
+					addAction(_zone.configuration.action.in[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionIn').find('.div_action'));
 			}
 		}
 		if (typeof(_zone.configuration.action.out) !== 'undefined') {
-			for(var index in _zone.configuration.action.out) { 
-				addAction(_zone.configuration.action.out[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionOut').find('.div_action'));
+			for(var index in _zone.configuration.action.out) { 				
+				if (typeof(_zone.configuration.action.out[index]) !== 'undefined') 
+					addAction(_zone.configuration.action.out[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionOut').find('.div_action'));
 			}
 		}
 	}

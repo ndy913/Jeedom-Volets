@@ -72,16 +72,28 @@ function saveEqLogic(_eqLogic) {
 }
 function addCmdToTable(_cmd) {
 	if (!isset(_cmd)) {
-		var _cmd = {name:"Nouveau",configuration: {}};
+		var _cmd = {configuration: {}};
 		bootbox.prompt("Nom ?", function (result) {
 			if (result !== null && result != '') 
 				_cmd.name= result;
+				AddZone(_cmd);
 		});
 	}
-	AddZone(_cmd);
+	else
+		AddZone(_cmd);
+	
+}
+function AddZone(_zone){
+	if (init(_zone.name) == '') {
+      		return;
+   	}
+	if (init(_zone.icon) == '') {
+     	   // _zone.icon = '<i class="icon fa fa-dot-circle-o"><\/i>';
+    	    _zone.icon = '';
+  	  }
 	var Coordinates;
-	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") {
-		Coordinates = _cmd.logicalId; 
+	if (typeof(_zone.logicalId) !== 'undefined' && _zone.logicalId != "") {
+		Coordinates = _zone.logicalId; 
 		Coordinates.Center.lat=parseFloat(Coordinates.Center.lat);
 		Coordinates.Center.lng=parseFloat(Coordinates.Center.lng);
 		Coordinates.Position.lat=parseFloat(Coordinates.Position.lat);
@@ -97,35 +109,25 @@ function addCmdToTable(_cmd) {
 		position: Coordinates.Center,
 		map: map,
 		draggable:true,
-		title: _cmd.name
+		title: _zone.name
 	  });
 	var angle=new google.maps.Marker({
 		position:Coordinates.Position,
 		map: map,
 		draggable:true,
-		title: _cmd.name
+		title: _zone.name
 	  });
 	TracePolyLigne(Coordinates);
 	google.maps.event.addListener(position,'drag', function(event) {
 		Coordinates.Center=event.latLng;
 		TracePolyLigne(Coordinates);
-		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
+		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
 	google.maps.event.addListener(angle,'drag', function(event) {
 		Coordinates.Position=event.latLng;
 		TracePolyLigne(Coordinates);
-		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
+		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
-}
-function AddZone(_zone){
-	if (init(_zone.name) == '') {
-      		return;
-   	}
-	if (init(_zone.icon) == '') {
-     	   // _zone.icon = '<i class="icon fa fa-dot-circle-o"><\/i>';
-    	    _zone.icon = '';
-  	  }
-	
 	if ($('#tab_zones #' + init(_zone.id)).length == 0) {
 		$('#tab_zones').append($('<li id="' +init(_zone.id) + '">')
 			.append($('<a href="#tab_' + init(_zone.id) + '">')

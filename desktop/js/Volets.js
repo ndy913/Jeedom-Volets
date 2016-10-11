@@ -94,7 +94,7 @@ function AddZone(_zone){
      	   // _zone.icon = '<i class="icon fa fa-dot-circle-o"><\/i>';
     	    _zone.icon = '';
   	  }
-	if($('#tab_new').length>0;
+	if($('#tab_new').length>0)
 		$('#tab_new').remove();
 	if (_zone.id != "new" && $('#tab_zones #' + init(_zone.id)).length == 0) {
 		$('#tab_zones').append($('<li id="' +init(_zone.id) + '">')

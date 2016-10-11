@@ -227,8 +227,8 @@ function addAction(_action, _name, _el) {
 				.append($('<i class="fa fa-list-alt">'))))
 		.append($('<div class="col-lg-3">')
 			.append($('<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" />')))
-		.append($('<div class="col-lg-6 actionOptions">')
-    			.append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))))
+		/*.append($('<div class="col-lg-6 actionOptions">')
+    			.append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))))*/
  		.append($('<div class="col-lg-1">')
   			.append($('<i class="fa fa-minus-circle pull-left cursor bt_removeAction">')));
         _el.append(div);

@@ -75,8 +75,7 @@ function addCmdToTable(_cmd) {
 		var _cmd = {configuration: {}};
 		bootbox.prompt("Nom ?", function (result) {
 			if (result !== null && result != '') 
-				_cmd.name= result;
-				AddZone(_cmd);
+				AddZone({name: result});
 		});
 	}
 	else

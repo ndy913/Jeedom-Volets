@@ -63,6 +63,7 @@ function saveEqLogic(_eqLogic) {
     }	
 	if (typeof( _eqLogic.cmd) !== 'undefined') {
 		for(var index in  _eqLogic.cmd) { 
+			_eqLogic.cmd[index].configuration.action=new Object();
 			 _eqLogic.cmd[index].configuration.action.in=$('#tab_' +init(_eqLogic.cmd[index].id+' .ActionIn')).getValues('.expressionAttr');
 			 _eqLogic.cmd[index].configuration.action.out=$('#tab_' +init(_eqLogic.cmd[index].id+' .ActionOut')).getValues('.expressionAttr');
 		}

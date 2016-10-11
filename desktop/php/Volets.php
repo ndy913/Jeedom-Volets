@@ -98,7 +98,7 @@ $eqLogics = eqLogic::byType('Volets');
 		</div>
 		<div class="row" style="padding-left:25px;">
 			<ul class="nav nav-tabs" id="tab_zones">	
-				<li><a class="btn tooltips cmdAction" data-action="add"><i class="fa fa-plus-circle"></i> {{Ajouter}}</a></li>
+				<li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li>
 				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>
 				
 			</ul>
@@ -122,16 +122,6 @@ $eqLogics = eqLogic::byType('Volets');
 				</div>
 			</div>
 		</div>
-		<!--legend><i class="fa fa-list-alt"></i>  {{Mes Zones}}</legend>
-		<a class="btn btn-success btn-sm cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>Ajouter une zone</a>
-		<table id="table_cmd" class="table table-bordered table-condensed">
-			<thead>
-				<tr>
-					<th style="width: 300px;">{{Nom}}</th><th>{{Type}}</th><th>{{Options}}</th><th>{{Actions}}</th>
-				</tr>
-			</thead>
-			<tbody></tbody>
-		</table-->
 		<form class="form-horizontal">
 			<fieldset>
 				<div class="form-actions">

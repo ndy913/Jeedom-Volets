@@ -140,6 +140,11 @@ function AddZone(_zone){
 			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" />'))
 			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized"/>')));
 	$('.tab-content').append(NewMode);
+	$('.tab-content').find('#tab_' +init(_zone.id)).setValues(_zone, '.cmdAttr');
+	$('#tab_zones a').on('click', function (e) {
+		e.preventDefault();
+		$(this).tab('show');
+	});	
 	if (typeof(_zone.configuration.action) !== 'undefined') {
 		/*_zone.configuration.action.each(function(index, value) {
 			addAction(value,  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)).find('.div_action'));
@@ -148,11 +153,6 @@ function AddZone(_zone){
 			addAction(_zone.configuration.action[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)).find('.div_action'));
 		}
 	}
-	$('.tab-content').find('#tab_' +init(_zone.id)).setValues(_zone, '.cmdAttr');
-	$('#tab_zones a').on('click', function (e) {
-		e.preventDefault();
-		$(this).tab('show');
-	});
 }
 function addAction(_action, _name, _el) {
 	if (!isset(_action)) {
@@ -161,14 +161,14 @@ function addAction(_action, _name, _el) {
 	if (!isset(_action.options)) {
 		_action.options = {};
 	}
-    var div = $('<div class="form-group">')
+    	var div = $('<div class="form-group">')
   		.append($('<label class="col-lg-1 control-label">')
 			.text(_name))
    		.append($('<div class="col-lg-1">')
     			.append($('<a class="btn btn-warning btn-sm listCmdAction" >')
 					.append($('<i class="fa fa-list-alt">'))))
 		.append($('<div class="col-lg-3">')
-			.append($('<input class="form-control input-sm cmdAttr" data-l1key="configuration" data-l2key="action"/>')))
+			.append($('<input class="form-control input-sm cmdAttr expressionAttr" data-l1key="configuration" data-l2key="action"/>')))
    		.append($('<div class="col-lg-6 actionOptions">')
     			.append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))))
  		.append($('<div class="col-lg-1">')

@@ -194,7 +194,7 @@ function AddZone(_zone){
 							.text('{{Ajouter Action}}')))
 					.append($('<div class="div_action">')))));
 	$('.cmd[data-cmd_id=' + init(_zone.id)+ '] .tab-content').append(NewMode);
-	('.cmd[data-cmd_id=' + init(_zone.id)+ '] .tab-content').find('#tab_' +init(_zone.id)).setValues(_zone, '.cmdAttr');
+	$('.cmd[data-cmd_id=' + init(_zone.id)+ '] .tab-content').find('#tab_' +init(_zone.id)).setValues(_zone, '.cmdAttr');
 	if(_zone.id =="new")
 		('.cmd[data-cmd_id=' + init(_zone.id)+ '] .tab-content #tab_' +init(_zone.id)).find('.cmdAttr[data-l1key=id]').val('');
 	$('#tab_zones a').on('click', function (e) {
@@ -205,13 +205,13 @@ function AddZone(_zone){
 		if (typeof(_zone.configuration.action.in) !== 'undefined') {
 			for(var index in _zone.configuration.action.in) { 
 				if( (typeof _zone.configuration.action.in[index] === "object") && (_zone.configuration.action.in[index] !== null) )
-					addAction(_zone.configuration.action.in[index],  '{{Action}}',('.cmd[data-cmd_id=' + init(_zone.id)+ '] .tab-content #tab_' +init(_zone.id)+' .ActionIn').find('.div_action'));
+					addAction(_zone.configuration.action.in[index],  '{{Action}}',$('.cmd[data-cmd_id=' + init(_zone.id)+ '] .tab-content #tab_' +init(_zone.id)+' .ActionIn').find('.div_action'));
 			}
 		}
 		if (typeof(_zone.configuration.action.out) !== 'undefined') {
 			for(var index in _zone.configuration.action.out) { 
 				if( (typeof _zone.configuration.action.out[index] === "object") && (_zone.configuration.action.out[index] !== null) )
-					addAction(_zone.configuration.action.out[index],  '{{Action}}',('.cmd[data-cmd_id=' + init(_zone.id)+ '] .tab-content #tab_' +init(_zone.id)+' .ActionOut').find('.div_action'));
+					addAction(_zone.configuration.action.out[index],  '{{Action}}',$('.cmd[data-cmd_id=' + init(_zone.id)+ '] .tab-content #tab_' +init(_zone.id)+' .ActionOut').find('.div_action'));
 			}
 		}
 	}

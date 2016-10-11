@@ -229,7 +229,7 @@ $('#tab_zones a').click(function(e) {
 });
 
 $('body').on('click','.ActionAttr[data-action=add]',function(){
-	addAction({},  '{{Action}}',$(this).closest('.cmd').find('.div_action'));
+	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_action'));
 });
 $('body').on('click','.modeAction[data-l1key=removeIcon]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id");

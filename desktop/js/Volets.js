@@ -56,6 +56,18 @@ function TracePolyLigne(Coordinates) {
 		strokeWeight: 2
 	});
 }
+function saveEqLogic(_eqLogic) {
+	var state_order = '';
+    if (!isset(_eqLogic.configuration)) {
+        _eqLogic.configuration = {};
+    }	
+	if (typeof( _eqLogic.cmd) !== 'undefined') {
+		for(var index in  _eqLogic.cmd) { 
+			 _eqLogic.cmd[index].configration.action= $('#tab_' +init(_eqLogic.cmd[index].id) + '">').getValues('.expressionAttr');
+		}
+	}
+    return _eqLogic;
+}
 function addCmdToTable(_cmd) {
 	if (!isset(_cmd)) {
 	var _cmd = {configuration: {}};
@@ -205,7 +217,7 @@ $('body').on('click','.modeAction[data-l1key=removeZone]', function () {
 	$(this).closest('.cmd').remove();
 });
 $("body").on('click', ".listCmdAction", function() {
-    	var el = $(this).closest('.form-group').find('.cmdAttr[data-l1key=configuration][data-l2key=action]');
+    	var el = $(this).closest('.form-group').find('.expressionAttr[data-l1key=cmd]');
     	jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function(result) {
 		el.value(result.human);
         	jeedom.cmd.displayActionOption(el.value(), '', function(html) {

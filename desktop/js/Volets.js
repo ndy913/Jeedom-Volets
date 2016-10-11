@@ -72,11 +72,12 @@ function saveEqLogic(_eqLogic) {
 }
 function addCmdToTable(_cmd) {
 	if (!isset(_cmd)) {
-	var _cmd = {configuration: {}};
-	bootbox.prompt("Nom ?", function (result) {
-		if (result !== null && result != '') 
-			_cmd.name= result;
-	});
+		var _cmd = {configuration: {}};
+		_cmd.name= "Nouveau";
+		bootbox.prompt("Nom ?", function (result) {
+			if (result !== null && result != '') 
+				_cmd.name= result;
+		});
 	}
 	AddZone(_cmd);
 	var Coordinates;

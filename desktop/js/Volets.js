@@ -191,8 +191,8 @@ function AddZone(_zone){
 					.append($('<div class="div_action">')))));
 	$('.tab-content').append(NewMode);
 	$('.tab-content').find('#tab_' +init(_zone.id)).setValues(_zone, '.cmdAttr');
-	if((_zone.id =="new")
-		$('.tab-content').find('#tab_' +init(_zone.id)).find('.cmdAttr[data-l1key=id]').val('');
+	if(_zone.id =="new")
+		$('.tab-content #tab_' +init(_zone.id)).find('.cmdAttr[data-l1key=id]').val('');
 	$('#tab_zones a').on('click', function (e) {
 		e.preventDefault();
 		$(this).tab('show');

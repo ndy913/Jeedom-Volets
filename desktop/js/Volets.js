@@ -74,8 +74,7 @@ function addCmdToTable(_cmd) {
 	if (!isset(_cmd)) {
 	var _cmd = {configuration: {}};
 	}
-	
-	if(_cmd.name ==''){
+	if (typeof(_cmd.name) !== 'undefined') {
 		bootbox.prompt("Nom ?", function (result) {
 			if (result !== null && result != '') 
 				_cmd.name= result;

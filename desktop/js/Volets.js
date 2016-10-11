@@ -262,3 +262,9 @@ $("body").on('click', ".listCmdAction", function() {
 $('body').on('click','.bt_removeAction', function () {
 	var zoneId = $(this).closest('.form-group').remove();
 });
+$('body').on( 'click','.bt_selectCmdExpression', function() {
+	var _this=this;
+	jeedom.cmd.getSelectModal({cmd: {type: 'info'},eqLogic: {eqType_name : ''}}, function (result) {
+		$(_this).closest('.input-group').find('.cmdAttr').val(result.human);
+	});
+});  

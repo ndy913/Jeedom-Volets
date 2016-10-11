@@ -203,14 +203,14 @@ function AddZone(_zone){
 	if (typeof(_zone.configuration.action) !== 'undefined') {
 		if (typeof(_zone.configuration.action.in) !== 'undefined') {
 			for(var index in _zone.configuration.action.in) { 
-				if (typeof(_zone.configuration.action.in[index]) !== 'undefined') 
-					addAction(_zone.configuration.action.in[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionIn').find('.div_action'));
+				alert(_zone.configuration.action.in[index]);
+				addAction(_zone.configuration.action.in[index],  '{{Action}}',$('.tab-content #tab_' +init(_zone.id)+' .ActionIn').find('.div_action'));
 			}
 		}
 		if (typeof(_zone.configuration.action.out) !== 'undefined') {
-			for(var index in _zone.configuration.action.out) { 				
-				if (typeof(_zone.configuration.action.out[index]) !== 'undefined') 
-					addAction(_zone.configuration.action.out[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionOut').find('.div_action'));
+			for(var index in _zone.configuration.action.out) { 
+				alert(_zone.configuration.action.out[index]);
+				addAction(_zone.configuration.action.out[index],  '{{Action}}',$('.tab-content #tab_' +init(_zone.id)+' .ActionOut').find('.div_action'));
 			}
 		}
 	}

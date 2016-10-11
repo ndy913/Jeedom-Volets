@@ -122,7 +122,7 @@ function AddZone(_zone){
     	    _zone.icon = '';
   	  }
 	
-	if (typeof($('#tab_zones #' + init(_zone.id))) == 'undefined') {
+	if (typeof($('#tab_zones #' + init(_zone.id))) !== 'undefined') {
 		$('#tab_zones').append($('<li id="' +init(_zone.id) + '">')
 			.append($('<a href="#tab_' + init(_zone.id) + '">')
 				.append($(_zone.icon))

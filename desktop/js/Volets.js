@@ -127,6 +127,13 @@ function AddZone(_zone){
 
 	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" id="tab_' +init(_zone.id) + '">')	
 		.append($('<div class="row">')
+			.append($('<input class="cmdAttr" data-l1key="id"  style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="logicalId" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="name" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="type" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="subType" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" style="display : none;" />'))
+			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized" style="display : none;"/>'))
 			.append($('<div class="btn-group pull-right" role="group">')
 				.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="chooseIcon">')
 					.append($('<i class="fa fa-flag">'))
@@ -155,7 +162,8 @@ function AddZone(_zone){
 						.append($('<i class="fa fa-question-circle tooltips" style="font-size : 1em;color:grey;" title="Choisissez un objet jeedom contenant la valeur de votre commande">'))))
 				.append($('<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="SeuilTemp">')))))
 		.append($('<div class="row">')
-			.append($('<div class="col-lg-6">')
+			.append($('<div class="col-lg-6 ActionIn">')
+				.append($('<input class="cmdAttr" data-l1key="configuraton" data-l2key="action" data-l3key="in" style="display : none;"/>'))
 				.append($('<form class="form-horizontal">')
 					.append($('<legend>')
 						.text('{{Ajouter les actions a mener lorsque le soleil est dans la zone :}}')
@@ -163,32 +171,29 @@ function AddZone(_zone){
 							.append($('<i class="fa fa-plus-circle">'))
 							.text('{{Ajouter Action}}')))
 					.append($('<div class="div_action">'))))
-			.append($('<div class="col-lg-6">')
+			.append($('<div class="col-lg-6 ActionOut">')
+				.append($('<input class="cmdAttr" data-l1key="configuraton" data-l2key="action" data-l3key="out" style="display : none;"/>'))
 				.append($('<form class="form-horizontal">')
 					.append($('<legend>')
 						.text('{{Ajouter les actions a mener lorsque le soleil n\'est pas dans la zone :}}')
 						.append($('<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">')
 							.append($('<i class="fa fa-plus-circle">'))
 							.text('{{Ajouter Action}}')))
-					.append($('<div class="div_action">')))))
-		.append($('<form class="form-horizontal">')
-			.append($('<input class="cmdAttr" data-l1key="id"  style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="logicalId" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="name" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="type" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="subType" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="configuraton" data-l2key="action"  style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" style="display : none;" />'))
-			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized" style="display : none;"/>')));
+					.append($('<div class="div_action">')))));
 	$('.tab-content').append(NewMode);
 	$('.tab-content').find('#tab_' +init(_zone.id)).setValues(_zone, '.cmdAttr');
 	$('#tab_zones a').on('click', function (e) {
 		e.preventDefault();
 		$(this).tab('show');
 	});	
-	if (typeof(_zone.configuration.action) !== 'undefined') {
-		for(var index in _zone.configuration.action) { 
-			addAction(_zone.configuration.action[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)).find('.div_action'));
+	if (typeof(_zone.configuration.action.in) !== 'undefined') {
+		for(var index in _zone.configuration.action.in) { 
+			addAction(_zone.configuration.action.in[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionIn').find('.div_action'));
+		}
+	}
+	if (typeof(_zone.configuration.action.out) !== 'undefined') {
+		for(var index in _zone.configuration.action.out) { 
+			addAction(_zone.configuration.action.out[index],  '{{Action}}',$('.tab-content').find('#tab_' +init(_zone.id)+' .ActionOut').find('.div_action'));
 		}
 	}
 }

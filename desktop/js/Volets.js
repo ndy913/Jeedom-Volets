@@ -63,7 +63,7 @@ function saveEqLogic(_eqLogic) {
     }	
 	if (typeof( _eqLogic.cmd) !== 'undefined') {
 		for(var index in  _eqLogic.cmd) { 
-			 _eqLogic.cmd[index].configration.action= $('#tab_' +init(_eqLogic.cmd[index].id)).getValues('.expressionAttr');
+			 _eqLogic.cmd[index].configration.push(action,$('#tab_' +init(_eqLogic.cmd[index].id)).getValues('.expressionAttr'));
 		}
 	}
     return _eqLogic;

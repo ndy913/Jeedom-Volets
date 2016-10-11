@@ -154,14 +154,14 @@ function AddZone(_zone){
 							.text('{{Ajouter Action}}')))
 					.append($('<div class="div_action">')))))
 		.append($('<form class="form-horizontal">')
-			.append($('<input class="cmdAttr" data-l1key="id"/>'))
-			.append($('<input class="cmdAttr" data-l1key="logicalId"/>'))
-			.append($('<input class="cmdAttr" data-l1key="name"/>'))
-			.append($('<input class="cmdAttr" data-l1key="type"/>'))
-			.append($('<input class="cmdAttr" data-l1key="subType"/>'))
-			.append($('<input class="cmdAttr" data-l1key="configuraton" data-l2key="action" />'))
-			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" />'))
-			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized"/>')));
+			.append($('<input class="cmdAttr" data-l1key="id"  style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="logicalId" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="name" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="type" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="subType" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="configuraton" data-l2key="action"  style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" style="display : none;" />'))
+			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized" style="display : none;"/>')));
 	$('.tab-content').append(NewMode);
 	$('.tab-content').find('#tab_' +init(_zone.id)).setValues(_zone, '.cmdAttr');
 	$('#tab_zones a').on('click', function (e) {

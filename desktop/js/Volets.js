@@ -65,7 +65,7 @@ function saveEqLogic(_eqLogic) {
 		for(var index in  _eqLogic.cmd) { 
 			_eqLogic.cmd[index].configuration.action=new Object();
 			var cmdParameters=$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id) + ']');
-			alert('test');
+			alert(_eqLogic.cmd[index].name + " => "+cmdParameters.find('.expressionAttr').length);
 			_eqLogic.cmd[index].configuration.action.in=cmdParameters.find('.ActionIn').getValues('.expressionAttr');
 			_eqLogic.cmd[index].configuration.action.out=cmdParameters.find('ActionOut').getValues('.expressionAttr');
 		}

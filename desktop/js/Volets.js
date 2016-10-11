@@ -223,7 +223,7 @@ function addAction(_action, _name, _el) {
 	if (!isset(_action.options)) {
 		_action.options = {};
 	}
-    	var div = $('<div class="form-group">')
+    	var div = $('<div class="form-group ActionGroup">')
   		.append($('<label class="col-lg-1 control-label">')
 			.text(_name))
    		.append($('<div class="col-lg-1">')
@@ -276,7 +276,7 @@ $("body").on('click', ".listCmdAction", function() {
 });
 
 $('body').on('click','.bt_removeAction', function () {
-	var zoneId = $(this).closest('.form-group').remove();
+	var zoneId = $(this).closest('.ActionGroup').remove();
 });
 $('body').on( 'click','.bt_selectCmdExpression', function() {
 	var _this=this;

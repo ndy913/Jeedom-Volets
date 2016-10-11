@@ -111,7 +111,14 @@ function addCmdToTable(_cmd) {
 		TracePolyLigne(Coordinates);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
-	AddZone(_cmd);
+	if(_cmd.name ==''){
+		bootbox.prompt("Nom ?", function (result) {
+			if (result !== null && result != '') 
+				AddZone({name: result});
+		});
+	}
+	else
+		AddZone(_cmd);
 }
 function AddZone(_zone){
 	if (init(_zone.name) == '') {

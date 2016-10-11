@@ -102,7 +102,7 @@ $eqLogics = eqLogic::byType('Volets');
 				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>
 				
 			</ul>
-			<div class="tab-content">
+			<div class="tab-content TabCmdZone">
 				<div class="tab-pane" id="tab_parametre">
 					<br/>
 					<form class="form-horizontal">

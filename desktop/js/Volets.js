@@ -74,6 +74,14 @@ function addCmdToTable(_cmd) {
 	if (!isset(_cmd)) {
 	var _cmd = {configuration: {}};
 	}
+	
+	if(_cmd.name ==''){
+		bootbox.prompt("Nom ?", function (result) {
+			if (result !== null && result != '') 
+				_cmd.name= result;
+		});
+	}
+	AddZone(_cmd);
 	var Coordinates;
 	if (typeof(_cmd.logicalId) !== 'undefined' && _cmd.logicalId != "") {
 		Coordinates = _cmd.logicalId; 
@@ -111,14 +119,6 @@ function addCmdToTable(_cmd) {
 		TracePolyLigne(Coordinates);
 		$('.cmd[data-cmd_id=' + init(_cmd.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
-	if(_cmd.name ==''){
-		bootbox.prompt("Nom ?", function (result) {
-			if (result !== null && result != '') 
-				AddZone({name: result});
-		});
-	}
-	else
-		AddZone(_cmd);
 }
 function AddZone(_zone){
 	if (init(_zone.name) == '') {

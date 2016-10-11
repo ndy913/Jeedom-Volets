@@ -67,15 +67,12 @@ class VoletsCmd extends cmd {
 					       $Coord['Position']['lng']);
 			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
 			//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
-			if($Azimuth>$Angle&&$Azimuth>$Angle-180){
-				$value=true;
-			}
+			if($Azimuth>$Angle&&$Azimuth>$Angle-180)
+				$action=json_decode($this->getConfiguration('action'),true)['in'];
 			else
-				$value=false;
-			log::add('Volets','debug','Le statut de la zone est a '.$value);
-			$this->setCollectDate(date('Y-m-d H:i:s'));
-			$this->save();
-			$this->event($value);
+				$action=json_decode($this->getConfiguration('action'),true)['out'];
+			foreach($action as $cmd
+				cmd::byId($cmd['cmd'])->execute($cmd['option']
 		}
     }
 }

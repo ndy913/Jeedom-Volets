@@ -100,11 +100,12 @@ function AddZone(_zone){
 		_zone.configuration.Gauche.lat=parseFloat(_zone.configuration.Gauche.lat);
 		_zone.configuration.Gauche.lng=parseFloat(_zone.configuration.Gauche.lng);
 	}else {
-		alert('Création de la zone');
+		_zone.configuration.Droit= new Object();
 		_zone.configuration.Droit=Center;
 		_zone.configuration.Gauche= new Object();
 		_zone.configuration.Gauche.lat=_zone.configuration.Droit.lat;
 		_zone.configuration.Gauche.lng=_zone.configuration.Droit.lng+ (1 / 3600);
+		alert('Création de la zone '+_zone.configuration.Gauche.lat+' '+_zone.configuration.Gauche.lng);
 	}
 	var Coordinates=[_zone.configuration.Droit,_zone.configuration.Gauche];
 	var Droit=new google.maps.Marker({

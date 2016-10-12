@@ -105,7 +105,6 @@ function AddZone(_zone){
 		_zone.configuration.Gauche= new Object();
 		_zone.configuration.Gauche.lat=_zone.configuration.Droit.lat;
 		_zone.configuration.Gauche.lng=_zone.configuration.Droit.lng+ (1 / 3600);
-		alert('Création de la zone '+_zone.configuration.Gauche.lat+' '+_zone.configuration.Gauche.lng);
 	}
 	var Coordinates=[_zone.configuration.Droit,_zone.configuration.Gauche];
 	var Droit=new google.maps.Marker({
@@ -123,11 +122,13 @@ function AddZone(_zone){
 	TracePolyLigne(Coordinates);
 	google.maps.event.addListener(Droit,'drag', function(event) {
 		_zone.configuration.Droit=event.latLng;
+		alert('Modification Droit '+_zone.configuration.Droit.lat+' '+_zone.configuration.Droit.lng);
 		TracePolyLigne(Coordinates);
 		//$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
 	google.maps.event.addListener(Gauche,'drag', function(event) {
 		_zone.configuration.Gauche=event.latLng;
+		alert('Modification Gauche '+_zone.configuration.Gauche.lat+' '+_zone.configuration.Gauche.lng);
 		TracePolyLigne(Coordinates);
 		//$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});

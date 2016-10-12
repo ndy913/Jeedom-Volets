@@ -146,7 +146,7 @@ function AddZone(_zone){
 			.append($('<input class="cmdAttr" data-l1key="name" style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="type" value="action" style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="subType" value="other" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="configuration" data-l2key="Droite" />'))
+			.append($('<input class="cmdAttr" data-l1key="configuration" data-l2key="Droit" />'))
 			.append($('<input class="cmdAttr" data-l1key="configuration" data-l2key="Gauche" />'))
 			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" style="display : none;" />'))
 			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized" style="display : none;"/>'))

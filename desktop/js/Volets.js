@@ -123,12 +123,12 @@ function AddZone(_zone){
 	google.maps.event.addListener(Droit,'drag', function(event) {
 		Coordinates[0]=event.latLng;
 		TracePolyLigne(Coordinates);
-		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l1key=Droit]').val(JSON.stringify(event.latLng));
+		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Droit]').val(JSON.stringify(event.latLng));
 	});
 	google.maps.event.addListener(Gauche,'drag', function(event) {
 		Coordinates[1]=event.latLng;
 		TracePolyLigne(Coordinates);
-		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l1key=Gauche]').val(JSON.stringify(event.latLng));
+		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
 	});
 	
 	/*if($('#tab_new').length>0)
@@ -146,8 +146,8 @@ function AddZone(_zone){
 			.append($('<input class="cmdAttr" data-l1key="name" style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="type" value="action" style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="subType" value="other" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="configuration" data-l2key="Droite" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="configuration" data-l2key="Gauche" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="configuration" data-l2key="Droite" />'))
+			.append($('<input class="cmdAttr" data-l1key="configuration" data-l2key="Gauche" />'))
 			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" style="display : none;" />'))
 			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized" style="display : none;"/>'))
 			.append($('<div class="btn-group pull-right" role="group">')

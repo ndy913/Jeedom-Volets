@@ -132,7 +132,8 @@ function AddZone(_zone){
 		TracePolyLigne(Coordinates);
 		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
 	});
-	
+	if($('#tab_new').lenght >0)
+		$('#tab_new').remove();
 	if ($('#tab_zones #' + init(_zone.id)).length == 0) {
 		$('#tab_zones').append($('<li id="' +init(_zone.id) + '">')
 			.append($('<a href="#tab_' + init(_zone.id) + '">')

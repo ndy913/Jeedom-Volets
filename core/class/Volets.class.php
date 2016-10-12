@@ -113,12 +113,14 @@ class VoletsCmd extends cmd {
 			$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
 			log::add('Volets','debug','L\'angle du soleil est '.$Azimuth.'°');
 			//Calculer de l'angle de ma zone
-			$Coord=json_decode($this->getLogicalId(),true);
+			$Droite=json_decode($this->getConfiguration('Droit'),true);
+			$Gauche=json_decode($this->getConfiguration('Gauche'),true);
 			
-			$Angle=$this->getAngle($Coord['Center']['lat'],
-					       $Coord['Center']['lng'],
-					       $Coord['Position']['lat'],
-					       $Coord['Position']['lng']);
+			$Angle=$this->getAngle($Droite['lat'],
+					       $Droite['lng'],
+					       $Gauche['lat'],
+					       $Gauche['lng']);
+			$this->setConfiguration('Angle',$Angle-90);
 			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
 			//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 			if($Azimuth>$Angle&&$Azimuth>$Angle-180)

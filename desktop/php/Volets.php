@@ -55,10 +55,12 @@ $eqLogics = eqLogic::byType('Volets');
 				<legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Général}}<i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i></legend>
 				<div class="form-group">
 					<label class="col-lg-2 control-label">{{Nom de la Zone}}</label>
-						<div class="col-lg-2">
-							<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-							<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement Direct Energie}}"/>
-						</div>
+					<div class="col-lg-2">
+						<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+						<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement Direct Energie}}"/>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-lg-1 control-label" >{{Objet parent}}</label>
 					<div class="col-lg-2">
 						<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
@@ -111,6 +113,24 @@ $eqLogics = eqLogic::byType('Volets');
 							<div class="form-group">
 								<fieldset class="col-md-6">
 									<legend>{{Configuration}} </legend>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">{{Activation de la gestion par température}}</label>
+										<div class="col-sm-9">
+											<input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="EnableTemp"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">{{Activation de la gestion jours nuit}}</label>
+										<div class="col-sm-9">
+											<input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="EnableNight"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">{{Delais avant et apres la tombée de la nuit}}</label>
+										<div class="col-lg-2">
+											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AddDelais" placeholder="{{Delais avant et apres la tombée de la nuit}}"/>
+										</div>
+									</div>
 								</fieldset>
 								<fieldset class="col-md-6">
 									<legend>{{Affichage}} </legend>

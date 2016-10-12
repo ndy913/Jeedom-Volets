@@ -94,7 +94,7 @@ function AddZone(_zone){
      	   // _zone.icon = '<i class="icon fa fa-dot-circle-o"><\/i>';
     	    _zone.icon = '';
   	  }
-	if (typeof(_zone.configuration.Droit) !== 'undefined' && _zone.configuration.Droit != "") {
+	if (typeof(_zone.configuration.Droit) !== 'undefined' && _zone.configuration.Droit != "" && typeof(_zone.configuration.Gauche) !== 'undefined' && _zone.configuration.Gauche != "") {
 		_zone.configuration.Droit.lat=parseFloat(_zone.configuration.Droit.lat);
 		_zone.configuration.Droit.lng=parseFloat(_zone.configuration.Droit.lng);
 		_zone.configuration.Gauche.lat=parseFloat(_zone.configuration.Gauche.lat);
@@ -106,9 +106,7 @@ function AddZone(_zone){
 		_zone.configuration.Gauche.lat=_zone.configuration.Droit.lat;
 		_zone.configuration.Gauche.lng=_zone.configuration.Droit.lng+ (1 / 3600);
 	}	
-	$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Droit]').val(JSON.stringify(_zone.configuration.Droit));
-	$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(_zone.configuration.Gauche));
-		var Coordinates=[_zone.configuration.Droit,_zone.configuration.Gauche];
+	var Coordinates=[_zone.configuration.Droit,_zone.configuration.Gauche];
 	var Droit=new google.maps.Marker({
 		position: _zone.configuration.Droit,
 		map: map,
@@ -198,6 +196,8 @@ function AddZone(_zone){
 					.append($('<div class="div_action">')))));
 	$('.TabCmdZone').append(NewMode);
 	$('.TabCmdZone .cmd[data-cmd_id=' + init(_zone.id)+ ']').setValues(_zone, '.cmdAttr');
+	$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Droit]').val(JSON.stringify(_zone.configuration.Droit));
+	$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(_zone.configuration.Gauche));
 	/*if(_zone.id =="new")
 		('.TabCmdZone #tab_' +init(_zone.id)).find('.cmdAttr[data-l1key=id]').val('');*/
 	$('#tab_zones a').on('click', function (e) {

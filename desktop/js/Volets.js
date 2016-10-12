@@ -199,8 +199,6 @@ function AddZone(_zone){
 	$('.TabCmdZone .cmd[data-cmd_id=' + init(_zone.id)+ ']').setValues(_zone, '.cmdAttr');
 	$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Droit]').val(JSON.stringify(_zone.configuration.Droit));
 	$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(_zone.configuration.Gauche));
-	if(_zone.id =="new")
-		$('.TabCmdZone #tab_' +init(_zone.id)).find('.cmdAttr[data-l1key=id]').val('');
 	$('#tab_zones a').on('click', function (e) {
 		e.preventDefault();
 		$(this).tab('show');
@@ -218,7 +216,9 @@ function AddZone(_zone){
 					addAction(_zone.configuration.action.out[index],  '{{Action}}',$('.cmd[data-cmd_id=' + init(_zone.id)+ ']  .ActionOut').find('.div_action'));
 			}
 		}
-	}
+	}	
+	if(_zone.id =="new")
+		$('.TabCmdZone #tab_' +init(_zone.id)).find('.cmdAttr[data-l1key=id]').val('');
 }
 function addAction(_action, _name, _el) {
 	if (!isset(_action)) {

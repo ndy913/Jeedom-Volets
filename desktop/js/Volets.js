@@ -100,6 +100,7 @@ function AddZone(_zone){
 		_zone.configuration.Gauche.lat=parseFloat(_zone.configuration.Gauche.lat);
 		_zone.configuration.Gauche.lng=parseFloat(_zone.configuration.Gauche.lng);
 	}else {
+		alert('Création de la zone');
 		_zone.configuration.Droit=Center;
 		_zone.configuration.Gauche= new Object();
 		_zone.configuration.Gauche.lat=_zone.configuration.Droit.lat;

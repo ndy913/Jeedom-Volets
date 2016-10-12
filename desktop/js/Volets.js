@@ -200,7 +200,7 @@ function AddZone(_zone){
 	$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Droit]').val(JSON.stringify(_zone.configuration.Droit));
 	$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(_zone.configuration.Gauche));
 	if(_zone.id =="new")
-		('.TabCmdZone #tab_' +init(_zone.id)).find('.cmdAttr[data-l1key=id]').val('');
+		$('.TabCmdZone #tab_' +init(_zone.id)).find('.cmdAttr[data-l1key=id]').val('');
 	$('#tab_zones a').on('click', function (e) {
 		e.preventDefault();
 		$(this).tab('show');

@@ -132,8 +132,8 @@ function AddZone(_zone){
 		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
 	});
 	
-	if($('#tab_new').length>0)
-		$('#tab_new').remove();
+	/*if($('#tab_new').length>0)
+		$('#tab_new').remove();*/
 	if (_zone.id != "new" && $('#tab_zones #' + init(_zone.id)).length == 0) {
 		$('#tab_zones').append($('<li id="' +init(_zone.id) + '">')
 			.append($('<a href="#tab_' + init(_zone.id) + '">')

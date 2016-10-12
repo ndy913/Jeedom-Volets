@@ -10,26 +10,80 @@ class Volets extends eqLogic {
 				$Commande->execute();
 		}
 	}
+	public static function ActionJour($_option) {
+		foreach(eqLogic::byType() as $Zone){
+			$action=json_decode($Zone->getConfiguration('action'),true)['in'];
+			//$action=json_decode($Zone->getConfiguration('action'),true)['out'];
+			foreach($action as $cmd)
+				cmd::byId($cmd['cmd'])->execute($cmd['option']);
+		}
+	}
+	public static function ActionNuit($_option) {
+		foreach(eqLogic::byType() as $Zone){
+			//$action=json_decode($Zone->getConfiguration('action'),true)['in'];
+			$action=json_decode($Zone->getConfiguration('action'),true)['out'];
+			foreach($action as $cmd)
+				cmd::byId($cmd['cmd'])->execute($cmd['option']);
+		}
+	}
   	public function preUpdate() {
     	}  
    	public function preInsert() {
 	}    
     	public function postSave() {
-		log::add('Volets', 'info', 'Activation des déclencheurs : ');
-		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
-		if (!is_object($listener)) {
-		    $listener = new listener();
-		}
-		$listener->setClass('Volets');
-		$listener->setFunction('pull');
-		$listener->setOption(array('Volets_id' => intval($this->getId())));
-		$listener->emptyEvent();
-		
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
-		if(is_object($heliotrope))
-			$listener->addEvent($heliotrope->getCmd(null,'azimuth360'));
-		$listener->save();		
+		if(is_object($heliotrope)){
+			if($this->getConfiguration('EnableNight')){
+				$Jours=$heliotropegetCmd(null,'sunrise')->execCmd()-$this->getConfiguration('AddDelais');
+				$Nuit=$heliotropegetCmd(null,'sunset')->execCmd()+$this->getConfiguration('AddDelais');
+				$cron = cron::byClassAndFunction('Volets', 'ActionJour');
+				if (!is_object($cron)) {
+					$cron = new cron();
+					$cron->setClass('Volets');
+					$cron->setFunction('ActionJour');
+					$cron->setEnable(1);
+					$cron->setDeamon(0);
+					$cron->setSchedule($Jours . ' * * * *');
+					$cron->save();
+				}
+				else{
+					$cron->setSchedule($Jours . ' * * * *');
+					$cron->save();
+				}
+				$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
+				if (!is_object($cron)) {
+					$cron = new cron();
+					$cron->setClass('Volets');
+					$cron->setFunction('Update_cron');
+					$cron->setEnable(1);
+					$cron->setDeamon(0);
+					$cron->setSchedule($Nuit . ' * * * *');
+					$cron->save();
+				}
+				else{
+					$cron->setSchedule($Nuit . ' * * * *');
+					$cron->save();
+				}
+			}
+			if($this->getConfiguration('EnableTemp')){
+				log::add('Volets', 'info', 'Activation des déclencheurs : ');
+				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
+				if (!is_object($listener))
+				    $listener = new listener();
+				$listener->setClass('Volets');
+				$listener->setFunction('pull');
+				$listener->setOption(array('Volets_id' => intval($this->getId())));
+				$listener->emptyEvent();
+				$listener->addEvent($heliotrope->getCmd(null,'azimuth360'));
+				$listener->save();	
+			}
+		}
 	}	
+	public function preRemove() {
+		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
+		if (is_object($listener)) 
+			$listener->remove();
+	}
 }
 
 class VoletsCmd extends cmd {

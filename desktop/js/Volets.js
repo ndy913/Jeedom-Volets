@@ -105,8 +105,10 @@ function AddZone(_zone){
 		_zone.configuration.Gauche= new Object();
 		_zone.configuration.Gauche.lat=_zone.configuration.Droit.lat;
 		_zone.configuration.Gauche.lng=_zone.configuration.Droit.lng+ (1 / 3600);
-	}
-	var Coordinates=[_zone.configuration.Droit,_zone.configuration.Gauche];
+	}	
+	$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Droit]').val(JSON.stringify(_zone.configuration.Droit));
+	$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(_zone.configuration.Gauche));
+		var Coordinates=[_zone.configuration.Droit,_zone.configuration.Gauche];
 	var Droit=new google.maps.Marker({
 		position: _zone.configuration.Droit,
 		map: map,

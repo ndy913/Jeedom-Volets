@@ -67,6 +67,8 @@ function saveEqLogic(_eqLogic) {
 			var cmdParameters=$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id) + ']');
 			_eqLogic.cmd[index].configuration.action.in=cmdParameters.find('.ActionIn').getValues('.expressionAttr');
 			_eqLogic.cmd[index].configuration.action.out=cmdParameters.find('.ActionOut').getValues('.expressionAttr');
+			if(_eqLogic.cmd[index].id =="new")
+				_eqLogic.cmd[index].id=null;
 		}
 	}
     return _eqLogic;
@@ -79,7 +81,7 @@ function addCmdToTable(_cmd) {
 				_cmd.id="new";
 				_cmd.name=result;
 				AddZone(_cmd);
-			$('.eqLogicAction[data-action=save]').trigger('click');
+			//$('.eqLogicAction[data-action=save]').trigger('click');
 		});
 	}
 	else
@@ -217,8 +219,6 @@ function AddZone(_zone){
 			}
 		}
 	}	
-	if(_zone.id =="new")
-		$('.TabCmdZone #tab_' +init(_zone.id)).find('.cmdAttr[data-l1key=id]').val('');
 }
 function addAction(_action, _name, _el) {
 	if (!isset(_action)) {

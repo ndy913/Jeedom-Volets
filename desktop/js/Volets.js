@@ -121,16 +121,14 @@ function AddZone(_zone){
 	  });
 	TracePolyLigne(Coordinates);
 	google.maps.event.addListener(Droit,'drag', function(event) {
-		_zone.configuration.Droit=event.latLng;
-		alert('Modification Droit '+_zone.configuration.Droit.lat+' '+_zone.configuration.Droit.lng);
+		Coordinates[0]=event.latLng;
 		TracePolyLigne(Coordinates);
-		//$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
+		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l1key=Droit]').val(JSON.stringify(event.latLng));
 	});
 	google.maps.event.addListener(Gauche,'drag', function(event) {
-		_zone.configuration.Gauche=event.latLng;
-		alert('Modification Gauche '+_zone.configuration.Gauche.lat+' '+_zone.configuration.Gauche.lng);
+		Coordinates[1]=event.latLng;
 		TracePolyLigne(Coordinates);
-		//$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=logicalId]').val(JSON.stringify(Coordinates));
+		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l1key=Gauche]').val(JSON.stringify(event.latLng));
 	});
 	
 	/*if($('#tab_new').length>0)
@@ -148,6 +146,8 @@ function AddZone(_zone){
 			.append($('<input class="cmdAttr" data-l1key="name" style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="type" value="action" style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="subType" value="other" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="configuration" data-l2key="Droite" style="display : none;"/>'))
+			.append($('<input class="cmdAttr" data-l1key="configuration" data-l2key="Gauche" style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" style="display : none;" />'))
 			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized" style="display : none;"/>'))
 			.append($('<div class="btn-group pull-right" role="group">')

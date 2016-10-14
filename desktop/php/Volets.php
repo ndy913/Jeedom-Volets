@@ -75,8 +75,10 @@ $eqLogics = eqLogic::byType('Volets');
 				<div class="form-group">
 					<label class="col-sm-2 control-label" ></label>
 					<div class="col-sm-9">
-						<input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
-						<input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
+						<label>{{Activer}}</label>
+						<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
+						<label>{{Visible}}</label>
+						<input type="checkbox" class="eqLogicAttr" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
 					</div>
 				</div>
 				<legend><i class="fa fa-wrench"></i>  {{Configuration}}</legend>

@@ -69,11 +69,11 @@ function saveEqLogic(_eqLogic) {
 			var outArray= new Array();
 			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ ']  .ActionIn .ActionGroup').each(function( index ) {
 				//console.log( index + ": " + $( this ).text() );
-				inArray.push(index.getValues('.expressionAttr'))
+				inArray.push($(this).getValues('.expressionAttr'))
 			});
 			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ ']  .ActionOut .ActionGroup').each(function( index ) {
 				//console.log( index + ": " + $( this ).text() );
-				outArray.push(index.getValues('.expressionAttr'))
+				outArray.push($(this).getValues('.expressionAttr'))
 			});
 			_eqLogic.cmd[index].configuration.action.in=inArray;//cmdParameters.find('.ActionIn').getValues('.expressionAttr');
 			_eqLogic.cmd[index].configuration.action.out=outArray;//cmdParameters.find('.ActionOut').getValues('.expressionAttr');

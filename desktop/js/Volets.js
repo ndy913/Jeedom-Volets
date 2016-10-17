@@ -65,8 +65,18 @@ function saveEqLogic(_eqLogic) {
 		for(var index in  _eqLogic.cmd) { 
 			_eqLogic.cmd[index].configuration.action=new Object();
 			var cmdParameters=$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id) + ']');
-			_eqLogic.cmd[index].configuration.action.in=cmdParameters.find('.ActionIn').getValues('.expressionAttr');
-			_eqLogic.cmd[index].configuration.action.out=cmdParameters.find('.ActionOut').getValues('.expressionAttr');
+			var inArray= new Array();
+			var outArray= new Array();
+			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ ']  .ActionIn .ActionGroup').each(function( index ) {
+				//console.log( index + ": " + $( this ).text() );
+				inArray.push(index.getValues('.expressionAttr'))
+			});
+			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ ']  .ActionOut .ActionGroup').each(function( index ) {
+				//console.log( index + ": " + $( this ).text() );
+				outArray.push(index.getValues('.expressionAttr'))
+			});
+			_eqLogic.cmd[index].configuration.action.in=inArray;//cmdParameters.find('.ActionIn').getValues('.expressionAttr');
+			_eqLogic.cmd[index].configuration.action.out=outArray;//cmdParameters.find('.ActionOut').getValues('.expressionAttr');
 			if(_eqLogic.cmd[index].id =="new")
 				_eqLogic.cmd[index].id=null;
 		}
@@ -251,6 +261,13 @@ $('#tab_zones a').click(function(e) {
     $(this).tab('show');
 });
 
+$('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
+  /*  var expression = $(this).closest('.ActionGroup').getValues('.expressionAttr');
+    var el = $(this);
+    jeedom.cmd.displayActionOption($(this).value(), init(expression[0].options), function (html) {
+        el.closest('.' + type).find('.actionOptions').html(html);
+    })*/
+});
 $('body').on('click','.ActionAttr[data-action=add]',function(){
 	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_action'));
 });

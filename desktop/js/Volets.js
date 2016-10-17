@@ -255,12 +255,12 @@ $('body').on('click','.ActionAttr[data-action=add]',function(){
 	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_action'));
 });
 $('body').on('click','.modeAction[data-l1key=removeIcon]', function () {
-	var zoneId = $(this).closest('.tabAttr').attr("id");
+	var zoneId = $(this).closest('.tabAttr').attr("id").replce('tab_','');
 	$('#' + zoneId ).find('.icon').parent().remove();
 	$(this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val('');
 });
 $('body').on('click','.modeAction[data-l1key=chooseIcon]', function () {
-	var zoneId = $(this).closest('.tabAttr').attr("id");
+	var zoneId = $(this).closest('.tabAttr').attr("id").replce('tab_','');
 	alert(zoneId);
 	var _this = this;
    	chooseIcon(function (_icon) {
@@ -270,7 +270,7 @@ $('body').on('click','.modeAction[data-l1key=chooseIcon]', function () {
     	});
 });
 $('body').on('click','.modeAction[data-l1key=removeZone]', function () {
-	var zoneId = $(this).closest('.tabAttr').attr("id");
+	var zoneId = $(this).closest('.tabAttr').attr("id").replce('tab_','');
 	$('#tab_zones #' + zoneId).parent().remove();
 	$(this).closest('.cmd').remove();
 });
@@ -284,7 +284,7 @@ $("body").on('click', ".listCmdAction", function() {
     	});
 });
 $('body').on('click','.bt_removeAction', function () {
-	var zoneId = $(this).closest('.ActionGroup').remove();
+	$(this).closest('.ActionGroup').remove();
 });
 $('body').on( 'click','.bt_selectCmdExpression', function() {
 	var _this=this;

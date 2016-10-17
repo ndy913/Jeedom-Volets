@@ -256,15 +256,16 @@ $('body').on('click','.ActionAttr[data-action=add]',function(){
 });
 $('body').on('click','.modeAction[data-l1key=removeIcon]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id");
-	$('#tab_zones #' + zoneId ).find('.icon').parent().remove();
+	$('#' + zoneId ).find('.icon').parent().remove();
 	$(this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val('');
 });
 $('body').on('click','.modeAction[data-l1key=chooseIcon]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id");
+	alert(zoneId);
 	var _this = this;
    	chooseIcon(function (_icon) {
 		alert(_icon);
-		$('#tab_zones #' + zoneId ).append(_icon);
+		$('#' + zoneId ).append(_icon);
 		$(_this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val('');
     	});
 });

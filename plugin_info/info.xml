@@ -9,5 +9,6 @@
 	<installation>Aucune</installation>
 	<category>organization</category>
    	<require>2.0</require>
+	<hasOwnDeamon>1</hasOwnDeamon>
 </info>
 

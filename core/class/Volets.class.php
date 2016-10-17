@@ -74,7 +74,7 @@ class Volets extends eqLogic {
 				$listener->setFunction('pull');
 				$listener->setOption(array('Volets_id' => intval($this->getId())));
 				$listener->emptyEvent();
-				$listener->addEvent($heliotrope->getCmd(null,'azimuth360'));
+				$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
 				$listener->save();	
 			}
 		}

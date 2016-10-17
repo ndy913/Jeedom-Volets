@@ -263,13 +263,14 @@ $('body').on('click','.modeAction[data-l1key=chooseIcon]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id");
 	var _this = this;
    	chooseIcon(function (_icon) {
+		alert(_icon);
 		$('#tab_zones #' + zoneId ).append(_icon);
 		$(_this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val('');
     	});
 });
 $('body').on('click','.modeAction[data-l1key=removeZone]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id");
-	$('#tab_zones #' + zoneId).parent.remove();
+	$('#tab_zones #' + zoneId).parent().remove();
 	$(this).closest('.cmd').remove();
 });
 $("body").on('click', ".listCmdAction", function() {

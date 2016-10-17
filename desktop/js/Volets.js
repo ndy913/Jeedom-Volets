@@ -158,6 +158,9 @@ function AddZone(_zone){
 		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
 		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Angle]').val(getAngle(Coordinates));
 	});
+	
+	if($('#new').lenght >0)
+		$('#new').remove();
 	if($('#tab_new').lenght >0)
 		$('#tab_new').remove();
 	if ($('#tab_zones #' + init(_zone.id)).length == 0) {

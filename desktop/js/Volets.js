@@ -261,17 +261,15 @@ $('body').on('click','.modeAction[data-l1key=removeIcon]', function () {
 });
 $('body').on('click','.modeAction[data-l1key=chooseIcon]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id").replace('tab_','');
-	alert(zoneId);
 	var _this = this;
    	chooseIcon(function (_icon) {
-		alert(_icon);
-		$('#' + zoneId ).append(_icon);
+		$('#' + zoneId + ' a').prepend(_icon);
 		$(_this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val('');
     	});
 });
 $('body').on('click','.modeAction[data-l1key=removeZone]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id").replace('tab_','');
-	$('#tab_zones #' + zoneId).parent().remove();
+	$('#' + zoneId).parent().remove();
 	$(this).closest('.cmd').remove();
 });
 $("body").on('click', ".listCmdAction", function() {

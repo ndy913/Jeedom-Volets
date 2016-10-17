@@ -118,13 +118,13 @@ $eqLogics = eqLogic::byType('Volets');
 									<div class="form-group">
 										<label class="col-sm-2 control-label">{{Activation de la gestion par température}}</label>
 										<div class="col-sm-9">
-											<input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="EnableTemp"/>
+											<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="EnableTemp"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-2 control-label">{{Activation de la gestion jours nuit}}</label>
 										<div class="col-sm-9">
-											<input type="checkbox" class="eqLogicAttr bootstrapSwitch" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="EnableNight"/>
+											<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="EnableNight"/>
 										</div>
 									</div>
 									<div class="form-group">

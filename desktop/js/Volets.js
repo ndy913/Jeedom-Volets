@@ -34,7 +34,8 @@ function getAngle(Coordinates) {
 		var y = Math.sin(longDelta) * Math.cos(Coordinates[1].lat);
 		var x = Math.cos(Coordinates[0].lat)*Math.sin(Coordinates[1].lat) -
 		Math.sin(Coordinates[0].lat)*Math.cos(Coordinates[1].lat)*Math.cos(longDelta);
-		var angle = Math.toDegrees(Math.atan2(y, x));
+		var radians = Math.atan2(y, x);
+		var angle = radians * 180 / Math.PI
 		while (angle < 0) {
 			angle += 360;
 		}

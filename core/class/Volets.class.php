@@ -54,7 +54,7 @@ class Volets extends eqLogic {
 				if (!is_object($cron)) {
 					$cron = new cron();
 					$cron->setClass('Volets');
-					$cron->setFunction('Update_cron');
+					$cron->setFunction('ActionNuit');
 					$cron->setEnable(1);
 					$cron->setDeamon(0);
 					$cron->setSchedule($Nuit . ' * * * *');

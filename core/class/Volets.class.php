@@ -34,8 +34,8 @@ class Volets extends eqLogic {
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
 			if($this->getConfiguration('EnableNight')){
-				$Jours=$heliotropegetCmd(null,'sunrise')->execCmd()-$this->getConfiguration('AddDelais');
-				$Nuit=$heliotropegetCmd(null,'sunset')->execCmd()+$this->getConfiguration('AddDelais');
+				$Jours=$heliotrope->getCmd(null,'sunrise')->execCmd()-$this->getConfiguration('AddDelais');
+				$Nuit=$heliotrope->getCmd(null,'sunset')->execCmd()+$this->getConfiguration('AddDelais');
 				$cron = cron::byClassAndFunction('Volets', 'ActionJour');
 				if (!is_object($cron)) {
 					$cron = new cron();

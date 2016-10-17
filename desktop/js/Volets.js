@@ -269,7 +269,7 @@ $('body').on('click','.modeAction[data-l1key=chooseIcon]', function () {
 });
 $('body').on('click','.modeAction[data-l1key=removeZone]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id");
-	$('#tab_zones li #' + init(_zone.id) + ']').remove();
+	$('#tab_zones li #' + zoneId + ']').remove();
 	$(this).closest('.cmd').remove();
 });
 $("body").on('click', ".listCmdAction", function() {
@@ -281,7 +281,6 @@ $("body").on('click', ".listCmdAction", function() {
         	});
     	});
 });
-
 $('body').on('click','.bt_removeAction', function () {
 	var zoneId = $(this).closest('.ActionGroup').remove();
 });

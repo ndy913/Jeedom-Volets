@@ -29,6 +29,17 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		}
 	});
 });
+function getAngle(Coordinates) {
+		var longDelta = Coordinates[1].lng - Coordinates[0].lng;
+		var y = Math.sin(longDelta) * Math.cos(Coordinates[1].lat);
+		var x = Math.cos(Coordinates[0].lat)*Math.sin(Coordinates[1].lat) -
+		Math.sin(Coordinates[0].lat)*Math.cos(Coordinates[1].lat)*Math.cos(longDelta);
+		var angle = Math.toDegrees(Math.atan2(y, x));
+		while (angle < 0) {
+			angle += 360;
+		}
+		return (float) angle % 360;
+	}
 function TraceDirection(Coordinates) {
 	var milieu=new Array();
 	milieu['lat']=(Coordinates[0].lat+Coordinates[1].lat)/2;
@@ -136,11 +147,13 @@ function AddZone(_zone){
 		Coordinates[0]=event.latLng;
 		TracePolyLigne(Coordinates);
 		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Droit]').val(JSON.stringify(event.latLng));
+		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Angle]').val(getAngle(Coordinates));
 	});
 	google.maps.event.addListener(Gauche,'drag', function(event) {
 		Coordinates[1]=event.latLng;
 		TracePolyLigne(Coordinates);
 		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
+		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Angle]').val(getAngle(Coordinates));
 	});
 	if($('#tab_new').lenght >0)
 		$('#tab_new').remove();

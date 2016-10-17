@@ -262,11 +262,11 @@ $('#tab_zones a').click(function(e) {
 });
 
 $('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
-  /*  var expression = $(this).closest('.ActionGroup').getValues('.expressionAttr');
+    var expression = $(this).closest('.ActionGroup').getValues('.expressionAttr');
     var el = $(this);
     jeedom.cmd.displayActionOption($(this).value(), init(expression[0].options), function (html) {
-        el.closest('.' + type).find('.actionOptions').html(html);
-    })*/
+        el.closest('.ActionGroup').find('.actionOptions').html(html);
+    })
 });
 $('body').on('click','.ActionAttr[data-action=add]',function(){
 	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_action'));

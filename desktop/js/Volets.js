@@ -36,11 +36,11 @@ function getAngle(Coordinates) {
 		Math.sin(Coordinates[0].lat)*Math.cos(Coordinates[1].lat)*Math.cos(longDelta);
 		var radians = Math.atan2(y, x);
 		var angle = radians * 180 / Math.PI
-		while (angle < 0) {
+		/*while (angle < 0) {
 			angle += 360;
 		}
 		//angle=angle % 360;
-		angle=angle-90;
+		angle=angle-90;*/
 		return  angle;
 	}
 function TraceDirection(Coordinates) {

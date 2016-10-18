@@ -32,8 +32,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 function getAngle(Coordinates) {
 		var longDelta = parseFloat(Coordinates[1].lng) - parseFloat(Coordinates[0].lng);
 	alert(longDelta);
-		var y = Math.sin(longDelta) * Math.cos(Coordinates[1].lat);
-		var x = Math.cos(Coordinates[0].lat)*Math.sin(Coordinates[1].lat) - Math.sin(Coordinates[0].lat)*Math.cos(Coordinates[1].lat)*Math.cos(longDelta);
+		var y = Math.sin(longDelta) * parseFloat(Math.cos(Coordinates[1].lat));
+		var x = Math.cos(parseFloat(Coordinates[0].lat))*Math.sin(parseFloat(Coordinates[1].lat)) - Math.sin(parseFloat(Coordinates[0].lat))*Math.cos(parseFloat(Coordinates[1].lat))*Math.cos(longDelta);
 	
 	alert(x+ ' '+ y);
 		var radians = Math.atan2(y, x);

@@ -5,7 +5,6 @@ throw new Exception('{{401 - Accès non autorisé}}');
 sendVarToJS('eqType', 'Volets');
 $eqLogics = eqLogic::byType('Volets');
 ?>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
 <div class="row row-overflow">
 	<div class="col-lg-2">
 		<div class="bs-sidebar">
@@ -63,10 +62,10 @@ $eqLogics = eqLogic::byType('Volets');
 				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>	
 			</ul>
 			<div class="tab-content TabCmdZone">
-				<div class="tab-pane" id="tab_general">
+				<div class="tab-pane active" id="tab_general">
 					<form class="form-horizontal">
 						<fieldset>
-							<div class="form-group">
+							<div class="form-group ">
 								<label class="col-sm-2 control-label">{{Nom de la Zone}}</label>
 								<div class="col-sm-5">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
@@ -97,7 +96,8 @@ $eqLogics = eqLogic::byType('Volets');
 						</fieldset>
 					</form>
 				</div>	
-				<div class="tab-pane" id="tab_map">
+				<div class="tab-pane" id="tab_map" style="height:100%; width:100%; position: absolute;">
+					<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
 					<div id="map" style="width:75%;height:75%"></div>
 				</div>	
 				<div class="tab-pane" id="tab_parametre">

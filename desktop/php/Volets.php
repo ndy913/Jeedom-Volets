@@ -52,47 +52,8 @@ $eqLogics = eqLogic::byType('Volets');
 	<div class="col-lg-10 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
 		<form class="form-horizontal">
 			<fieldset>
-				<legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Général}}<i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i></legend>
-				<div class="form-group">
-					<label class="col-lg-2 control-label">{{Nom de la Zone}}</label>
-					<div class="col-lg-2">
-						<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-						<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement Direct Energie}}"/>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-1 control-label" >{{Objet parent}}</label>
-					<div class="col-lg-2">
-						<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
-							<option value="">{{Aucun}}</option>
-							<?php
-								foreach (object::all() as $object) 
-									echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
-							?>
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label" ></label>
-					<div class="col-sm-9">
-						<label>{{Activer}}</label>
-						<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
-						<label>{{Visible}}</label>
-						<input type="checkbox" class="eqLogicAttr" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
-					</div>
-				</div>
-				<legend><i class="fa fa-wrench"></i>  {{Configuration}}</legend>
-				<div class="form-group">
-					<label class="col-lg-2 control-label">{{Héliotrope}}</label>
-					<select class="eqLogicAttr" data-l1key="configuration" data-l2key="heliotrope">
-						<option>Aucun</option>
-						<?php
-							foreach(eqLogic::byType('heliotrope') as $heliotrope)
-								echo '<option value="'.$heliotrope->getId().'">'.$heliotrope->getName().'</option>';
-						?>
-					</select>
-					<div class="col-lg-2"></div>
-				</div>
+				<legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Configuration des zones et actions}}<i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i></legend>
+				
 			</fieldset> 
 		</form>
 		<div class="form-actions" align="right">
@@ -102,13 +63,44 @@ $eqLogics = eqLogic::byType('Volets');
 		<div class="row" style="padding-left:25px;">
 			<ul class="nav nav-tabs" id="tab_zones">	
 				<li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li>
-				<li><a href="#map"><i class="fa fa-pencil"></i> {{Afficher la carte}}</a></li>
+				<li><a href="#tab_general"><i class="fa fa-pencil"></i> {{Général}}</a></li>
+				<li><a href="#tab_map"><i class="fa fa-pencil"></i> {{Afficher la carte}}</a></li>
 				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>
 				
 			</ul>
 			<div class="tab-content TabCmdZone">
-				
-				<div class="tab-pane" id="map">
+				<div class="tab-pane" id="tab_general">
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{{Nom de la Zone}}</label>
+						<div class="col-lg-2">
+							<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+							<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement Direct Energie}}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-1 control-label" >{{Objet parent}}</label>
+						<div class="col-lg-2">
+							<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
+								<option value="">{{Aucun}}</option>
+								<?php
+									foreach (object::all() as $object) 
+										echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
+								?>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" ></label>
+						<div class="col-sm-9">
+							<label>{{Activer}}</label>
+							<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
+							<label>{{Visible}}</label>
+							<input type="checkbox" class="eqLogicAttr" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
+						</div>
+					</div>
+				</div>	
+				<div class="tab-pane" id="tab_map">
+					<div id="map" style="width:700px;height:500px"></div>	
 				</div>	
 				<div class="tab-pane" id="tab_parametre">
 					<br/>
@@ -118,6 +110,16 @@ $eqLogics = eqLogic::byType('Volets');
 							<div class="form-group">
 								<fieldset class="col-md-6">
 									<legend>{{Configuration}} </legend>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">{{Héliotrope}}</label>
+										<select class="eqLogicAttr" data-l1key="configuration" data-l2key="heliotrope">
+											<option>Aucun</option>
+											<?php
+												foreach(eqLogic::byType('heliotrope') as $heliotrope)
+													echo '<option value="'.$heliotrope->getId().'">'.$heliotrope->getName().'</option>';
+											?>
+										</select>
+									</div>
 									<div class="form-group">
 										<label class="col-sm-2 control-label">{{Activation de la gestion par température}}</label>
 										<div class="col-sm-9">

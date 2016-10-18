@@ -99,7 +99,7 @@ $eqLogics = eqLogic::byType('Volets');
 					</div>
 				</div>	
 				<div class="tab-pane" id="tab_map">
-					<div id="map" style="width:700px;height:500px"></div>	
+					<div id="map" style="width:75%;height:75%"></div>	
 				</div>	
 				<div class="tab-pane" id="tab_parametre">
 					<br/>

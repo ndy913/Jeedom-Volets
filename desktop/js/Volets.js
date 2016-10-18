@@ -30,8 +30,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 	});
 });
 function getAngle(Coordinates) {
-	console.log(Coordinates[1].lng +'-'+ Coordinates[0].lng);
-		var longDelta = Coordinates[1].lng - Coordinates[0].lng;
+	console.log(Coordinates[1]['lng'] +'-'+ Coordinates[0]['lng']);
+		var longDelta = Coordinates[1]['lng'] - Coordinates[0]['lng'];
 	console.log(longDelta);
 		var y = Math.sin(longDelta) * Math.cos(Coordinates[1].lat);
 		var x = Math.cos(Coordinates[0].lat)*Math.sin(Coordinates[1].lat) - Math.sin(Coordinates[0].lat)*Math.cos(Coordinates[1].lat)*Math.cos(longDelta);

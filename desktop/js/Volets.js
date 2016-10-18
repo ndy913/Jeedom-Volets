@@ -132,15 +132,15 @@ function AddZone(_zone){
 		strokeWeight: 2
 	});
 	google.maps.event.addListener(Droit,'drag', function(event) {
-		Coordinates[0].lat=event.latLng.lat;
-		Coordinates[0].lng=event.latLng.lng;
+		Coordinates[0].lat=event.latLng.lat();
+		Coordinates[0].lng=event.latLng.lng();
 		Polyline.setPath(Coordinates);
 		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Droit]').val(JSON.stringify(event.latLng));
 		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Angle]').val(getAngle(Coordinates));
 	});
 	google.maps.event.addListener(Gauche,'drag', function(event) {
-		Coordinates[1].lat=event.latLng.lat;
-		Coordinates[1].lng=event.latLng.lng;
+		Coordinates[1].lat=event.latLng.lat();
+		Coordinates[1].lng=event.latLng.lng();
 		Polyline.setPath(Coordinates);
 		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
 		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Angle]').val(getAngle(Coordinates));

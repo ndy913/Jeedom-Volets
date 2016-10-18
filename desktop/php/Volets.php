@@ -54,16 +54,18 @@ $eqLogics = eqLogic::byType('Volets');
 				<legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Configuration des zones et actions}}<i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i></legend>
 			</fieldset> 
 		</form>	
-		<!--div class="row" style="padding-left:25px;"-->
-		<div>
+		<div id="tab_map">	
+			<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
+			<div id="map" style="width:75%;height:75%;"></div>
+		</div>	
+		<div class="row" style="padding-left:25px;">
 			<ul class="nav nav-tabs" id="tab_zones">	
 				<li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li>
 				<li class="active"><a href="#tab_general"><i class="fa fa-cogs"></i> {{Général}}</a></li>
 				<li><a href="#tab_map"><i class="fa fa-map"></i> {{Afficher la carte}}</a></li>
 				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>	
 			</ul>
-			<!--div class="tab-content TabCmdZone"-->
-			<div>
+			<div class="tab-content TabCmdZone">
 				<div class="tab-pane active" id="tab_general">
 					<form class="form-horizontal">
 						<fieldset>
@@ -98,9 +100,9 @@ $eqLogics = eqLogic::byType('Volets');
 						</fieldset>
 					</form>
 				</div>	
-				<div id="tab_map">	
-					<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
-					<div id="map" style="width:75%;height:75%;"></div>
+				<div class="tab-pane" id="tab_map">	
+					<!--script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
+					<div id="map" style="width:75%;height:75%;"></div-->
 				</div>	
 				<div class="tab-pane" id="tab_parametre">
 					<form class="form-horizontal">

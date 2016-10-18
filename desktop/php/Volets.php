@@ -63,23 +63,22 @@ $eqLogics = eqLogic::byType('Volets');
 		<div class="row" style="padding-left:25px;">
 			<ul class="nav nav-tabs" id="tab_zones">	
 				<li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li>
-				<li><a href="#tab_general"><i class="fa fa-pencil"></i> {{Général}}</a></li>
+				<li class="active"><a href="#tab_general"><i class="fa fa-pencil"></i> {{Général}}</a></li>
 				<li><a href="#tab_map"><i class="fa fa-pencil"></i> {{Afficher la carte}}</a></li>
-				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>
-				
+				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>	
 			</ul>
 			<div class="tab-content TabCmdZone">
 				<div class="tab-pane" id="tab_general">
 					<div class="form-group">
-						<label class="col-lg-2 control-label">{{Nom de la Zone}}</label>
-						<div class="col-lg-2">
+						<label class="col-sm-2 control-label">{{Nom de la Zone}}</label>
+						<div class="col-sm-9">
 							<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
 							<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement Direct Energie}}"/>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-lg-1 control-label" >{{Objet parent}}</label>
-						<div class="col-lg-2">
+						<label class="col-sm-5 control-label" >{{Objet parent}}</label>
+						<div class="col-sm-9">
 							<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
 								<option value="">{{Aucun}}</option>
 								<?php
@@ -90,7 +89,7 @@ $eqLogics = eqLogic::byType('Volets');
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label" ></label>
+						<label class="col-sm-5 control-label" ></label>
 						<div class="col-sm-9">
 							<label>{{Activer}}</label>
 							<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
@@ -108,46 +107,44 @@ $eqLogics = eqLogic::byType('Volets');
 						<div id="div_programmations"></div>
 						<form class="form-horizontal">
 							<div class="form-group">
-								<fieldset class="col-md-6">
+								<fieldset>
 									<legend>{{Configuration}} </legend>
 									<div class="form-group">
-										<label class="col-lg-2 control-label">{{Héliotrope}}</label>
-										<select class="eqLogicAttr" data-l1key="configuration" data-l2key="heliotrope">
-											<option>Aucun</option>
-											<?php
-												foreach(eqLogic::byType('heliotrope') as $heliotrope)
-													echo '<option value="'.$heliotrope->getId().'">'.$heliotrope->getName().'</option>';
-											?>
-										</select>
+										<label class="col-lg-5 control-label">{{Héliotrope}}</label>
+										<div class="col-sm-9">
+											<select class="eqLogicAttr" data-l1key="configuration" data-l2key="heliotrope">
+												<option>Aucun</option>
+												<?php
+													foreach(eqLogic::byType('heliotrope') as $heliotrope)
+														echo '<option value="'.$heliotrope->getId().'">'.$heliotrope->getName().'</option>';
+												?>
+											</select>
+										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2 control-label">{{Activation de la gestion par température}}</label>
+										<label class="col-sm-5 control-label">{{Activation de la gestion par température}}</label>
 										<div class="col-sm-9">
 											<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="EnableTemp"/>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2 control-label">{{Activation de la gestion jours nuit}}</label>
+										<label class="col-sm-5 control-label">{{Activation de la gestion jours nuit}}</label>
 										<div class="col-sm-9">
 											<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="EnableNight"/>
 										</div>
 									</div>									
 									<div class="form-group">
-										<label class="col-lg-2 control-label">{{Delais apres le levée du jours}}</label>
-										<div class="col-lg-2">
+										<label class="col-lg-5 control-label">{{Delais apres le levée du jours}}</label>
+										<div class="col-sm-9">
 											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Delais apres le levée du jours}}"/>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-2 control-label">{{Delais avant la tombée de la nuit}}</label>
-										<div class="col-lg-2">
+										<label class="col-lg-5 control-label">{{Delais avant la tombée de la nuit}}</label>
+										<div class="col-sm-9">
 											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Delais avant la tombée de la nuit}}"/>
 										</div>
 									</div>
-								</fieldset>
-								<fieldset class="col-md-6">
-									<legend>{{Affichage}} </legend>
-									<div></div>
 								</fieldset>
 							</div>
 						</form>

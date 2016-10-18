@@ -95,7 +95,6 @@ $eqLogics = eqLogic::byType('Volets');
 				</div>
 			</fieldset> 
 		</form>
-		<div id="map" style="width: 50%;height: 50%;"></div>
 		<div class="form-actions" align="right">
 			<a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
 			<a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
@@ -103,10 +102,14 @@ $eqLogics = eqLogic::byType('Volets');
 		<div class="row" style="padding-left:25px;">
 			<ul class="nav nav-tabs" id="tab_zones">	
 				<li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li>
+				<li><a href="#map"><i class="fa fa-pencil"></i> {{Afficher la carte}}</a></li>
 				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>
 				
 			</ul>
 			<div class="tab-content TabCmdZone">
+				
+				<div class="tab-pane" id="map">
+				</div>	
 				<div class="tab-pane" id="tab_parametre">
 					<br/>
 					<form class="form-horizontal">
@@ -126,11 +129,17 @@ $eqLogics = eqLogic::byType('Volets');
 										<div class="col-sm-9">
 											<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="EnableNight"/>
 										</div>
+									</div>									
+									<div class="form-group">
+										<label class="col-lg-2 control-label">{{Delais apres le levée du jours}}</label>
+										<div class="col-lg-2">
+											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Delais apres le levée du jours}}"/>
+										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-2 control-label">{{Delais avant et apres la tombée de la nuit}}</label>
+										<label class="col-lg-2 control-label">{{Delais avant la tombée de la nuit}}</label>
 										<div class="col-lg-2">
-											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AddDelais" placeholder="{{Delais avant et apres la tombée de la nuit}}"/>
+											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Delais avant la tombée de la nuit}}"/>
 										</div>
 									</div>
 								</fieldset>

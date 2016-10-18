@@ -96,9 +96,9 @@ $eqLogics = eqLogic::byType('Volets');
 						</fieldset>
 					</form>
 				</div>	
-				<div class="tab-pane" id="tab_map">	
+				<div id="tab_map">	
 					<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
-					<div id="map" style="width: 50%;height: 50%;"></div>
+					<div id="map" style="width:75%;height:75%;"></div>
 				</div>	
 				<div class="tab-pane" id="tab_parametre">
 					<form class="form-horizontal">

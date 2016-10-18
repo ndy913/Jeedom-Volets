@@ -39,7 +39,7 @@ function getAngle(Coordinates) {
 		while (angle < 0) {
 			angle += 360;
 		}
-		angle=angle % 360;
+		//angle=angle % 360;
 		angle=angle-90;
 		return  angle;
 	}

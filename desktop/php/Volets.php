@@ -53,13 +53,8 @@ $eqLogics = eqLogic::byType('Volets');
 		<form class="form-horizontal">
 			<fieldset>
 				<legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Configuration des zones et actions}}<i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i></legend>
-				
 			</fieldset> 
 		</form>
-		<div class="form-actions" align="right">
-			<a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
-			<a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
-		</div>
 		<div class="row" style="padding-left:25px;">
 			<ul class="nav nav-tabs" id="tab_zones">	
 				<li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li>

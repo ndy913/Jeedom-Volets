@@ -41,7 +41,7 @@ function getAngle(Coordinates) {
 		}
 		angle=angle % 360;
 		angle=angle-90;
-		return  angle % 360;
+		return  angle;
 	}
 function TraceDirection(Coordinates) {
 	var milieu=new Array();

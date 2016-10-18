@@ -31,16 +31,19 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 });
 function getAngle(Coordinates) {
 		var longDelta = Coordinates[1].lng - Coordinates[0].lng;
+	alert(longDelta);
 		var y = Math.sin(longDelta) * Math.cos(Coordinates[1].lat);
-		var x = Math.cos(Coordinates[0].lat)*Math.sin(Coordinates[1].lat) -
-		Math.sin(Coordinates[0].lat)*Math.cos(Coordinates[1].lat)*Math.cos(longDelta);
+		var x = Math.cos(Coordinates[0].lat)*Math.sin(Coordinates[1].lat) - Math.sin(Coordinates[0].lat)*Math.cos(Coordinates[1].lat)*Math.cos(longDelta);
+	
+	alert(x+ ' '+ y);
 		var radians = Math.atan2(y, x);
+	alert(radians);
 		var angle = radians * 180 / Math.PI
-		/*while (angle < 0) {
+		while (angle < 0) {
 			angle += 360;
 		}
-		//angle=angle % 360;
-		angle=angle-90;*/
+		angle=angle % 360;
+		angle=angle-90;
 		return  angle;
 	}
 function TraceDirection(Coordinates) {

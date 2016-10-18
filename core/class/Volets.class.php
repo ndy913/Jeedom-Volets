@@ -31,10 +31,8 @@ class Volets extends eqLogic {
 			return;
 		if ($deamon_info['state'] == 'ok') 
 			return;
-		foreach(eqLogic::byType('Volets') as $Volet){
+		foreach(eqLogic::byType('Volets') as $Volet)
 			$Volet->save();
-		}
-
 	}
 	public static function deamon_stop() {
 		foreach(eqLogic::byType('Volets') as $Volet){
@@ -57,18 +55,43 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->getIsEnable() == 1) {
 			foreach($Volet->getCmd() as $Commande)
 				$Commande->execute();	
-			if($Volet->getConfiguration('EnableNight')){
-				$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
-				if(is_object($heliotrope)){
-					$Jours=$heliotrope->getCmd(null,'sunrise')->execCmd()-$this->getConfiguration('AddDelais');
-					$Nuit=$heliotrope->getCmd(null,'sunset')->execCmd()+$this->getConfiguration('AddDelais');
-					$cron = cron::byClassAndFunction('Volets', 'ActionJour');
-					if (!is_object($cron)) 
-						$cron->setSchedule($Jours . ' * * * *');
-					$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
-					if (!is_object($cron)) 
-						$cron->setSchedule($Nuit . ' * * * *');
-				}
+			if($Volet->getConfiguration('EnableNight'))
+				$Volet->UpdateActionDayNight();
+			
+		}
+	}
+	public function UpdateActionDayNight() {
+		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
+		if(is_object($heliotrope)){
+			$Jours=$heliotrope->getCmd(null,'sunrise')->execCmd()-$this->getConfiguration('DelaisDay');
+			$Nuit=$heliotrope->getCmd(null,'sunset')->execCmd()+$this->getConfiguration('DelaisNight');
+			$cron = cron::byClassAndFunction('Volets', 'ActionJour');
+			if (!is_object($cron)) {
+				$cron = new cron();
+				$cron->setClass('Volets');
+				$cron->setFunction('ActionJour');
+				$cron->setEnable(1);
+				$cron->setDeamon(0);
+				$cron->setSchedule($Jours . ' * * * *');
+				$cron->save();
+			}
+			else{
+				$cron->setSchedule($Jours . ' * * * *');
+				$cron->save();
+			}
+			$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
+			if (!is_object($cron)) {
+				$cron = new cron();
+				$cron->setClass('Volets');
+				$cron->setFunction('ActionNuit');
+				$cron->setEnable(1);
+				$cron->setDeamon(0);
+				$cron->setSchedule($Nuit . ' * * * *');
+				$cron->save();
+			}
+			else{
+				$cron->setSchedule($Nuit . ' * * * *');
+				$cron->save();
 			}
 		}
 	}
@@ -95,38 +118,8 @@ class Volets extends eqLogic {
     	public function postSave() {
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
-			if($this->getConfiguration('EnableNight')){
-				$Jours=$heliotrope->getCmd(null,'sunrise')->execCmd()-$this->getConfiguration('AddDelais');
-				$Nuit=$heliotrope->getCmd(null,'sunset')->execCmd()+$this->getConfiguration('AddDelais');
-				$cron = cron::byClassAndFunction('Volets', 'ActionJour');
-				if (!is_object($cron)) {
-					$cron = new cron();
-					$cron->setClass('Volets');
-					$cron->setFunction('ActionJour');
-					$cron->setEnable(1);
-					$cron->setDeamon(0);
-					$cron->setSchedule($Jours . ' * * * *');
-					$cron->save();
-				}
-				else{
-					$cron->setSchedule($Jours . ' * * * *');
-					$cron->save();
-				}
-				$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
-				if (!is_object($cron)) {
-					$cron = new cron();
-					$cron->setClass('Volets');
-					$cron->setFunction('ActionNuit');
-					$cron->setEnable(1);
-					$cron->setDeamon(0);
-					$cron->setSchedule($Nuit . ' * * * *');
-					$cron->save();
-				}
-				else{
-					$cron->setSchedule($Nuit . ' * * * *');
-					$cron->save();
-				}
-			}
+			if($this->getConfiguration('EnableNight'))
+				$this->UpdateActionDayNight();
 			log::add('Volets', 'info', 'Activation des déclencheurs : ');
 			$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
 			if (!is_object($listener))

@@ -30,15 +30,15 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 	});
 });
 function getAngle(Coordinates) {
-	alert(Coordinates[1].lng +'-'+ Coordinates[0].lng);
+	console.log(Coordinates[1].lng +'-'+ Coordinates[0].lng);
 		var longDelta = Coordinates[1].lng - Coordinates[0].lng;
-	alert(longDelta);
+	console.log(longDelta);
 		var y = Math.sin(longDelta) * Math.cos(Coordinates[1].lat);
 		var x = Math.cos(Coordinates[0].lat)*Math.sin(Coordinates[1].lat) - Math.sin(Coordinates[0].lat)*Math.cos(Coordinates[1].lat)*Math.cos(longDelta);
 	
-	alert(x+ ' '+ y);
+	console.log(x+ ' '+ y);
 		var radians = Math.atan2(y, x);
-	alert(radians);
+	console.log(radians);
 		var angle = radians * 180 / Math.PI
 		while (angle < 0) {
 			angle += 360;
@@ -47,15 +47,6 @@ function getAngle(Coordinates) {
 		angle=angle-90;
 		return  angle;
 	}
-function TraceDirection(Coordinates) {
-	var milieu=new Array();
-	milieu['lat']=(Coordinates[0].lat+Coordinates[1].lat)/2;
-	milieu['lng']=(Coordinates[0].lng+Coordinates[1].lng)/2;
-	var perpendiculaire=new Array();
-	perpendiculaire['lat']=milieu['lat']+Math.cos(90);
-	perpendiculaire['lng']=milieu['lng']+Math.cos(90);
-	return [milieu,perpendiculaire];
-}
 
 function saveEqLogic(_eqLogic) {
 	var state_order = '';

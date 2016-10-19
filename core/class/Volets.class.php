@@ -73,7 +73,7 @@ class Volets extends eqLogic {
 				$Minute-=60;
 				$Heure+=1;
 			}
-			$Schedule=$Heure . ' ' . $Minute . ' * * * *';
+			$Schedule=$Minute . ' ' . $Heure . ' * * * *';
 			$cron = cron::byClassAndFunction('Volets', 'ActionJour');
 			if (!is_object($cron)) {
 				$cron = new cron();
@@ -98,6 +98,7 @@ class Volets extends eqLogic {
 				$Minute-=60;
 				$Heure+=1;
 			}
+			$Schedule=$Minute . ' ' . $Heure . ' * * * *';
 			$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
 			if (!is_object($cron)) {
 				$cron = new cron();

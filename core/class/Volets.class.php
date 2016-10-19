@@ -179,7 +179,6 @@ class VoletsCmd extends cmd {
 		return  $angle % 360;
 	}
     public function execute($_options = null) {
-	    
 		//Rechercher position du soleil => heliotrope
 		$heliotrope=eqlogic::byId($this->getEqLogic()->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
@@ -193,7 +192,7 @@ class VoletsCmd extends cmd {
 					       $Droite['lng'],
 					       $Gauche['lat'],
 					       $Gauche['lng']);
-			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle-90.'°');
+			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
 			/*$TempZone=cmd::byId($this->getConfiguration('TempObjet'))->execCmd();
 			//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 			$action=$this->getConfiguration('action');
@@ -213,6 +212,6 @@ class VoletsCmd extends cmd {
 			foreach($action as $cmd)
 				cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);*/
 		}
-    }
+	}
 }
 ?>

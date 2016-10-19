@@ -183,7 +183,6 @@ class VoletsCmd extends cmd {
 		$heliotrope=eqlogic::byId($this->getEqLogic()->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
 			$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
-			log::add('Volets','debug','L\'angle du soleil est '.$Azimuth.'°');
 			//Calculer de l'angle de ma zone
 			$Droite=$this->getConfiguration('Droit');
 			$Gauche=$this->getConfiguration('Gauche');

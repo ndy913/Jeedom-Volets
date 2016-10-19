@@ -21,7 +21,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				Center.lng=parseFloat(center[1]);
 				map = new google.maps.Map(document.getElementById('map'), {
 					center: Center,
-					mapTypeId: 'satellite',
+					//mapTypeId: 'satellite',
+          				mapTypeControl: true,
 					scrollwheel: true,
 					zoom: 20
 				});

@@ -63,8 +63,13 @@ class Volets extends eqLogic {
 	public function UpdateActionDayNight() {
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
-			$Jours=$heliotrope->getCmd(null,'sunrise')->execCmd()-$this->getConfiguration('DelaisDay');
-			$Nuit=$heliotrope->getCmd(null,'sunset')->execCmd()+$this->getConfiguration('DelaisNight');
+			$Jours=$heliotrope->getCmd(null,'sunrise')->execCmd();
+			$Minute=substr($Jours,-2)-$this->getConfiguration('DelaisDay');
+			if(count($Jours)==3)
+				$Heure=substr($Jours,0,1);
+			else
+				$Heure=substr($Jours,0,2);
+			$Schedule=$Heure . ' ' . $Minute . ' * * * *';
 			$cron = cron::byClassAndFunction('Volets', 'ActionJour');
 			if (!is_object($cron)) {
 				$cron = new cron();
@@ -72,13 +77,19 @@ class Volets extends eqLogic {
 				$cron->setFunction('ActionJour');
 				$cron->setEnable(1);
 				$cron->setDeamon(0);
-				$cron->setSchedule($Jours . ' * * * *');
+				$cron->setSchedule($Schedule);
 				$cron->save();
 			}
 			else{
-				$cron->setSchedule($Jours . ' * * * *');
+				$cron->setSchedule($Schedule);
 				$cron->save();
 			}
+			$Nuit=$heliotrope->getCmd(null,'sunset')->execCmd();
+			$Minute=substr($Nuit,-2)-$this->getConfiguration('DelaisNight');
+			if(count($Nuit)==3)
+				$Heure=substr($Nuit,0,1);
+			else
+				$Heure=substr($Nuit,0,2);
 			$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
 			if (!is_object($cron)) {
 				$cron = new cron();
@@ -86,11 +97,11 @@ class Volets extends eqLogic {
 				$cron->setFunction('ActionNuit');
 				$cron->setEnable(1);
 				$cron->setDeamon(0);
-				$cron->setSchedule($Nuit . ' * * * *');
+				$cron->setSchedule($Schedule);
 				$cron->save();
 			}
 			else{
-				$cron->setSchedule($Nuit . ' * * * *');
+				$cron->setSchedule($Schedule);
 				$cron->save();
 			}
 		}

@@ -193,10 +193,10 @@ class VoletsCmd extends cmd {
 					       $Gauche['lat'],
 					       $Gauche['lng']);
 			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
-			/*$TempZone=cmd::byId($this->getConfiguration('TempObjet'))->execCmd();
+			$TempZone=cmd::byId($this->getConfiguration('TempObjet'))->execCmd();
 			//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 			$action=$this->getConfiguration('action');
-			if($Azimuth<$Angle&&$Azimuth>$Angle-90){
+			/*if($Azimuth<$Angle&&$Azimuth>$Angle-90){
 				log::add('Volets','debug','Le soleil est dans la fenetre');
 				if($TempZone >= $this->getConfiguration('SeuilTemp')){
 					log::add('Volets','debug','Les conditions sont remplie');

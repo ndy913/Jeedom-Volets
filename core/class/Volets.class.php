@@ -118,9 +118,9 @@ class Volets extends eqLogic {
 	public static function ActionJour($_option) {
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd() as $Cmds){
-				$action=json_decode($Cmds->getConfiguration('action'),true);
+				$action=$Cmds->getConfiguration('action');
 				foreach($action['in'] as $cmd)
-					cmd::byId($cmd['cmd'])->execute($cmd['option']);
+					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['option']);
 			}
 		}
 	}
@@ -129,7 +129,7 @@ class Volets extends eqLogic {
 			foreach($Zone->getCmd() as $Cmds){
 				$action=$Cmds->getConfiguration('action');
 				foreach($action['out'] as $cmd)
-					cmd::byId($cmd['cmd'])->execute($cmd['option']);
+					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['option']);
 			}
 		}
 	}
@@ -194,24 +194,23 @@ class VoletsCmd extends cmd {
 			$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
 			log::add('Volets','debug','L\'angle du soleil est '.$Azimuth.'°');
 			//Calculer de l'angle de ma zone
-			$Droite=json_decode($this->getConfiguration('Droit'),true);
-			$Gauche=json_decode($this->getConfiguration('Gauche'),true);
+			$Droite=$this->getConfiguration('Droit');
+			$Gauche=$this->getConfiguration('Gauche');
 			
 			$Angle=$this->getAngle($Droite['lat'],
 					       $Droite['lng'],
 					       $Gauche['lat'],
 					       $Gauche['lng']);
-			$this->setConfiguration('Angle',$Angle-90);
 			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
 			//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 			if($Azimuth>$Angle&&$Azimuth>$Angle-180)
-				$action=json_decode($this->getConfiguration('action'),true)['in'];
+				$action=$this->getConfiguration('action'),true);
 			else
-				$action=json_decode($this->getConfiguration('action'),true)['out'];
+				$action=$this->getConfiguration('action'),true);
 			$TempZone=cmd::byId($this->getConfiguration('TempObjet'))->execCmd();
 			if($TempZone >= $this->getConfiguration('SeuilTemp')){
 				foreach($action as $cmd)
-					cmd::byId($cmd['cmd'])->execute($cmd['option']);
+					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['option']);
 			}
 		}
     }

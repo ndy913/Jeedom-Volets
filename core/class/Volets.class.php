@@ -119,7 +119,7 @@ class Volets extends eqLogic {
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd() as $Cmds){
 				$action=$Cmds->getConfiguration('action');
-				foreach($action['in'] as $cmd)
+				foreach($action['out'] as $cmd)
 					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);
 			}
 		}
@@ -128,7 +128,7 @@ class Volets extends eqLogic {
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd() as $Cmds){
 				$action=$Cmds->getConfiguration('action');
-				foreach($action['out'] as $cmd)
+				foreach($action['in'] as $cmd)
 					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);
 			}
 		}

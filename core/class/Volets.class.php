@@ -117,19 +117,20 @@ class Volets extends eqLogic {
 	}
 	public static function ActionJour($_option) {
 		foreach(eqLogic::byType('Volets') as $Zone){
-			$action=json_decode($Zone->getConfiguration('action'),true);
-			foreach($action['in'] as $cmd)
-				cmd::byId($cmd['cmd'])->execute($cmd['option']);
+			foreach($Zone->getCmd() as $Cmds){
+				$action=json_decode($Cmds->getConfiguration('action'),true);
+				foreach($action['in'] as $cmd)
+					cmd::byId($cmd['cmd'])->execute($cmd['option']);
+			}
 		}
 	}
 	public static function ActionNuit($_option) {
 		foreach(eqLogic::byType('Volets') as $Zone){
-			$action=$Zone->getConfiguration('action');
-			log::add('Volets','debug',$action);
-			$action=json_decode($Zone->getConfiguration('action'),true);
-			log::add('Volets','debug',$action);
-			foreach($action['out'] as $cmd)
-				cmd::byId($cmd['cmd'])->execute($cmd['option']);
+			foreach($Zone->getCmd() as $Cmds){
+				$action=json_decode($Cmds->getConfiguration('action'),true);
+				foreach($action['out'] as $cmd)
+					cmd::byId($cmd['cmd'])->execute($cmd['option']);
+			}
 		}
 	}
   	public function preUpdate() {

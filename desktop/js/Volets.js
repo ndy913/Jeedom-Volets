@@ -173,27 +173,36 @@ function AddZone(_zone){
 					.append($('<i class="fa fa-minus-circle">'))
 					.text('{{Supprimer}}'))))
 		.append($('<div class="row">')
-			.append($('<div>')
-				.append($('<label>').text('Valeur Température de la zone'))
-				.append($('<div class="input-group">')
-					.append($('<span class="input-group-btn">')
-						.append($('<sup class="btn  btn-sm">')
-							.append($('<i class="fa fa-question-circle tooltips" style="font-size : 1em;color:grey;" title="Séléctioner l\'objet de température de la zone">'))))
-					.append($('<input class="cmdAttr form-control input-sm"  data-l1key="configuration" data-l2key="TempObjet">'))
-					.append($('<span class="input-group-btn">')
-						.append($('<a class="btn btn-success btn-sm bt_selectCmdExpression" id="value">')
-							.append($('<i class="fa fa-list-alt">'))))))
-			.append($('<div>')
-				.append($('<label>').text('Seuil de température de la zone'))
-				.append($('<div class="input-group">')
-					.append($('<span class="input-group-btn">')
-						.append($('<sup class="btn  btn-sm">')
-							.append($('<i class="fa fa-question-circle tooltips" style="font-size : 1em;color:grey;" title="Choisissez un objet jeedom contenant la valeur de votre commande">'))))
-					.append($('<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="SeuilTemp">'))))
-			.append($('<div>')
-				.append($('<label>').text('Angle d\'ensoleillement de la Zone'))
-				.append($('<div class="input-group">')
-					.append($('<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="Angle">')))))
+			.append($('<div class="col-lg-6">')
+				.append($('<div class="form-group">')
+					.append($('<label>').text('Valeur Température de la zone'))
+					.append($('<div class="input-group">')
+						.append($('<span class="input-group-btn">')
+							.append($('<sup class="btn  btn-sm">')
+								.append($('<i class="fa fa-question-circle tooltips" style="font-size : 1em;color:grey;" title="Séléctioner l\'objet de température de la zone">'))))
+						.append($('<input class="cmdAttr form-control input-sm"  data-l1key="configuration" data-l2key="TempObjet">'))
+						.append($('<span class="input-group-btn">')
+							.append($('<a class="btn btn-success btn-sm bt_selectCmdExpression" id="value">')
+								.append($('<i class="fa fa-list-alt">'))))))
+				.append($('<div class="form-group">')
+					.append($('<label>').text('Seuil de température de la zone'))
+					.append($('<div class="input-group">')
+						.append($('<span class="input-group-btn">')
+							.append($('<sup class="btn  btn-sm">')
+								.append($('<i class="fa fa-question-circle tooltips" style="font-size : 1em;color:grey;" title="Choisissez un objet jeedom contenant la valeur de votre commande">'))))
+						.append($('<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="SeuilTemp">'))))
+				.append($('<div class="form-group">')
+					.append($('<label>').text('Angle d\'ensoleillement de la Zone'))
+					.append($('<div class="input-group">')
+						.append($('<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="Angle">'))))
+		       	.append($('<div class="col-lg-6 ActionIn">')
+				.append($('<form class="form-horizontal">')
+					.append($('<legend>')
+						.text('{{Ajouter les condition :}}')
+						.append($('<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">')
+							.append($('<i class="fa fa-plus-circle">'))
+							.text('{{Ajouter Condition}}')))
+					.append($('<div class="div_Condition">')))))
 		.append($('<div class="row">')
 			.append($('<div class="col-lg-6 ActionIn">')
 				.append($('<form class="form-horizontal">')
@@ -252,7 +261,7 @@ function addAction(_action, _name, _el) {
 		.append($('<div class="col-lg-6 actionOptions">')
     			.append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))))
  		.append($('<div class="col-lg-1">')
-  			.append($('<i class="fa fa-minus-circle pull-left cursor bt_removeAction">')));
+  			.append($('<i class="fa fa-minus-circle pull-left cursor ActionAttr" data-action="remove">')));
         _el.append(div);
         _el.setValues(_action, '.expressionAttr');
   
@@ -269,8 +278,13 @@ $('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
         el.closest('.ActionGroup').find('.actionOptions').html(html);
     })
 });
+$('body').on('click','.conditionAttr[data-action=add]',function(){
+});
 $('body').on('click','.ActionAttr[data-action=add]',function(){
 	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_action'));
+});
+$('body').on('click','.ActionAttr[data-action=remove]', function () {
+	$(this).closest('.ActionGroup').remove();
 });
 $('body').on('click','.modeAction[data-l1key=removeIcon]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id").replace('tab_','');
@@ -298,9 +312,6 @@ $("body").on('click', ".listCmdAction", function() {
 			el.closest('.form-group').find('.actionOptions').html(html);
         	});
     	});
-});
-$('body').on('click','.bt_removeAction', function () {
-	$(this).closest('.ActionGroup').remove();
 });
 $('body').on( 'click','.bt_selectCmdExpression', function() {
 	var _this=this;

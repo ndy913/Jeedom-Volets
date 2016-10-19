@@ -204,9 +204,9 @@ class VoletsCmd extends cmd {
 			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
 			//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 			if($Azimuth>$Angle&&$Azimuth>$Angle-180)
-				$action=$this->getConfiguration('action'),true);
+				$action=$this->getConfiguration('action');
 			else
-				$action=$this->getConfiguration('action'),true);
+				$action=$this->getConfiguration('action');
 			$TempZone=cmd::byId($this->getConfiguration('TempObjet'))->execCmd();
 			if($TempZone >= $this->getConfiguration('SeuilTemp')){
 				foreach($action as $cmd)

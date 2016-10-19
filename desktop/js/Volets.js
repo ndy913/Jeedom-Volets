@@ -195,7 +195,7 @@ function AddZone(_zone){
 				.append($('<div class="form-group">')
 					.append($('<label>').text('Angle d\'ensoleillement de la Zone'))
 					.append($('<div class="input-group">')
-						.append($('<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="Angle">'))))
+						.append($('<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="Angle">')))))
 		       	.append($('<div class="col-lg-6 ActionIn">')
 					.append($('<form class="form-horizontal">')
 						.append($('<legend>')
@@ -203,7 +203,7 @@ function AddZone(_zone){
 							.append($('<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">')
 								.append($('<i class="fa fa-plus-circle">'))
 								.text('{{Ajouter Condition}}')))
-						.append($('<div class="div_Condition">'))))))
+						.append($('<div class="div_Condition">')))))
 		.append($('<div class="row">')
 			.append($('<div class="col-lg-6 ActionIn">')
 				.append($('<form class="form-horizontal">')
@@ -244,6 +244,27 @@ function AddZone(_zone){
 		}
 	}	
 }
+function addCondition(_action, _name, _el) {
+	if (!isset(_action)) {
+		_action = {};
+	}
+	if (!isset(_action.options)) {
+		_action.options = {};
+	}
+    	var div = $('<div class="form-group ConditionGroup">')
+  		.append($('<label class="col-lg-1 control-label">')
+			.text(_name))
+   		.append($('<div class="col-lg-1">')
+    			.append($('<a class="btn btn-warning btn-sm listCmdCondition" >')
+				.append($('<i class="fa fa-list-alt">'))))
+		.append($('<div class="col-lg-3">')
+			.append($('<input class="expressionAttr form-control input-sm cmdCondition" data-l1key="expression" />')))
+ 		.append($('<div class="col-lg-1">')
+  			.append($('<i class="fa fa-minus-circle pull-left cursor conditionAttr" data-action="remove">')));
+        _el.append(div);
+        _el.setValues(_action, '.expressionAttr');
+  
+}
 function addAction(_action, _name, _el) {
 	if (!isset(_action)) {
 		_action = {};
@@ -271,7 +292,6 @@ $('#tab_zones a').click(function(e) {
     e.preventDefault();
     $(this).tab('show');
 });
-
 $('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
     var expression = $(this).closest('.ActionGroup').getValues('.expressionAttr');
     var el = $(this);
@@ -280,6 +300,9 @@ $('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
     })
 });
 $('body').on('click','.conditionAttr[data-action=add]',function(){
+	addCondition({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_Condition'));
+});
+$('body').on('click','.listCmdCondition',function(){
 	jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {message = 'Aucun choix possible';
 		if(result.cmd.subType == 'numeric'){
 			message = '<div class="row">  ' +

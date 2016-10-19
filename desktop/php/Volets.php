@@ -54,15 +54,15 @@ $eqLogics = eqLogic::byType('Volets');
 				<legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Configuration des zones et actions}}<i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i></legend>
 			</fieldset> 
 		</form>	
-		<div class="row" style="padding-left:25px;">
+		<div class="row" style="padding-left:25px;width:90%;height:90%;">
 			<ul class="nav nav-tabs" id="tab_zones">	
 				<li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li>
 				<li class="active"><a href="#tab_general"><i class="fa fa-cogs"></i> {{Général}}</a></li>
 				<li><a href="#tab_map"><i class="fa fa-map"></i> {{Afficher la carte}}</a></li>
 				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>	
 			</ul>
-			<div class="tab-content TabCmdZone">
-				<div class="tab-pane active" id="tab_general">
+			<div class="tab-content TabCmdZone" style="width:100%;height:100%;">
+				<div class="tab-pane active" id="tab_general" style="width:100%;height:100%;">
 					<form class="form-horizontal">
 						<fieldset>
 							<div class="form-group ">
@@ -96,20 +96,9 @@ $eqLogics = eqLogic::byType('Volets');
 						</fieldset>
 					</form>
 				</div>	
-				<div class="tab-pane" id="tab_map">	
-					<style>
-						.map-control {
-							background-color: #fff;
-							border: 1px solid #ccc;
-							box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
-							font-family: 'Roboto','sans-serif';
-							margin: 10px;
-							display: none;
-						}
-						#map .map-control { display: block; }
-					</style>
+				<div class="tab-pane" id="tab_map" style="width:100%;height:100%;">	
 					<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
-					<div id="map" style="width:75%;height:75%;"></div>
+					<div id="map" style="width:100%;height:100%;"></div>
 				</div>	
 				<div class="tab-pane" id="tab_parametre">
 					<form class="form-horizontal">

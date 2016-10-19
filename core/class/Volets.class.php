@@ -53,7 +53,7 @@ class Volets extends eqLogic {
 		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable() == 1) {
-			foreach($Volet->getCmd() as $Commande)
+			foreach($Volet->getCmd(null, null, null,true)  as $Commande)
 				$Commande->execute();	
 			if($Volet->getConfiguration('EnableNight'))
 				$Volet->UpdateActionDayNight();

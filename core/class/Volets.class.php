@@ -169,14 +169,6 @@ class Volets extends eqLogic {
 
 class VoletsCmd extends cmd {
 	public function getAngle($latitudeOrigine,$longitudeOrigne, $latitudeDest,$longitudeDest) {
-		/*double longDelta = longitudeDest - longitudeOrigne;
-		double y = Math.sin(longDelta) * Math.cos(latitudeDest);
-		double x = Math.cos(latitudeOrigine)*Math.sin(latitudeDest) -Math.sin(latitudeOrigine)*Math.cos(latitudeDest)*Math.cos(longDelta);
-		double angle = Math.toDegrees(Math.atan2(y, x));
-		while (angle < 0) {
-			angle += 360;
-		}
-		return (float) angle % 360;*/
 		$longDelta = $longitudeDest - $longitudeOrigne;
 		$y = sin($longDelta) * cos($latitudeDest);
 		$x = cos($latitudeOrigine)*sin($latitudeDest) - sin($latitudeOrigine)*cos($latitudeDest)*cos($longDelta);
@@ -201,26 +193,25 @@ class VoletsCmd extends cmd {
 					       $Droite['lng'],
 					       $Gauche['lat'],
 					       $Gauche['lng']);
-			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
-			$TempZone=cmd::byId($this->getConfiguration('TempObjet'))->execCmd();
-			
-				//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
-				$action=$this->getConfiguration('action');
-				if($Azimuth<$Angle&&$Azimuth>$Angle-90){
-					log::add('Volets','debug','Le soleil est dans la fenetre');
-					if($TempZone >= $this->getConfiguration('SeuilTemp')){
-						log::add('Volets','debug','Les conditions sont remplie');
-						$action=$action['in'];
-					}else{
-						log::add('Volets','debug','Les conditions ne sont pas remplie');
-						$action=$action['out'];
-					}
+			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle-90.'°');
+			/*$TempZone=cmd::byId($this->getConfiguration('TempObjet'))->execCmd();
+			//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
+			$action=$this->getConfiguration('action');
+			if($Azimuth<$Angle&&$Azimuth>$Angle-90){
+				log::add('Volets','debug','Le soleil est dans la fenetre');
+				if($TempZone >= $this->getConfiguration('SeuilTemp')){
+					log::add('Volets','debug','Les conditions sont remplie');
+					$action=$action['in'];
 				}else{
-					log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
+					log::add('Volets','debug','Les conditions ne sont pas remplie');
 					$action=$action['out'];
 				}
-				foreach($action as $cmd)
-					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);
+			}else{
+				log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
+				$action=$action['out'];
+			}
+			foreach($action as $cmd)
+				cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);*/
 		}
     }
 }

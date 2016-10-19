@@ -281,133 +281,134 @@ $('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
 });
 $('body').on('click','.conditionAttr[data-action=add]',function(){
 	jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {message = 'Aucun choix possible';
-      if(result.cmd.subType == 'numeric'){
-       message = '<div class="row">  ' +
-       '<div class="col-md-12"> ' +
-       '<form class="form-horizontal" onsubmit="return false;"> ' +
-       '<div class="form-group"> ' +
-       '<label class="col-xs-5 control-label" >'+result.human+' {{est}}</label>' +
-       '             <div class="col-xs-3">' +
-       '                <select class="conditionAttr form-control" data-l1key="operator">' +
-       '                    <option value="==">{{égal}}</option>' +
-       '                  <option value=">">{{supérieur}}</option>' +
-       '                  <option value="<">{{inférieur}}</option>' +
-       '                 <option value="!=">{{différent}}</option>' +
-       '            </select>' +
-       '       </div>' +
-       '      <div class="col-xs-4">' +
-       '         <input type="number" class="conditionAttr form-control" data-l1key="operande" />' +
-       '    </div>' +
-       '</div>' +
-       '<div class="form-group"> ' +
-       '<label class="col-xs-5 control-label" >{{Ensuite}}</label>' +
-       '             <div class="col-xs-3">' +
-       '                <select class="conditionAttr form-control" data-l1key="next">' +
-       '                    <option value="">rien</option>' +
-       '                  <option value="ET">{{et}}</option>' +
-       '                  <option value="OU">{{ou}}</option>' +
-       '            </select>' +
-       '       </div>' +
-       '</div>' +
-       '</div> </div>' +
-       '</form> </div>  </div>';
-     }
-     if(result.cmd.subType == 'string'){
-      message = '<div class="row">  ' +
-      '<div class="col-md-12"> ' +
-      '<form class="form-horizontal" onsubmit="return false;"> ' +
-      '<div class="form-group"> ' +
-      '<label class="col-xs-5 control-label" >'+result.human+' {{est}}</label>' +
-      '             <div class="col-xs-3">' +
-      '                <select class="conditionAttr form-control" data-l1key="operator">' +
-      '                    <option value="==">{{égale}}</option>' +
-      '                  <option value="matches">{{contient}}</option>' +
-      '                 <option value="!=">{{différent}}</option>' +
-      '            </select>' +
-      '       </div>' +
-      '      <div class="col-xs-4">' +
-      '         <input class="conditionAttr form-control" data-l1key="operande" />' +
-      '    </div>' +
-      '</div>' +
-      '<div class="form-group"> ' +
-      '<label class="col-xs-5 control-label" >{{Ensuite}}</label>' +
-      '             <div class="col-xs-3">' +
-      '                <select class="conditionAttr form-control" data-l1key="next">' +
-      '                    <option value="">{{rien}}</option>' +
-      '                  <option value="ET">{{et}}</option>' +
-      '                  <option value="OU">{{ou}}</option>' +
-      '            </select>' +
-      '       </div>' +
-      '</div>' +
-      '</div> </div>' +
-      '</form> </div>  </div>';
-    }
-    if(result.cmd.subType == 'binary'){
-      message = '<div class="row">  ' +
-      '<div class="col-md-12"> ' +
-      '<form class="form-horizontal" onsubmit="return false;"> ' +
-      '<div class="form-group"> ' +
-      '<label class="col-xs-5 control-label" >'+result.human+' {{est}}</label>' +
-      '            <div class="col-xs-7">' +
-      '                 <input class="conditionAttr" data-l1key="operator" value="==" style="display : none;" />' +
-      '                  <select class="conditionAttr form-control" data-l1key="operande">' +
-      '                       <option value="1">{{Ouvert}}</option>' +
-      '                       <option value="0">{{Fermé}}</option>' +
-      '                       <option value="1">{{Allumé}}</option>' +
-      '                       <option value="0">{{Eteint}}</option>' +
-      '                       <option value="1">{{Déclenché}}</option>' +
-      '                       <option value="0">{{Au repos}}</option>' +
-      '                       </select>' +
-      '                    </div>' +
-      '                 </div>' +
-      '<div class="form-group"> ' +
-      '<label class="col-xs-5 control-label" >{{Ensuite}}</label>' +
-      '             <div class="col-xs-3">' +
-      '                <select class="conditionAttr form-control" data-l1key="next">' +
-      '                  <option value="">{{rien}}</option>' +
-      '                  <option value="ET">{{et}}</option>' +
-      '                  <option value="OU">{{ou}}</option>' +
-      '            </select>' +
-      '       </div>' +
-      '</div>' +
-      '</div> </div>' +
-      '</form> </div>  </div>';
-    }
+		if(result.cmd.subType == 'numeric'){
+			message = '<div class="row">  ' +
+			'<div class="col-md-12"> ' +
+			'<form class="form-horizontal" onsubmit="return false;"> ' +
+			'<div class="form-group"> ' +
+			'<label class="col-xs-5 control-label" >'+result.human+' {{est}}</label>' +
+			'             <div class="col-xs-3">' +
+			'                <select class="conditionAttr form-control" data-l1key="operator">' +
+			'                    <option value="==">{{égal}}</option>' +
+			'                  <option value=">">{{supérieur}}</option>' +
+			'                  <option value="<">{{inférieur}}</option>' +
+			'                 <option value="!=">{{différent}}</option>' +
+			'            </select>' +
+			'       </div>' +
+			'      <div class="col-xs-4">' +
+			'         <input type="number" class="conditionAttr form-control" data-l1key="operande" />' +
+			'    </div>' +
+			'</div>' +
+			'<div class="form-group"> ' +
+			'<label class="col-xs-5 control-label" >{{Ensuite}}</label>' +
+			'             <div class="col-xs-3">' +
+			'                <select class="conditionAttr form-control" data-l1key="next">' +
+			'                    <option value="">rien</option>' +
+			'                  <option value="ET">{{et}}</option>' +
+			'                  <option value="OU">{{ou}}</option>' +
+			'            </select>' +
+			'       </div>' +
+			'</div>' +
+			'</div> </div>' +
+			'</form> </div>  </div>';
+		}
+		if(result.cmd.subType == 'string'){
+			message = '<div class="row">  ' +
+			'<div class="col-md-12"> ' +
+			'<form class="form-horizontal" onsubmit="return false;"> ' +
+			'<div class="form-group"> ' +
+			'<label class="col-xs-5 control-label" >'+result.human+' {{est}}</label>' +
+			'             <div class="col-xs-3">' +
+			'                <select class="conditionAttr form-control" data-l1key="operator">' +
+			'                    <option value="==">{{égale}}</option>' +
+			'                  <option value="matches">{{contient}}</option>' +
+			'                 <option value="!=">{{différent}}</option>' +
+			'            </select>' +
+			'       </div>' +
+			'      <div class="col-xs-4">' +
+			'         <input class="conditionAttr form-control" data-l1key="operande" />' +
+			'    </div>' +
+			'</div>' +
+			'<div class="form-group"> ' +
+			'<label class="col-xs-5 control-label" >{{Ensuite}}</label>' +
+			'             <div class="col-xs-3">' +
+			'                <select class="conditionAttr form-control" data-l1key="next">' +
+			'                    <option value="">{{rien}}</option>' +
+			'                  <option value="ET">{{et}}</option>' +
+			'                  <option value="OU">{{ou}}</option>' +
+			'            </select>' +
+			'       </div>' +
+			'</div>' +
+			'</div> </div>' +
+			'</form> </div>  </div>';
+		}
+		if(result.cmd.subType == 'binary'){
+			message = '<div class="row">  ' +
+			'<div class="col-md-12"> ' +
+			'<form class="form-horizontal" onsubmit="return false;"> ' +
+			'<div class="form-group"> ' +
+			'<label class="col-xs-5 control-label" >'+result.human+' {{est}}</label>' +
+			'            <div class="col-xs-7">' +
+			'                 <input class="conditionAttr" data-l1key="operator" value="==" style="display : none;" />' +
+			'                  <select class="conditionAttr form-control" data-l1key="operande">' +
+			'                       <option value="1">{{Ouvert}}</option>' +
+			'                       <option value="0">{{Fermé}}</option>' +
+			'                       <option value="1">{{Allumé}}</option>' +
+			'                       <option value="0">{{Eteint}}</option>' +
+			'                       <option value="1">{{Déclenché}}</option>' +
+			'                       <option value="0">{{Au repos}}</option>' +
+			'                       </select>' +
+			'                    </div>' +
+			'                 </div>' +
+			'<div class="form-group"> ' +
+			'<label class="col-xs-5 control-label" >{{Ensuite}}</label>' +
+			'             <div class="col-xs-3">' +
+			'                <select class="conditionAttr form-control" data-l1key="next">' +
+			'                  <option value="">{{rien}}</option>' +
+			'                  <option value="ET">{{et}}</option>' +
+			'                  <option value="OU">{{ou}}</option>' +
+			'            </select>' +
+			'       </div>' +
+			'</div>' +
+			'</div> </div>' +
+			'</form> </div>  </div>';
+		}
 
-    bootbox.dialog({
-      title: "{{Ajout d'une nouvelle condition}}",
-      message: message,
-      buttons: {
-        "Ne rien mettre": {
-          className: "btn-default",
-          callback: function () {
-            expression.find('.expressionAttr[data-l1key=expression]').atCaret('insert', result.human);
-          }
-        },
-        success: {
-          label: "Valider",
-          className: "btn-primary",
-          callback: function () {
-           var condition = result.human;
-           condition += ' ' + $('.conditionAttr[data-l1key=operator]').value();
-           if(result.cmd.subType == 'string'){
-            if($('.conditionAttr[data-l1key=operator]').value() == 'matches'){
-              condition += ' "/' + $('.conditionAttr[data-l1key=operande]').value()+'/"';
-            }else{
-             condition += ' "' + $('.conditionAttr[data-l1key=operande]').value()+'"';
-           }
-         }else{
-          condition += ' ' + $('.conditionAttr[data-l1key=operande]').value();
-        }
-        condition += ' ' + $('.conditionAttr[data-l1key=next]').value()+' ';
-        expression.find('.expressionAttr[data-l1key=expression]').atCaret('insert', condition);
-        if($('.conditionAttr[data-l1key=next]').value() != ''){
-          el.click();
-        }
-      }
-    },
-  }
-});
+		bootbox.dialog({
+			title: "{{Ajout d'une nouvelle condition}}",
+			message: message,
+			buttons: {
+				"Ne rien mettre": {
+					className: "btn-default",
+					callback: function () {
+						expression.find('.expressionAttr[data-l1key=expression]').atCaret('insert', result.human);
+					}
+				},
+				success: {
+					label: "Valider",
+					className: "btn-primary",
+					callback: function () {
+						var condition = result.human;
+						condition += ' ' + $('.conditionAttr[data-l1key=operator]').value();
+						if(result.cmd.subType == 'string'){
+							if($('.conditionAttr[data-l1key=operator]').value() == 'matches'){
+								condition += ' "/' + $('.conditionAttr[data-l1key=operande]').value()+'/"';
+							}else{
+								condition += ' "' + $('.conditionAttr[data-l1key=operande]').value()+'"';
+							}
+						}else{
+							condition += ' ' + $('.conditionAttr[data-l1key=operande]').value();
+						}
+						condition += ' ' + $('.conditionAttr[data-l1key=next]').value()+' ';
+						expression.find('.expressionAttr[data-l1key=expression]').atCaret('insert', condition);
+						if($('.conditionAttr[data-l1key=next]').value() != ''){
+							el.click();
+						}
+					}
+				},
+			}
+		});
+	});
 });
 $('body').on('click','.ActionAttr[data-action=add]',function(){
 	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_action'));

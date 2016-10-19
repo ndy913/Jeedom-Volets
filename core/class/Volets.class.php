@@ -126,7 +126,7 @@ class Volets extends eqLogic {
 		foreach(eqLogic::byType('Volets') as $Zone){
 			$action=$Zone->getConfiguration('action');
 			log::add('Volets','debug',$action);
-			$action=json_decode($this->getConfiguration('action'),true);
+			$action=json_decode($Zone->getConfiguration('action'),true);
 			log::add('Volets','debug',$action);
 			foreach($action['out'] as $cmd)
 				cmd::byId($cmd['cmd'])->execute($cmd['option']);

@@ -97,6 +97,17 @@ $eqLogics = eqLogic::byType('Volets');
 					</form>
 				</div>	
 				<div class="tab-pane" id="tab_map">	
+					<style>
+						.map-control {
+							background-color: #fff;
+							border: 1px solid #ccc;
+							box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+							font-family: 'Roboto','sans-serif';
+							margin: 10px;
+							display: none;
+						}
+						#map .map-control { display: block; }
+					</style>
 					<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
 					<div id="map" style="width:75%;height:75%;"></div>
 				</div>	

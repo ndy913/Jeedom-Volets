@@ -279,6 +279,7 @@ $('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
     })
 });
 $('body').on('click','.conditionAttr[data-action=add]',function(){
+	jeedom.cmd.getSelectModal({cmd: {type: type}}, function (result) {});
 });
 $('body').on('click','.ActionAttr[data-action=add]',function(){
 	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_action'));

@@ -64,11 +64,15 @@ class Volets extends eqLogic {
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
 			$Jours=$heliotrope->getCmd(null,'sunrise')->execCmd();
-			$Minute=substr($Jours,-2)-$this->getConfiguration('DelaisDay');
 			if(strlen($Jours)==3)
 				$Heure=substr($Jours,0,1);
 			else
 				$Heure=substr($Jours,0,2);
+			$Minute=substr($Jours,-2)-$this->getConfiguration('DelaisDay');
+			while($Minute>=60){
+				$Minute-=60;
+				$Heure+=1;
+			}
 			$Schedule=$Heure . ' ' . $Minute . ' * * * *';
 			$cron = cron::byClassAndFunction('Volets', 'ActionJour');
 			if (!is_object($cron)) {
@@ -85,11 +89,15 @@ class Volets extends eqLogic {
 				$cron->save();
 			}
 			$Nuit=$heliotrope->getCmd(null,'sunset')->execCmd();
-			$Minute=substr($Nuit,-2)+$this->getConfiguration('DelaisNight');
 			if(strlen($Nuit)==3)
 				$Heure=substr($Nuit,0,1);
 			else
 				$Heure=substr($Nuit,0,2);
+			$Minute=substr($Nuit,-2)+$this->getConfiguration('DelaisNight');
+			while($Minute>=60){
+				$Minute-=60;
+				$Heure+=1;
+			}
 			$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
 			if (!is_object($cron)) {
 				$cron = new cron();

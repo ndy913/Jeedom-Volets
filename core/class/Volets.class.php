@@ -53,7 +53,7 @@ class Volets extends eqLogic {
 		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable() == 1) {
-			foreach($Volet->getCmd(null, null, null,true)  as $Commande)
+			foreach($Volet->getCmd(null, null, null, true)  as $Commande)
 				$Commande->execute();	
 			if($Volet->getConfiguration('EnableNight'))
 				$Volet->UpdateActionDayNight();
@@ -117,7 +117,7 @@ class Volets extends eqLogic {
 	}
 	public static function ActionJour() {
 		foreach(eqLogic::byType('Volets') as $Zone){
-			foreach($Zone->getCmd() as $Cmds){
+			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
 				$action=$Cmds->getConfiguration('action');
 				foreach($action['out'] as $cmd)
 					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);
@@ -126,7 +126,7 @@ class Volets extends eqLogic {
 	}
 	public static function ActionNuit() {
 		foreach(eqLogic::byType('Volets') as $Zone){
-			foreach($Zone->getCmd() as $Cmds){
+			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
 				$action=$Cmds->getConfiguration('action');
 				foreach($action['in'] as $cmd)
 					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);

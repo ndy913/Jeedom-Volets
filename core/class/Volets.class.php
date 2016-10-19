@@ -120,7 +120,7 @@ class Volets extends eqLogic {
 			foreach($Zone->getCmd() as $Cmds){
 				$action=$Cmds->getConfiguration('action');
 				foreach($action['in'] as $cmd)
-					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['option']);
+					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);
 			}
 		}
 	}
@@ -129,7 +129,7 @@ class Volets extends eqLogic {
 			foreach($Zone->getCmd() as $Cmds){
 				$action=$Cmds->getConfiguration('action');
 				foreach($action['out'] as $cmd)
-					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['option']);
+					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);
 			}
 		}
 	}
@@ -210,7 +210,7 @@ class VoletsCmd extends cmd {
 			$TempZone=cmd::byId($this->getConfiguration('TempObjet'))->execCmd();
 			if($TempZone >= $this->getConfiguration('SeuilTemp')){
 				foreach($action as $cmd)
-					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['option']);
+					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);
 			}
 		}
     }

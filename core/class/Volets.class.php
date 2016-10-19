@@ -127,7 +127,7 @@ class Volets extends eqLogic {
 	public static function ActionNuit($_option) {
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd() as $Cmds){
-				$action=json_decode($Cmds->getConfiguration('action'),true);
+				$action=$Cmds->getConfiguration('action');
 				foreach($action['out'] as $cmd)
 					cmd::byId($cmd['cmd'])->execute($cmd['option']);
 			}

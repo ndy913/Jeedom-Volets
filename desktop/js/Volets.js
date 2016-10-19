@@ -52,20 +52,27 @@ function saveEqLogic(_eqLogic) {
     }	
 	if (typeof( _eqLogic.cmd) !== 'undefined') {
 		for(var index in  _eqLogic.cmd) { 
+			_eqLogic.cmd[index].configuration.condition=new Object();
 			_eqLogic.cmd[index].configuration.action=new Object();
 			var cmdParameters=$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id) + ']');
+			var ConditionArray= new Array();
 			var inArray= new Array();
 			var outArray= new Array();
-			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ ']  .ActionIn .ActionGroup').each(function( index ) {
+			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ '] .ConditionGroup').each(function( index ) {
+				//console.log( index + ": " + $( this ).text() );
+				ConditionArray.push($(this).getValues('.expressionAttr')[0])
+			});
+			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ '] .ActionIn .ActionGroup').each(function( index ) {
 				//console.log( index + ": " + $( this ).text() );
 				inArray.push($(this).getValues('.expressionAttr')[0])
 			});
-			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ ']  .ActionOut .ActionGroup').each(function( index ) {
+			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ '] .ActionOut .ActionGroup').each(function( index ) {
 				//console.log( index + ": " + $( this ).text() );
 				outArray.push($(this).getValues('.expressionAttr')[0])
 			});
-			_eqLogic.cmd[index].configuration.action.in=inArray;//cmdParameters.find('.ActionIn').getValues('.expressionAttr');
-			_eqLogic.cmd[index].configuration.action.out=outArray;//cmdParameters.find('.ActionOut').getValues('.expressionAttr');
+			_eqLogic.cmd[index].configuration.condition=ConditionArray;
+			_eqLogic.cmd[index].configuration.action.in=inArray;
+			_eqLogic.cmd[index].configuration.action.out=outArray;
 			if(_eqLogic.cmd[index].id =="new")
 				_eqLogic.cmd[index].id=null;
 		}

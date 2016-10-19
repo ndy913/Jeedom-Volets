@@ -50,7 +50,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public static function pull($_option) {
-		log::add('Volets', 'debug', 'Objet mis à jour => ' . $_option['event_id'] . ' / ' . $_option['value']);
+		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable() == 1) {
 			foreach($Volet->getCmd() as $Commande)

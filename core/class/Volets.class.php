@@ -65,7 +65,7 @@ class Volets extends eqLogic {
 		if(is_object($heliotrope)){
 			$Jours=$heliotrope->getCmd(null,'sunrise')->execCmd();
 			$Minute=substr($Jours,-2)-$this->getConfiguration('DelaisDay');
-			if(count($Jours)==3)
+			if(strlen($Jours)==3)
 				$Heure=substr($Jours,0,1);
 			else
 				$Heure=substr($Jours,0,2);
@@ -85,8 +85,8 @@ class Volets extends eqLogic {
 				$cron->save();
 			}
 			$Nuit=$heliotrope->getCmd(null,'sunset')->execCmd();
-			$Minute=substr($Nuit,-2)-$this->getConfiguration('DelaisNight');
-			if(count($Nuit)==3)
+			$Minute=substr($Nuit,-2)+$this->getConfiguration('DelaisNight');
+			if(strlen($Nuit)==3)
 				$Heure=substr($Nuit,0,1);
 			else
 				$Heure=substr($Nuit,0,2);

@@ -69,7 +69,7 @@ $eqLogics = eqLogic::byType('Volets');
 								<label class="col-sm-2 control-label">{{Nom de la Zone}}</label>
 								<div class="col-sm-5">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-									<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement Direct Energie}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du groupe de zones}}"/>
 								</div>
 							</div>
 							<div class="form-group">

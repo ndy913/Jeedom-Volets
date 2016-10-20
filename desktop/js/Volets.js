@@ -32,6 +32,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					'scrollwheel': true,
 					'zoom': 20
 				});
+				$('#MyMap').parent().hide();
 			}
 		}
 	});

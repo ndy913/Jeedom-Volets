@@ -5,6 +5,7 @@ throw new Exception('{{401 - Accès non autorisé}}');
 sendVarToJS('eqType', 'Volets');
 $eqLogics = eqLogic::byType('Volets');
 ?>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
 <div class="row row-overflow">
 	<div class="col-lg-2">
 		<div class="bs-sidebar">
@@ -54,9 +55,8 @@ $eqLogics = eqLogic::byType('Volets');
 				<legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Configuration des zones et actions}}<i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i></legend>
 			</fieldset> 
 		</form>	
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
-		<div id="MyMap" style="width:800px;height:600px;margin:auto;"></div>
 		<div class="row" style="padding-left:25px;">
+			<div id="MyMap" style="width:800px;height:600px;margin:auto;"></div>
 			<ul class="nav nav-tabs" id="tab_zones">	
 				<li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li>
 				<li class="active"><a href="#tab_general"><i class="fa fa-cogs"></i> {{Général}}</a></li>

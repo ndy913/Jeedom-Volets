@@ -56,7 +56,6 @@ $eqLogics = eqLogic::byType('Volets');
 			</fieldset> 
 		</form>	
 		<div class="row" style="padding-left:25px;">
-			<div id="MyMap" style="width:800px;height:600px;margin:auto;"></div>
 			<ul class="nav nav-tabs" id="tab_zones">	
 				<li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li>
 				<li class="active"><a href="#tab_general"><i class="fa fa-cogs"></i> {{Général}}</a></li>
@@ -64,6 +63,7 @@ $eqLogics = eqLogic::byType('Volets');
 				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>	
 			</ul>
 			<div class="tab-content TabCmdZone">
+			<div id="MyMap" style="width:800px;height:600px;margin:auto;"></div>
 				<div class="tab-pane active" id="tab_general">
 					<form class="form-horizontal">
 						<fieldset>

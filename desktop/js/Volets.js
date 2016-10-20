@@ -2,7 +2,7 @@ var map;
 var Center= new Object();
 $('body').on('click','.SelectMap',function(){
 	map.setCenter(Center);
-)}
+});
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
 	$.ajax({
 		type: 'POST',            

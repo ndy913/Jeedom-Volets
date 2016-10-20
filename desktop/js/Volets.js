@@ -20,15 +20,14 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				Center.lat=parseFloat(center[0]);
 				Center.lng=parseFloat(center[1]);
 				// création de la carte
-				//map = new google.maps.Map( document.getElementById('map'),{
-				map = new google.maps.Map($('.tab_general #tab_map #MyMap'),{
+				map = new google.maps.Map( document.getElementById('MyMap'),{
 					'backgroundColor': '#FFF',
 					'mapTypeControl':  true,
 					'streetViewControl': false,
 					'panControl':true,
-					'zoomControlOptions': {
-						'style': google.maps.ZoomControlStyle.SMALL
-					},
+					//'zoomControlOptions': {
+					//	'style': google.maps.ZoomControlStyle.SMALL
+					//},
 					'center': Center,
 					'scrollwheel': true,
 					'zoom': 20

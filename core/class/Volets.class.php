@@ -181,37 +181,41 @@ class VoletsCmd extends cmd {
     public function execute($_options = null) {
 		//Rechercher position du soleil => heliotrope
 		$heliotrope=eqlogic::byId($this->getEqLogic()->getConfiguration('heliotrope'));
-		if(is_object($heliotrope)){
-			$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
-			//Calculer de l'angle de ma zone
-			$Droite=$this->getConfiguration('Droit');
-			$Gauche=$this->getConfiguration('Gauche');
-			
-			$Angle=$this->getAngle($Droite['lat'],
-					       $Droite['lng'],
-					       $Gauche['lat'],
-					       $Gauche['lng']);
-			log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
-			//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
-			$action=$this->getConfiguration('action');
-			if($Azimuth<$Angle&&$Azimuth>$Angle-90){
-				log::add('Volets','debug','Le soleil est dans la fenetre');
-				$TempZone=cmd::byId($this->getConfiguration('TempObjet'));
-				if(is_object($TempZone)){
-					if($TempZone->execCmd() >= $this->getConfiguration('SeuilTemp')){
-						log::add('Volets','debug','Les conditions sont remplie');
-						$action=$action['in'];
-					}else{
-						log::add('Volets','debug','Les conditions ne sont pas remplie');
-						$action=$action['out'];
+		if(is_object($heliotrope)){	
+			$Jours=$heliotrope->getCmd(null,'sunrise')->execCmd();
+			$Nuit=$heliotrope->getCmd(null,'sunset')->execCmd();
+			if(date("Hi")>date("Hi",$Jours)&&date("Hi")<date("Hi",$Nuit)){
+				$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
+				//Calculer de l'angle de ma zone
+				$Droite=$this->getConfiguration('Droit');
+				$Gauche=$this->getConfiguration('Gauche');
+
+				$Angle=$this->getAngle($Droite['lat'],
+						       $Droite['lng'],
+						       $Gauche['lat'],
+						       $Gauche['lng']);
+				log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
+				//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
+				$action=$this->getConfiguration('action');
+				if($Azimuth<$Angle&&$Azimuth>$Angle-90){
+					log::add('Volets','debug','Le soleil est dans la fenetre');
+					$TempZone=cmd::byId($this->getConfiguration('TempObjet'));
+					if(is_object($TempZone)){
+						if($TempZone->execCmd() >= $this->getConfiguration('SeuilTemp')){
+							log::add('Volets','debug','Les conditions sont remplie');
+							$action=$action['in'];
+						}else{
+							log::add('Volets','debug','Les conditions ne sont pas remplie');
+							$action=$action['out'];
+						}
 					}
+				}else{
+					log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
+					$action=$action['out'];
 				}
-			}else{
-				log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
-				$action=$action['out'];
+				foreach($action as $cmd)
+					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);
 			}
-			foreach($action as $cmd)
-				cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);
 		}
 	}
 }

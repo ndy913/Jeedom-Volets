@@ -97,7 +97,7 @@ $eqLogics = eqLogic::byType('Volets');
 						</fieldset>
 					</form>
 				</div>	
-				<div class="tab-pane" id="tab_map">	
+				<div class="tab-pane active" id="tab_map">	
 					<div id="MyMap" style="width:800px;height:600px;margin:auto;display:block;"></div>
 				</div>	
 				<div class="tab-pane" id="tab_parametre">

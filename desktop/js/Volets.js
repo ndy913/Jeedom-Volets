@@ -281,7 +281,7 @@ function addCondition(_action, _name, _el) {
  		.append($('<div class="col-lg-1">')
   			.append($('<i class="fa fa-minus-circle pull-left cursor conditionAttr" data-action="remove">')));
         _el.append(div);
-        _el.setValues(_action, '.expressionAttr');
+        _el.find('.ConditionGroup:last').setValues(_action, '.expressionAttr');
   
 }
 function addAction(_action, _name, _el) {
@@ -304,7 +304,7 @@ function addAction(_action, _name, _el) {
  		.append($('<div class="col-lg-1">')
   			.append($('<i class="fa fa-minus-circle pull-left cursor ActionAttr" data-action="remove">')));
         _el.append(div);
-        _el.setValues(_action, '.expressionAttr');
+        _el.find('.ActionGroup:last').setValues(_action, '.expressionAttr');
   
 }
 $('#tab_zones a').click(function(e) {

@@ -242,6 +242,12 @@ function AddZone(_zone){
 		e.preventDefault();
 		$(this).tab('show');
 	});	
+	if (typeof(_zone.configuration.condition) !== 'undefined') {
+		for(var index in _zone.configuration.condition) { 
+			if( (typeof _zone.configuration.condition[index] === "object") && (_zone.configuration.condition[index] !== null) )
+				addCondition(_zone.configuration.condition[index],  '{{Condition}}',$('.cmd[data-cmd_id=' + init(_zone.id)+ '] ').find('.div_Condition'));
+		}
+	}
 	if (typeof(_zone.configuration.action) !== 'undefined') {
 		if (typeof(_zone.configuration.action.in) !== 'undefined') {
 			for(var index in _zone.configuration.action.in) { 
@@ -313,7 +319,7 @@ $('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
     })
 });
 $('body').on('click','.conditionAttr[data-action=add]',function(){
-	addCondition({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_Condition'));
+	addCondition({},  '{{Condition}}',$(this).closest('.form-horizontal').find('.div_Condition'));
 });
 $('body').on('click','.conditionAttr[data-action=remove]',function(){
 	$(this).closest('.ConditionGroup').remove();

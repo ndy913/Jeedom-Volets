@@ -59,7 +59,7 @@ $eqLogics = eqLogic::byType('Volets');
 			<ul class="nav nav-tabs" id="tab_zones">	
 				<li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li>
 				<li class="active"><a href="#tab_general"><i class="fa fa-cogs"></i> {{Général}}</a></li>
-				<li><a href="#tab_map"><i class="fa fa-map"></i> {{Afficher la carte}}</a></li>
+				<li class="SelectMap"><a href="#tab_map"><i class="fa fa-map"></i> {{Afficher la carte}}</a></li>
 				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>	
 			</ul>
 			<div class="tab-content TabCmdZone">

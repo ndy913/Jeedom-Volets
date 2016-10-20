@@ -34,7 +34,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					    'style':google.maps.MapTypeControlStyle.DROPDOWN_MENU,
 					    'position':google.maps.ControlPosition.LEFT_BOTTOM 
 					},
-					'mapTypeId': google.maps.MapTypeId.ROADMAP
+					'mapTypeId': google.maps.MapTypeId.ROADMAP,
 					'center': Center,
 					'scrollwheel': true,
 					'zoom': 20

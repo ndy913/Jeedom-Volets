@@ -213,8 +213,12 @@ class VoletsCmd extends cmd {
 					log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
 					$action=$action['out'];
 				}
-				foreach($action as $cmd)
-					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);
+				foreach($action as $cmd){
+					$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
+					is(is_object($Commande)){
+						$Commande->execute($cmd['options']);
+					}
+				}
 			}
 		}
 	}

@@ -213,7 +213,6 @@ class VoletsCmd extends cmd {
 				if($Azimuth<$Angle&&$Azimuth>$Angle-90){
 					log::add('Volets','debug','Le soleil est dans la fenetre');
 					$action=$action['in'];
-					}
 				}else{
 					log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
 					$action=$action['out'];

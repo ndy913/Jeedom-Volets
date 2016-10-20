@@ -215,7 +215,7 @@ class VoletsCmd extends cmd {
 				}
 				foreach($action as $cmd){
 					$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
-					is(is_object($Commande)){
+					if(is_object($Commande)){
 						$Commande->execute($cmd['options']);
 					}
 				}

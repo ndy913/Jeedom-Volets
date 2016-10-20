@@ -165,7 +165,7 @@ function AddZone(_zone){
 			.append($('<a href="#tab_' + init(_zone.id) + '">')
 				.text(_zone.name)));
 		if (typeof(_zone.display.icon) !== 'undefined') {
-			$('#tab_zones #'+_zone.id + ' a').prepend(_icon);
+			$('#tab_zones #'+_zone.id + ' a').prepend(_zone.display.icon);
 		}
 	}
 	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" data-cmd_id="' +init(_zone.id) + '" id="tab_' +init(_zone.id) + '">')

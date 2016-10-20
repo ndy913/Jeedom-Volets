@@ -443,8 +443,22 @@ $('body').on('click','.listCmdCondition',function(){
 		});
 	});
 });
-
-$('body').on('click','.ActionAttr[data-action=rename]',function(){
+$('body').on('click','.ActionAttr[data-action=add]',function(){
+	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_action'));
+});
+$('body').on('click','.ActionAttr[data-action=remove]', function () {
+	$(this).closest('.ActionGroup').remove();
+});
+$("body").on('click', ".listCmdAction", function() {
+    	var el = $(this).closest('.form-group').find('.expressionAttr[data-l1key=cmd]');
+    	jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function(result) {
+		el.value(result.human);
+        	jeedom.cmd.displayActionOption(el.value(), '', function(html) {
+			el.closest('.form-group').find('.actionOptions').html(html);
+        	});
+    	});
+});
+$('body').on('click','.modeAction[data-l1key=rename]',function(){
 	var _this=this;
 	var zoneId = $(this).closest('.tabAttr').attr("id").replace('tab_','');
 	bootbox.prompt("Nom ?", function (result) {
@@ -453,12 +467,6 @@ $('body').on('click','.ActionAttr[data-action=rename]',function(){
 			$(_this).closest('.cmd').find('.cmdAttr[data-l1key=name]').val(result);
 		});
 	});
-$('body').on('click','.ActionAttr[data-action=add]',function(){
-	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_action'));
-});
-$('body').on('click','.ActionAttr[data-action=remove]', function () {
-	$(this).closest('.ActionGroup').remove();
-});
 $('body').on('click','.modeAction[data-l1key=removeIcon]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id").replace('tab_','');
 	$('#' + zoneId ).find('.icon').parent().remove();
@@ -476,15 +484,6 @@ $('body').on('click','.modeAction[data-l1key=removeZone]', function () {
 	var zoneId = $(this).closest('.tabAttr').attr("id").replace('tab_','');
 	$('#' + zoneId).parent().remove();
 	$(this).closest('.cmd').remove();
-});
-$("body").on('click', ".listCmdAction", function() {
-    	var el = $(this).closest('.form-group').find('.expressionAttr[data-l1key=cmd]');
-    	jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function(result) {
-		el.value(result.human);
-        	jeedom.cmd.displayActionOption(el.value(), '', function(html) {
-			el.closest('.form-group').find('.actionOptions').html(html);
-        	});
-    	});
 });
 $('body').on( 'click','.bt_selectCmdExpression', function() {
 	var _this=this;

@@ -164,6 +164,9 @@ function AddZone(_zone){
 		$('#tab_zones').append($('<li id="' +init(_zone.id) + '">')
 			.append($('<a href="#tab_' + init(_zone.id) + '">')
 				.text(_zone.name)));
+		if (typeof(_zone.display.icone) !== 'undefined') {
+			$('#tab_zones #'+_zone.id + ' a').prepend(_icon);
+		}
 	}
 	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" data-cmd_id="' +init(_zone.id) + '" id="tab_' +init(_zone.id) + '">')
 		.append($('<div class="row">')
@@ -181,6 +184,9 @@ function AddZone(_zone){
 			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" style="display : none;" />'))
 			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized" style="display : none;"/>'))
 			.append($('<div class="btn-group pull-right" role="group">')
+				.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="rename">')
+					.append($('<i class="fa fa-flag">'))
+					.text('{{Renomer la zone}}'))
 				.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="chooseIcon">')
 					.append($('<i class="fa fa-flag">'))
 					.text('{{Modifier Icône}}'))
@@ -393,7 +399,6 @@ $('body').on('click','.listCmdCondition',function(){
 			'             <div class="col-xs-3">' +
 			'                <select class="conditionAttr form-control" data-l1key="next">' +
 			'                  <option value="">{{rien}}</option>' +
-			'                  <option value="ET">{{et}}</option>' +
 			'                  <option value="OU">{{ou}}</option>' +
 			'            </select>' +
 			'       </div>' +
@@ -438,6 +443,16 @@ $('body').on('click','.listCmdCondition',function(){
 		});
 	});
 });
+
+$('body').on('click','.ActionAttr[data-action=rename]',function(){
+	var _this=this;
+	var zoneId = $(this).closest('.tabAttr').attr("id").replace('tab_','');
+	bootbox.prompt("Nom ?", function (result) {
+		if (result !== null && result != '') 
+			$('#' + zoneId + ' a').text(result);
+			$(_this).closest('.cmd').find('.cmdAttr[data-l1key=name]').val(result);
+		});
+	});
 $('body').on('click','.ActionAttr[data-action=add]',function(){
 	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_action'));
 });
@@ -454,7 +469,7 @@ $('body').on('click','.modeAction[data-l1key=chooseIcon]', function () {
 	var _this = this;
    	chooseIcon(function (_icon) {
 		$('#' + zoneId + ' a').prepend(_icon);
-		$(_this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val('');
+		$(_this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val(_icon);
     	});
 });
 $('body').on('click','.modeAction[data-l1key=removeZone]', function () {

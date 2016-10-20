@@ -310,7 +310,8 @@ $('body').on('click','.conditionAttr[data-action=add]',function(){
 	addCondition({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_Condition'));
 });
 $('body').on('click','.listCmdCondition',function(){
-	jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {message = 'Aucun choix possible';
+	jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
+		var message = 'Aucun choix possible';
 		if(result.cmd.subType == 'numeric'){
 			message = '<div class="row">  ' +
 			'<div class="col-md-12"> ' +

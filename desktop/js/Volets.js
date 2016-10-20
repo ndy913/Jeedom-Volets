@@ -1,8 +1,5 @@
 var map;
 var Center= new Object();
-$('body').on('click','.SelectMap',function(){
-	map.setCenter(Center);
-});
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
 	$.ajax({
 		type: 'POST',            
@@ -23,17 +20,13 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				Center.lat=parseFloat(center[0]);
 				Center.lng=parseFloat(center[1]);
 				// création de la carte
+				$('#MyMap').parent().show();
 				map = new google.maps.Map( document.getElementById('MyMap'),{
-					'backgroundColor': '#FFF',
 					'mapTypeControl':  true,
 					'streetViewControl': false,
 					'panControl':true,
 					'scaleControl': true,
 					'overviewMapControl': true,
-					'mapTypeControlOptions': {
-					    'style':google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-					    'position':google.maps.ControlPosition.LEFT_BOTTOM 
-					},
 					'mapTypeId': google.maps.MapTypeId.ROADMAP,
 					'center': Center,
 					'scrollwheel': true,

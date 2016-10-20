@@ -119,8 +119,11 @@ class Volets extends eqLogic {
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
 				$action=$Cmds->getConfiguration('action');
-				foreach($action['out'] as $cmd)
-					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);
+				foreach($action['out'] as $cmd){
+					$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
+					if(is_object($Commande))
+						$Commande->execute($cmd['options']);
+				}
 			}
 		}
 	}
@@ -129,7 +132,9 @@ class Volets extends eqLogic {
 			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
 				$action=$Cmds->getConfiguration('action');
 				foreach($action['in'] as $cmd)
-					cmd::byId(str_replace('#','',$cmd['cmd']))->execute($cmd['options']);
+					$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
+					if(is_object($Commande))
+						$Commande->execute($cmd['options']);
 			}
 		}
 	}
@@ -197,6 +202,10 @@ class VoletsCmd extends cmd {
 				log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
 				//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 				$action=$this->getConfiguration('action');
+				foreach($this->getConfiguration('condition') as $expression){
+					if(evaluate($expression))
+						return;
+				}
 				if($Azimuth<$Angle&&$Azimuth>$Angle-90){
 					log::add('Volets','debug','Le soleil est dans la fenetre');
 					$TempZone=cmd::byId($this->getConfiguration('TempObjet'));

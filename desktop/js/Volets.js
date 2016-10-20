@@ -28,9 +28,13 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					'mapTypeControl':  true,
 					'streetViewControl': false,
 					'panControl':true,
-					//'zoomControlOptions': {
-					//	'style': google.maps.ZoomControlStyle.SMALL
-					//},
+					'scaleControl': true,
+					'overviewMapControl': true,
+					'mapTypeControlOptions': {
+					    'style':google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+					    'position':google.maps.ControlPosition.LEFT_BOTTOM 
+					},
+					'mapTypeId': google.maps.MapTypeId.ROADMAP
 					'center': Center,
 					'scrollwheel': true,
 					'zoom': 20

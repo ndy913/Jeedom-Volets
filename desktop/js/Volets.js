@@ -20,7 +20,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				Center.lat=parseFloat(center[0]);
 				Center.lng=parseFloat(center[1]);
 				// création de la carte
-				map = new google.maps.Map( document.getElementById('map'),{
+				//map = new google.maps.Map( document.getElementById('map'),{
+				map = new google.maps.Map($('.tab_general #tab_map #MyMap'),{
 					'backgroundColor': '#FFF',
 					'mapTypeControl':  true,
 					'streetViewControl': false,
@@ -28,19 +29,10 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					'zoomControlOptions': {
 						'style': google.maps.ZoomControlStyle.SMALL
 					},
-					//'center': Center,
+					'center': Center,
 					'scrollwheel': true,
 					'zoom': 20
 				});
-				map.getDiv().style.display = 'block';
-				// déclenche l'événement resize de la carte
-				google.maps.event.trigger( map, 'resize');
-				// recentre la carte la première fois
-				if( !map.get('firstShow')){
-					map.setCenter(Center);
-					map.set('firstShow', 1);
-				}
-
 			}
 		}
 	});

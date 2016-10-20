@@ -55,6 +55,8 @@ $eqLogics = eqLogic::byType('Volets');
 			</fieldset> 
 		</form>	
 		<div class="row">
+					<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
+					<div id="map" style="width:600px;height:500px;"></div>
 			<ul class="nav nav-tabs" id="tab_zones">	
 				<li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li>
 				<li class="active"><a href="#tab_general"><i class="fa fa-cogs"></i> {{Général}}</a></li>
@@ -97,8 +99,6 @@ $eqLogics = eqLogic::byType('Volets');
 					</form>
 				</div>	
 				<div class="tab-pane" id="tab_map">	
-					<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
-					<div id="map" style="width:600px;height:500px;"></div>
 				</div>	
 				<div class="tab-pane" id="tab_parametre">
 					<form class="form-horizontal">

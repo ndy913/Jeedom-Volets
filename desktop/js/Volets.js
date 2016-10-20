@@ -20,7 +20,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				Center.lat=parseFloat(center[0]);
 				Center.lng=parseFloat(center[1]);
 				// création de la carte
-				$('#MyMap').parent().show();
+				$('#MyMap').show();
 				map = new google.maps.Map( document.getElementById('MyMap'),{
 					'mapTypeControl':  true,
 					'streetViewControl': false,
@@ -32,7 +32,6 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					'scrollwheel': true,
 					'zoom': 20
 				});
-				$('#MyMap').parent().hide();
 			}
 		}
 	});

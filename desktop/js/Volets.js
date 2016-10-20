@@ -315,6 +315,9 @@ $('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
 $('body').on('click','.conditionAttr[data-action=add]',function(){
 	addCondition({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_Condition'));
 });
+$('body').on('click','.conditionAttr[data-action=remove]',function(){
+	$(this).closest('.ConditionGroup').remove();
+});
 $('body').on('click','.listCmdCondition',function(){
 	var el = $(this).closest('.form-group').find('.expressionAttr[data-l1key=expression]');	
 	jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {

@@ -310,6 +310,7 @@ $('body').on('click','.conditionAttr[data-action=add]',function(){
 	addCondition({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_Condition'));
 });
 $('body').on('click','.listCmdCondition',function(){
+	var el = $(this).closest('.form-group').find('.expressionAttr[data-l1key=expression]');	
 	jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
 		var message = 'Aucun choix possible';
 		if(result.cmd.subType == 'numeric'){
@@ -412,14 +413,14 @@ $('body').on('click','.listCmdCondition',function(){
 				"Ne rien mettre": {
 					className: "btn-default",
 					callback: function () {
-						expression.find('.expressionAttr[data-l1key=expression]').atCaret('insert', result.human);
+						el.atCaret('insert', result.human);
 					}
 				},
 				success: {
 					label: "Valider",
 					className: "btn-primary",
 					callback: function () {
-						var condition = result.human;
+    						var condition = result.human;
 						condition += ' ' + $('.conditionAttr[data-l1key=operator]').value();
 						if(result.cmd.subType == 'string'){
 							if($('.conditionAttr[data-l1key=operator]').value() == 'matches'){
@@ -431,7 +432,7 @@ $('body').on('click','.listCmdCondition',function(){
 							condition += ' ' + $('.conditionAttr[data-l1key=operande]').value();
 						}
 						condition += ' ' + $('.conditionAttr[data-l1key=next]').value()+' ';
-						expression.find('.expressionAttr[data-l1key=expression]').atCaret('insert', condition);
+						el.atCaret('insert', condition);
 						if($('.conditionAttr[data-l1key=next]').value() != ''){
 							el.click();
 						}

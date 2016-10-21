@@ -125,11 +125,11 @@ class Volets extends eqLogic {
 							log::add('Volets','debug','Evaluation de l\'expression: '.$condition['expression'].' => ' .$ExpressionEvaluationString);
 							if(!$ExpressionEvaluation){
 								log::add('Volets','debug','Les conditions ne sont pas remplie');
-								return;
+								break;
 							}
 						}
 						else
-							return;
+							break;
 					}
 					$actions=$Commande->getConfiguration('action');
 					log::add('Volets','debug','Les conditions sont remplie');

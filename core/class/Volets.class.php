@@ -53,76 +53,113 @@ class Volets extends eqLogic {
 		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable() == 1) {
-			foreach($Volet->getCmd(null, null, null, true)  as $Commande)
-				$Commande->execute();	
-			if($Volet->getConfiguration('EnableNight'))
-				$Volet->UpdateActionDayNight();
-			
+			$Event = cmd::byId($_option['event_id']);
+			if(is_object($Event)){
+				switch($Event->getlogicalId()){
+					case 'azimuth360':
+						if($Volet->getConfiguration('EnableTemp'))
+							$Volet->ActionAzimute();
+					break
+					case 'sunrise':
+					case 'sunset':
+						if($Volet->getConfiguration('EnableNight'))
+							$Volet->UpdateActionDayNight();
+					break
+				}
+			}
 		}
+	}
+	public function ActionAzimute() {
+		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
+		if(is_object($heliotrope)){	
+			$Jours=split(' ',$this->CalculHeureEvent($heliotrope, 'sunrise','DelaisDay'));
+			$Jour=date("H i",mktime($Jours[0],$Jours[1]));
+			$Nuits=split(' ',$this->CalculHeureEvent($heliotrope, 'sunset','DelaisNight'));
+			$Nuit=date("H i",mktime($Nuits[0],$Nuits[1]));
+			if(date("H i")>$Jour&&date("H i")<$Nuit){
+				foreach($this->getCmd(null, null, null, true)  as $Commande){
+					$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
+					//Calculer de l'angle de ma zone
+					$Droite=$Commande->getConfiguration('Droit');
+					$Gauche=$Commande->getConfiguration('Gauche');
+
+					$Angle=$Commande->getAngle($Droite['lat'],
+							       $Droite['lng'],
+							       $Gauche['lat'],
+							       $Gauche['lng']);
+					log::add('Volets','debug','L\'angle de votre zone '.$Commande->getName().' par rapport au Nord est de '.$Angle.'°');
+					//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
+					foreach($Commande->getConfiguration('condition') as $condition){
+						log::add('Volets','debug','Evaluation de l\'expression: '.$condition['expression']);
+						if(!evaluate($condition['expression'])){
+							log::add('Volets','debug','Les conditions ne sont pas remplie');
+							return;
+						}
+					}
+					$actions=$Commande->getConfiguration('action');
+					if(is_object($actions)){
+						log::add('Volets','debug','Les conditions sont remplie');
+						if($Azimuth<$Angle&&$Azimuth>$Angle-90){
+							log::add('Volets','debug','Le soleil est dans la fenetre');
+							$options['action']=$action['in'];
+						}else{
+							log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
+							$options['action']=$action['out'];
+						}
+						$Commande->execute($options);
+					}
+				}
+			}else{
+				log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
+			}
+		}
+	}
+	public function CalculHeureEvent($heliotrope, $logicalId, $delais) {
+		$Jours=$heliotrope->getCmd(null,'sunrise')->execCmd();
+		if(strlen($Jours)==3)
+			$Heure=substr($Jours,0,1);
+		else
+			$Heure=substr($Jours,0,2);
+		$Minute=substr($Jours,-2)-$this->getConfiguration($delais);
+		while($Minute>=60){
+			$Minute-=60;
+			$Heure+=1;
+		}
+		return $Minute . ' ' . $Heure;
+	}
+	public function CreateCron($Schedule, $logicalId) {
+		$cron =cron::byClassAndFunction('Volets', $logicalId);
+			if (!is_object($cron)) {
+				$cron = new cron();
+				$cron->setClass('Volets');
+				$cron->setFunction($logicalId);
+				$cron->setEnable(1);
+				$cron->setDeamon(0);
+				$cron->setSchedule($Schedule);
+				$cron->save();
+			}
+			else{
+				$cron->setSchedule($Schedule);
+				$cron->save();
+			}
+		return $cron;
 	}
 	public function UpdateActionDayNight() {
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
-			$Jours=$heliotrope->getCmd(null,'sunrise')->execCmd();
-			if(strlen($Jours)==3)
-				$Heure=substr($Jours,0,1);
-			else
-				$Heure=substr($Jours,0,2);
-			$Minute=substr($Jours,-2)-$this->getConfiguration('DelaisDay');
-			while($Minute>=60){
-				$Minute-=60;
-				$Heure+=1;
-			}
-			$Schedule=$Minute . ' ' . $Heure . ' * * * *';
-			$cron = cron::byClassAndFunction('Volets', 'ActionJour');
-			if (!is_object($cron)) {
-				$cron = new cron();
-				$cron->setClass('Volets');
-				$cron->setFunction('ActionJour');
-				$cron->setEnable(1);
-				$cron->setDeamon(0);
-				$cron->setSchedule($Schedule);
-				$cron->save();
-			}
-			else{
-				$cron->setSchedule($Schedule);
-				$cron->save();
-			}
-			$Nuit=$heliotrope->getCmd(null,'sunset')->execCmd();
-			if(strlen($Nuit)==3)
-				$Heure=substr($Nuit,0,1);
-			else
-				$Heure=substr($Nuit,0,2);
-			$Minute=substr($Nuit,-2)+$this->getConfiguration('DelaisNight');
-			while($Minute>=60){
-				$Minute-=60;
-				$Heure+=1;
-			}
-			$Schedule=$Minute . ' ' . $Heure . ' * * * *';
-			$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
-			if (!is_object($cron)) {
-				$cron = new cron();
-				$cron->setClass('Volets');
-				$cron->setFunction('ActionNuit');
-				$cron->setEnable(1);
-				$cron->setDeamon(0);
-				$cron->setSchedule($Schedule);
-				$cron->save();
-			}
-			else{
-				$cron->setSchedule($Schedule);
-				$cron->save();
-			}
+			$Schedule=$this->CalculHeureEvent($heliotrope, 'sunrise','DelaisDay') . ' * * * *';
+			$cron = $this->CreateCron($Schedule, 'ActionJour');
+			$Schedule=$this->CalculHeureEvent($heliotrope, 'sunset','DelaisNight') . ' * * * *';
+			$cron = $this->CreateCron($Schedule, 'ActionNuit');
 		}
 	}
 	public static function ActionJour() {
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
-				$action=$Cmds->getConfiguration('action');
-				foreach($action['out'] as $cmd){
-					$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
-					if(is_object($Commande))
-						$Commande->execute($cmd['options']);
+				$actions=$Cmds->getConfiguration('action');
+				if(is_object($actions)){
+					$_options['action']=$actions['out'];
+					$Cmds->execute($_options);
 				}
 			}
 		}
@@ -130,19 +167,15 @@ class Volets extends eqLogic {
 	public static function ActionNuit() {
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
-				$action=$Cmds->getConfiguration('action');
-				foreach($action['in'] as $cmd)
-					$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
-					if(is_object($Commande))
-						$Commande->execute($cmd['options']);
+				$actions=$Cmds->getConfiguration('action');
+				if(is_object($actions)){
+					$_options['action']=$actions['in'];
+					$Cmds->execute($_options);
+				}
 			}
 		}
-	}
-  	public function preUpdate() {
-    	}  
-   	public function preInsert() {
-	}    
-    	public function postSave() {
+	} 
+    public function postSave() {
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
 			if($this->getConfiguration('EnableNight'))
@@ -155,12 +188,9 @@ class Volets extends eqLogic {
 			$listener->setFunction('pull');
 			$listener->setOption(array('Volets_id' => intval($this->getId())));
 			$listener->emptyEvent();
-			if($this->getConfiguration('EnableTemp'))
-				$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-			if($this->getConfiguration('EnableNight'))
-				$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
-			if($this->getConfiguration('EnableNight'))
-				$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());
+			$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
+			$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
+			$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());
 			$listener->save();	
 
 		}
@@ -183,46 +213,11 @@ class VoletsCmd extends cmd {
 		}
 		return  $angle % 360;
 	}
-    public function execute($_options = null) {
-		//Rechercher position du soleil => heliotrope
-		$heliotrope=eqlogic::byId($this->getEqLogic()->getConfiguration('heliotrope'));
-		if(is_object($heliotrope)){	
-			$Jours=$heliotrope->getCmd(null,'sunrise')->execCmd();
-			$Nuit=$heliotrope->getCmd(null,'sunset')->execCmd();
-			if(date("Hi")>date("Hi",$Jours)&&date("Hi")<date("Hi",$Nuit)){
-				$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
-				//Calculer de l'angle de ma zone
-				$Droite=$this->getConfiguration('Droit');
-				$Gauche=$this->getConfiguration('Gauche');
-
-				$Angle=$this->getAngle($Droite['lat'],
-						       $Droite['lng'],
-						       $Gauche['lat'],
-						       $Gauche['lng']);
-				log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
-				//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
-				$action=$this->getConfiguration('action');
-				foreach($this->getConfiguration('condition') as $expression){
-					log::add('Volets','debug','Evaluation de l\'expression: '.$expression);
-					if(!evaluate($expression)){
-						log::add('Volets','debug','Les conditions ne sont pas remplie');
-						return;
-					}
-				}
-				log::add('Volets','debug','Les conditions sont remplie');
-				if($Azimuth<$Angle&&$Azimuth>$Angle-90){
-					log::add('Volets','debug','Le soleil est dans la fenetre');
-					$action=$action['in'];
-				}else{
-					log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
-					$action=$action['out'];
-				}
-				foreach($action as $cmd){
-					$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
-					if(is_object($Commande)){
-						$Commande->execute($cmd['options']);
-					}
-				}
+    public function execute($_options = null) {		
+		foreach($_options['action'] as $cmd){
+			$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
+			if(is_object($Commande)){
+				$Commande->execute($cmd['options']);
 			}
 		}
 	}

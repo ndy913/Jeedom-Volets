@@ -58,7 +58,7 @@ class Volets extends eqLogic {
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
 						if($Volet->getConfiguration('EnableTemp')){
-							log::add('Volets', 'debug', 'Gestion des volets par l\azimuth');
+							log::add('Volets', 'debug', 'Gestion des volets par l\'azimuth');
 							$Volet->ActionAzimute($_option['value']);
 						}
 					break;
@@ -118,24 +118,23 @@ class Volets extends eqLogic {
 				log::add('Volets','debug','L\'angle de votre zone '.$Commande->getName().' par rapport au Nord est de '.$Angle.'°');
 				//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 				foreach($Commande->getConfiguration('condition') as $condition){
-					log::add('Volets','debug','Evaluation de l\'expression: '.$condition['expression']);
-					if(!evaluate($condition['expression'])){
+					$ExpressionEvaluation=evaluate($condition['expression']);
+					log::add('Volets','debug','Evaluation de l\'expression: '.$condition['expression'].' => ' .$ExpressionEvaluation);
+					if(!$ExpressionEvaluation){
 						log::add('Volets','debug','Les conditions ne sont pas remplie');
 						return;
 					}
 				}
 				$actions=$Commande->getConfiguration('action');
-				if(is_object($actions)){
-					log::add('Volets','debug','Les conditions sont remplie');
-					if($Azimuth<$Angle&&$Azimuth>$Angle-90){
-						log::add('Volets','debug','Le soleil est dans la fenetre');
-						$options['action']=$action['in'];
-					}else{
-						log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
-						$options['action']=$action['out'];
-					}
-					$Commande->execute($options);
+				log::add('Volets','debug','Les conditions sont remplie');
+				if($Azimuth<$Angle&&$Azimuth>$Angle-90){
+					log::add('Volets','debug','Le soleil est dans la fenetre');
+					$options['action']=$action['in'];
+				}else{
+					log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
+					$options['action']=$action['out'];
 				}
+				$Commande->execute($options);
 			}
 		}else
 			log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');

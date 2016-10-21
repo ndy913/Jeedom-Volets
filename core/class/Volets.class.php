@@ -59,12 +59,12 @@ class Volets extends eqLogic {
 					case 'azimuth360':
 						if($Volet->getConfiguration('EnableTemp'))
 							$Volet->ActionAzimute();
-					break
+					break;
 					case 'sunrise':
 					case 'sunset':
 						if($Volet->getConfiguration('EnableNight'))
 							$Volet->UpdateActionDayNight();
-					break
+					break;
 				}
 			}
 		}

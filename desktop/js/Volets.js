@@ -200,7 +200,7 @@ function AddZone(_zone){
 		.append($('<div class="row">')
 					.append($('<form class="form-horizontal">')
 						.append($('<legend>')
-							.text('{{Ajouter les condition :}}')
+							.text('{{Ajouter les conditions d\'execution :}}')
 							.append($('<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">')
 								.append($('<i class="fa fa-plus-circle">'))
 								.text('{{Ajouter Condition}}')))

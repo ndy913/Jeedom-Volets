@@ -110,31 +110,37 @@ class Volets extends eqLogic {
 				//Calculer de l'angle de ma zone
 				$Droite=$Commande->getConfiguration('Droit');
 				$Gauche=$Commande->getConfiguration('Gauche');
-
-				$Angle=$Commande->getAngle($Droite['lat'],
-							   $Droite['lng'],
-							   $Gauche['lat'],
-							   $Gauche['lng']);
-				log::add('Volets','debug','L\'angle de votre zone '.$Commande->getName().' par rapport au Nord est de '.$Angle.'°');
-				//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
-				foreach($Commande->getConfiguration('condition') as $condition){
-					$ExpressionEvaluation=evaluate::Evaluer($condition['expression']);
-					log::add('Volets','debug','Evaluation de l\'expression: '.$condition['expression'].' => ' .$ExpressionEvaluation);
-					if(!$ExpressionEvaluation){
-						log::add('Volets','debug','Les conditions ne sont pas remplie');
-						return;
+				if(is_array($Droite)&&is_array($Gauche)){
+					$Angle=$Commande->getAngle($Droite['lat'],
+								   $Droite['lng'],
+								   $Gauche['lat'],
+								   $Gauche['lng']);
+					log::add('Volets','debug','L\'angle de votre zone '.$Commande->getName().' par rapport au Nord est de '.$Angle.'°');
+					//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
+					foreach($Commande->getConfiguration('condition') as $condition){
+						$Evaluation= new evaluate();
+						if(is_object($Evaluation)){
+							$ExpressionEvaluation=$Evaluation->Evaluer($condition['expression']);
+							log::add('Volets','debug','Evaluation de l\'expression: '.$condition['expression'].' => ' .$ExpressionEvaluation);
+							if(!$ExpressionEvaluation){
+								log::add('Volets','debug','Les conditions ne sont pas remplie');
+								return;
+							}
+						}
+						else
+							return;
 					}
+					$actions=$Commande->getConfiguration('action');
+					log::add('Volets','debug','Les conditions sont remplie');
+					if($Azimuth<$Angle&&$Azimuth>$Angle-90){
+						log::add('Volets','debug','Le soleil est dans la fenetre');
+						$options['action']=$action['in'];
+					}else{
+						log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
+						$options['action']=$action['out'];
+					}
+					$Commande->execute($options);
 				}
-				$actions=$Commande->getConfiguration('action');
-				log::add('Volets','debug','Les conditions sont remplie');
-				if($Azimuth<$Angle&&$Azimuth>$Angle-90){
-					log::add('Volets','debug','Le soleil est dans la fenetre');
-					$options['action']=$action['in'];
-				}else{
-					log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
-					$options['action']=$action['out'];
-				}
-				$Commande->execute($options);
 			}
 		}else
 			log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');

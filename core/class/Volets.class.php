@@ -118,7 +118,7 @@ class Volets extends eqLogic {
 				log::add('Volets','debug','L\'angle de votre zone '.$Commande->getName().' par rapport au Nord est de '.$Angle.'°');
 				//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 				foreach($Commande->getConfiguration('condition') as $condition){
-					$ExpressionEvaluation=evaluate($condition['expression']);
+					$ExpressionEvaluation=evaluate::Evaluer($condition['expression']);
 					log::add('Volets','debug','Evaluation de l\'expression: '.$condition['expression'].' => ' .$ExpressionEvaluation);
 					if(!$ExpressionEvaluation){
 						log::add('Volets','debug','Les conditions ne sont pas remplie');

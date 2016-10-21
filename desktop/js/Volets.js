@@ -339,7 +339,6 @@ $('body').on('click','.listCmdCondition',function(){
 			'             <div class="col-xs-3">' +
 			'                <select class="conditionAttr form-control" data-l1key="next">' +
 			'                    <option value="">rien</option>' +
-			'                  <option value="ET">{{et}}</option>' +
 			'                  <option value="OU">{{ou}}</option>' +
 			'            </select>' +
 			'       </div>' +
@@ -369,7 +368,6 @@ $('body').on('click','.listCmdCondition',function(){
 			'             <div class="col-xs-3">' +
 			'                <select class="conditionAttr form-control" data-l1key="next">' +
 			'                    <option value="">{{rien}}</option>' +
-			'                  <option value="ET">{{et}}</option>' +
 			'                  <option value="OU">{{ou}}</option>' +
 			'            </select>' +
 			'       </div>' +

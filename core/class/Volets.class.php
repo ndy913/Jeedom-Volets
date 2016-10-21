@@ -139,30 +139,25 @@ class Volets extends eqLogic {
 					log::add('Volets','debug','L\'angle de votre zone '.$Commande->getName().' par rapport au Nord est de '.$Angle.'°');
 					//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 					foreach($Commande->getConfiguration('condition') as $condition){
-							$expression = scenarioExpression::setTags($condition['expression'], null, true);
-							//$message = __('Evaluation de la condition : [', __FILE__) . $expression . '] = ';
-							//$result = evaluate($expression);
-							//if (is_bool($result)) {
-							//	if ($result) {
-							//		$message .= __('Vrai', __FILE__);
-							//	} else {
-							//		$message .= __('Faux', __FILE__);
-							//	}
-							//} else {
-							//	$message .= $result;
-							//}
-						//log::add('Volets','debug',$message);
-							
-						//$Evaluation= new evaluate();
-						//if(is_object($Evaluation)){
-							//$ExpressionEvaluation=$Evaluation->Evaluer($condition['expression']);
-							//$ExpressionEvaluationString= $ExpressionEvaluation ? 'true' : 'false';
-							log::add('Volets','debug','Evaluation de l\'expression: '.$condition['expression'].' => ' );
-							if(!$result){
-								log::add('Volets','debug','Les conditions ne sont pas remplie');
-								break;
-							}
+						//$expression = scenarioExpression::setTags($condition['expression'], null, true);
+						//$message = __('Evaluation de la condition : [', __FILE__) . $expression . '] = ';
+						//$result = evaluate($expression);
+						//if (is_bool($result)) {
+						//	if ($result) {
+						//		$message .= __('Vrai', __FILE__);
+						//	} else {
+						//		$message .= __('Faux', __FILE__);
+						//	}
+						//} else {
+						//	$message .= $result;
 						//}
+						//log::add('Volets','debug',$message);
+						/*log::add('Volets','debug','Evaluation de l\'expression: '.$condition['expression'].' => ' );
+						if(!$result){
+							log::add('Volets','debug','Les conditions ne sont pas remplie');
+							break;
+						}*/
+						
 					}
 					if($ExpressionEvaluation){
 						$actions=$Commande->getConfiguration('action');

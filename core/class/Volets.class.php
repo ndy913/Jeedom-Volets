@@ -245,6 +245,7 @@ class VoletsCmd extends cmd {
 		foreach($_options['action'] as $cmd){
 			$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
 			if(is_object($Commande)){
+				log::add('Volets','debug','Execution de '.$Commande->getHumanName(true,true));
 				$Commande->execute($cmd['options']);
 			}
 		}

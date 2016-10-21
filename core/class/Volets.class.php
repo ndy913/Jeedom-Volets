@@ -31,8 +31,23 @@ class Volets extends eqLogic {
 			return;
 		if ($deamon_info['state'] == 'ok') 
 			return;
-		foreach(eqLogic::byType('Volets') as $Volet)
-			$Volet->save();
+		foreach(eqLogic::byType('Volets') as $Volet){
+			$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
+			if(is_object($heliotrope)){
+				log::add('Volets', 'info', 'Activation des déclencheurs : ');
+				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($Volet->getId())));
+				if (!is_object($listener))
+					$listener = new listener();
+				$listener->setClass('Volets');
+				$listener->setFunction('pull');
+				$listener->setOption(array('Volets_id' => intval($Volet->getId())));
+				$listener->emptyEvent();
+				$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
+				$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
+				$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());
+				$listener->save();	
+			}
+		}
 	}
 	public static function deamon_stop() {
 		foreach(eqLogic::byType('Volets') as $Volet){
@@ -190,24 +205,7 @@ class Volets extends eqLogic {
 		}
 	} 
     public function postSave() {
-		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
-		if(is_object($heliotrope)){
-			if($this->getConfiguration('EnableNight'))
-				$this->UpdateActionDayNight();
-			log::add('Volets', 'info', 'Activation des déclencheurs : ');
-			$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
-			if (!is_object($listener))
-			    $listener = new listener();
-			$listener->setClass('Volets');
-			$listener->setFunction('pull');
-			$listener->setOption(array('Volets_id' => intval($this->getId())));
-			$listener->emptyEvent();
-			$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-			$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
-			$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());
-			$listener->save();	
-
-		}
+		self::deamon_start();
 	}	
 	public function preRemove() {
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));

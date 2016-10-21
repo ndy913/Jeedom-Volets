@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
-
 class Volets extends eqLogic {
 	public static function deamon_info() {
 		$return = array();
@@ -82,7 +81,29 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public function checkJour() {
+	public static function ActionJour() {
+		foreach(eqLogic::byType('Volets') as $Zone){
+			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
+				$actions=$Cmds->getConfiguration('action');
+				if(is_object($actions)){
+					$_options['action']=$actions['out'];
+					$Cmds->execute($_options);
+				}
+			}
+		}
+	}
+	public static function ActionNuit() {
+		foreach(eqLogic::byType('Volets') as $Zone){
+			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
+				$actions=$Cmds->getConfiguration('action');
+				if(is_object($actions)){
+					$_options['action']=$actions['in'];
+					$Cmds->execute($_options);
+				}
+			}
+		}
+	} 
+    public function checkJour() {
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){	
 			$sunrise=$heliotrope->getCmd(null,'sunrise');
@@ -128,19 +149,19 @@ class Volets extends eqLogic {
 								break;
 							}
 						}
-						else
-							break;
 					}
-					$actions=$Commande->getConfiguration('action');
-					log::add('Volets','debug','Les conditions sont remplie');
-					if($Azimuth<$Angle&&$Azimuth>$Angle-90){
-						log::add('Volets','debug','Le soleil est dans la fenetre');
-						$options['action']=$action['in'];
-					}else{
-						log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
-						$options['action']=$action['out'];
+					if($ExpressionEvaluation){
+						$actions=$Commande->getConfiguration('action');
+						if($Azimuth<$Angle&&$Azimuth>$Angle-90){
+							log::add('Volets','debug','Le soleil est dans la fenetre');
+							$options['action']=$action['in'];
+						}else{
+							log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
+							$options['action']=$action['out'];
+						}
+						log::add('Volets','debug','Les conditions sont remplie');
+						$Commande->execute($options);
 					}
-					$Commande->execute($options);
 				}
 			}
 		}else
@@ -175,29 +196,7 @@ class Volets extends eqLogic {
 			}
 		return $cron;
 	}
-	public static function ActionJour() {
-		foreach(eqLogic::byType('Volets') as $Zone){
-			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
-				$actions=$Cmds->getConfiguration('action');
-				if(is_object($actions)){
-					$_options['action']=$actions['out'];
-					$Cmds->execute($_options);
-				}
-			}
-		}
-	}
-	public static function ActionNuit() {
-		foreach(eqLogic::byType('Volets') as $Zone){
-			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
-				$actions=$Cmds->getConfiguration('action');
-				if(is_object($actions)){
-					$_options['action']=$actions['in'];
-					$Cmds->execute($_options);
-				}
-			}
-		}
-	} 
-    public function postSave() {
+	public function postSave() {
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
 			log::add('Volets', 'info', 'Activation des déclencheurs : ');
@@ -236,7 +235,6 @@ class Volets extends eqLogic {
 			$listener->remove();
 	}
 }
-
 class VoletsCmd extends cmd {
 	public function getAngle($latitudeOrigine,$longitudeOrigne, $latitudeDest,$longitudeDest) {
 		$longDelta = $longitudeDest - $longitudeOrigne;

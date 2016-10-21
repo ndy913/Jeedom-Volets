@@ -121,7 +121,7 @@ class Volets extends eqLogic {
 						$Evaluation= new evaluate();
 						if(is_object($Evaluation)){
 							$ExpressionEvaluation=$Evaluation->Evaluer($condition['expression']);
-							log::add('Volets','debug','Evaluation de l\'expression: '.$condition['expression'].' => ' .$ExpressionEvaluation);
+							log::add('Volets','debug','Evaluation de l\'expression: '.$condition['expression'].' => ' .($ExpressionEvaluation) ? 'true' : 'false');
 							if(!$ExpressionEvaluation){
 								log::add('Volets','debug','Les conditions ne sont pas remplie');
 								return;

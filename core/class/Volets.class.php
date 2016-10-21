@@ -84,7 +84,7 @@ class Volets extends eqLogic {
 			$sunrise=$heliotrope->getCmd(null,'sunrise');
 			if(is_object($sunrise)){
 				$value=$sunrise->execCmd();
-				$Jours=date("H i",$this->CalculHeureEvent($value,'DelaisDay'))
+				$Jours=date("H i",$this->CalculHeureEvent($value,'DelaisDay'));
 			}
 			else
 				return false;

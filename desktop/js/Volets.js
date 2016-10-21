@@ -83,7 +83,8 @@ function saveEqLogic(_eqLogic) {
 				_eqLogic.cmd[index].id=null;
 		}
 	}
-    return _eqLogic;
+	$('.cmdAttr[data-l1key=display][data-l2key=icon]').hide();
+   	return _eqLogic;
 }
 function addCmdToTable(_cmd) {
 	if (!isset(_cmd)) {

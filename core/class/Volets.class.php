@@ -84,8 +84,8 @@ class Volets extends eqLogic {
 	public static function ActionJour() {
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
-				$actions=$Cmds->getConfiguration('action');
-				if(is_object($actions)){
+				if(is_object($Cmds)){
+					$actions=$Cmds->getConfiguration('action');
 					$_options['action']=$actions['out'];
 					$Cmds->execute($_options);
 				}
@@ -95,8 +95,8 @@ class Volets extends eqLogic {
 	public static function ActionNuit() {
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
-				$actions=$Cmds->getConfiguration('action');
-				if(is_object($actions)){
+				if(is_object($Cmds)){
+					$actions=$Cmds->getConfiguration('action');
 					$_options['action']=$actions['in'];
 					$Cmds->execute($_options);
 				}

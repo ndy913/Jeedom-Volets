@@ -192,7 +192,7 @@ class Volets extends eqLogic {
 	public function CreateCron($Schedule, $logicalId) {
 		$cron =cron::byClassAndFunction('Volets', $logicalId);
 			if (!is_object($cron)) {
-				$cron = new cron();
+$				$cron = new cron();
 				$cron->setClass('Volets');
 				$cron->setFunction($logicalId);
 				$cron->setEnable(1);

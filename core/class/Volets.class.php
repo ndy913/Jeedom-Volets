@@ -82,24 +82,26 @@ class Volets extends eqLogic {
 		}
 	}
 	public static function ActionJour() {
+		log::add('Volets', 'debug', 'Execution de la gestion du levée du soleil');    
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
-				if(is_object($Cmds)){
-					$actions=$Cmds->getConfiguration('action');
-					$_options['action']=$actions['out'];
-					$Cmds->execute($_options);
-				}
+				$actions=$Cmds->getConfiguration('action');
+		log::add('Volets', 'debug', json_encode($actions));  
+				$_options['action']=$actions['out'];
+		log::add('Volets', 'debug', json_encode($_options));  
+				$Cmds->execute($_options);
 			}
 		}
 	}
 	public static function ActionNuit() {
+		log::add('Volets', 'debug', 'Execution de la gestion du couchée du soleil');   
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
-				if(is_object($Cmds)){
-					$actions=$Cmds->getConfiguration('action');
-					$_options['action']=$actions['in'];
-					$Cmds->execute($_options);
-				}
+				$actions=$Cmds->getConfiguration('action');
+		log::add('Volets', 'debug', json_encode($actions));  
+				$_options['action']=$actions['in'];
+		log::add('Volets', 'debug', json_encode($_options));  
+				$Cmds->execute($_options);
 			}
 		}
 	} 
@@ -254,7 +256,8 @@ class VoletsCmd extends cmd {
 		}
 		return  $angle % 360;
 	}
-    public function execute($_options = null) {		
+    public function execute($_options = null) {	
+		log::add('Volets','debug','Execution de '.json_encode($_options['action']));	
 		foreach($_options['action'] as $cmd){
 			$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
 			if(is_object($Commande)){

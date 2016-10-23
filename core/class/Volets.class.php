@@ -65,7 +65,7 @@ class Volets extends eqLogic {
 						if($Volet->getConfiguration('EnableNight')){
 							log::add('Volets', 'debug', 'Replanification de l\'ouverture au levée du soleil');	
 							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisDay');
-							$Schedule=date("H",$timstamp) . ' ' . date("i",$timstamp) . ' * * * *';
+                                                        $Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 							$cron = $Volet->CreateCron($Schedule, 'ActionJour');
 							}
 					break;
@@ -73,7 +73,7 @@ class Volets extends eqLogic {
 						if($Volet->getConfiguration('EnableNight')){	
 							log::add('Volets', 'debug', 'Replanification de la fermeture au couchée du soleil');	
 							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');
-							$Schedule=date("H",$timstamp) . ' ' . date("i",$timstamp) . ' * * * *';
+							$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 							$cron = $Volet->CreateCron($Schedule, 'ActionNuit');
 							}
 					break;
@@ -226,14 +226,14 @@ class Volets extends eqLogic {
 				if(is_object($sunrise)){
 					$value=$sunrise->execCmd();
 					$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
-					$Schedule=date("H",$timstamp) . ' ' . date("i",$timstamp) . ' * * * *';
+					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionJour');
 				}
 				$sunset=$heliotrope->getCmd(null,'sunset');
 				if(is_object($sunset)){
 					$value=$sunset->execCmd();
 					$timstamp=$this->CalculHeureEvent($value,'DelaisNight');
-					$Schedule=date("H",$timstamp) . ' ' . date("i",$timstamp) . ' * * * *';
+					Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionNuit');
 				}
 			}

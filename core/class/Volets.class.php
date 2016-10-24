@@ -86,9 +86,7 @@ class Volets extends eqLogic {
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
 				$actions=$Cmds->getConfiguration('action');
-		log::add('Volets', 'debug', json_encode($actions));  
 				$_options['action']=$actions['out'];
-		log::add('Volets', 'debug', json_encode($_options));  
 				$Cmds->execute($_options);
 			}
 		}
@@ -98,9 +96,7 @@ class Volets extends eqLogic {
 		foreach(eqLogic::byType('Volets') as $Zone){
 			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
 				$actions=$Cmds->getConfiguration('action');
-		log::add('Volets', 'debug', json_encode($actions));  
 				$_options['action']=$actions['in'];
-		log::add('Volets', 'debug', json_encode($_options));  
 				$Cmds->execute($_options);
 			}
 		}
@@ -141,7 +137,7 @@ class Volets extends eqLogic {
 					log::add('Volets','debug','L\'angle de votre zone '.$Commande->getName().' par rapport au Nord est de '.$Angle.'°');
 					//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 					foreach($Commande->getConfiguration('condition') as $condition){
-						$expression = /*scenarioExpression::setTags(*/$condition['expression']/*, null, true)*/;
+						$expression = scenarioExpression::setTags($condition['expression']);
 						$message = __('Evaluation de la condition : [', __FILE__) . $expression . '] = ';
 						$result = evaluate($expression);
 						if (is_bool($result)) {

@@ -138,7 +138,7 @@ class Volets extends eqLogic {
 					//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 					foreach($Commande->getConfiguration('condition') as $condition){
 						$expression = scenarioExpression::setTags($condition['expression']);
-						$message = __('Evaluation de la condition : [', __FILE__) . $expression . '] = ';
+						$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 						$result = evaluate($expression);
 						if (is_bool($result)) {
 							if ($result) {
@@ -156,7 +156,7 @@ class Volets extends eqLogic {
 						}
 						
 					}
-					if($ExpressionEvaluation){
+					if($result){
 						$actions=$Commande->getConfiguration('action');
 						if($Azimuth<$Angle&&$Azimuth>$Angle-90){
 							log::add('Volets','debug','Le soleil est dans la fenetre');

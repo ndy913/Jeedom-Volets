@@ -160,10 +160,10 @@ class Volets extends eqLogic {
 						$actions=$Commande->getConfiguration('action');
 						if($Azimuth<$Angle&&$Azimuth>$Angle-90){
 							log::add('Volets','debug','Le soleil est dans la fenetre');
-							$options['action']=$action['in'];
+							$options['action']=$actions['in'];
 						}else{
 							log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
-							$options['action']=$action['out'];
+							$options['action']=$actions['out'];
 						}
 						log::add('Volets','debug','Les conditions sont remplie');
 						$Commande->execute($options);

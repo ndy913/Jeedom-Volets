@@ -7,7 +7,7 @@
 	<licence>AGPL</licence>
 	<author>Halbout Michael</author>
 	<installation>Aucune</installation>
-	<category>organization</category>
+	<category>automatisation</category>
    	<require>2.0</require>
 	<hasOwnDeamon>1</hasOwnDeamon>
 </info>

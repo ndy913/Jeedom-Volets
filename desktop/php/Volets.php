@@ -118,7 +118,7 @@ $eqLogics = eqLogic::byType('Volets');
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Activation de la gestion par température}}</label>
+									<label class="col-sm-2 control-label">{{Activation de la gestion en fonction de la position du soleil}}</label>
 									<div class="col-sm-5">
 										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="EnableTemp"/>
 									</div>

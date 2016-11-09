@@ -7,7 +7,7 @@ class Volets extends eqLogic {
 		$return['launchable'] = 'ok';
 		$return['state'] = 'nok';
 		foreach(eqLogic::byType('Volets') as $Volet){
-			if($Volet->getConfiguration('EnableNight')){
+			if($Volet->getIsEnable() && $Volet->getConfiguration('EnableNight')){
 				$cron = cron::byClassAndFunction('Volets', 'ActionJour');
 				if (!is_object($cron)) 	
 					return $return;
@@ -82,20 +82,24 @@ class Volets extends eqLogic {
 	public static function ActionJour() {
 		log::add('Volets', 'debug', 'Execution de la gestion du levée du soleil');    
 		foreach(eqLogic::byType('Volets') as $Zone){
-			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
-				$actions=$Cmds->getConfiguration('action');
-				$_options['action']=$actions['out'];
-				$Cmds->execute($_options);
+			if($Zone->getIsEnable()){
+				foreach($Zone->getCmd(null, null, null, true) as $Cmds){
+					$actions=$Cmds->getConfiguration('action');
+					$_options['action']=$actions['out'];
+					$Cmds->execute($_options);
+				}
 			}
 		}
 	}
 	public static function ActionNuit() {
 		log::add('Volets', 'debug', 'Execution de la gestion du couchée du soleil');   
 		foreach(eqLogic::byType('Volets') as $Zone){
-			foreach($Zone->getCmd(null, null, null, true) as $Cmds){
-				$actions=$Cmds->getConfiguration('action');
-				$_options['action']=$actions['in'];
-				$Cmds->execute($_options);
+			if($Zone->getIsEnable()){
+				foreach($Zone->getCmd(null, null, null, true) as $Cmds){
+					$actions=$Cmds->getConfiguration('action');
+					$_options['action']=$actions['in'];
+					$Cmds->execute($_options);
+				}
 			}
 		}
 	} 
@@ -201,34 +205,36 @@ class Volets extends eqLogic {
 		return $cron;
 	}
 	public function postSave() {
-		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
-		if(is_object($heliotrope)){
-			log::add('Volets', 'info', 'Activation des déclencheurs : ');
-			$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
-			if (!is_object($listener))
-			    $listener = new listener();
-			$listener->setClass('Volets');
-			$listener->setFunction('pull');
-			$listener->setOption(array('Volets_id' => intval($this->getId())));
-			$listener->emptyEvent();
-			$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-			$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
-			$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());
-			$listener->save();	
-			if($this->getConfiguration('EnableNight')){	
-				$sunrise=$heliotrope->getCmd(null,'sunrise');
-				if(is_object($sunrise)){
-					$value=$sunrise->execCmd();
-					$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
-					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-					$cron = $this->CreateCron($Schedule, 'ActionJour');
-				}
-				$sunset=$heliotrope->getCmd(null,'sunset');
-				if(is_object($sunset)){
-					$value=$sunset->execCmd();
-					$timstamp=$this->CalculHeureEvent($value,'DelaisNight');
-					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-					$cron = $this->CreateCron($Schedule, 'ActionNuit');
+		if($this->getIsEnable()){
+			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
+			if(is_object($heliotrope)){
+				log::add('Volets', 'info', 'Activation des déclencheurs : ');
+				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
+				if (!is_object($listener))
+				    $listener = new listener();
+				$listener->setClass('Volets');
+				$listener->setFunction('pull');
+				$listener->setOption(array('Volets_id' => intval($this->getId())));
+				$listener->emptyEvent();
+				$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
+				$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
+				$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());
+				$listener->save();	
+				if($this->getConfiguration('EnableNight')){	
+					$sunrise=$heliotrope->getCmd(null,'sunrise');
+					if(is_object($sunrise)){
+						$value=$sunrise->execCmd();
+						$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
+						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+						$cron = $this->CreateCron($Schedule, 'ActionJour');
+					}
+					$sunset=$heliotrope->getCmd(null,'sunset');
+					if(is_object($sunset)){
+						$value=$sunset->execCmd();
+						$timstamp=$this->CalculHeureEvent($value,'DelaisNight');
+						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+						$cron = $this->CreateCron($Schedule, 'ActionNuit');
+					}
 				}
 			}
 		}

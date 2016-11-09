@@ -33,16 +33,14 @@ class Volets extends eqLogic {
 		foreach(eqLogic::byType('Volets') as $Volet)
 			$Volet->save();
 	}
-	public static function deamon_stop() {
+	public static function deamon_stop() {	
+		$cron = cron::byClassAndFunction('Volets', 'ActionJour');
+		if (is_object($cron)) 	
+			$cron->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
+		if (is_object($cron)) 	
+			$cron->remove();
 		foreach(eqLogic::byType('Volets') as $Volet){
-			if($Volet->getConfiguration('EnableNight')){
-				$cron = cron::byClassAndFunction('Volets', 'ActionJour');
-				if (is_object($cron)) 	
-					$cron->remove();
-				$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
-				if (is_object($cron)) 	
-					$cron->remove();
-			}
 			$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($Volet->getId())));
 			if (is_object($listener))
 				$listener->remove();

@@ -118,17 +118,14 @@ $eqLogics = eqLogic::byType('Volets');
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Activation de la gestion en fonction de la position du soleil}}</label>
+									<label class="col-sm-2 control-label">{{Choisir le type de gestion du groupe}}</label>
 									<div class="col-sm-5">
-										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="EnableTemp"/>
+										<select class="eqLogicAttr" data-l1key="configuration" data-l2key="TypeGestion">
+											<option value="DayNight">Jours / Nuit</option>
+											<option value="Helioptrope">Position du soleil</option>
+										</select>	
 									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Activation de la gestion jours nuit}}</label>
-									<div class="col-sm-5">
-										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="EnableNight"/>
-									</div>
-								</div>									
+								</div>								
 								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Delais apres le levée du jours}}</label>
 									<div class="col-sm-5">

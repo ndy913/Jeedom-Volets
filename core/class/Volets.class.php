@@ -7,17 +7,23 @@ class Volets extends eqLogic {
 		$return['launchable'] = 'ok';
 		$return['state'] = 'nok';
 		foreach(eqLogic::byType('Volets') as $Volet){
-			if($Volet->getIsEnable() && $Volet->getConfiguration('EnableNight')){
-				$cron = cron::byClassAndFunction('Volets', 'ActionJour');
-				if (!is_object($cron)) 	
-					return $return;
-				$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
-				if (!is_object($cron)) 	
-					return $return;
+			if($Volet->getIsEnable()){
+				switch($Volet->getConfiguration('TypeGestion')){	
+					case 'Helioptrope':
+						$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($Volet->getId())));
+						if (!is_object($listener))
+							return $return;
+					break;
+					case 'DayNight':
+						$cron = cron::byClassAndFunction('Volets', 'ActionJour');
+						if (!is_object($cron)) 	
+							return $return;
+						$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
+						if (!is_object($cron)) 	
+							return $return;
+					break;
+				}
 			}
-			$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($Volet->getId())));
-			if (!is_object($listener))
-				return $return;
 		}
 		$return['state'] = 'ok';
 		return $return;
@@ -54,26 +60,20 @@ class Volets extends eqLogic {
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
-						if($Volet->getConfiguration('EnableTemp')){
-							log::add('Volets', 'debug', 'Gestion des volets par l\'azimuth');
-							$Volet->ActionAzimute($_option['value']);
-						}
+						log::add('Volets', 'debug', 'Gestion des volets par l\'azimuth');
+						$Volet->ActionAzimute($_option['value']);
 					break;
 					case 'sunrise':
-						if($Volet->getConfiguration('EnableNight')){
-							log::add('Volets', 'debug', 'Replanification de l\'ouverture au levée du soleil');	
-							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisDay');
-                                                        $Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-							$cron = $Volet->CreateCron($Schedule, 'ActionJour');
-							}
+						log::add('Volets', 'debug', 'Replanification de l\'ouverture au levée du soleil');	
+						$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisDay');
+						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+						$cron = $Volet->CreateCron($Schedule, 'ActionJour');
 					break;
-					case 'sunset':
-						if($Volet->getConfiguration('EnableNight')){	
-							log::add('Volets', 'debug', 'Replanification de la fermeture au couchée du soleil');	
-							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');
-							$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-							$cron = $Volet->CreateCron($Schedule, 'ActionNuit');
-							}
+					case 'sunset':	
+						log::add('Volets', 'debug', 'Replanification de la fermeture au couchée du soleil');	
+						$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');
+						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+						$cron = $Volet->CreateCron($Schedule, 'ActionNuit');
 					break;
 				}
 			}
@@ -81,11 +81,15 @@ class Volets extends eqLogic {
 	}
 	public static function ActionJour() {
 		log::add('Volets', 'debug', 'Execution de la gestion du levée du soleil');    
-		foreach(eqLogic::byType('Volets') as $Zone){
+		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', array('TypeGestion'=>'DayNight')) as $Zone){
 			if($Zone->getIsEnable()){
 				foreach($Zone->getCmd(null, null, null, true) as $Cmds){
 					$actions=$Cmds->getConfiguration('action');
-					$_options['action']=$actions['out'];
+					$result=$Cmds->EvaluateCondition();
+					if($result)
+						$_options['action']=$actions['out'];
+					else
+						$_options['action']=$actions['in'];
 					$Cmds->execute($_options);
 				}
 			}
@@ -93,17 +97,21 @@ class Volets extends eqLogic {
 	}
 	public static function ActionNuit() {
 		log::add('Volets', 'debug', 'Execution de la gestion du couchée du soleil');   
-		foreach(eqLogic::byType('Volets') as $Zone){
+		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', array('TypeGestion'=>'DayNight')) as $Zone){
 			if($Zone->getIsEnable()){
 				foreach($Zone->getCmd(null, null, null, true) as $Cmds){
 					$actions=$Cmds->getConfiguration('action');
-					$_options['action']=$actions['in'];
+					$result=$Cmds->EvaluateCondition();
+					if($result)
+						$_options['action']=$actions['in'];
+					else
+						$_options['action']=$actions['out'];
 					$Cmds->execute($_options);
 				}
 			}
 		}
 	} 
-    public function checkJour() {
+    	public function checkJour() {
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){	
 			$sunrise=$heliotrope->getCmd(null,'sunrise');
@@ -138,38 +146,19 @@ class Volets extends eqLogic {
 								   $Gauche['lng']);
 					log::add('Volets','debug','L\'angle de votre zone '.$Commande->getName().' par rapport au Nord est de '.$Angle.'°');
 					//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
-					foreach($Commande->getConfiguration('condition') as $condition){
-						$expression = scenarioExpression::setTags($condition['expression']);
-						$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
-						$result = evaluate($expression);
-						if (is_bool($result)) {
-							if ($result) {
-								$message .= __('Vrai', __FILE__);
-							} else {
-								$message .= __('Faux', __FILE__);
-							}
-						} else {
-							$message .= $result;
-						}
-						log::add('Volets','debug',$message);
-						if(!$result){
-							log::add('Volets','debug','Les conditions ne sont pas remplie');
-							break;
-						}
-						
-					}
+					$actions=$Commande->getConfiguration('action');
+					$options['action']=$actions['out'];
+					$result=$Commande->EvaluateCondition();
 					if($result){
-						$actions=$Commande->getConfiguration('action');
+						log::add('Volets','debug','Les conditions sont remplie');
 						if($Azimuth<$Angle&&$Azimuth>$Angle-90){
 							log::add('Volets','debug','Le soleil est dans la fenetre');
 							$options['action']=$actions['in'];
 						}else{
 							log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
-							$options['action']=$actions['out'];
 						}
-						log::add('Volets','debug','Les conditions sont remplie');
-						$Commande->execute($options);
 					}
+					$Commande->execute($options);
 				}
 			}
 		}else
@@ -208,33 +197,37 @@ class Volets extends eqLogic {
 		if($this->getIsEnable()){
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
-				log::add('Volets', 'info', 'Activation des déclencheurs : ');
-				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
-				if (!is_object($listener))
-				    $listener = new listener();
-				$listener->setClass('Volets');
-				$listener->setFunction('pull');
-				$listener->setOption(array('Volets_id' => intval($this->getId())));
-				$listener->emptyEvent();
-				$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-				$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
-				$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());
-				$listener->save();	
-				if($this->getConfiguration('EnableNight')){	
-					$sunrise=$heliotrope->getCmd(null,'sunrise');
-					if(is_object($sunrise)){
-						$value=$sunrise->execCmd();
-						$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
-						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-						$cron = $this->CreateCron($Schedule, 'ActionJour');
-					}
-					$sunset=$heliotrope->getCmd(null,'sunset');
-					if(is_object($sunset)){
-						$value=$sunset->execCmd();
-						$timstamp=$this->CalculHeureEvent($value,'DelaisNight');
-						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-						$cron = $this->CreateCron($Schedule, 'ActionNuit');
-					}
+				switch($this->getConfiguration('TypeGestion')){	
+					case 'Helioptrope':
+						log::add('Volets', 'info', 'Activation des déclencheurs : ');
+						$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
+						if (!is_object($listener))
+						    $listener = new listener();
+						$listener->setClass('Volets');
+						$listener->setFunction('pull');
+						$listener->setOption(array('Volets_id' => intval($this->getId())));
+						$listener->emptyEvent();
+						$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
+						$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
+						$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());
+						$listener->save();	
+					break;
+					case 'DayNight':
+						$sunrise=$heliotrope->getCmd(null,'sunrise');
+						if(is_object($sunrise)){
+							$value=$sunrise->execCmd();
+							$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
+							$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+							$cron = $this->CreateCron($Schedule, 'ActionJour');
+						}
+						$sunset=$heliotrope->getCmd(null,'sunset');
+						if(is_object($sunset)){
+							$value=$sunset->execCmd();
+							$timstamp=$this->CalculHeureEvent($value,'DelaisNight');
+							$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+							$cron = $this->CreateCron($Schedule, 'ActionNuit');
+						}
+					break;
 				}
 			}
 		}
@@ -246,6 +239,28 @@ class Volets extends eqLogic {
 	}
 }
 class VoletsCmd extends cmd {
+	public function EvaluateCondition(){
+		foreach($this->getConfiguration('condition') as $condition){
+			$expression = scenarioExpression::setTags($condition['expression']);
+			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
+			$result = evaluate($expression);
+			if (is_bool($result)) {
+				if ($result) {
+					$message .= __('Vrai', __FILE__);
+				} else {
+					$message .= __('Faux', __FILE__);
+				}
+			} else {
+				$message .= $result;
+			}
+			log::add('Volets','info',$message);
+			if(!$result){
+				log::add('Volets','debug','Les conditions ne sont pas remplie');
+				return false;
+			}
+		}
+		return true;
+	}
 	public function getAngle($latitudeOrigine,$longitudeOrigne, $latitudeDest,$longitudeDest) {
 		$longDelta = $longitudeDest - $longitudeOrigne;
 		$y = sin($longDelta) * cos($latitudeDest);

@@ -198,6 +198,18 @@ class Volets extends eqLogic {
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
 				switch($this->getConfiguration('TypeGestion')){	
+					case 'Other':
+						log::add('Volets', 'info', 'Activation des déclencheurs : ');
+						$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
+						if (!is_object($listener))
+						    $listener = new listener();
+						$listener->setClass('Volets');
+						$listener->setFunction('pull');
+						$listener->setOption(array('Volets_id' => intval($this->getId())));
+						$listener->emptyEvent();
+						//$listener->addEvent(IdCondition);
+						$listener->save();	
+					break;
 					case 'Helioptrope':
 						log::add('Volets', 'info', 'Activation des déclencheurs : ');
 						$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));

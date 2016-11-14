@@ -43,6 +43,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=TypeGes
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().show();
 		break;
 		case 'Helioptrope':
+		case 'Other':
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisDay]').parent().parent().hide();
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().hide();
 		break;

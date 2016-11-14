@@ -129,6 +129,7 @@ $eqLogics = eqLogic::byType('Volets');
 										<select class="eqLogicAttr" data-l1key="configuration" data-l2key="TypeGestion">
 											<option value="DayNight">Jours / Nuit</option>
 											<option value="Helioptrope">Position du soleil</option>
+											<option value="Other">Action particuliere</option>
 										</select>	
 									</div>
 								</div>								

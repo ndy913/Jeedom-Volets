@@ -41,9 +41,11 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=TypeGes
 		case 'DayNight':
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisDay]').parent().parent().show();
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().show();
+			$('.AngleSoleil).show();
 		break;
 		case 'Helioptrope':
 		case 'Other':
+			$('.AngleSoleil).hide();
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisDay]').parent().parent().hide();
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().hide();
 		break;
@@ -78,15 +80,12 @@ function saveEqLogic(_eqLogic) {
 			var inArray= new Array();
 			var outArray= new Array();
 			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ '] .ConditionGroup').each(function( index ) {
-				//console.log( index + ": " + $( this ).text() );
 				ConditionArray.push($(this).getValues('.expressionAttr')[0])
 			});
 			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ '] .ActionIn .ActionGroup').each(function( index ) {
-				//console.log( index + ": " + $( this ).text() );
 				inArray.push($(this).getValues('.expressionAttr')[0])
 			});
 			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ '] .ActionOut .ActionGroup').each(function( index ) {
-				//console.log( index + ": " + $( this ).text() );
 				outArray.push($(this).getValues('.expressionAttr')[0])
 			});
 			_eqLogic.cmd[index].configuration.condition=ConditionArray;
@@ -107,7 +106,6 @@ function addCmdToTable(_cmd) {
 				_cmd.id="new";
 				_cmd.name=result;
 				AddZone(_cmd);
-			//$('.eqLogicAction[data-action=save]').trigger('click');
 		});
 	}
 	else
@@ -119,7 +117,6 @@ function AddZone(_zone){
       		return;
    	}
 	if (init(_zone.icon) == '') {
-     	   // _zone.icon = '<i class="icon fa fa-dot-circle-o"><\/i>';
     	    _zone.icon = '';
   	  }
 	if (typeof(_zone.configuration.Droit) !== 'undefined' && _zone.configuration.Droit != "" && typeof(_zone.configuration.Gauche) !== 'undefined' && _zone.configuration.Gauche != "") {
@@ -184,10 +181,10 @@ function AddZone(_zone){
 	}
 	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" data-cmd_id="' +init(_zone.id) + '" id="tab_' +init(_zone.id) + '">')
 		.append($('<div class="row">')
-				.append($('<div class="form-group">')
-					.append($('<label>').text('Angle d\'ensoleillement de la Zone'))
-					.append($('<div class="input-group">')
-						.append($('<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="Angle" disabled>'))))
+			.append($('<div class="form-group AngleSoleil">')
+				.append($('<label>').text('Angle d\'ensoleillement de la Zone'))
+				.append($('<div class="input-group">')
+					.append($('<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="Angle" disabled>'))))
 			.append($('<input class="cmdAttr" data-l1key="id"  style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="logicalId" style="display : none;"/>'))
 			.append($('<input class="cmdAttr" data-l1key="name" style="display : none;"/>'))

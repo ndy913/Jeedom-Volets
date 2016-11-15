@@ -147,7 +147,6 @@ class Volets extends eqLogic {
 					log::add('Volets','debug','L\'angle de votre zone '.$Commande->getName().' par rapport au Nord est de '.$Angle.'°');
 					//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
 					$actions=$Commande->getConfiguration('action');
-					$options['action']=$actions['out'];
 					$result=$Commande->EvaluateCondition();
 					if($result){
 						log::add('Volets','debug','Les conditions sont remplie');
@@ -156,9 +155,10 @@ class Volets extends eqLogic {
 							$options['action']=$actions['in'];
 						}else{
 							log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
+							$options['action']=$actions['out'];
 						}
+						$Commande->execute($options);
 					}
-					$Commande->execute($options);
 				}
 			}
 		}else

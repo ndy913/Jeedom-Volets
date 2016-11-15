@@ -129,18 +129,18 @@ $eqLogics = eqLogic::byType('Volets');
 										<select class="eqLogicAttr" data-l1key="configuration" data-l2key="TypeGestion">
 											<option value="DayNight">Jours / Nuit</option>
 											<option value="Helioptrope">Position du soleil</option>
-											<option value="Other">Action particuliere</option>
+											<!--option value="Other">Action particuliere</option-->
 										</select>	
 									</div>
 								</div>								
 								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Delais apres le levée du jours}}</label>
+									<label class="col-sm-2 control-label">{{Delais avant ou après le levée du jours}}</label>
 									<div class="col-sm-5">
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Delais apres le levée du jours}}"/>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Delais avant la tombée de la nuit}}</label>
+									<label class="col-sm-2 control-label">{{Delais avant ou après la tombée de la nuit}}</label>
 									<div class="col-sm-5">
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Delais avant la tombée de la nuit}}"/>
 									</div>

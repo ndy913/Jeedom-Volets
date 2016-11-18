@@ -79,9 +79,9 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public static function ActionJour() {
-		log::add('Volets', 'debug', 'Execution de la gestion du levée du soleil');    
+	public static function ActionJour() {    
 		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', array('TypeGestion'=>'DayNight')) as $Zone){
+			log::add('Volets', 'debug', 'Execution de la gestion du levée du soleil '.$Zone->getHumanName());
 			if($Zone->getIsEnable()){
 				foreach($Zone->getCmd(null, null, null, true) as $Cmds){
 					$actions=$Cmds->getConfiguration('action');

@@ -80,7 +80,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public static function ActionJour() {    
-		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', json_encode(array('TypeGestion'=>'DayNight'))) as $Zone){
+		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'DayNight') as $Zone){
 			log::add('Volets', 'debug', 'Execution de la gestion du levée du soleil '.$Zone->getHumanName());
 			if($Zone->getIsEnable()){
 				foreach($Zone->getCmd(null, null, null, true) as $Cmds){
@@ -96,8 +96,8 @@ class Volets extends eqLogic {
 		}
 	}
 	public static function ActionNuit() {
-		log::add('Volets', 'debug', 'Execution de la gestion du couchée du soleil');   
-		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', array('TypeGestion'=>'DayNight')) as $Zone){
+		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'DayNight') as $Zone){
+			log::add('Volets', 'debug', 'Execution de la gestion du levée du soleil '.$Zone->getHumanName());
 			if($Zone->getIsEnable()){
 				foreach($Zone->getCmd(null, null, null, true) as $Cmds){
 					$actions=$Cmds->getConfiguration('action');

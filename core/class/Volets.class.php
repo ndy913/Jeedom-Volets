@@ -162,7 +162,7 @@ class Volets extends eqLogic {
 						}
 						if($Commande->getConfiguration('Status')!=$Status){
 							$Commande->setConfiguration('Status',$Status);
-							$Commande->save()
+							$Commande->save();
 							$Commande->execute($options);
 						}
 					}

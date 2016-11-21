@@ -92,6 +92,9 @@ class Volets extends eqLogic {
 					}else{
 						$DelaisEval=$Cmds->getConfiguration('DelaisEval'); 
 						//replannifer le cron
+						$Shedule = new DateTime();
+						$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
+						$Zone->CreateCron($Shedule->format("i H d m Y"), 'ActionJour')
 					}
 				}
 			}
@@ -107,8 +110,13 @@ class Volets extends eqLogic {
 					if($result){
 						$_options['action']=$actions['in'];
 						$Cmds->execute($_options);
-					}else
-						$DelaisEval=$Cmds->getConfiguration('DelaisEval');
+					}else{
+						$DelaisEval=$Cmds->getConfiguration('DelaisEval'); 
+						//replannifer le cron
+						$Shedule = new DateTime();
+						$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
+						$Zone->CreateCron($Shedule->format("i H d m Y"), 'ActionNuit')
+					}
 				}
 			}
 		}

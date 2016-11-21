@@ -145,6 +145,12 @@ $eqLogics = eqLogic::byType('Volets');
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Delais avant la tombée de la nuit}}"/>
 									</div>
 								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Delais d'attente avant re-évaluation si les conditions ne sont pas respécté}}</label>
+									<div class="col-sm-5">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Delais de re-évaluation}}"/>
+									</div>
+								</div>
 							</div>
 						</fieldset>
 					</form>

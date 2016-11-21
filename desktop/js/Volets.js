@@ -39,6 +39,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=TypeGestion]',function(){
 	switch($(this).val()){
 		case 'DayNight':
+			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisEval]').parent().parent().show();
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisDay]').parent().parent().show();
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().show();
 			$('.AngleSoleil').show();
@@ -46,6 +47,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=TypeGes
 		case 'Helioptrope':
 		case 'Other':
 			$('.AngleSoleil').hide();
+			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisEval]').parent().parent().hide();
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisDay]').parent().parent().hide();
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().hide();
 		break;
@@ -185,14 +187,12 @@ function AddZone(_zone){
 				.append($('<label>').text('Angle d\'ensoleillement de la Zone'))
 				.append($('<div class="input-group">')
 					.append($('<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="Angle" disabled>'))))
-			.append($('<input class="cmdAttr" data-l1key="id"  style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="logicalId" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="name" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="type" value="action" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="subType" value="other" style="display : none;"/>'))
-			.append($('<input class="cmdAttr" data-l1key="configuration" data-l2key="Droit" style="display : none;" />'))
-			.append($('<input class="cmdAttr" data-l1key="configuration" data-l2key="Gauche" style="display : none;" />'))
-			.append($('<input class="cmdAttr" data-l1key="display" data-l2key="icon" style="display : none;" />'))
+			.append($('<input type="hidden" class="cmdAttr" data-l1key="id"  style="display : none;"/>'))
+			.append($('<input type="hidden" class="cmdAttr" data-l1key="logicalId" style="display : none;"/>'))
+			.append($('<input type="hidden" class="cmdAttr" data-l1key="name" style="display : none;"/>'))
+			.append($('<input type="hidden" class="cmdAttr" data-l1key="type" value="action" style="display : none;"/>'))
+			.append($('<input type="hidden" class="cmdAttr" data-l1key="subType" value="other" style="display : none;"/>'))
+			.append($('<input type="hidden" class="cmdAttr" data-l1key="display" data-l2key="icon" style="display : none;" />'))
 			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized" style="display : none;"/>'))
 			.append($('<div class="btn-group pull-right" role="group">')
 				.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="rename">')

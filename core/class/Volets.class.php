@@ -86,11 +86,13 @@ class Volets extends eqLogic {
 				foreach($Zone->getCmd(null, null, null, true) as $Cmds){
 					$actions=$Cmds->getConfiguration('action');
 					$result=$Cmds->EvaluateCondition();
-					if($result)
+					if($result){
 						$_options['action']=$actions['out'];
-					else
-						$_options['action']=$actions['in'];
-					$Cmds->execute($_options);
+						$Cmds->execute($_options);
+					}else{
+						$DelaisEval=$Cmds->getConfiguration('DelaisEval'); 
+						//replannifer le cron
+					}
 				}
 			}
 		}
@@ -102,11 +104,11 @@ class Volets extends eqLogic {
 				foreach($Zone->getCmd(null, null, null, true) as $Cmds){
 					$actions=$Cmds->getConfiguration('action');
 					$result=$Cmds->EvaluateCondition();
-					if($result)
+					if($result){
 						$_options['action']=$actions['in'];
-					else
-						$_options['action']=$actions['out'];
-					$Cmds->execute($_options);
+						$Cmds->execute($_options);
+					}else
+						$DelaisEval=$Cmds->getConfiguration('DelaisEval');
 				}
 			}
 		}

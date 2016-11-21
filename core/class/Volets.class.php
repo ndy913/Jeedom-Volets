@@ -154,7 +154,6 @@ class Volets extends eqLogic {
 							log::add('Volets','debug','Le soleil est dans la fenetre');
 							$options['action']=$actions['in'];
 							$Status='in';
-							$action=
 						}else{
 							log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
 							$options['action']=$actions['out'];

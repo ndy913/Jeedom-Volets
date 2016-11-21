@@ -94,7 +94,7 @@ class Volets extends eqLogic {
 						//replannifer le cron
 						$Shedule = new DateTime();
 						$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
-						$Zone->CreateCron($Shedule->format("i H d m Y"), 'ActionJour')
+						$Zone->CreateCron($Shedule->format("i H d m Y"), 'ActionJour');
 					}
 				}
 			}
@@ -115,7 +115,7 @@ class Volets extends eqLogic {
 						//replannifer le cron
 						$Shedule = new DateTime();
 						$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
-						$Zone->CreateCron($Shedule->format("i H d m Y"), 'ActionNuit')
+						$Zone->CreateCron($Shedule->format("i H d m Y"), 'ActionNuit');
 					}
 				}
 			}

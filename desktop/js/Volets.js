@@ -74,33 +74,48 @@ function saveEqLogic(_eqLogic) {
         _eqLogic.configuration = {};
     }	
 	if (typeof( _eqLogic.cmd) !== 'undefined') {
-		for(var index in  _eqLogic.cmd) { 
-			_eqLogic.cmd[index].configuration.condition=new Object();
-			_eqLogic.cmd[index].configuration.action=new Object();
-			var cmdParameters=$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id) + ']');
+			_eqLogic.configuration.condition=new Object();
+			_eqLogic.configuration.action=new Object();
 			var ConditionArray= new Array();
-			var inArray= new Array();
-			var outArray= new Array();
-			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ '] .ConditionGroup').each(function( index ) {
+			var OpenArray= new Array();
+			var CloseArray= new Array();
+			$('#tab_condition .ConditionGroup').each(function( index ) {
 				ConditionArray.push($(this).getValues('.expressionAttr')[0])
 			});
-			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ '] .ActionIn .ActionGroup').each(function( index ) {
-				inArray.push($(this).getValues('.expressionAttr')[0])
+			$('#tab_ouverture .ActionGroup').each(function( index ) {
+				OpenArray.push($(this).getValues('.expressionAttr')[0])
 			});
-			$('.cmd[data-cmd_id=' + init(_eqLogic.cmd[index].id)+ '] .ActionOut .ActionGroup').each(function( index ) {
-				outArray.push($(this).getValues('.expressionAttr')[0])
+			$('#tab_fermeture .ActionGroup').each(function( index ) {
+				CloseArray.push($(this).getValues('.expressionAttr')[0])
 			});
-			_eqLogic.cmd[index].configuration.condition=ConditionArray;
-			_eqLogic.cmd[index].configuration.action.in=inArray;
-			_eqLogic.cmd[index].configuration.action.out=outArray;
-			if(_eqLogic.cmd[index].id =="new")
-				_eqLogic.cmd[index].id=null;
-		}
+			_eqLogic.configuration.condition=ConditionArray;
+			_eqLogic.configuration.action.open=OpenArray;
+			_eqLogic.configuration.action.close=CloseArray;
 	}
-	$('.cmdAttr[data-l1key=display][data-l2key=icon]').hide();
    	return _eqLogic;
 }
 function printEqLogic(_eqLogic) {
+	
+	if (typeof(_eqLogic.configuration.condition) !== 'undefined') {
+		for(var index in _eqLogic.configuration.condition) { 
+			if( (typeof _eqLogic.configuration.condition[index] === "object") && (_eqLogic.configuration.condition[index] !== null) )
+				addCondition(_eqLogic.configuration.condition[index],  '{{Condition}}',$('#tab_condition').find('.div_Condition'));
+		}
+	}
+	if (typeof(_eqLogic.configuration.action) !== 'undefined') {
+		if (typeof(_eqLogic.configuration.action.open) !== 'undefined') {
+			for(var index in _eqLogic.configuration.action.open) { 
+				if( (typeof _eqLogic.configuration.action.open[index] === "object") && (_eqLogic.configuration.action.open[index] !== null) )
+					addAction(_eqLogic.configuration.action.open[index],  '{{Action}}',$('#tab_ouverture').find('.div_action'));
+			}
+		}
+		if (typeof(_eqLogic.configuration.action.close) !== 'undefined') {
+			for(var index in _eqLogic.configuration.action.close) { 
+				if( (typeof _eqLogic.configuration.action.close[index] === "object") && (_eqLogic.configuration.action.close[index] !== null) )
+					addAction(_eqLogic.configuration.action.close[index],  '{{Action}}',$('#tab_fermeture').find('.div_action'));
+			}
+		}
+	}	
 }
 /*
 function addCmdToTable(_cmd) {
@@ -243,26 +258,6 @@ function AddZone(_zone){
 		e.preventDefault();
 		$(this).tab('show');
 	});	
-	if (typeof(_zone.configuration.condition) !== 'undefined') {
-		for(var index in _zone.configuration.condition) { 
-			if( (typeof _zone.configuration.condition[index] === "object") && (_zone.configuration.condition[index] !== null) )
-				addCondition(_zone.configuration.condition[index],  '{{Condition}}',$('.cmd[data-cmd_id=' + init(_zone.id)+ '] ').find('.div_Condition'));
-		}
-	}
-	if (typeof(_zone.configuration.action) !== 'undefined') {
-		if (typeof(_zone.configuration.action.in) !== 'undefined') {
-			for(var index in _zone.configuration.action.in) { 
-				if( (typeof _zone.configuration.action.in[index] === "object") && (_zone.configuration.action.in[index] !== null) )
-					addAction(_zone.configuration.action.in[index],  '{{Action}}',$('.cmd[data-cmd_id=' + init(_zone.id)+ ']  .ActionIn').find('.div_action'));
-			}
-		}
-		if (typeof(_zone.configuration.action.out) !== 'undefined') {
-			for(var index in _zone.configuration.action.out) { 
-				if( (typeof _zone.configuration.action.out[index] === "object") && (_zone.configuration.action.out[index] !== null) )
-					addAction(_zone.configuration.action.out[index],  '{{Action}}',$('.cmd[data-cmd_id=' + init(_zone.id)+ ']  .ActionOut').find('.div_action'));
-			}
-		}
-	}	
 }*/
 function addCondition(_action, _name, _el) {
 	if (!isset(_action)) {

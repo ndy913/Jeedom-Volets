@@ -1,17 +1,13 @@
-Comme pour tous les plugins, nous allons commancer par cree un groupe de zone avec le bouton ajouter.
-Apres avoir nomée ce groupe nous allons pouvoir commencer a mettre en place nos zon
-==== Configuration Général Jeedom
+Comme pour tous les plugins, nous allons commencer par créer un groupe de zone avec le bouton ajouter.
+Après avoir nommé, ce groupe nous allons pouvoir commencer a mettre en place nos zones.
+==== Configuration générale Jeedom
 
 image::../images/ConfigurationGeneral.jpg[]
-* Nom  : Le nom a déjà été paramétrée mais vous avez la possibilité de la changer
-* Objet parent : Ce paramétré permet d'ajouter l'équipement dans un objet Jeedom
-* Catégorie : Déclare l'équipement dans une catégorie
-* Visible : Permet de rendre l'équipement visible dans le Dashboard
-* Activer : Permet d'activer l'équipement
-
-==== Parametre Général
-image::../images/ConfigurationParametre.jpg[]
-
+* Nom  : le nom a déjà été paramétré, mais vous avez la possibilité de le changer.
+* Objet parent : ce paramètre permet d'ajouter l'équipement dans un objet Jeedom.
+* Catégorie : déclare l'équipement dans une catégorie.
+* Visible : permet de rendre l'équipement visible dans le Dashboard.
+* Activer : permet d'activer l'équipement.
 * Héliotrope : Choisir l'equipement héliotrope a prendre en compte pour ce groupe de zone
 * Activation de la gestion par rayonnement : permet d'activer le gestion du rayonnement solaire 
 * Activation de la gestion jours nuit : permet d'activer si vous voulez ouvrir et fermé vos volet avec le jours et la nuit

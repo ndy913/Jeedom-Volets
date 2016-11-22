@@ -95,7 +95,8 @@ function saveEqLogic(_eqLogic) {
    	return _eqLogic;
 }
 function printEqLogic(_eqLogic) {
-	
+	$('.ConditionGroup').remove();
+	$('.ActionGroup').remove();
 	if (typeof(_eqLogic.configuration.condition) !== 'undefined') {
 		for(var index in _eqLogic.configuration.condition) { 
 			if( (typeof _eqLogic.configuration.condition[index] === "object") && (_eqLogic.configuration.condition[index] !== null) )
@@ -117,28 +118,7 @@ function printEqLogic(_eqLogic) {
 		}
 	}	
 }
-/*
-function addCmdToTable(_cmd) {
-	if (!isset(_cmd)) {
-		var _cmd = {configuration: {}};
-		bootbox.prompt("Nom ?", function (result) {
-			if (result !== null && result != '') 
-				_cmd.id="new";
-				_cmd.name=result;
-				AddZone(_cmd);
-		});
-	}
-	else
-		AddZone(_cmd);
-	
-}
-function AddZone(_zone){
-	if (init(_zone.name) == '') {
-      		return;
-   	}
-	if (init(_zone.icon) == '') {
-    	    _zone.icon = '';
-  	  }
+function TraceMapZone(_zone){
 	if (typeof(_zone.configuration.Droit) !== 'undefined' && _zone.configuration.Droit != "" && typeof(_zone.configuration.Gauche) !== 'undefined' && _zone.configuration.Gauche != "") {
 		_zone.configuration.Droit.lat=parseFloat(_zone.configuration.Droit.lat);
 		_zone.configuration.Droit.lng=parseFloat(_zone.configuration.Droit.lng);
@@ -176,89 +156,17 @@ function AddZone(_zone){
 		Coordinates[0].lat=event.latLng.lat();
 		Coordinates[0].lng=event.latLng.lng();
 		Polyline.setPath(Coordinates);
-		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Droit]').val(JSON.stringify(event.latLng));
-		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Angle]').val(getAngle(Coordinates));
+		//$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Droit]').val(JSON.stringify(event.latLng));
+		//$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Angle]').val(getAngle(Coordinates));
 	});
 	google.maps.event.addListener(Gauche,'drag', function(event) {
 		Coordinates[1].lat=event.latLng.lat();
 		Coordinates[1].lng=event.latLng.lng();
 		Polyline.setPath(Coordinates);
-		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
-		$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Angle]').val(getAngle(Coordinates));
+		//$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
+		//$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Angle]').val(getAngle(Coordinates));
 	});
-	
-	if($('#new').lenght >0)
-		$('#new').remove();
-	if($('#tab_new').lenght >0)
-		$('#tab_new').remove();
-	if ($('#tab_zones #' + init(_zone.id)).length == 0) {
-		$('#tab_zones').append($('<li id="' +init(_zone.id) + '">')
-			.append($('<a href="#tab_' + init(_zone.id) + '">')
-				.text(_zone.name)));
-		if (typeof(_zone.display.icon) !== 'undefined') {
-			$('#tab_zones #'+_zone.id + ' a').prepend(_zone.display.icon);
-		}
-	}
-	var NewMode = $('<div style="margin-right:20px" class="cmd tab-pane tabAttr" data-cmd_id="' +init(_zone.id) + '" id="tab_' +init(_zone.id) + '">')
-		.append($('<div class="row">')
-			.append($('<div class="form-group AngleSoleil">')
-				.append($('<label>').text('Angle d\'ensoleillement de la Zone'))
-				.append($('<div class="input-group">')
-					.append($('<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="Angle" disabled>'))))
-			.append($('<input type="hidden" class="cmdAttr" data-l1key="id"  style="display : none;"/>'))
-			.append($('<input type="hidden" class="cmdAttr" data-l1key="logicalId" style="display : none;"/>'))
-			.append($('<input type="hidden" class="cmdAttr" data-l1key="name" style="display : none;"/>'))
-			.append($('<input type="hidden" class="cmdAttr" data-l1key="type" value="action" style="display : none;"/>'))
-			.append($('<input type="hidden" class="cmdAttr" data-l1key="subType" value="other" style="display : none;"/>'))
-			.append($('<input type="hidden" class="cmdAttr" data-l1key="display" data-l2key="icon" style="display : none;" />'))
-			.append($('<input type="checkbox" class="cmdAttr" data-l1key="isHistorized" style="display : none;"/>'))
-			.append($('<div class="btn-group pull-right" role="group">')
-				.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="rename">')
-					.append($('<i class="fa fa-flag">'))
-					.text('{{Renomer la zone}}'))
-				.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="chooseIcon">')
-					.append($('<i class="fa fa-flag">'))
-					.text('{{Modifier Icône}}'))
-				.append($('<a class="modeAction btn btn-default btn-sm" data-l1key="removeIcon">')
-					.append($('<i class="fa fa-trash">'))
-					.text('{{Supprimer l\'icône}}'))
-				.append($('<a class="modeAction btn btn-danger btn-sm" data-l1key="removeZone">')
-					.append($('<i class="fa fa-minus-circle">'))
-					.text('{{Supprimer}}'))))
-		.append($('<div class="row">')
-					.append($('<form class="form-horizontal">')
-						.append($('<legend>')
-							.text('{{Ajouter les conditions d\'execution :}}')
-							.append($('<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">')
-								.append($('<i class="fa fa-plus-circle">'))
-								.text('{{Ajouter Condition}}')))
-						.append($('<div class="div_Condition">'))))
-		.append($('<div class="row">')
-			.append($('<div class="col-lg-6 ActionIn">')
-				.append($('<form class="form-horizontal">')
-					.append($('<legend>')
-						.text('{{Ajouter les actions a mener lorsque le soleil est dans la zone :}}')
-						.append($('<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">')
-							.append($('<i class="fa fa-plus-circle">'))
-							.text('{{Ajouter Action}}')))
-					.append($('<div class="div_action">'))))
-			.append($('<div class="col-lg-6 ActionOut">')
-				.append($('<form class="form-horizontal">')
-					.append($('<legend>')
-						.text('{{Ajouter les actions a mener lorsque le soleil n\'est pas dans la zone :}}')
-						.append($('<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">')
-							.append($('<i class="fa fa-plus-circle">'))
-							.text('{{Ajouter Action}}')))
-					.append($('<div class="div_action">')))));
-	$('.TabCmdZone').append(NewMode);
-	$('.TabCmdZone .cmd[data-cmd_id=' + init(_zone.id)+ ']').setValues(_zone, '.cmdAttr');
-	$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Droit]').val(JSON.stringify(_zone.configuration.Droit));
-	$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(_zone.configuration.Gauche));
-	$('#tab_zones a').on('click', function (e) {
-		e.preventDefault();
-		$(this).tab('show');
-	});	
-}*/
+}
 function addCondition(_action, _name, _el) {
 	if (!isset(_action)) {
 		_action = {};

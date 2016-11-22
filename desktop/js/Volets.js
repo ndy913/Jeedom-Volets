@@ -120,15 +120,19 @@ function printEqLogic(_eqLogic) {
 	}	
 }
 function TraceMapZone(_zone){
-	if (typeof(_zone.configuration.Droit) !== 'undefined' && _zone.configuration.Droit != "" && typeof(_zone.configuration.Gauche) !== 'undefined' && _zone.configuration.Gauche != "") {
+	if (typeof(_zone.configuration.Droit) !== 'undefined' && _zone.configuration.Droit != "" && typeof(_zone.configuration.Centre) !== 'undefined' && _zone.configuration.Centre != "" && typeof(_zone.configuration.Gauche) !== 'undefined' && _zone.configuration.Gauche != "") {
 		_zone.configuration.Droit.lat=parseFloat(_zone.configuration.Droit.lat);
 		_zone.configuration.Droit.lng=parseFloat(_zone.configuration.Droit.lng);
+		_zone.configuration.Centre.lat=parseFloat(_zone.configuration.Centre.lat);
+		_zone.configuration.Centre.lng=parseFloat(_zone.configuration.Centre.lng);
 		_zone.configuration.Gauche.lat=parseFloat(_zone.configuration.Gauche.lat);
 		_zone.configuration.Gauche.lng=parseFloat(_zone.configuration.Gauche.lng);
 	}else {
-		_zone.configuration.Centre= new Object();
 		_zone.configuration.Droit= new Object();
-		_zone.configuration.Droit=Center;
+		_zone.configuration.Gauche.lat=_zone.configuration.Droit.lat;
+		_zone.configuration.Gauche.lng=_zone.configuration.Droit.lng- (1 / 3600);
+		_zone.configuration.Centre= new Object();
+		_zone.configuration.Centre=Center;
 		_zone.configuration.Gauche= new Object();
 		_zone.configuration.Gauche.lat=_zone.configuration.Droit.lat;
 		_zone.configuration.Gauche.lng=_zone.configuration.Droit.lng+ (1 / 3600);

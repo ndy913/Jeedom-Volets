@@ -71,7 +71,7 @@ $eqLogics = eqLogic::byType('Volets');
 				<li class="active"><a href="#tab_general"><i class="fa fa-cogs"></i> {{Général}}</a></li>
 				<!--li class="SelectMap"><a href="#tab_map"><i class="fa fa-map"></i> {{Afficher la carte}}</a></li-->
 				<li><a href="#tab_condition"><i class="fa fa-pencil"></i> {{Condition d'execution}}</a></li>
-				<li><a href="#tab_ouverture"><i class="fa fa-pencil"></i> {{Action Overture}}</a></li>
+				<li><a href="#tab_ouverture"><i class="fa fa-pencil"></i> {{Action Ouverture}}</a></li>
 				<li><a href="#tab_fermeture"><i class="fa fa-pencil"></i> {{Action Fermeture}}</a></li>
 			</ul>
 			<div class="tab-content TabCmdZone">
@@ -156,7 +156,7 @@ $eqLogics = eqLogic::byType('Volets');
 				<div class="tab-pane" id="tab_condition">
 					<form class="form-horizontal">
 						<fieldset>
-							<legend>{{Les conditions d\'execution :}}
+							<legend>{{Les conditions d'execution :}}
 								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>
 									{{Ajouter Condition}}

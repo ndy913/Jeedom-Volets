@@ -179,14 +179,14 @@ function TraceMapZone(_zone){
 		CentreLatLng.lat=event.latLng.lat();
 		CentreLatLng.lng=event.latLng.lng();
 		$('.eqLogicAttr[data-l2key=Centre]').val(JSON.stringify(event.latLng));
-		PolylineDroite.setPath([GaucheLatLng,CentreLatLng]);
+		PolylineGauche.setPath([GaucheLatLng,CentreLatLng]);
 		PolylineDroite.setPath([CentreLatLng,DroitLatLng]);
 	});
 	google.maps.event.addListener(Gauche,'drag', function(event) {
 		GaucheLatLng.lat=event.latLng.lat();
 		GaucheLatLng.lng=event.latLng.lng();
 		$('.eqLogicAttr[data-l2key=Gauche]').val(JSON.stringify(event.latLng));
-		PolylineDroite.setPath([GaucheLatLng,CentreLatLng]);
+		PolylineGauche.setPath([GaucheLatLng,CentreLatLng]);
 	});
 }
 function addCondition(_action, _name, _el) {

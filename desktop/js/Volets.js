@@ -172,20 +172,20 @@ function TraceMapZone(_zone){
 	google.maps.event.addListener(Droit,'drag', function(event) {
 		DroitLatLng.lat=event.latLng.lat();
 		DroitLatLng.lng=event.latLng.lng();
-		$('.eqLogicAttr[data-l2key=Droite]').val(json_stringify(event.latLng));
+		$('.eqLogicAttr[data-l2key=Droite]').val(JSON.stringify(event.latLng));
 		PolylineDroite.setPath([CentreLatLng,DroitLatLng]);
 	});
 	google.maps.event.addListener(Centre,'drag', function(event) {
 		CentreLatLng.lat=event.latLng.lat();
 		CentreLatLng.lng=event.latLng.lng();
-		$('.eqLogicAttr[data-l2key=Centre]').val(json_stringify(event.latLng));
+		$('.eqLogicAttr[data-l2key=Centre]').val(JSON.stringify(event.latLng));
 		PolylineDroite.setPath([GaucheLatLng,CentreLatLng]);
 		PolylineDroite.setPath([CentreLatLng,DroitLatLng]);
 	});
 	google.maps.event.addListener(Gauche,'drag', function(event) {
 		GaucheLatLng.lat=event.latLng.lat();
 		GaucheLatLng.lng=event.latLng.lng();
-		$('.eqLogicAttr[data-l2key=Gauche]').val(json_stringify(event.latLng));
+		$('.eqLogicAttr[data-l2key=Gauche]').val(JSON.stringify(event.latLng));
 		PolylineDroite.setPath([GaucheLatLng,CentreLatLng]);
 	});
 }

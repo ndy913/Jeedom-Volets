@@ -97,6 +97,7 @@ function saveEqLogic(_eqLogic) {
 function printEqLogic(_eqLogic) {
 	$('.ConditionGroup').remove();
 	$('.ActionGroup').remove();
+	TraceMapZone(_eqLogic);
 	if (typeof(_eqLogic.configuration.condition) !== 'undefined') {
 		for(var index in _eqLogic.configuration.condition) { 
 			if( (typeof _eqLogic.configuration.condition[index] === "object") && (_eqLogic.configuration.condition[index] !== null) )
@@ -125,6 +126,7 @@ function TraceMapZone(_zone){
 		_zone.configuration.Gauche.lat=parseFloat(_zone.configuration.Gauche.lat);
 		_zone.configuration.Gauche.lng=parseFloat(_zone.configuration.Gauche.lng);
 	}else {
+		_zone.configuration.Centre= new Object();
 		_zone.configuration.Droit= new Object();
 		_zone.configuration.Droit=Center;
 		_zone.configuration.Gauche= new Object();
@@ -134,6 +136,12 @@ function TraceMapZone(_zone){
 	var Coordinates=[_zone.configuration.Droit,_zone.configuration.Gauche];
 	var Droit=new google.maps.Marker({
 		position: _zone.configuration.Droit,
+		map: map,
+		draggable:true,
+		title: _zone.name + " - Droite vue exterieur"
+	  });
+	var Centre=new google.maps.Marker({
+		position: _zone.configuration.Centre,
 		map: map,
 		draggable:true,
 		title: _zone.name + " - Droite vue exterieur"
@@ -153,18 +161,19 @@ function TraceMapZone(_zone){
 		strokeWeight: 2
 	});
 	google.maps.event.addListener(Droit,'drag', function(event) {
-		Coordinates[0].lat=event.latLng.lat();
-		Coordinates[0].lng=event.latLng.lng();
+		_zone.configuration.Droit.lat=event.latLng.lat();
+		_zone.configuration.Droit.lng=event.latLng.lng();
 		Polyline.setPath(Coordinates);
-		//$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Droit]').val(JSON.stringify(event.latLng));
-		//$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Angle]').val(getAngle(Coordinates));
+	});
+	google.maps.event.addListener(Centre,'drag', function(event) {
+		_zone.configuration.Centre.lat=event.latLng.lat();
+		_zone.configuration.Centre.lng=event.latLng.lng();
+		Polyline.setPath(Coordinates);
 	});
 	google.maps.event.addListener(Gauche,'drag', function(event) {
-		Coordinates[1].lat=event.latLng.lat();
-		Coordinates[1].lng=event.latLng.lng();
+		_zone.configuration.Gauche.lat=event.latLng.lat();
+		_zone.configuration.Gauche.lng=event.latLng.lng();
 		Polyline.setPath(Coordinates);
-		//$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
-		//$('.cmd[data-cmd_id=' + init(_zone.id) + ']').find('.cmdAttr[data-l1key=configuration][data-l2key=Angle]').val(getAngle(Coordinates));
 	});
 }
 function addCondition(_action, _name, _el) {

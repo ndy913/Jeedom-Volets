@@ -219,7 +219,7 @@ class Volets extends eqLogic {
 	public function EvaluateCondition(){
 		foreach($this->getConfiguration('condition') as $condition){
 			$expression = scenarioExpression::setTags($condition['expression']);
-			$message = __('Evaluation de la condition : '.$condition['expression'].' [', __FILE__) . trim($expression) . '] = ';
+			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 			$result = evaluate($expression);
 			if (is_bool($result)) {
 				if ($result) {

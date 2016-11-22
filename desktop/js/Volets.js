@@ -122,19 +122,22 @@ function printEqLogic(_eqLogic) {
 	}	
 }
 function TraceMapZone(_zone){
-	if (typeof(_zone.configuration.Droit) !== 'undefined' && _zone.configuration.Droit != "" && typeof(_zone.configuration.Centre) !== 'undefined' && _zone.configuration.Centre != "" && typeof(_zone.configuration.Gauche) !== 'undefined' && _zone.configuration.Gauche != "") {
+	DroitLatLng.lat=CentreLatLng.lat;
+	DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
+	GaucheLatLng.lat=CentreLatLng.lat;
+	GaucheLatLng.lng=CentreLatLng.lng+ (1 / 3600);
+	if (typeof(_zone.configuration.Droit) !== 'undefined' && _zone.configuration.Droit != "" ) {
 		DroitLatLng.lat=parseFloat(_zone.configuration.Droit.lat);
 		DroitLatLng.lng=parseFloat(_zone.configuration.Droit.lng);
+	}
+	if (typeof(_zone.configuration.Centre) !== 'undefined' && _zone.configuration.Centre != "" ) {
 		CentreLatLng.lat=parseFloat(_zone.configuration.Centre.lat);
 		CentreLatLng.lng=parseFloat(_zone.configuration.Centre.lng);
+	}
+	if (typeof(_zone.configuration.Gauche) !== 'undefined' && _zone.configuration.Gauche != "") {
 		GaucheLatLng.lat=parseFloat(_zone.configuration.Gauche.lat);
 		GaucheLatLng.lng=parseFloat(_zone.configuration.Gauche.lng);
-	}else {
-		DroitLatLng.lat=CentreLatLng.lat;
-		DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
-		GaucheLatLng.lat=CentreLatLng.lat;
-		GaucheLatLng.lng=CentreLatLng.lng+ (1 / 3600);
-	}	
+	}
 	var Droit=new google.maps.Marker({
 		position: DroitLatLng,
 		map: map,

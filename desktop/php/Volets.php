@@ -165,21 +165,39 @@ $eqLogics = eqLogic::byType('Volets');
 				<div class="tab-pane" id="tab_condition">
 					<form class="form-horizontal">
 						<fieldset>
-	
+							<legend>{{Les conditions d\'execution :}}
+								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">')
+									<i class="fa fa-plus-circle"></i>
+									{{Ajouter Condition}}
+								</a>
+							</legend>
+							<div class="div_Condition"></div>
 						</fieldset>
 					</form>
 				</div>				
 				<div class="tab-pane" id="tab_ouverture">
 					<form class="form-horizontal">
 						<fieldset>
-
+							<legend>{{Les actions d'ouverture :}}
+								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">')
+									<i class="fa fa-plus-circle"></i>
+									{{Ajouter une Action}}
+								</a>
+							</legend>
+							<div class="div_action"></div>
 						</fieldset>
 					</form>
 				</div>		
 				<div class="tab-pane" id="tab_fermeture">
 					<form class="form-horizontal">
 						<fieldset>
-
+							<legend>{{Les actions de fermeture :}}
+								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">')
+									<i class="fa fa-plus-circle"></i>
+									{{Ajouter une Action}}
+								</a>
+							</legend>
+							<div class="div_action"></div>
 						</fieldset>
 					</form>
 				</div>

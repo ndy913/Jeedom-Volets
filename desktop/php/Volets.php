@@ -105,7 +105,6 @@ $eqLogics = eqLogic::byType('Volets');
 									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
 								</div>
 							</div>
-							<legend>{{Configuration}} </legend>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Héliotrope}}</label>
 								<div class="col-sm-5">
@@ -129,15 +128,15 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>								
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Delais avant ou après le levée du jours}}</label>
+								<label class="col-sm-2 control-label">{{Delai au lever du jour}}</label>
 								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Delais apres le levée du jours}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Delai au lever du jour}}"/>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Delais avant ou après la tombée de la nuit}}</label>
+								<label class="col-sm-2 control-label">{{Delai à la tombée de la nuit}}</label>
 								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Delais avant la tombée de la nuit}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Delai à la tombée de la nuit}}"/>
 								</div>
 							</div>
 							<div class="form-group">

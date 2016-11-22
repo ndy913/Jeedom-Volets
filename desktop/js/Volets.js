@@ -132,7 +132,7 @@ function TraceMapZone(_zone){
 		DroitLatLng.lng=parseFloat(_zone.configuration.Droit.lng);
 	}
 	if (typeof(_zone.configuration.Centre) !== 'undefined' && _zone.configuration.Centre != "" ) {
-		alertJSON.stringify((_zone.configuration.Centre));
+		alert(JSON.stringify(_zone.configuration.Centre));
 		CentreLatLng.lat=parseFloat(_zone.configuration.Centre.lat);
 		CentreLatLng.lng=parseFloat(_zone.configuration.Centre.lng);
 	}

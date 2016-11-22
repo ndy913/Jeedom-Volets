@@ -99,7 +99,7 @@ function saveEqLogic(_eqLogic) {
 	}
 	$('.cmdAttr[data-l1key=display][data-l2key=icon]').hide();
    	return _eqLogic;
-}
+}/*
 function addCmdToTable(_cmd) {
 	if (!isset(_cmd)) {
 		var _cmd = {configuration: {}};
@@ -260,7 +260,7 @@ function AddZone(_zone){
 			}
 		}
 	}	
-}
+}*/
 function addCondition(_action, _name, _el) {
 	if (!isset(_action)) {
 		_action = {};
@@ -317,7 +317,7 @@ $('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
     })
 });
 $('body').on('click','.conditionAttr[data-action=add]',function(){
-	addCondition({},  '{{Condition}}',$(this).closest('.form-horizontal').find('.div_Condition'));
+	addCondition({},  '{{Condition}}',$(this).closest('.form-horizontal').find('#tab_condition fieldset'));
 });
 $('body').on('click','.conditionAttr[data-action=remove]',function(){
 	$(this).closest('.ConditionGroup').remove();
@@ -453,7 +453,7 @@ $('body').on('click','.listCmdCondition',function(){
 	});
 });
 $('body').on('click','.ActionAttr[data-action=add]',function(){
-	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_action'));
+	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('fieldset'));
 });
 $('body').on('click','.ActionAttr[data-action=remove]', function () {
 	$(this).closest('.ActionGroup').remove();

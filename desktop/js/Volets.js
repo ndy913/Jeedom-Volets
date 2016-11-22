@@ -130,11 +130,10 @@ function TraceMapZone(_zone){
 		GaucheLatLng.lat=parseFloat(_zone.configuration.Gauche.lat);
 		GaucheLatLng.lng=parseFloat(_zone.configuration.Gauche.lng);
 	}else {
-		DroitLatLng.lat=Center.lat;
-		DroitLatLng.lng=Center.lng- (1 / 3600);
-		CentreLatLng=Center;
-		GaucheLatLng.lat=Center.Droit.lat;
-		GaucheLatLng.lng=Center.lng+ (1 / 3600);
+		DroitLatLng.lat=CentreLatLng.lat;
+		DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
+		GaucheLatLng.lat=CentreLatLng.Droit.lat;
+		GaucheLatLng.lng=CentreLatLng.lng+ (1 / 3600);
 	}	
 	var Droit=new google.maps.Marker({
 		position: DroitLatLng,

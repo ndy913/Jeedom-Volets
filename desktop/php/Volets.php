@@ -166,7 +166,7 @@ $eqLogics = eqLogic::byType('Volets');
 					<form class="form-horizontal">
 						<fieldset>
 							<legend>{{Les conditions d\'execution :}}
-								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">')
+								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>
 									{{Ajouter Condition}}
 								</a>
@@ -179,7 +179,7 @@ $eqLogics = eqLogic::byType('Volets');
 					<form class="form-horizontal">
 						<fieldset>
 							<legend>{{Les actions d'ouverture :}}
-								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">')
+								<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>
 									{{Ajouter une Action}}
 								</a>
@@ -192,7 +192,7 @@ $eqLogics = eqLogic::byType('Volets');
 					<form class="form-horizontal">
 						<fieldset>
 							<legend>{{Les actions de fermeture :}}
-								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">')
+								<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>
 									{{Ajouter une Action}}
 								</a>

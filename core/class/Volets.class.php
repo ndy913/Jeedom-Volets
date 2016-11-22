@@ -85,7 +85,7 @@ class Volets extends eqLogic {
 			if($Zone->getIsEnable()){
 				$result=$Zone->EvaluateCondition();
 				if($result){
-					$Action=$Zone->getConfiguration('action')
+					$Action=$Zone->getConfiguration('action');
 					$Zone->ExecuteAction($Action['open']);
 				}else{
 					$DelaisEval=$Zone->getConfiguration('DelaisEval'); 
@@ -103,7 +103,7 @@ class Volets extends eqLogic {
 			if($Zone->getIsEnable()){
 				$result=$Zone->EvaluateCondition();
 				if($result){
-					$Action=$Zone->getConfiguration('action')
+					$Action=$Zone->getConfiguration('action');
 					$Zone->ExecuteAction($Action['close']);
 				}else{
 					$DelaisEval=$Zone->getConfiguration('DelaisEval'); 

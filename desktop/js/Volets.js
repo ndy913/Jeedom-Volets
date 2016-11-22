@@ -185,7 +185,6 @@ function TraceMapZone(_zone){
 	google.maps.event.addListener(Gauche,'drag', function(event) {
 		GaucheLatLng.lat=event.latLng.lat();
 		GaucheLatLng.lng=event.latLng.lng();
-		alert(JSON.stringify(event.latLng));
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
 		PolylineGauche.setPath([GaucheLatLng,CentreLatLng]);
 	});

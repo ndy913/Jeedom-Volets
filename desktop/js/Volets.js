@@ -99,6 +99,9 @@ function saveEqLogic(_eqLogic) {
 function printEqLogic(_eqLogic) {
 	$('.ConditionGroup').remove();
 	$('.ActionGroup').remove();
+	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(_eqLogic.configuration.Droite));
+	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(_eqLogic.configuration.Centre));
+	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(_eqLogic.configuration.Gauche));
 	TraceMapZone(_eqLogic);
 	if (typeof(_eqLogic.configuration.condition) !== 'undefined') {
 		for(var index in _eqLogic.configuration.condition) { 
@@ -126,18 +129,15 @@ function TraceMapZone(_zone){
 	DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
 	GaucheLatLng.lat=CentreLatLng.lat;
 	GaucheLatLng.lng=CentreLatLng.lng+ (1 / 3600);
-	if (typeof(_zone.configuration.Droit) !== 'undefined' && _zone.configuration.Droit != "" ) {
-		alert(JSON.stringify(_zone.configuration.Droit));
-		DroitLatLng.lat=parseFloat(_zone.configuration.Droit.lat);
-		DroitLatLng.lng=parseFloat(_zone.configuration.Droit.lng);
+	if (typeof(_zone.configuration.Droite) !== 'undefined' && _zone.configuration.Droite != "" ) {
+		DroitLatLng.lat=parseFloat(_zone.configuration.Droite.lat);
+		DroitLatLng.lng=parseFloat(_zone.configuration.Droite.lng);
 	}
 	if (typeof(_zone.configuration.Centre) !== 'undefined' && _zone.configuration.Centre != "" ) {
-		alert(JSON.stringify(_zone.configuration.Centre));
 		CentreLatLng.lat=parseFloat(_zone.configuration.Centre.lat);
 		CentreLatLng.lng=parseFloat(_zone.configuration.Centre.lng);
 	}
 	if (typeof(_zone.configuration.Gauche) !== 'undefined' && _zone.configuration.Gauche != "") {
-		alert(JSON.stringify(_zone.configuration.Gauche));
 		GaucheLatLng.lat=parseFloat(_zone.configuration.Gauche.lat);
 		GaucheLatLng.lng=parseFloat(_zone.configuration.Gauche.lng);
 	}

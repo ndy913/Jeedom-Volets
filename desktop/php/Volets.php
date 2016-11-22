@@ -146,6 +146,9 @@ $eqLogics = eqLogic::byType('Volets');
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Delais de re-évaluation}}"/>
 								</div>
 							</div>
+							<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
+							<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Center"/>
+							<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>	
 						</fieldset>
 					</form>
 				</div>	

@@ -176,15 +176,15 @@ function TraceMapZone(_zone){
 		PolylineDroite.setPath([CentreLatLng,DroitLatLng]);
 	});
 	google.maps.event.addListener(Centre,'drag', function(event) {
-		_zone.configuration.Centre.lat=event.latLng.lat();
-		_zone.configuration.Centre.lng=event.latLng.lng();
+		CentreLatLng.lat=event.latLng.lat();
+		CentreLatLng.lng=event.latLng.lng();
 		$('.eqLogicAttr[data-l2key=Centre]').val(json_stringify(event.latLng));
 		PolylineDroite.setPath([GaucheLatLng,CentreLatLng]);
 		PolylineDroite.setPath([CentreLatLng,DroitLatLng]);
 	});
 	google.maps.event.addListener(Gauche,'drag', function(event) {
-		_zone.configuration.Gauche.lat=event.latLng.lat();
-		_zone.configuration.Gauche.lng=event.latLng.lng();
+		GaucheLatLng.lat=event.latLng.lat();
+		GaucheLatLng.lng=event.latLng.lng();
 		$('.eqLogicAttr[data-l2key=Gauche]').val(json_stringify(event.latLng));
 		PolylineDroite.setPath([GaucheLatLng,CentreLatLng]);
 	});

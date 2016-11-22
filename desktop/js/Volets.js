@@ -14,7 +14,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		error: function(request, status, error) {},
 		success: function(data) {
 			if (!data.result)
-				$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
+				$('#div_alert').showAlert({message: 'Aucun message reçu', level: 'error'});
 			if (typeof(data.result.geoloc) !== 'undefined') {
 				var center=data.result.geoloc.configuration.coordinate.split(",");
 				Center.lat=parseFloat(center[0]);
@@ -141,7 +141,7 @@ function TraceMapZone(_zone){
 		position: _zone.configuration.Droit,
 		map: map,
 		draggable:true,
-		title: _zone.name + " - Droite vue exterieur"
+		title: _zone.name + " - Droite vue extérieur"
 	  });
 	var Centre=new google.maps.Marker({
 		position: _zone.configuration.Centre,
@@ -153,7 +153,7 @@ function TraceMapZone(_zone){
 		position:_zone.configuration.Gauche,
 		map: map,
 		draggable:true,
-		title: _zone.name  + " - Gauche vue exterieur"
+		title: _zone.name  + " - Gauche vue extérieur"
 	  });
 	var PolylineDroite =new google.maps.Polyline({
 		path: [_zone.configuration.Droit,_zone.configuration.Centre],
@@ -327,7 +327,7 @@ $('body').on('click','.listCmdCondition',function(){
 			'                       <option value="1">{{Ouvert}}</option>' +
 			'                       <option value="0">{{Fermé}}</option>' +
 			'                       <option value="1">{{Allumé}}</option>' +
-			'                       <option value="0">{{Eteint}}</option>' +
+			'                       <option value="0">{{Éteint}}</option>' +
 			'                       <option value="1">{{Déclenché}}</option>' +
 			'                       <option value="0">{{Au repos}}</option>' +
 			'                       </select>' +

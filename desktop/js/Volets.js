@@ -99,7 +99,10 @@ function saveEqLogic(_eqLogic) {
 	}
 	$('.cmdAttr[data-l1key=display][data-l2key=icon]').hide();
    	return _eqLogic;
-}/*
+}
+function printEqLogic(_eqLogic) {
+}
+/*
 function addCmdToTable(_cmd) {
 	if (!isset(_cmd)) {
 		var _cmd = {configuration: {}};
@@ -317,7 +320,7 @@ $('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
     })
 });
 $('body').on('click','.conditionAttr[data-action=add]',function(){
-	addCondition({},  '{{Condition}}',$(this).closest('.form-horizontal').find('#tab_condition fieldset'));
+	addCondition({},  '{{Condition}}',$(this).closest('.form-horizontal').find('.div_Condition'));
 });
 $('body').on('click','.conditionAttr[data-action=remove]',function(){
 	$(this).closest('.ConditionGroup').remove();

@@ -83,19 +83,16 @@ class Volets extends eqLogic {
 		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'DayNight') as $Zone){
 			log::add('Volets', 'debug', 'Execution de la gestion du levée du soleil '.$Zone->getHumanName());
 			if($Zone->getIsEnable()){
-				foreach($Zone->getCmd(null, null, null, true) as $Cmds){
-					$actions=$Cmds->getConfiguration('action');
-					$result=$Cmds->EvaluateCondition();
-					if($result){
-						$_options['action']=$actions['out'];
-						$Cmds->execute($_options);
-					}else{
-						$DelaisEval=$Cmds->getConfiguration('DelaisEval'); 
-						//replannifer le cron
-						$Shedule = new DateTime();
-						$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
-						$Zone->CreateCron($Shedule->format("i H d m Y"), 'ActionJour');
-					}
+				$result=$Zone->EvaluateCondition();
+				if($result){
+					$Action=$Zone->getConfiguration('action')
+					$Zone->ExecuteAction($Action['open']);
+				}else{
+					$DelaisEval=$Zone->getConfiguration('DelaisEval'); 
+					//replannifer le cron
+					$Shedule = new DateTime();
+					$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
+					$Zone->CreateCron($Shedule->format("i H d m Y"), 'ActionJour');
 				}
 			}
 		}
@@ -104,19 +101,16 @@ class Volets extends eqLogic {
 		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'DayNight') as $Zone){
 			log::add('Volets', 'debug', 'Execution de la gestion du couché du soleil '.$Zone->getHumanName());
 			if($Zone->getIsEnable()){
-				foreach($Zone->getCmd(null, null, null, true) as $Cmds){
-					$actions=$Cmds->getConfiguration('action');
-					$result=$Cmds->EvaluateCondition();
-					if($result){
-						$_options['action']=$actions['in'];
-						$Cmds->execute($_options);
-					}else{
-						$DelaisEval=$Cmds->getConfiguration('DelaisEval'); 
-						//replannifer le cron
-						$Shedule = new DateTime();
-						$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
-						$Zone->CreateCron($Shedule->format("i H d m Y"), 'ActionNuit');
-					}
+				$result=$Zone->EvaluateCondition();
+				if($result){
+					$Action=$Zone->getConfiguration('action')
+					$Zone->ExecuteAction($Action['close']);
+				}else{
+					$DelaisEval=$Zone->getConfiguration('DelaisEval'); 
+					//replannifer le cron
+					$Shedule = new DateTime();
+					$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
+					$Zone->CreateCron($Shedule->format("i H d m Y"), 'ActionJour');
 				}
 			}
 		}
@@ -145,40 +139,53 @@ class Volets extends eqLogic {
 	}		
 	public function ActionAzimute($Azimuth) {
 		if($this->checkJour()){
-			foreach($this->getCmd(null, null, null, true)  as $Commande){
-				//Calculer de l'angle de ma zone
-				$Droite=$Commande->getConfiguration('Droit');
-				$Gauche=$Commande->getConfiguration('Gauche');
-				if(is_array($Droite)&&is_array($Gauche)){
-					$Angle=$Commande->getAngle($Droite['lat'],
-								   $Droite['lng'],
-								   $Gauche['lat'],
-								   $Gauche['lng']);
-					log::add('Volets','debug','L\'angle de votre zone '.$Commande->getName().' par rapport au Nord est de '.$Angle.'°');
-					//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
-					$actions=$Commande->getConfiguration('action');
-					$result=$Commande->EvaluateCondition();
-					if($result){
-						log::add('Volets','debug','Les conditions sont remplie');
-						if($Azimuth<$Angle&&$Azimuth>$Angle-90){
-							log::add('Volets','debug','Le soleil est dans la fenetre');
-							$options['action']=$actions['in'];
-							$Status='in';
-						}else{
-							log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
-							$options['action']=$actions['out'];
-							$Status='out';
-						}
-						if($Commande->getConfiguration('Status')!=$Status){
-							$Commande->setConfiguration('Status',$Status);
-							$Commande->save();
-							$Commande->execute($options);
-						}
+			$Droite=$this->getConfiguration('Droite');
+			$Gauche=$this->getConfiguration('Gauche');
+			$Centre=$this->getConfiguration('Centre');
+			if(is_array($Droite)&&is_array($Centre)&&is_array($Gauche)){
+				$Angle1=$this->getAngle($Centre['lat'],
+							   $Centre['lng'],
+							   $Gauche['lat'],
+							   $Gauche['lng']);
+
+				$Angle2=$this->getAngle($Gauche['lat'],
+							   $Gauche['lng'],
+							   $Centre['lat'],
+							   $Centre['lng']);
+				log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
+				//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
+				$Action=$this->getConfiguration('action');
+				$result=$this->EvaluateCondition();
+				if($result){
+					log::add('Volets','debug','Les conditions sont remplie');
+					if($Azimuth<$Angle2&&$Azimuth>$Angle1){
+						log::add('Volets','debug','Le soleil est dans la fenetre');
+						$Action=$Action['close'];
+						$Status='close';
+					}else{
+						log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
+						$Action=$Action['open'];
+						$Status='open';
+					}
+					if($this->getConfiguration('Status')!=$Status){
+						$this->setConfiguration('Status',$Status);
+						$this->save();
+						$this->ExecuteAction($Action);
 					}
 				}
 			}
 		}else
 			log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
+	}
+	public function ExecuteAction($Action) {
+		log::add('Volets','debug','Execution de '.json_encode($Action));	
+		foreach($Action as $cmd){
+			$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
+			if(is_object($Commande)){
+				log::add('Volets','debug','Execution de '.$Commande->getHumanName());
+				$Commande->execute($cmd['options']);
+			}
+		}
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {
 		if(strlen($HeureStart)==3)
@@ -208,6 +215,38 @@ class Volets extends eqLogic {
 				$cron->save();
 			}
 		return $cron;
+	}
+	public function EvaluateCondition(){
+		foreach($this->getConfiguration('condition') as $condition){
+			$expression = scenarioExpression::setTags($condition['expression']);
+			$message = __('Evaluation de la condition : '.$condition['expression'].' [', __FILE__) . trim($expression) . '] = ';
+			$result = evaluate($expression);
+			if (is_bool($result)) {
+				if ($result) {
+					$message .= __('Vrai', __FILE__);
+				} else {
+					$message .= __('Faux', __FILE__);
+				}
+			} else {
+				$message .= $result;
+			}
+			log::add('Volets','info',$message);
+			if(!$result){
+				log::add('Volets','debug','Les conditions ne sont pas remplie');
+				return false;
+			}
+		}
+		return true;
+	}
+	public function getAngle($latitudeOrigine,$longitudeOrigne, $latitudeDest,$longitudeDest) {
+		$longDelta = $longitudeDest - $longitudeOrigne;
+		$y = sin($longDelta) * cos($latitudeDest);
+		$x = cos($latitudeOrigine)*sin($latitudeDest) - sin($latitudeOrigine)*cos($latitudeDest)*cos($longDelta);
+		$angle = rad2deg(atan2($y, $x));
+		while ($angle < 0) {
+			$angle += 360;
+		}
+		return  $angle % 360;
 	}
 	public function postSave() {
 		if($this->getIsEnable()){
@@ -267,47 +306,7 @@ class Volets extends eqLogic {
 	}
 }
 class VoletsCmd extends cmd {
-	public function EvaluateCondition(){
-		foreach($this->getConfiguration('condition') as $condition){
-			$expression = scenarioExpression::setTags($condition['expression']);
-			$message = __('Evaluation de la condition : '.$condition['expression'].' [', __FILE__) . trim($expression) . '] = ';
-			$result = evaluate($expression);
-			if (is_bool($result)) {
-				if ($result) {
-					$message .= __('Vrai', __FILE__);
-				} else {
-					$message .= __('Faux', __FILE__);
-				}
-			} else {
-				$message .= $result;
-			}
-			log::add('Volets','info',$message);
-			if(!$result){
-				log::add('Volets','debug','Les conditions ne sont pas remplie');
-				return false;
-			}
-		}
-		return true;
-	}
-	public function getAngle($latitudeOrigine,$longitudeOrigne, $latitudeDest,$longitudeDest) {
-		$longDelta = $longitudeDest - $longitudeOrigne;
-		$y = sin($longDelta) * cos($latitudeDest);
-		$x = cos($latitudeOrigine)*sin($latitudeDest) - sin($latitudeOrigine)*cos($latitudeDest)*cos($longDelta);
-		$angle = rad2deg(atan2($y, $x));
-		while ($angle < 0) {
-			$angle += 360;
-		}
-		return  $angle % 360;
-	}
-    public function execute($_options = null) {	
-		log::add('Volets','debug','Execution de '.json_encode($_options['action']));	
-		foreach($_options['action'] as $cmd){
-			$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
-			if(is_object($Commande)){
-				log::add('Volets','debug','Execution de '.$Commande->getHumanName());
-				$Commande->execute($cmd['options']);
-			}
-		}
+    	public function execute($_options = null) {	
 	}
 }
 ?>

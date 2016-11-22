@@ -127,17 +127,17 @@ function TraceMapZone(_zone){
 	GaucheLatLng.lat=CentreLatLng.lat;
 	GaucheLatLng.lng=CentreLatLng.lng+ (1 / 3600);
 	if (typeof(_zone.configuration.Droit) !== 'undefined' && _zone.configuration.Droit != "" ) {
-		alert(_zone.configuration.Droit);
+		alert(JSON.stringify(_zone.configuration.Droit));
 		DroitLatLng.lat=parseFloat(_zone.configuration.Droit.lat);
 		DroitLatLng.lng=parseFloat(_zone.configuration.Droit.lng);
 	}
 	if (typeof(_zone.configuration.Centre) !== 'undefined' && _zone.configuration.Centre != "" ) {
-		alert(_zone.configuration.Centre);
+		alertJSON.stringify((_zone.configuration.Centre));
 		CentreLatLng.lat=parseFloat(_zone.configuration.Centre.lat);
 		CentreLatLng.lng=parseFloat(_zone.configuration.Centre.lng);
 	}
 	if (typeof(_zone.configuration.Gauche) !== 'undefined' && _zone.configuration.Gauche != "") {
-		alert(_zone.configuration.Gauche);
+		alert(JSON.stringify(_zone.configuration.Gauche));
 		GaucheLatLng.lat=parseFloat(_zone.configuration.Gauche.lat);
 		GaucheLatLng.lng=parseFloat(_zone.configuration.Gauche.lng);
 	}

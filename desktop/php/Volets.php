@@ -70,7 +70,6 @@ $eqLogics = eqLogic::byType('Volets');
 				<!--li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li-->
 				<li class="active"><a href="#tab_general"><i class="fa fa-cogs"></i> {{Général}}</a></li>
 				<!--li class="SelectMap"><a href="#tab_map"><i class="fa fa-map"></i> {{Afficher la carte}}</a></li-->
-				<li><a href="#tab_parametre"><i class="fa fa-pencil"></i> {{Paramètres}}</a></li>
 				<li><a href="#tab_condition"><i class="fa fa-pencil"></i> {{Condition d'execution}}</a></li>
 				<li><a href="#tab_ouverture"><i class="fa fa-pencil"></i> {{Action Overture}}</a></li>
 				<li><a href="#tab_fermeture"><i class="fa fa-pencil"></i> {{Action Fermeture}}</a></li>
@@ -107,61 +106,53 @@ $eqLogics = eqLogic::byType('Volets');
 									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
 								</div>
 							</div>
+							<legend>{{Configuration}} </legend>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Héliotrope}}</label>
+								<div class="col-sm-5">
+									<select class="eqLogicAttr" data-l1key="configuration" data-l2key="heliotrope">
+										<option>Aucun</option>
+										<?php
+											foreach(eqLogic::byType('heliotrope') as $heliotrope)
+												echo '<option value="'.$heliotrope->getId().'">'.$heliotrope->getName().'</option>';
+										?>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Choisir le type de gestion du groupe}}</label>
+								<div class="col-sm-5">
+									<select class="eqLogicAttr" data-l1key="configuration" data-l2key="TypeGestion">
+										<option value="DayNight">Jours / Nuit</option>
+										<option value="Helioptrope">Position du soleil</option>
+										<!--option value="Other">Action particuliere</option-->
+									</select>	
+								</div>
+							</div>								
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Delais avant ou après le levée du jours}}</label>
+								<div class="col-sm-5">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Delais apres le levée du jours}}"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Delais avant ou après la tombée de la nuit}}</label>
+								<div class="col-sm-5">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Delais avant la tombée de la nuit}}"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Delais d'attente avant re-évaluation si les conditions ne sont pas respécté}}</label>
+								<div class="col-sm-5">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Delais de re-évaluation}}"/>
+								</div>
+							</div>
 						</fieldset>
 					</form>
 				</div>	
 				<!--div class="tab-pane active" id="tab_map">	
 					<div id="MyMap" style="width:800px;height:600px;margin:auto;display:block;"></div>
-				</div-->	
-				<div class="tab-pane" id="tab_parametre">
-					<form class="form-horizontal">
-						<fieldset>
-							<div class="form-group">
-								<legend>{{Configuration}} </legend>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Héliotrope}}</label>
-									<div class="col-sm-5">
-										<select class="eqLogicAttr" data-l1key="configuration" data-l2key="heliotrope">
-											<option>Aucun</option>
-											<?php
-												foreach(eqLogic::byType('heliotrope') as $heliotrope)
-													echo '<option value="'.$heliotrope->getId().'">'.$heliotrope->getName().'</option>';
-											?>
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Choisir le type de gestion du groupe}}</label>
-									<div class="col-sm-5">
-										<select class="eqLogicAttr" data-l1key="configuration" data-l2key="TypeGestion">
-											<option value="DayNight">Jours / Nuit</option>
-											<option value="Helioptrope">Position du soleil</option>
-											<!--option value="Other">Action particuliere</option-->
-										</select>	
-									</div>
-								</div>								
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Delais avant ou après le levée du jours}}</label>
-									<div class="col-sm-5">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Delais apres le levée du jours}}"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Delais avant ou après la tombée de la nuit}}</label>
-									<div class="col-sm-5">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Delais avant la tombée de la nuit}}"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Delais d'attente avant re-évaluation si les conditions ne sont pas respécté}}</label>
-									<div class="col-sm-5">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Delais de re-évaluation}}"/>
-									</div>
-								</div>
-							</div>
-						</fieldset>
-					</form>
-				</div>				
+				</div-->			
 				<div class="tab-pane" id="tab_condition">
 					<form class="form-horizontal">
 						<fieldset>

@@ -456,7 +456,7 @@ $('body').on('click','.listCmdCondition',function(){
 	});
 });
 $('body').on('click','.ActionAttr[data-action=add]',function(){
-	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('fieldset'));
+	addAction({},  '{{Action}}',$(this).closest('.form-horizontal').find('.div_action'));
 });
 $('body').on('click','.ActionAttr[data-action=remove]', function () {
 	$(this).closest('.ActionGroup').remove();
@@ -469,33 +469,6 @@ $("body").on('click', ".listCmdAction", function() {
 			el.closest('.form-group').find('.actionOptions').html(html);
         	});
     	});
-});
-$('body').on('click','.modeAction[data-l1key=rename]',function(){
-	var _this=this;
-	var zoneId = $(this).closest('.tabAttr').attr("id").replace('tab_','');
-	bootbox.prompt("Nom ?", function (result) {
-		if (result !== null && result != '') 
-			$('#' + zoneId + ' a').text(result);
-			$(_this).closest('.cmd').find('.cmdAttr[data-l1key=name]').val(result);
-		});
-	});
-$('body').on('click','.modeAction[data-l1key=removeIcon]', function () {
-	var zoneId = $(this).closest('.tabAttr').attr("id").replace('tab_','');
-	$('#' + zoneId ).find('.icon').parent().remove();
-	$(this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val('');
-});
-$('body').on('click','.modeAction[data-l1key=chooseIcon]', function () {
-	var zoneId = $(this).closest('.tabAttr').attr("id").replace('tab_','');
-	var _this = this;
-   	chooseIcon(function (_icon) {
-		$('#' + zoneId + ' a').prepend(_icon);
-		$(_this).closest('.cmd').find('.cmdAttr[data-l1key=display][data-l2key=icon]').val(_icon);
-    	});
-});
-$('body').on('click','.modeAction[data-l1key=removeZone]', function () {
-	var zoneId = $(this).closest('.tabAttr').attr("id").replace('tab_','');
-	$('#' + zoneId).parent().remove();
-	$(this).closest('.cmd').remove();
 });
 $('body').on( 'click','.bt_selectCmdExpression', function() {
 	var _this=this;

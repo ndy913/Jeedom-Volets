@@ -20,11 +20,11 @@ $eqLogics = eqLogic::byType('Volets');
 		</div>
 	</div>
 	<div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE; padding-left: 25px;">
-		<legend>{{Situations}}</legend>
+		<!--legend>{{Situations}}</legend>
 		<div class="eqLogicThumbnailContainer">
 			<div id="MyMap" style="width:800px;height:600px;margin:auto;display:block;"></div>
-		</div>
-		<legend>{{Mes Batiments}}</legend>
+		</div-->
+		<legend>{{Mes Zones de gestions volets}}</legend>
 		<div class="eqLogicThumbnailContainer">
 			<div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
 				<center>
@@ -67,9 +67,8 @@ $eqLogics = eqLogic::byType('Volets');
 		</form>	
 		<div class="row" style="padding-left:25px;">
 			<ul class="nav nav-tabs" id="tab_zones">	
-				<!--li><a class="btn cmdAction" data-action="add"><i class="fa fa-plus-circle"></i>{{Ajouter}}</a></li-->
 				<li class="active"><a href="#tab_general"><i class="fa fa-cogs"></i> {{Général}}</a></li>
-				<!--li class="SelectMap"><a href="#tab_map"><i class="fa fa-map"></i> {{Afficher la carte}}</a></li-->
+				<li class="SelectMap"><a href="#tab_map"><i class="fa fa-map"></i> {{Afficher la carte}}</a></li>
 				<li><a href="#tab_condition"><i class="fa fa-pencil"></i> {{Condition d'execution}}</a></li>
 				<li><a href="#tab_ouverture"><i class="fa fa-pencil"></i> {{Action Ouverture}}</a></li>
 				<li><a href="#tab_fermeture"><i class="fa fa-pencil"></i> {{Action Fermeture}}</a></li>
@@ -150,9 +149,9 @@ $eqLogics = eqLogic::byType('Volets');
 						</fieldset>
 					</form>
 				</div>	
-				<!--div class="tab-pane active" id="tab_map">	
+				<div class="tab-pane active" id="tab_map">	
 					<div id="MyMap" style="width:800px;height:600px;margin:auto;display:block;"></div>
-				</div-->			
+				</div>			
 				<div class="tab-pane" id="tab_condition">
 					<form class="form-horizontal">
 						<fieldset>

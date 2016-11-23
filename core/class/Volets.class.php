@@ -135,7 +135,6 @@ class Volets extends eqLogic {
 			//$Now=new DateTime("H i",'now'); 
 			$Now = new DateTime();
 			$Now->setTimezone(new DateTimeZone('Europe/Paris'));
-			$Now->format("H i");
 			if($Now>$Jour && $Now<$Nuit)
 				return true;
 		}

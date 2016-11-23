@@ -121,18 +121,19 @@ class Volets extends eqLogic {
 			$sunrise=$heliotrope->getCmd(null,'sunrise');
 			if(is_object($sunrise)){
 				$value=$sunrise->execCmd();
-				$Jours=date("H i",$this->CalculHeureEvent($value,'DelaisDay'));
+				$Jours= new DateTime("H i",$this->CalculHeureEvent($value,'DelaisDay'));
 			}
 			else
 				return false;
 			$sunset=$heliotrope->getCmd(null,'sunset');
 			if(is_object($sunset)){
 				$value=$sunset->execCmd();
-				$Nuit=date("H i",$this->CalculHeureEvent($value,'DelaisNight'));
+				$Nuit= new DateTime("H i",$this->CalculHeureEvent($value,'DelaisNight'));
 			}
 			else
 				return false;
-			if(date("H i")>$Jour&&date("H i")<$Nuit)
+			$Now=new DateTime("H i");
+			if($Now>$Jour && $Now<$Nuit)
 				return true;
 		}
 		return false;
@@ -256,17 +257,7 @@ class Volets extends eqLogic {
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
 				switch($this->getConfiguration('TypeGestion')){	
-					case 'Other':
-						log::add('Volets', 'info', 'Activation des déclencheurs : ');
-						$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
-						if (!is_object($listener))
-						    $listener = new listener();
-						$listener->setClass('Volets');
-						$listener->setFunction('pull');
-						$listener->setOption(array('Volets_id' => intval($this->getId())));
-						$listener->emptyEvent();
-						//$listener->addEvent(IdCondition);
-						$listener->save();	
+					case 'Other':	
 					break;
 					case 'Helioptrope':
 						log::add('Volets', 'info', 'Activation des déclencheurs : ');

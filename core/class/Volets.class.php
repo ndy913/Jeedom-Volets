@@ -178,8 +178,7 @@ class Volets extends eqLogic {
 		}else
 			log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
 	}
-	public function ExecuteAction($Action) {
-		log::add('Volets','debug','Execution de '.json_encode($Action));	
+	public function ExecuteAction($Action) {	
 		foreach($Action as $cmd){
 			$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
 			if(is_object($Commande)){

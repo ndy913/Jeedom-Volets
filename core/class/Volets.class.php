@@ -132,7 +132,7 @@ class Volets extends eqLogic {
 			}
 			else
 				return false;
-			$Now=new DateTime("H i");
+			$Now=new DateTime();
 			if($Now>$Jour && $Now<$Nuit)
 				return true;
 		}

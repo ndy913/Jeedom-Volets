@@ -37,7 +37,7 @@ class Volets extends eqLogic {
 		if ($deamon_info['state'] == 'ok') 
 			return;
 		foreach(eqLogic::byType('Volets') as $Volet)
-			$Volet->save();
+			$Volet->StartDemon();
 	}
 	public static function deamon_stop() {	
 		$cron = cron::byClassAndFunction('Volets', 'ActionJour');
@@ -249,6 +249,9 @@ class Volets extends eqLogic {
 		return  $angle % 360;
 	}
 	public function postSave() {
+		self::deamon_start();
+	}
+	public function StartDemon() {
 		if($this->getIsEnable()){
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
@@ -300,9 +303,7 @@ class Volets extends eqLogic {
 		}
 	}	
 	public function preRemove() {
-		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
-		if (is_object($listener)) 
-			$listener->remove();
+		self::deamon_start();
 	}
 }
 class VoletsCmd extends cmd {

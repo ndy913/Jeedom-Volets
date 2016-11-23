@@ -121,20 +121,18 @@ class Volets extends eqLogic {
 			$sunrise=$heliotrope->getCmd(null,'sunrise');
 			if(is_object($sunrise)){
 				$value=$sunrise->execCmd();
-				$Jours= new DateTime("H i",$this->CalculHeureEvent($value,'DelaisDay'));
+				$Jours= new DateTime($this->CalculHeureEvent($value,'DelaisDay'));
 			}
 			else
 				return false;
 			$sunset=$heliotrope->getCmd(null,'sunset');
 			if(is_object($sunset)){
 				$value=$sunset->execCmd();
-				$Nuit= new DateTime("H i",$this->CalculHeureEvent($value,'DelaisNight'));
+				$Nuit= new DateTime($this->CalculHeureEvent($value,'DelaisNight'));
 			}
 			else
 				return false;
-			//$Now=new DateTime("H i",'now'); 
-			$Now = new DateTime();
-			$Now->setTimezone(new DateTimeZone('Europe/Paris'));
+			$Now=new DateTime();
 			if($Now>$Jour && $Now<$Nuit)
 				return true;
 		}

@@ -78,14 +78,22 @@ $eqLogics = eqLogic::byType('Volets');
 					<form class="form-horizontal">
 						<fieldset>
 							<div class="form-group ">
-								<label class="col-sm-2 control-label">{{Nom de la Zone}}</label>
+								<label class="col-sm-2 control-label">{{Nom de la Zone}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Indiquer le nom de votre zone" style="font-size : 1em;color:grey;"></i>
+									</sup>
+								</label>
 								<div class="col-sm-5">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
 									<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du groupe de zones}}"/>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label" >{{Objet parent}}</label>
+								<label class="col-sm-2 control-label" >{{Objet parent}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Indiquer l'objet dans lequel le widget de cette zone apparaitera sur le dashboard" style="font-size : 1em;color:grey;"></i>
+									</sup>
+								</label>
 								<div class="col-sm-5">
 									<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
 										<option value="">{{Aucun}}</option>
@@ -97,7 +105,33 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label" ></label>
+								<label class="col-md-2 control-label">
+									{{Catégorie}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Choisissez une catégorie
+									Cette information n'est pas obigatoire mais peut etre utile pour filtrer les widget" style="font-size : 1em;color:grey;"></i>
+									</sup>
+								</label>
+								<div class="col-md-8">
+									<?php
+									foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+										echo '<label class="checkbox-inline">';
+										echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
+										echo '</label>';
+									}
+									?>
+
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" >
+									{{Etat du widget}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Choisissez les options de visibilité et d'activation
+									Si l'equipement n'est pas activé il ne sera pas utilisable dans jeedom, mais visible sur le dashboard
+									Si l'equipement n'est pas visible il ne sera caché sur le dashbord, mais utilisable dans jeedom" style="font-size : 1em;color:grey;"></i>
+									</sup>
+								</label>
 								<div class="col-sm-5">
 									<label>{{Activer}}</label>
 									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
@@ -106,7 +140,11 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Héliotrope}}</label>
+								<label class="col-sm-2 control-label">{{Héliotrope}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Séléctioner l'équipement du plugin Héliotrope source"></i>
+									</sup>
+								</label>
 								<div class="col-sm-5">
 									<select class="eqLogicAttr" data-l1key="configuration" data-l2key="heliotrope">
 										<option>Aucun</option>
@@ -118,7 +156,11 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Choisir le type de gestion du groupe}}</label>
+								<label class="col-sm-2 control-label">{{Choisir le type de gestion du groupe}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Séléctioner le type de gestion"></i>
+									</sup>
+								</label>
 								<div class="col-sm-5">
 									<select class="eqLogicAttr" data-l1key="configuration" data-l2key="TypeGestion">
 										<option value="DayNight">Jours / Nuit</option>
@@ -128,19 +170,31 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>								
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Delai au lever du jour}}</label>
+								<label class="col-sm-2 control-label">{{Délai au lever du jour}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délais avant(+) ou apres (-)"></i>
+									</sup>
+								</label>
 								<div class="col-sm-5">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Delai au lever du jour}}"/>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Delai à la tombée de la nuit}}</label>
+								<label class="col-sm-2 control-label">{{Délai à la tombée de la nuit}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délais avant(+) ou apres (-)"></i>
+									</sup>
+								</label>
 								<div class="col-sm-5">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Delai à la tombée de la nuit}}"/>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Delais d'attente avant re-évaluation si les conditions ne sont pas respécté}}</label>
+								<label class="col-sm-2 control-label">{{Delais d'attente avant re-évaluation si les conditions ne sont pas respécté}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délais de révaluation des conditions"></i>
+									</sup>
+								</label>
 								<div class="col-sm-5">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Delais de re-évaluation}}"/>
 								</div>
@@ -158,6 +212,9 @@ $eqLogics = eqLogic::byType('Volets');
 					<form class="form-horizontal">
 						<fieldset>
 							<legend>{{Les conditions d'execution :}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="Saisir toutes les conditions d'execution de la gestion"></i>
+								</sup>
 								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>
 									{{Ajouter Condition}}
@@ -171,6 +228,9 @@ $eqLogics = eqLogic::byType('Volets');
 					<form class="form-horizontal">
 						<fieldset>
 							<legend>{{Les actions d'ouverture :}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="Saisir toutes les actions a mener a l'ouverture"></i>
+								</sup>
 								<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>
 									{{Ajouter une Action}}
@@ -184,6 +244,9 @@ $eqLogics = eqLogic::byType('Volets');
 					<form class="form-horizontal">
 						<fieldset>
 							<legend>{{Les actions de fermeture :}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="Saisir toutes les actions a mener a la fermeture"></i>
+								</sup>
 								<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>
 									{{Ajouter une Action}}

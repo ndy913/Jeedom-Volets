@@ -139,10 +139,7 @@ class Volets extends eqLogic {
 			}
 			$Now=new DateTime();
 			//log::add('Volets','debug',$Nuit->format('Y-m-d H:i:s').'>'.$Now->format('Y-m-d H:i:s').'>'.$Jour->format('Y-m-d H:i:s'));
-			log::add('Volets','debug','Heure tomber de la nuit: '.$Nuit->format('Y-m-d H:i:s'));
-			log::add('Volets','debug','Heure :'.$Now->format('Y-m-d H:i:s'));
-			log::add('Volets','debug','Heure lever du jour'.$Jour->format('Y-m-d H:i:s'));
-			if($Now>$Jour && $Now<$Nuit)
+			if($Now>$Jours && $Now<$Nuit)
 				return true;
 		}
 		return false;

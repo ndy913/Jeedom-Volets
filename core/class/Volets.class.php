@@ -268,7 +268,6 @@ class Volets extends eqLogic {
 					case 'Other':	
 					break;
 					case 'Helioptrope':
-						log::add('Volets', 'info', 'Activation des déclencheurs : ');
 						$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
 						if (!is_object($listener))
 						    $listener = new listener();

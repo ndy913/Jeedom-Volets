@@ -122,6 +122,7 @@ class Volets extends eqLogic {
 			if(is_object($sunrise)){
 				$value=$sunrise->execCmd();
 				$Jours= new DateTime('@' .$this->CalculHeureEvent($value,'DelaisDay'));
+					
 			}
 			else
 				return false;
@@ -133,6 +134,7 @@ class Volets extends eqLogic {
 			else
 				return false;
 			$Now=new DateTime();
+			log::add('Volets','debug',$Nuit->format('Y-m-d H:i:s').'>'.$Now->format('Y-m-d H:i:s').'>'.$Jour->format('Y-m-d H:i:s'));
 			if($Now>$Jour && $Now<$Nuit)
 				return true;
 		}

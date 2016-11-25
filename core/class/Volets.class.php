@@ -124,17 +124,21 @@ class Volets extends eqLogic {
 				$Jours= new DateTime('@' .$this->CalculHeureEvent($value,'DelaisDay'));
 					
 			}
-			else
+			else{	
+				log::add('Volets','debug','L\'objet "sunrise" n\'a pas été trouvé');
 				return false;
+			}
 			$sunset=$heliotrope->getCmd(null,'sunset');
 			if(is_object($sunset)){
 				$value=$sunset->execCmd();
 				$Nuit= new DateTime('@' .$this->CalculHeureEvent($value,'DelaisNight'));
 			}
-			else
+			else{	
+				log::add('Volets','debug','L\'objet "sunset" n\'a pas été trouvé');
 				return false;
+			}
 			$Now=new DateTime();
-			log::add('Volets','debug',$Nuit->format('Y-m-d H:i:s').'>'.$Now->format('Y-m-d H:i:s').'>'.$Jour->format('Y-m-d H:i:s'));
+			//log::add('Volets','debug',$Nuit->format('Y-m-d H:i:s').'>'.$Now->format('Y-m-d H:i:s').'>'.$Jour->format('Y-m-d H:i:s'));
 			if($Now>$Jour && $Now<$Nuit)
 				return true;
 		}
@@ -155,8 +159,7 @@ class Volets extends eqLogic {
 							   $Gauche['lng'],
 							   $Centre['lat'],
 							   $Centre['lng']);
-				log::add('Volets','debug','L\'angle de votre zone '.$this->getName().' par rapport au Nord est de '.$Angle.'°');
-				//si l'Azimuth est compris entre mon angle et 180° on est dans la fenetre
+				log::add('Volets','debug','La feunetre d\'ensoleillement est comprisent entre : '.$Angle1.'° et '.$Angle2.'°');
 				$Action=$this->getConfiguration('action');
 				$result=$this->EvaluateCondition();
 				if($result){

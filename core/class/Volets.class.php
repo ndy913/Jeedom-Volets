@@ -153,9 +153,8 @@ class Volets extends eqLogic {
 			if(is_array($Droite)&&is_array($Centre)&&is_array($Gauche)){
 				$Angle1=$this->getAngle($Centre['lat'],
 							   $Centre['lng'],
-							   $Gauche['lat'],
-							   $Gauche['lng']);
-
+							   $Droite['lat'],
+							   $Droite['lng']);
 				$Angle2=$this->getAngle($Gauche['lat'],
 							   $Gauche['lng'],
 							   $Centre['lat'],

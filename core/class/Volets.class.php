@@ -152,15 +152,15 @@ class Volets extends eqLogic {
 			$Centre=$this->getConfiguration('Centre');
 			if(is_array($Droite)&&is_array($Centre)&&is_array($Gauche)){
 				$Angle1=$this->getAngle(
-					$Centre['lat'],
-					$Centre['lng'],
 					$Droite['lat'],
-					$Droite['lng']);
-				$Angle2=$this->getAngle(
+					$Droite['lng'],
 					$Centre['lat'],
-					$Centre['lng'],
+					$Centre['lng']);
+				$Angle2=$this->getAngle(
 					$Gauche['lat'],
-					$Gauche['lng']);
+					$Gauche['lng'],
+					$Centre['lat'],
+					$Centre['lng']);
 				log::add('Volets','debug','La fenêtre d\'ensoleillement '.$this->getHumanName().' est comprisent entre : '.$Angle1.'° et '.$Angle2.'°');
 				$Action=$this->getConfiguration('action');
 				$result=$this->EvaluateCondition();

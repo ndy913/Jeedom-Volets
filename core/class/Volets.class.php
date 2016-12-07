@@ -155,10 +155,10 @@ class Volets extends eqLogic {
 							   $Gauche['lng'],
 							   $Centre['lat'],
 							   $Centre['lng']);
-				$Angle2=$this->getAngle($Droite['lat'],
-							   $Droite['lng'],
-							   $Centre['lat'],
-							   $Centre['lng']);
+				$Angle2=$this->getAngle($Centre['lat'],
+							   $Centre['lng'],
+							   $Droite['lat'],
+							   $Droite['lng']);
 				log::add('Volets','debug','La feunetre d\'ensoleillement est comprisent entre : '.$Angle1.'° et '.$Angle2.'°');
 				$Action=$this->getConfiguration('action');
 				$result=$this->EvaluateCondition();

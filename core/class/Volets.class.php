@@ -151,21 +151,29 @@ class Volets extends eqLogic {
 			$Gauche=$this->getConfiguration('Gauche');
 			$Centre=$this->getConfiguration('Centre');
 			if(is_array($Droite)&&is_array($Centre)&&is_array($Gauche)){
-				$Angle1=$this->getAngle($Centre['lat'],
-							   $Centre['lng'],
-							   $Gauche['lat'],
-							   $Gauche['lng']);
-
-				$Angle2=$this->getAngle($Gauche['lat'],
-							   $Gauche['lng'],
-							   $Centre['lat'],
-							   $Centre['lng']);
-				log::add('Volets','debug','La feunetre d\'ensoleillement est comprisent entre : '.$Angle1.'° et '.$Angle2.'°');
+				$AngleDrtCnt=$this->getAngle(
+					$Centre['lat'],
+					$Centre['lng'],
+					$Droite['lat'],
+					$Droite['lng']);
+				$AngleCntGau=$this->getAngle(
+					$Centre['lat'],
+					$Centre['lng'],
+					$Gauche['lat'],
+					$Gauche['lng']);
+				if ($AngleDrtCnt > $AngleCntGau){
+					$AngleMin=$AngleCntGau;
+					$AngleMax=$AngleDrtCnt;
+				}else{
+					$AngleMin=$AngleDrtCnt;
+					$AngleMax=$AngleCntGau;
+				}
+				log::add('Volets','debug','La fenêtre d\'ensoleillement '.$this->getHumanName().' est comprisent entre : '.$AngleMin.'° et '.$AngleMax.'°');
 				$Action=$this->getConfiguration('action');
 				$result=$this->EvaluateCondition();
 				if($result){
 					log::add('Volets','debug','Les conditions sont remplie');
-					if($Azimuth<$Angle2&&$Azimuth>$Angle1){
+					if($Azimuth<$AngleMax&&$Azimuth>$AngleMin){
 						log::add('Volets','debug','Le soleil est dans la fenetre');
 						$Action=$Action['close'];
 						$Status='close';

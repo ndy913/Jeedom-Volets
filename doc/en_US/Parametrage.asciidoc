@@ -1,6 +1,6 @@
 Comme pour tous les plugins, nous allons commencer par créer un groupe de zone avec le bouton ajouter.
 Après avoir nommé, ce groupe nous allons pouvoir commencer a mettre en place nos zones.
-==== Configuration générale Jeedom
+==== General configuration
 
 image::../images/ConfigurationGeneral.jpg[]
 * Nom  : le nom a déjà été paramétré, mais vous avez la possibilité de le changer.

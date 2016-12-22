@@ -1,4 +1,4 @@
-Comme pour tous les plugins, nous allons commencer par créer un groupe de zone avec le bouton ajouter.
+As with all plugins, we'll start by creating a zone group with the add button.
 Après avoir nommé, ce groupe nous allons pouvoir commencer a mettre en place nos zones.
 ==== General configuration
 

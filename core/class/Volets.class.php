@@ -55,7 +55,7 @@ class Volets extends eqLogic {
 	public static function pull($_option) {
 		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
 		$Volet = Volets::byId($_option['Volets_id']);
-		if (is_object($Volet) && $Volet->getIsEnable() == 1) {
+		if (is_object($Volet) && $Volet->getIsEnable()) {
 			$Event = cmd::byId($_option['event_id']);
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
@@ -96,6 +96,10 @@ class Volets extends eqLogic {
 				}
 			}
 		}
+		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'Helioptrope') as $Zone){
+			$Zone->setIsEnable(true);
+			$Zone->save();
+		}
 	}
 	public static function ActionNuit() {
 		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'DayNight') as $Zone){
@@ -113,6 +117,10 @@ class Volets extends eqLogic {
 					$Zone->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
 				}
 			}
+		}
+		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'Helioptrope') as $Zone){
+			$Zone->setIsEnable(false);
+			$Zone->save();
 		}
 	} 
     	public function checkJour() {
@@ -206,7 +214,7 @@ class Volets extends eqLogic {
 			$Heure=substr($HeureStart,0,1);
 		else
 			$Heure=substr($HeureStart,0,2);
-		$Minute=substr($HeureStart,-2)-$this->getConfiguration($delais);
+		$Minute=substr($HeureStart,-2)+$this->getConfiguration($delais);
 		while($Minute>=60){
 			$Minute-=60;
 			$Heure+=1;

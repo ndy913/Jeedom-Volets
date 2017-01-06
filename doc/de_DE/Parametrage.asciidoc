@@ -1,6 +1,6 @@
 Comme pour tous les plugins, nous allons commencer par créer un groupe de zone avec le bouton ajouter.
 Après avoir nommé, ce groupe nous allons pouvoir commencer a mettre en place nos zones.
-==== Configuration générale Jeedom
+==== Allgemeine Jeedom Konfiguration
 
 image::../images/ConfigurationGeneral.jpg[]
 * Nom  : le nom a déjà été paramétré, mais vous avez la possibilité de le changer.
@@ -25,7 +25,7 @@ Pour cela il suffit de deplacé les marqueur droite et gauche de la fenetre sur 
 
 image::../images/ConfigurationMap.jpg[]
 
-==== Configuration 
+==== Konfiguration 
 image::../images/ConfigurationConditionAction.jpg[]
 
 * Angle d'ensoleillement de la Zone : est un indicateur de l'angle du droit de votre feunetre par rapport au nord

@@ -204,6 +204,8 @@ class Volets extends eqLogic {
 		foreach($Action as $cmd){
 			$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
 			if(is_object($Commande)){
+				if($this->getConfiguration('isRandom')
+				   sleep(rand(0,10));
 				log::add('Volets','debug','Execution de '.$Commande->getHumanName());
 				$Commande->execute($cmd['options']);
 			}

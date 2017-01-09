@@ -140,6 +140,17 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Execution des actions aléatoire}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{En activant cette fonction, les actions se produirons les un apres les autre avec un delais aléatoire (entre 0 et 10s)}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<label>{{Présence}}</label>
+									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="isRandom" />
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Héliotrope}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="Séléctioner l'équipement du plugin Héliotrope source"></i>

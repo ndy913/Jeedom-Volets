@@ -24,7 +24,7 @@ $eqLogics = eqLogic::byType('Volets');
 		<div class="eqLogicThumbnailContainer">
 			<div id="MyMap" style="width:800px;height:600px;margin:auto;display:block;"></div>
 		</div-->
-		<legend>{{Mes Zones de gestions volets}}</legend>
+		<legend>{{Mes Zones de gestion volets}}</legend>
 		<div class="eqLogicThumbnailContainer">
 			<div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
 				<center>
@@ -69,9 +69,9 @@ $eqLogics = eqLogic::byType('Volets');
 			<ul class="nav nav-tabs" id="tab_zones">	
 				<li class="active"><a href="#tab_general"><i class="fa fa-cogs"></i> {{Général}}</a></li>
 				<li class="SelectMap"><a href="#tab_map"><i class="fa fa-map"></i> {{Afficher la carte}}</a></li>
-				<li><a href="#tab_condition"><i class="fa fa-pencil"></i> {{Condition d'execution}}</a></li>
-				<li><a href="#tab_ouverture"><i class="fa fa-pencil"></i> {{Action Ouverture}}</a></li>
-				<li><a href="#tab_fermeture"><i class="fa fa-pencil"></i> {{Action Fermeture}}</a></li>
+				<li><a href="#tab_condition"><i class="fa fa-pencil"></i> {{Conditions d'exécution}}</a></li>
+				<li><a href="#tab_ouverture"><i class="fa fa-pencil"></i> {{Actions d'ouverture}}</a></li>
+				<li><a href="#tab_fermeture"><i class="fa fa-pencil"></i> {{Actions de fermeture}}</a></li>
 			</ul>
 			<div class="tab-content TabCmdZone">
 				<div class="tab-pane active" id="tab_general">
@@ -91,7 +91,7 @@ $eqLogics = eqLogic::byType('Volets');
 							<div class="form-group">
 								<label class="col-sm-2 control-label" >{{Objet parent}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Indiquer l'objet dans lequel le widget de cette zone apparaitera sur le dashboard" style="font-size : 1em;color:grey;"></i>
+										<i class="fa fa-question-circle tooltips" title="Indiquer l'objet dans lequel le widget de cette zone apparaitra sur le Dashboard" style="font-size : 1em;color:grey;"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -109,7 +109,7 @@ $eqLogics = eqLogic::byType('Volets');
 									{{Catégorie}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="Choisissez une catégorie
-									Cette information n'est pas obigatoire mais peut etre utile pour filtrer les widget" style="font-size : 1em;color:grey;"></i>
+									Cette information n'est pas obigatoire mais peut être utile pour filtrer les widgets" style="font-size : 1em;color:grey;"></i>
 									</sup>
 								</label>
 								<div class="col-md-8">
@@ -128,8 +128,8 @@ $eqLogics = eqLogic::byType('Volets');
 									{{Etat du widget}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="Choisissez les options de visibilité et d'activation
-									Si l'equipement n'est pas activé il ne sera pas utilisable dans jeedom, mais visible sur le dashboard
-									Si l'equipement n'est pas visible il ne sera caché sur le dashbord, mais utilisable dans jeedom" style="font-size : 1em;color:grey;"></i>
+									Si l'équipement n'est pas activé, il ne sera pas utilisable dans Jeedom ni visible sur le Dashboard
+									Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font-size : 1em;color:grey;"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -140,9 +140,9 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Execution des actions aléatoire}}
+								<label class="col-sm-2 control-label">{{Exécution des actions aléatoires}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="{{En activant cette fonction, les actions se produirons les un apres les autre avec un delais aléatoire (entre 0 et 10s)}}"></i>
+										<i class="fa fa-question-circle tooltips" title="{{En activant cette fonction, les actions se produiront les unes après les autres avec un délai aléatoire (entre 0 et 10s)}}"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -153,7 +153,7 @@ $eqLogics = eqLogic::byType('Volets');
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Héliotrope}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Séléctioner l'équipement du plugin Héliotrope source"></i>
+										<i class="fa fa-question-circle tooltips" title="Sélectioner l'équipement du plugin Héliotrope source"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -169,12 +169,12 @@ $eqLogics = eqLogic::byType('Volets');
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Choisir le type de gestion du groupe}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Séléctioner le type de gestion"></i>
+										<i class="fa fa-question-circle tooltips" title="Sélectionner le type de gestion"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
 									<select class="eqLogicAttr" data-l1key="configuration" data-l2key="TypeGestion">
-										<option value="DayNight">Jours / Nuit</option>
+										<option value="DayNight">Jour / Nuit</option>
 										<option value="Helioptrope">Position du soleil</option>
 										<!--option value="Other">Action particuliere</option-->
 									</select>	
@@ -183,31 +183,31 @@ $eqLogics = eqLogic::byType('Volets');
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Délai au lever du jour}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délais avant(+) ou apres (-)"></i>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (+) ou après (-)"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Delai au lever du jour}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Délai au lever du jour}}"/>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Délai à la tombée de la nuit}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délais avant(+) ou apres (-)"></i>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (+) ou après (-)"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Delai à la tombée de la nuit}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Délai à la tombée de la nuit}}"/>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Delais d'attente avant re-évaluation si les conditions ne sont pas respécté}}
+								<label class="col-sm-2 control-label">{{Délais d'attente avant réévaluation si les conditions ne sont pas respectées}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délais de révaluation des conditions"></i>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délai de réévaluation des conditions"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Delais de re-évaluation}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation}}"/>
 								</div>
 							</div>
 							<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
@@ -222,9 +222,9 @@ $eqLogics = eqLogic::byType('Volets');
 				<div class="tab-pane" id="tab_condition">
 					<form class="form-horizontal">
 						<fieldset>
-							<legend>{{Les conditions d'execution :}}
+							<legend>{{Les conditions d'exécution :}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="Saisir toutes les conditions d'execution de la gestion"></i>
+									<i class="fa fa-question-circle tooltips" title="Saisir toutes les conditions d'exécution de la gestion"></i>
 								</sup>
 								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>
@@ -240,7 +240,7 @@ $eqLogics = eqLogic::byType('Volets');
 						<fieldset>
 							<legend>{{Les actions d'ouverture :}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="Saisir toutes les actions a mener a l'ouverture"></i>
+									<i class="fa fa-question-circle tooltips" title="Saisir toutes les actions à mener à l'ouverture"></i>
 								</sup>
 								<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>
@@ -256,7 +256,7 @@ $eqLogics = eqLogic::byType('Volets');
 						<fieldset>
 							<legend>{{Les actions de fermeture :}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="Saisir toutes les actions a mener a la fermeture"></i>
+									<i class="fa fa-question-circle tooltips" title="Saisir toutes les actions à mener à la fermeture"></i>
 								</sup>
 								<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>

@@ -64,13 +64,13 @@ class Volets extends eqLogic {
 						$Volet->ActionAzimute($_option['value']);
 					break;
 					case 'sunrise':
-						log::add('Volets', 'debug', 'Replanification de l\'ouverture au levée du soleil');	
+						log::add('Volets', 'debug', 'Replanification de l\'ouverture au lever du soleil');	
 						$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisDay');
 						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 						$cron = $Volet->CreateCron($Schedule, 'ActionJour');
 					break;
 					case 'sunset':	
-						log::add('Volets', 'debug', 'Replanification de la fermeture au couchée du soleil');	
+						log::add('Volets', 'debug', 'Replanification de la fermeture au coucher du soleil');	
 						$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');
 						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 						$cron = $Volet->CreateCron($Schedule, 'ActionNuit');
@@ -81,7 +81,7 @@ class Volets extends eqLogic {
 	}
 	public static function ActionJour() {    
 		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'DayNight') as $Zone){
-			log::add('Volets', 'debug', 'Execution de la gestion du levée du soleil '.$Zone->getHumanName());
+			log::add('Volets', 'debug', 'Exécution de la gestion du lever du soleil '.$Zone->getHumanName());
 			if($Zone->getIsEnable()){
 				$result=$Zone->EvaluateCondition();
 				if($result){
@@ -103,7 +103,7 @@ class Volets extends eqLogic {
 	}
 	public static function ActionNuit() {
 		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'DayNight') as $Zone){
-			log::add('Volets', 'debug', 'Execution de la gestion du couché du soleil '.$Zone->getHumanName());
+			log::add('Volets', 'debug', 'Exécution de la gestion du coucher du soleil '.$Zone->getHumanName());
 			if($Zone->getIsEnable()){
 				$result=$Zone->EvaluateCondition();
 				if($result){
@@ -167,7 +167,7 @@ class Volets extends eqLogic {
 				$Centre['lng'],
 				$Gauche['lat'],
 				$Gauche['lng']);
-			log::add('Volets','debug','La fenêtre d\'ensoleillement '.$this->getHumanName().' est comprisent entre : '.$AngleCntDrt.'° et '.$AngleCntGau.'°');
+			log::add('Volets','debug','La fenêtre d\'ensoleillement '.$this->getHumanName().' est comprise entre : '.$AngleMin.'° et '.$AngleMax.'°');
 			if ($AngleCntDrt > $AngleCntGau){
 				if($Azimuth<$AngleCntDrt&&$Azimuth>$AngleCntGau)
 					return true;
@@ -182,30 +182,28 @@ class Volets extends eqLogic {
 	}
 	public function ActionAzimute($Azimuth) {
 		if($this->checkJour()){
-			log::add('Volets', 'debug', 'Execution de '.$this->getHumanName());
+			log::add('Volets', 'debug', 'Exécution de '.$this->getHumanName());
 			$Action=$this->getConfiguration('action');
 			$result=$this->EvaluateCondition();
 			$StateCmd=$this->getCmd('Volets','state');
 			if(is_object($StateCmd)){
 				if($this->CheckAngle($Azimuth)){
 					$StateCmd->event(true);
-					log::add('Volets','debug','Le soleil est dans la fenetre');
+					log::add('Volets','debug','Le soleil est dans la fenêtre');
 					$Action=$Action['open'];
 				}else{
 					$StateCmd->event(false);
-					log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
+					log::add('Volets','debug','Le soleil n\'est pas dans la fenêtre');
 					$Action=$Action['close'];
 				}
 				$StateCmd->save();
 				if($result){
-					log::add('Volets','debug','Les conditions sont remplie');
+					log::add('Volets','debug','Les conditions sont remplies');
 					$this->ExecuteAction($Action);
 				}else
 					log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
-
 			}
 		}
-	
 	}
 	public function ExecuteAction($Action) {	
 		foreach($Action as $cmd){
@@ -213,7 +211,7 @@ class Volets extends eqLogic {
 			if(is_object($Commande)){
 				if($this->getConfiguration('isRandom'))
 				   sleep(rand(0,10));
-				log::add('Volets','debug','Execution de '.$Commande->getHumanName());
+				log::add('Volets','debug','Exécution de '.$Commande->getHumanName());
 				$Commande->execute($cmd['options']);
 			}
 		}
@@ -264,7 +262,7 @@ class Volets extends eqLogic {
 			}
 			log::add('Volets','info',$message);
 			if(!$result){
-				log::add('Volets','debug','Les conditions ne sont pas remplie');
+				log::add('Volets','debug','Les conditions ne sont pas remplies');
 				return false;
 			}
 		}

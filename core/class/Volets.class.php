@@ -152,54 +152,60 @@ class Volets extends eqLogic {
 		}
 		return false;
 	}		
+	public function CheckAngle($Azimuth) {
+		$Droite=$this->getConfiguration('Droite');
+		$Gauche=$this->getConfiguration('Gauche');
+		$Centre=$this->getConfiguration('Centre');
+		if(is_array($Droite)&&is_array($Centre)&&is_array($Gauche)){
+			$AngleCntDrt=$this->getAngle(
+				$Centre['lat'],
+				$Centre['lng'],
+				$Droite['lat'],
+				$Droite['lng']);
+			$AngleCntGau=$this->getAngle(
+				$Centre['lat'],
+				$Centre['lng'],
+				$Gauche['lat'],
+				$Gauche['lng']);
+			log::add('Volets','debug','La fenêtre d\'ensoleillement '.$this->getHumanName().' est comprisent entre : '.$AngleCntDrt.'° et '.$AngleCntGau.'°');
+			if ($AngleCntDrt > $AngleCntGau){
+				if($Azimuth<$AngleCntDrt&&$Azimuth>$AngleCntGau)
+					return true;
+			}else{
+				if($Azimuth<$AngleCntGau && $Azimuth<360)
+					return true;
+				if($Azimuth>$AngleCntDrt && $Azimuth>0)
+					return true;
+			}
+		}
+		return false;			
+	}
 	public function ActionAzimute($Azimuth) {
 		if($this->checkJour()){
 			log::add('Volets', 'debug', 'Execution de '.$this->getHumanName());
-			$Droite=$this->getConfiguration('Droite');
-			$Gauche=$this->getConfiguration('Gauche');
-			$Centre=$this->getConfiguration('Centre');
-			if(is_array($Droite)&&is_array($Centre)&&is_array($Gauche)){
-				$AngleDrtCnt=$this->getAngle(
-					$Centre['lat'],
-					$Centre['lng'],
-					$Droite['lat'],
-					$Droite['lng']);
-				$AngleCntGau=$this->getAngle(
-					$Centre['lat'],
-					$Centre['lng'],
-					$Gauche['lat'],
-					$Gauche['lng']);
-				if ($AngleDrtCnt > $AngleCntGau){
-					$AngleMin=$AngleCntGau;
-					$AngleMax=$AngleDrtCnt;
+			$Action=$this->getConfiguration('action');
+			$result=$this->EvaluateCondition();
+			$StateCmd=$this->getCmd('Volets','state');
+			if(is_object($StateCmd)){
+				if($this->CheckAngle($Azimuth)){
+					$StateCmd->event(true);
+					log::add('Volets','debug','Le soleil est dans la fenetre');
+					$Action=$Action['open'];
 				}else{
-					$AngleMin=$AngleDrtCnt;
-					$AngleMax=$AngleCntGau;
+					$StateCmd->event(false);
+					log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
+					$Action=$Action['close'];
 				}
-				log::add('Volets','debug','La fenêtre d\'ensoleillement '.$this->getHumanName().' est comprisent entre : '.$AngleMin.'° et '.$AngleMax.'°');
-				$Action=$this->getConfiguration('action');
-				$result=$this->EvaluateCondition();
-				$StateCmd=$this->getCmd('Volets','state');
-				if(is_object($StateCmd)){
-					if($Azimuth<$AngleMax&&$Azimuth>$AngleMin){
-						$StateCmd->event(true);
-						log::add('Volets','debug','Le soleil est dans la fenetre');
-						$Action=$Action['open'];
-					}else{
-						$StateCmd->event(false);
-						log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
-						$Action=$Action['close'];
-					}
-					$StateCmd->save();
-					if($result){
-						log::add('Volets','debug','Les conditions sont remplie');
-						$this->ExecuteAction($Action);
-					}else
-						log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
-					
-				}
+				$StateCmd->save();
+				if($result){
+					log::add('Volets','debug','Les conditions sont remplie');
+					$this->ExecuteAction($Action);
+				}else
+					log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
+
 			}
 		}
+	
 	}
 	public function ExecuteAction($Action) {	
 		foreach($Action as $cmd){

@@ -179,26 +179,27 @@ class Volets extends eqLogic {
 				log::add('Volets','debug','La fenêtre d\'ensoleillement '.$this->getHumanName().' est comprisent entre : '.$AngleMin.'° et '.$AngleMax.'°');
 				$Action=$this->getConfiguration('action');
 				$result=$this->EvaluateCondition();
-				if($result){
-					log::add('Volets','debug','Les conditions sont remplie');
+				$StateCmd=$this->getCmd('Volets','state');
+				if(is_object($StateCmd)){
 					if($Azimuth<$AngleMax&&$Azimuth>$AngleMin){
+						$StateCmd->event(true);
 						log::add('Volets','debug','Le soleil est dans la fenetre');
-						$Action=$Action['close'];
-						$Status='close';
-					}else{
-						log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
 						$Action=$Action['open'];
-						$Status='open';
+					}else{
+						$StateCmd->event(false);
+						log::add('Volets','debug','Le soleil n\'est pas dans la fenetre');
+						$Action=$Action['close'];
 					}
-					if($this->getConfiguration('Status')!=$Status){
-						$this->setConfiguration('Status',$Status);
-						$this->save();
+					$StateCmd->save();
+					if($result){
+						log::add('Volets','debug','Les conditions sont remplie');
 						$this->ExecuteAction($Action);
-					}
+					}else
+						log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
+					
 				}
 			}
-		}else
-			log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
+		}
 	}
 	public function ExecuteAction($Action) {	
 		foreach($Action as $cmd){
@@ -273,9 +274,6 @@ class Volets extends eqLogic {
 		}
 		return  $angle % 360;
 	}
-	public function postSave() {
-		self::deamon_start();
-	}
 	public function StartDemon() {
 		if($this->getIsEnable()){
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
@@ -315,8 +313,27 @@ class Volets extends eqLogic {
 				}
 			}
 		}
+	}
+	public static function AddCommande($eqLogic,$Name,$_logicalId,$Type="info", $SubType='binary') {
+		$Commande = $eqLogic->getCmd(null,$_logicalId);
+		if (!is_object($Commande))
+		{
+			$Commande = new VoletsCmd();
+			$Commande->setId(null);
+			$Commande->setName($Name);
+			$Commande->setLogicalId($_logicalId);
+			$Commande->setEqLogic_id($eqLogic->getId());
+			$Commande->setType($Type);
+			$Commande->setSubType($SubType);
+		}
+		$Commande->save();
+		return $Commande;
+	}
+	public function postSave() {
+		self::AddCommande($this,"Status","state","info", 'binary');
+		self::deamon_start();
 	}	
-	public function preRemove() {
+	public function postRemove() {
 		self::deamon_start();
 	}
 }

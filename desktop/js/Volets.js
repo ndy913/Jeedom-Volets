@@ -2,6 +2,12 @@ var map;
 var DroitLatLng=new Object();
 var CentreLatLng=new Object();
 var GaucheLatLng=new Object();
+$('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=isRandom]',function(){
+	if($(this).is(':checked'))
+		$('.Presence').show();
+	else
+		$('.Presence').hide();
+});
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
 	$.ajax({
 		type: 'POST',            

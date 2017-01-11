@@ -149,6 +149,16 @@ $eqLogics = eqLogic::byType('Volets');
 									<label>{{Présence}}</label>
 									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="isRandom" />
 								</div>
+							</div>						
+							<div class="form-group Presence">
+								<label class="col-sm-2 control-label">{{Temps maximum pour la simulation de présence}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délai maximum entre l'execution des action"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisPresence" placeholder="{{Saisir le délai maximum entre l'execution des action}}"/>
+								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Héliotrope}}

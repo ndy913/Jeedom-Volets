@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3.dev">
-<title>Fensterläden Verwaltung</title>
+<title>Gestion de volets</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -412,16 +412,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Fensterläden Verwaltung</h1>
+<h1>Gestion de volets</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table des matières</div>
 <ul class="sectlevel1">
 <li><a href="#_beschreibung">1. Beschreibung</a></li>
 <li><a href="#_einrichtung">2. Einrichtung</a>
 <ul class="sectlevel3">
-<li><a href="#_créer_une_zone">2.1. Créer une Zone</a></li>
-<li><a href="#_definition_de_la_zone">2.2. Definition de la Zone</a></li>
-<li><a href="#_konfiguration">2.3. Konfiguration</a></li>
+<li><a href="#_allgemeine_jeedom_konfiguration">2.1. Allgemeine Jeedom Konfiguration</a></li>
+<li><a href="#_créer_une_zone">2.2. Créer une Zone</a></li>
+<li><a href="#_définition_de_la_zone">2.3. Définition de la Zone</a></li>
+<li><a href="#_konfiguration">2.4. Konfiguration</a></li>
 </ul>
 </li>
 </ul>
@@ -433,11 +434,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="paragraph">
 <p>Dieses Plugin erlaubt es, ihre Fensterläden zu verwalten.
-Dieses Plugin basiertes vollständig auf Heliotrope, das eine Voraussetzung für die Benutzung dieses Plugins ist.</p>
+Celui-ci est entièrement basé sur le plugin Heliotrope qui est un prérequis pour l&#8217;utilisation de ce plugin.</p>
 </div>
 <div class="paragraph">
-<p>Vous avez la possibilité de fermer vos volets a la tomber de la nuit et de les ré-ouvrir au levé du soleil.
-Sie haben ebenfalls die Möglichkeit, Ihre Fensterläden zu verwalten, damit sie sich schließen, wenn die Sonne im Azimute Ihres Fensters ist.</p>
+<p>Vous avez la possibilité de fermer vos volets à la tombée de la nuit et de les réouvrir au lever du soleil.
+Vous avez également la possibilité de gérer vos volets pour qu&#8217;ils se ferment si le soleil est dans l&#8217;azimuth de votre fenêtre.</p>
 </div>
 </div>
 </div>
@@ -445,10 +446,11 @@ Sie haben ebenfalls die Möglichkeit, Ihre Fensterläden zu verwalten, damit sie
 <h2 id="_einrichtung">2. Einrichtung</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Comme pour tous les plugins, nous allons commencer par créer un groupe de zone avec le bouton ajouter.
-Après avoir nommé, ce groupe nous allons pouvoir commencer a mettre en place nos zones.
-==== Allgemeine Jeedom Konfiguration</p>
+<p>Comme pour tous les plugins, nous allons commencer par créer un groupe de zone avec le bouton Ajouter.
+Après avoir nommé ce groupe, nous allons pouvoir commencer à mettre en place nos zones.</p>
 </div>
+<div class="sect3">
+<h4 id="_allgemeine_jeedom_konfiguration">2.1. Allgemeine Jeedom Konfiguration</h4>
 <div class="imageblock">
 <div class="content">
 <img src="../images/ConfigurationGeneral.jpg" alt="ConfigurationGeneral">
@@ -457,50 +459,54 @@ Après avoir nommé, ce groupe nous allons pouvoir commencer a mettre en place n
 <div class="ulist">
 <ul>
 <li>
-<p>Nom  : le nom a déjà été paramétré, mais vous avez la possibilité de le changer.</p>
+<p>Nom : le nom a déjà été paramètré mais vous avez la possibilité de le changer</p>
 </li>
 <li>
-<p>Objet parent : ce paramètre permet d&#8217;ajouter l&#8217;équipement dans un objet Jeedom.</p>
+<p>Objet parent : ce paramètre permet d&#8217;ajouter l&#8217;équipement dans un objet Jeedom</p>
 </li>
 <li>
-<p>Catégorie : déclare l&#8217;équipement dans une catégorie.</p>
+<p>Catégorie : déclare l&#8217;équipement dans une catégorie</p>
 </li>
 <li>
-<p>Visible : permet de rendre l&#8217;équipement visible dans le Dashboard.</p>
+<p>Visible : permet de rendre l&#8217;équipement visible dans le Dashboard</p>
 </li>
 <li>
-<p>Activer : permet d&#8217;activer l&#8217;équipement.</p>
+<p>Activer : permet d&#8217;activer l&#8217;équipement</p>
 </li>
 <li>
-<p>Héliotrope : Choisir l&#8217;equipement héliotrope a prendre en compte pour ce groupe de zone</p>
+<p>Présence : permet de définir des pauses aléatoires dans la séquence de fermeture des volets de la zone</p>
 </li>
 <li>
-<p>Activation de la gestion par rayonnement : permet d&#8217;activer le gestion du rayonnement solaire</p>
+<p>Héliotrope : choisir l&#8217;équipement Héliotrope à prendre en compte pour ce groupe de zone</p>
 </li>
 <li>
-<p>Activation de la gestion jours nuit : permet d&#8217;activer si vous voulez ouvrir et fermé vos volet avec le jours et la nuit</p>
+<p>Activation de la gestion par rayonnement : permet d&#8217;activer la gestion du rayonnement solaire</p>
 </li>
 <li>
-<p>Delais apres le levée du jours : Delais ajouté a l&#8217;heure du levé du jours</p>
+<p>Activation de la gestion jour/nuit : permet de définir si vous voulez ouvrir et fermer vos volet avec le jour et la nuit</p>
 </li>
 <li>
-<p>Delais avant la tombée de la nuit : Delais retirer a l&#8217;heure du levé de la tombée de la nuit</p>
+<p>Délai après le lever du jour : délai ajouté à l&#8217;heure du lever du jour</p>
+</li>
+<li>
+<p>Délai avant la tombée de la nuit : délai retiré à l&#8217;heure de la tombée de la nuit</p>
 </li>
 </ul>
 </div>
+</div>
 <div class="sect3">
-<h4 id="_créer_une_zone">2.1. Créer une Zone</h4>
+<h4 id="_créer_une_zone">2.2. Créer une Zone</h4>
 <div class="paragraph">
-<p>Nous alons créer une zone en cliquant sur l&#8217;onglet ajouter.
+<p>Nous allons créer une zone en cliquant sur l&#8217;onglet ajouter.
 Celui ci va nous demander de le nomer.
 Une fois fait, un nouvelle onglet vas etre créer</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_definition_de_la_zone">2.2. Definition de la Zone</h4>
+<h4 id="_définition_de_la_zone">2.3. Définition de la Zone</h4>
 <div class="paragraph">
-<p>La zone cree, nous avons besoin de definir ou est notre feunetre, ou zone de fenetre.
-Pour cela il suffit de deplacé les marqueur droite et gauche de la fenetre sur le carte</p>
+<p>La zone créée, nous avons besoin de définir où est notre fenêtre, ou zone de fenêtres.
+Pour cela il suffit de deplacer les marqueurs droite et gauche de la fenêtre sur la carte.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -509,7 +515,7 @@ Pour cela il suffit de deplacé les marqueur droite et gauche de la fenetre sur 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_konfiguration">2.3. Konfiguration</h4>
+<h4 id="_konfiguration">2.4. Konfiguration</h4>
 <div class="imageblock">
 <div class="content">
 <img src="../images/ConfigurationConditionAction.jpg" alt="ConfigurationConditionAction">
@@ -518,7 +524,7 @@ Pour cela il suffit de deplacé les marqueur droite et gauche de la fenetre sur 
 <div class="ulist">
 <ul>
 <li>
-<p>Angle d&#8217;ensoleillement de la Zone : est un indicateur de l&#8217;angle du droit de votre feunetre par rapport au nord</p>
+<p>Angle d&#8217;ensoleillement de la Zone : est un indicateur de l&#8217;angle de votre fenêtre par rapport au nord</p>
 </li>
 <li>
 <p>Ajouter vos conditions</p>

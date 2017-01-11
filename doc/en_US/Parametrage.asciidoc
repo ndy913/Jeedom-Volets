@@ -1,33 +1,35 @@
-As with all plugins, we'll start by creating a zone group with the add button.
-After naming this group , we can begin to put in place our areas.
+Comme pour tous les plugins, nous allons commencer par créer un groupe de zone avec le bouton Ajouter.
+Après avoir nommé ce groupe, nous allons pouvoir commencer à mettre en place nos zones.
+
 ==== General configuration
 
 image::../images/ConfigurationGeneral.jpg[]
-* Nom  : le nom a déjà été paramétré, mais vous avez la possibilité de le changer.
-* Objet parent : ce paramètre permet d'ajouter l'équipement dans un objet Jeedom.
-* Catégorie : déclare l'équipement dans une catégorie.
-* Visible : permet de rendre l'équipement visible dans le Dashboard.
-* Activer : permet d'activer l'équipement.
-* Héliotrope : Choisir l'equipement héliotrope a prendre en compte pour ce groupe de zone
-* Activation de la gestion par rayonnement : permet d'activer le gestion du rayonnement solaire 
-* Activation de la gestion jours nuit : permet d'activer si vous voulez ouvrir et fermé vos volet avec le jours et la nuit
-* Delais apres le levée du jours : Delais ajouté a l'heure du levé du jours
-* Delais avant la tombée de la nuit : Delais retirer a l'heure du levé de la tombée de la nuit
+* Nom : le nom a déjà été paramètré mais vous avez la possibilité de le changer
+* Objet parent : ce paramètre permet d'ajouter l'équipement dans un objet Jeedom
+* Catégorie : déclare l'équipement dans une catégorie
+* Visible : permet de rendre l'équipement visible dans le Dashboard
+* Activer : permet d'activer l'équipement
+* Présence : permet de définir des pauses aléatoires dans la séquence de fermeture des volets de la zone
+* Héliotrope : choisir l'équipement Héliotrope à prendre en compte pour ce groupe de zone
+* Activation de la gestion par rayonnement : permet d'activer la gestion du rayonnement solaire
+* Activation de la gestion jour/nuit : permet de définir si vous voulez ouvrir et fermer vos volet avec le jour et la nuit
+* Délai après le lever du jour : délai ajouté à l'heure du lever du jour
+* Délai avant la tombée de la nuit : délai retiré à l'heure de la tombée de la nuit
 
 ==== Créer une Zone
-Nous alons créer une zone en cliquant sur l'onglet ajouter.
+Nous allons créer une zone en cliquant sur l'onglet ajouter.
 Celui ci va nous demander de le nomer.
 Une fois fait, un nouvelle onglet vas etre créer
 
-==== Definition de la Zone
-La zone cree, nous avons besoin de definir ou est notre feunetre, ou zone de fenetre.
-Pour cela il suffit de deplacé les marqueur droite et gauche de la fenetre sur le carte
+==== Définition de la Zone
+La zone créée, nous avons besoin de définir où est notre fenêtre, ou zone de fenêtres.
+Pour cela il suffit de deplacer les marqueurs droite et gauche de la fenêtre sur la carte.
 
 image::../images/ConfigurationMap.jpg[]
 
 ==== Configuration 
 image::../images/ConfigurationConditionAction.jpg[]
 
-* Angle d'ensoleillement de la Zone : est un indicateur de l'angle du droit de votre feunetre par rapport au nord
+* Angle d'ensoleillement de la Zone : est un indicateur de l'angle de votre fenêtre par rapport au nord
 * Ajouter vos conditions
 * Ajouter vos actions

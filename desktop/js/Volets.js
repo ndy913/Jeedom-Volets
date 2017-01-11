@@ -3,8 +3,7 @@ var DroitLatLng=new Object();
 var CentreLatLng=new Object();
 var GaucheLatLng=new Object();
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=isRandom]',function(){
-	alert('test');
-	if($(this).val())
+	if($(this).is(':checked'))
 		$('.Presence').show();
 	else
 		$('.Presence').hide();

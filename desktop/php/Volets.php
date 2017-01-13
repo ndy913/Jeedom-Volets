@@ -150,7 +150,7 @@ $eqLogics = eqLogic::byType('Volets');
 									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="isRandom" />
 								</div>
 							</div>						
-							<div class="form-group Presence">
+							<div class="form-group Presence" style="display: none;">
 								<label class="col-sm-2 control-label">{{Temps maximum pour la simulation de présence}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="Saisir le délai maximum entre l'execution des action"></i>

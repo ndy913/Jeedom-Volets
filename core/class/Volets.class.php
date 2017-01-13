@@ -305,14 +305,14 @@ class Volets extends eqLogic {
 							$value=$sunrise->execCmd();
 							$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
 							$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-							$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($Volet->getId()));
+							$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($Volet->getId())));
 						}
 						$sunset=$heliotrope->getCmd(null,'sunset');
 						if(is_object($sunset)){
 							$value=$sunset->execCmd();
 							$timstamp=$this->CalculHeureEvent($value,'DelaisNight');
 							$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-							$cron = $this->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($Volet->getId()));
+							$cron = $this->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($Volet->getId())));
 						}
 					break;
 				}

@@ -166,30 +166,43 @@ class Volets extends eqLogic {
 			}
 		}
 		return false;			
+	}	
+	public function SelectAction($Azimuth) {
+		$StateCmd=$this->getCmd(null,'state');
+		if(!is_object($StateCmd))
+			return false;
+		$isInWindows=$this->getCmd(null,'isInWindows');
+		if(!is_object($isInWindows))
+			return false;
+		$Action=$this->getConfiguration('action');
+		if($this->CheckAngle($Azimuth)){
+			$StateCmd->event(true);
+			log::add('Volets','debug','Le soleil est dans la fenêtre');
+			if($isInWindows->execCmd())
+				$Action=$Action['open'];
+			else
+				$Action=$Action['close'];
+		}else{
+			$StateCmd->event(false);
+			log::add('Volets','debug','Le soleil n\'est pas dans la fenêtre');
+			if($isInWindows->execCmd())
+				$Action=$Action['close'];
+			else
+				$Action=$Action['open'];
+		}
+		$StateCmd->save();
+		return $Action;
 	}
 	public function ActionAzimute($Azimuth) {
 		if($this->checkJour()){
 			log::add('Volets', 'debug', 'Exécution de '.$this->getHumanName());
-			$Action=$this->getConfiguration('action');
 			$result=$this->EvaluateCondition();
-			$StateCmd=$this->getCmd(null,'state');
-			if(is_object($StateCmd)){
-				if($this->CheckAngle($Azimuth)){
-					$StateCmd->event(true);
-					log::add('Volets','debug','Le soleil est dans la fenêtre');
-					$Action=$Action['open'];
-				}else{
-					$StateCmd->event(false);
-					log::add('Volets','debug','Le soleil n\'est pas dans la fenêtre');
-					$Action=$Action['close'];
-				}
-				$StateCmd->save();
-				if($result){
-					log::add('Volets','debug','Les conditions sont remplies');
-					$this->ExecuteAction($Action);
-				}else
-					log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
-			}
+			$Action=$this->SelectAction($Azimuth);
+			if($result && $Action != false){
+				log::add('Volets','debug','Les conditions sont remplies');
+				$this->ExecuteAction($Action);
+			}else
+				log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
 		}
 	}
 	public function ExecuteAction($Action) {	
@@ -322,15 +335,34 @@ class Volets extends eqLogic {
 		return $Commande;
 	}
 	public function postSave() {
-		self::AddCommande($this,"Status","state","info", 'binary');
+		self::AddCommande($this,"Etat du position du soleil","state","info", 'binary');
+		$isInWindows=self::AddCommande($this,"Etat de l'activité","isInWindows","info","binary");
+		$inWindows=self::AddCommande($this,"Actions dans la fenetre","inWindows","action","other");
+		$inWindows->setValue($isInWindows->getId());
+		$inWindows->save();
+		self::deamon_stop();
 		self::deamon_start();
 	}	
 	public function postRemove() {
+		self::deamon_stop();
 		self::deamon_start();
 	}
 }
 class VoletsCmd extends cmd {
     	public function execute($_options = null) {	
+		switch($this->getLogicalId()){
+			case 'inWindows':
+				$Listener=cmd::byId(str_replace('#','',$this->getValue()));
+				if (is_object($Listener)) {
+					if($Listener->execCmd())
+						$Listener->event(false);
+					else
+						$Listener->event(true);
+				$Listener->setCollectDate(date('Y-m-d H:i:s'));
+				$Listener->save();
+				}
+			break;
+		}
 	}
 }
 ?>

@@ -15,10 +15,10 @@ class Volets extends eqLogic {
 							return $return;
 					break;
 					case 'DayNight':
-						$cron = cron::byClassAndFunction('Volets', 'ActionJour');
+						$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => intval($Volet->getId())));
 						if (!is_object($cron)) 	
 							return $return;
-						$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
+						$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => intval($Volet->getId())));
 						if (!is_object($cron)) 	
 							return $return;
 					break;
@@ -40,16 +40,16 @@ class Volets extends eqLogic {
 			$Volet->StartDemon();
 	}
 	public static function deamon_stop() {	
-		$cron = cron::byClassAndFunction('Volets', 'ActionJour');
-		if (is_object($cron)) 	
-			$cron->remove();
-		$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
-		if (is_object($cron)) 	
-			$cron->remove();
 		foreach(eqLogic::byType('Volets') as $Volet){
 			$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($Volet->getId())));
 			if (is_object($listener))
 				$listener->remove();
+			$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => intval($Volet->getId())));
+			if (is_object($cron)) 	
+				$cron->remove();
+			$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => intval($Volet->getId())));
+			if (is_object($cron)) 	
+				$cron->remove();
 		}
 	}
 	public static function pull($_option) {
@@ -80,47 +80,36 @@ class Volets extends eqLogic {
 		}
 	}
 	public static function ActionJour() {    
-		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'DayNight') as $Zone){
-			log::add('Volets', 'debug', 'Exécution de la gestion du lever du soleil '.$Zone->getHumanName());
-			if($Zone->getIsEnable()){
-				$result=$Zone->EvaluateCondition();
-				if($result){
-					$Action=$Zone->getConfiguration('action');
-					$Zone->ExecuteAction($Action['open']);
-				}else{
-					$DelaisEval=$Zone->getConfiguration('DelaisEval'); 
-					//replannifer le cron
-					$Shedule = new DateTime();
-					$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
-					$Zone->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
-				}
+		$Volet = Volets::byId($_option['Volets_id']);
+		if (is_object($Volet) && $Volet->getIsEnable()) {
+			log::add('Volets', 'debug', 'Exécution de la gestion du lever du soleil '.$Volet->getHumanName());
+			$result=$Volet->EvaluateCondition();
+			if($result){
+				$Action=$Volet->getConfiguration('action');
+				$Volet->ExecuteAction($Action['open']);
+			}else{
+				$DelaisEval=$Volet->getConfiguration('DelaisEval'); 
+				$Shedule = new DateTime();
+				$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
+				$Volet->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
 			}
-		}
-		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'Helioptrope') as $Zone){
-			$Zone->setIsEnable(true);
-			$Zone->save();
 		}
 	}
 	public static function ActionNuit() {
-		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'DayNight') as $Zone){
-			log::add('Volets', 'debug', 'Exécution de la gestion du coucher du soleil '.$Zone->getHumanName());
-			if($Zone->getIsEnable()){
-				$result=$Zone->EvaluateCondition();
-				if($result){
-					$Action=$Zone->getConfiguration('action');
-					$Zone->ExecuteAction($Action['close']);
-				}else{
-					$DelaisEval=$Zone->getConfiguration('DelaisEval'); 
-					//replannifer le cron
-					$Shedule = new DateTime();
-					$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
-					$Zone->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
-				}
+		$Volet = Volets::byId($_option['Volets_id']);
+		if (is_object($Volet) && $Volet->getIsEnable()) {
+			log::add('Volets', 'debug', 'Exécution de la gestion du coucher du soleil '.$Volet->getHumanName());
+			$result=$Volet->EvaluateCondition();
+			if($result){
+				$Action=$Volet->getConfiguration('action');
+				$Volet->ExecuteAction($Action['close']);
+			}else{
+				$DelaisEval=$Volet->getConfiguration('DelaisEval'); 
+				//replannifer le cron
+				$Shedule = new DateTime();
+				$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
+				$Volet->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
 			}
-		}
-		foreach(eqLogic::byTypeAndSearhConfiguration('Volets', 'Helioptrope') as $Zone){
-			$Zone->setIsEnable(false);
-			$Zone->save();
 		}
 	} 
     	public function checkJour() {
@@ -130,7 +119,6 @@ class Volets extends eqLogic {
 			if(is_object($sunrise)){
 				$value=$sunrise->execCmd();
 				$Jours= new DateTime('@' .$this->CalculHeureEvent($value,'DelaisDay'));
-					
 			}
 			else{	
 				log::add('Volets','debug','L\'objet "sunrise" n\'a pas été trouvé');
@@ -146,7 +134,6 @@ class Volets extends eqLogic {
 				return false;
 			}
 			$Now=new DateTime();
-			//log::add('Volets','debug',$Nuit->format('Y-m-d H:i:s').'>'.$Now->format('Y-m-d H:i:s').'>'.$Jour->format('Y-m-d H:i:s'));
 			if($Now>$Jours && $Now<$Nuit)
 				return true;
 		}
@@ -185,7 +172,7 @@ class Volets extends eqLogic {
 			log::add('Volets', 'debug', 'Exécution de '.$this->getHumanName());
 			$Action=$this->getConfiguration('action');
 			$result=$this->EvaluateCondition();
-			$StateCmd=$this->getCmd('Volets','state');
+			$StateCmd=$this->getCmd(null,'state');
 			if(is_object($StateCmd)){
 				if($this->CheckAngle($Azimuth)){
 					$StateCmd->event(true);
@@ -230,11 +217,12 @@ class Volets extends eqLogic {
 		return mktime($Heure,$Minute);
 	}
 	public function CreateCron($Schedule, $logicalId) {
-		$cron =cron::byClassAndFunction('Volets', $logicalId);
+		$cron =cron::byClassAndFunction('Volets', $logicalId, array('Volets_id' => intval($Volet->getId())));
 			if (!is_object($cron)) {
 				$cron = new cron();
 				$cron->setClass('Volets');
 				$cron->setFunction($logicalId);
+				$cron->setOption(array('Volets_id' => $this->getId()));
 				$cron->setEnable(1);
 				$cron->setDeamon(0);
 				$cron->setSchedule($Schedule);
@@ -304,14 +292,14 @@ class Volets extends eqLogic {
 							$value=$sunrise->execCmd();
 							$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
 							$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-							$cron = $this->CreateCron($Schedule, 'ActionJour');
+							$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($Volet->getId()));
 						}
 						$sunset=$heliotrope->getCmd(null,'sunset');
 						if(is_object($sunset)){
 							$value=$sunset->execCmd();
 							$timstamp=$this->CalculHeureEvent($value,'DelaisNight');
 							$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-							$cron = $this->CreateCron($Schedule, 'ActionNuit');
+							$cron = $this->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($Volet->getId()));
 						}
 					break;
 				}

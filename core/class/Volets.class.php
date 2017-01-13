@@ -230,7 +230,7 @@ class Volets extends eqLogic {
 		return mktime($Heure,$Minute);
 	}
 	public function CreateCron($Schedule, $logicalId) {
-		$cron =cron::byClassAndFunction('Volets', $logicalId, array('Volets_id' => intval($Volet->getId())));
+		$cron =cron::byClassAndFunction('Volets', $logicalId, array('Volets_id' => intval($this->getId())));
 			if (!is_object($cron)) {
 				$cron = new cron();
 				$cron->setClass('Volets');

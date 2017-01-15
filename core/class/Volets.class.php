@@ -79,7 +79,7 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public static function ActionJour() {    
+	public static function ActionJour($_option) {    
 		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {
@@ -96,7 +96,7 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public static function ActionNuit() {
+	public static function ActionNuit($_option) {
 		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {

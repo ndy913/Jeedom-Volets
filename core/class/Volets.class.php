@@ -10,15 +10,15 @@ class Volets extends eqLogic {
 			if($Volet->getIsEnable()){
 				switch($Volet->getConfiguration('TypeGestion')){	
 					case 'Helioptrope':
-						$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($Volet->getId())));
+						$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 						if (!is_object($listener))
 							return $return;
 					break;
 					case 'DayNight':
-						$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => intval($Volet->getId())));
+						$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
 						if (!is_object($cron)) 	
 							return $return;
-						$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => intval($Volet->getId())));
+						$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $Volet->getId()));
 						if (!is_object($cron)) 	
 							return $return;
 					break;
@@ -41,13 +41,13 @@ class Volets extends eqLogic {
 	}
 	public static function deamon_stop() {	
 		foreach(eqLogic::byType('Volets') as $Volet){
-			$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($Volet->getId())));
+			$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 			if (is_object($listener))
 				$listener->remove();
-			$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => intval($Volet->getId())));
+			$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
 			if (is_object($cron)) 	
 				$cron->remove();
-			$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => intval($Volet->getId())));
+			$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $Volet->getId()));
 			if (is_object($cron)) 	
 				$cron->remove();
 		}
@@ -80,6 +80,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public static function ActionJour() {    
+		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'debug', 'Exécution de la gestion du lever du soleil '.$Volet->getHumanName());
@@ -96,6 +97,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public static function ActionNuit() {
+		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'debug', 'Exécution de la gestion du coucher du soleil '.$Volet->getHumanName());

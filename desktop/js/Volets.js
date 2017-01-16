@@ -427,7 +427,7 @@ function addCmdToTable(_cmd) {
 	var parmetre=$('<td>');	
 	parmetre.append($('<span class="type" type="' + init(_cmd.type) + '">')
 			.append(jeedom.cmd.availableType()));
-	parmetre.append($('<span class="subType" subType="'+init(_cmd.subType)+'">')));
+	parmetre.append($('<span class="subType" subType="'+init(_cmd.subType)+'">'));
 	if (is_numeric(_cmd.id)) {
 		parmetre.append($('<a class="btn btn-default btn-xs cmdAction" data-action="test">')
 			.append($('<i class="fa fa-rss">')

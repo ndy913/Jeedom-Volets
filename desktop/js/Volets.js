@@ -413,3 +413,46 @@ $('body').on( 'click','.bt_selectCmdExpression', function() {
 		$(_this).closest('.input-group').find('.cmdAttr').val(result.human);
 	});
 });  
+function addCmdToTable(_cmd) {
+  if (!isset(_cmd)) {
+        var _cmd = {};
+    }
+    if (!isset(_cmd.configuration)) {
+        _cmd.configuration = {};
+    }
+	var tr =$('<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">');
+	tr.append($('<td>')
+		.append($('<input type="hidden" class="cmdAttr form-control input-sm" data-l1key="id">'))
+		.append($('<input class="cmdAttr form-control input-sm" data-l1key="name" value="' + init(_cmd.name) + '" placeholder="{{Name}}" title="Name">')));
+	var parmetre=$('<td>');	
+	parmetre.append($('<span class="type" type="' + init(_cmd.type) + '">')
+			.append(jeedom.cmd.availableType()));
+	parmetre.append($('<span class="subType" subType="'+init(_cmd.subType)+'">')));
+	if (is_numeric(_cmd.id)) {
+		parmetre.append($('<a class="btn btn-default btn-xs cmdAction" data-action="test">')
+			.append($('<i class="fa fa-rss">')
+				.text('{{Tester}}')));
+	}
+	parmetre.append($('<a class="btn btn-default btn-xs cmdAction tooltips" data-action="configure">')
+		.append($('<i class="fa fa-cogs">')));
+	parmetre.append($('<div>')
+		.append($('<span>')
+			.append($('<label class="checkbox-inline">')
+				.append($('<input type="checkbox" class="cmdAttr checkbox-inline" data-size="mini" data-label-text="{{Historiser}}" data-l1key="isHistorized" checked/>'))
+				.append('{{Historiser}}')
+				.append($('<sup>')
+					.append($('<i class="fa fa-question-circle tooltips" style="font-size : 1em;color:grey;">')
+					.attr('title','Souhaitez vous Historiser les changements de valeur'))))));
+	parmetre.append($('<div>')
+		.append($('<span>')
+			.append($('<label class="checkbox-inline">')
+				.append($('<input type="checkbox" class="cmdAttr checkbox-inline" data-size="mini" data-label-text="{{Afficher}}" data-l1key="isVisible" checked/>'))
+				.append('{{Afficher}}')
+				.append($('<sup>')
+					.append($('<i class="fa fa-question-circle tooltips" style="font-size : 1em;color:grey;">')
+					.attr('title','Souhaitez vous afficher cette commande sur le dashboard'))))));
+	tr.append(parmetre);
+	$('#table_cmd tbody').append(tr);
+	$('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
+	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
+}

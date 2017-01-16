@@ -72,6 +72,7 @@ $eqLogics = eqLogic::byType('Volets');
 				<li><a href="#tab_condition"><i class="fa fa-pencil"></i> {{Conditions d'exécution}}</a></li>
 				<li><a href="#tab_ouverture"><i class="fa fa-pencil"></i> {{Actions d'ouverture}}</a></li>
 				<li><a href="#tab_fermeture"><i class="fa fa-pencil"></i> {{Actions de fermeture}}</a></li>
+				<li><a href="#tab_cmd"><i class="fa fa-pencil"></i> {{Commandes du plugin}}</a></li>
 			</ul>
 			<div class="tab-content TabCmdZone">
 				<div class="tab-pane active" id="tab_general">
@@ -277,6 +278,17 @@ $eqLogics = eqLogic::byType('Volets');
 						</fieldset>
 					</form>
 				</div>
+				<div class="tab-pane " id="tab_cmd">	
+					<table id="table_cmd" class="table table-bordered table-condensed">
+					    <thead>
+						<tr>
+						    <th>Nom</th>
+						    <th>Paramètre</th>
+						</tr>
+					    </thead>
+					    <tbody></tbody>
+					</table>
+				</div>	
 			</div>
 		</div>
 		<form class="form-horizontal">

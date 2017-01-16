@@ -278,19 +278,19 @@ $eqLogics = eqLogic::byType('Volets');
 						</fieldset>
 					</form>
 				</div>
+				<div class="tab-pane " id="tab_cmd">	
+					<table id="table_cmd" class="table table-bordered table-condensed">
+					    <thead>
+						<tr>
+						    <th>Nom</th>
+						    <th>Paramètre</th>
+						</tr>
+					    </thead>
+					    <tbody></tbody>
+					</table>
+				</div>	
 			</div>
 		</div>
-		<div class="tab-pane " id="tab_cmd">	
-			<table id="table_cmd" class="table table-bordered table-condensed">
-			    <thead>
-				<tr>
-				    <th>Nom</th>
-				    <th>Paramètre</th>
-				</tr>
-			    </thead>
-			    <tbody></tbody>
-			</table>
-		</div>	
 		<form class="form-horizontal">
 			<fieldset>
 				<div class="form-actions">

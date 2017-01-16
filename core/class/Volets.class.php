@@ -338,7 +338,7 @@ class Volets extends eqLogic {
 	}
 	public function postSave() {
 		self::AddCommande($this,"Etat du position du soleil","state","info", 'binary');
-		$isInWindows=self::AddCommande($this,"Etat de l'activité","isInWindows","info","binary");
+		$isInWindows=self::AddCommande($this,"Etat de l\'activité","isInWindows","info","binary");
 		$inWindows=self::AddCommande($this,"Actions dans la fenetre","inWindows","action","other");
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();

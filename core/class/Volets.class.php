@@ -285,21 +285,20 @@ class Volets extends eqLogic {
 		if($this->getIsEnable()){
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
+				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
+				if (!is_object($listener))
+				    $listener = new listener();
+				$listener->setClass('Volets');
+				$listener->setFunction('pull');
+				$listener->setOption(array('Volets_id' => intval($this->getId())));
+				$listener->emptyEvent();
+				$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
+				$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());
 				switch($this->getConfiguration('TypeGestion')){	
 					case 'Other':	
 					break;
 					case 'Helioptrope':
-						$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
-						if (!is_object($listener))
-						    $listener = new listener();
-						$listener->setClass('Volets');
-						$listener->setFunction('pull');
-						$listener->setOption(array('Volets_id' => intval($this->getId())));
-						$listener->emptyEvent();
 						$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-						$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
-						$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());
-						$listener->save();	
 					break;
 					case 'DayNight':
 						$sunrise=$heliotrope->getCmd(null,'sunrise');
@@ -318,6 +317,7 @@ class Volets extends eqLogic {
 						}
 					break;
 				}
+				$listener->save();	
 			}
 		}
 	}
@@ -342,12 +342,18 @@ class Volets extends eqLogic {
 		$inWindows=self::AddCommande($this,"Actions dans la fenetre","inWindows","action","other");
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
-		self::deamon_stop();
-		self::deamon_start();
+		$this->StartDemon();
 	}	
 	public function postRemove() {
-		self::deamon_stop();
-		self::deamon_start();
+		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
+		if (is_object($listener))
+			$listener->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $this->getId()));
+		if (is_object($cron)) 	
+			$cron->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $this->getId()));
+		if (is_object($cron)) 	
+			$cron->remove();
 	}
 }
 class VoletsCmd extends cmd {

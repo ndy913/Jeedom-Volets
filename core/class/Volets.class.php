@@ -8,9 +8,9 @@ class Volets extends eqLogic {
 		$return['state'] = 'nok';
 		foreach(eqLogic::byType('Volets') as $Volet){
 			if($Volet->getIsEnable()){
-				/*$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
+				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 				if (!is_object($listener))
-					return $return;*/
+					return $return;
 				switch($Volet->getConfiguration('TypeGestion')){
 					case 'DayNight':
 						$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
@@ -285,12 +285,12 @@ class Volets extends eqLogic {
 		if($this->getIsEnable()){
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
-				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
+				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
 				if (!is_object($listener))
 				    $listener = new listener();
 				$listener->setClass('Volets');
 				$listener->setFunction('pull');
-				$listener->setOption(array('Volets_id' => intval($this->getId())));
+				$listener->setOption(array('Volets_id' => $this->getId()));
 				$listener->emptyEvent();
 				$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
 				$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());

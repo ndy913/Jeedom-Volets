@@ -35,7 +35,7 @@ class Volets extends eqLogic {
 		if ($deamon_info['state'] == 'ok') 
 			return;
 		foreach(eqLogic::byType('Volets') as $Volet)
-			$Volet->StartDemon();
+			$Volet->save();
 	}
 	public static function deamon_stop() {	
 		foreach(eqLogic::byType('Volets') as $Volet){

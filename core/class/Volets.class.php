@@ -8,12 +8,10 @@ class Volets extends eqLogic {
 		$return['state'] = 'nok';
 		foreach(eqLogic::byType('Volets') as $Volet){
 			if($Volet->getIsEnable()){
-				switch($Volet->getConfiguration('TypeGestion')){	
-					case 'Helioptrope':
-						$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
-						if (!is_object($listener))
-							return $return;
-					break;
+				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
+				if (!is_object($listener))
+					return $return;
+				switch($Volet->getConfiguration('TypeGestion')){
 					case 'DayNight':
 						$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
 						if (!is_object($cron)) 	
@@ -37,7 +35,7 @@ class Volets extends eqLogic {
 		if ($deamon_info['state'] == 'ok') 
 			return;
 		foreach(eqLogic::byType('Volets') as $Volet)
-			$Volet->StartDemon();
+			$Volet->save();
 	}
 	public static function deamon_stop() {	
 		foreach(eqLogic::byType('Volets') as $Volet){
@@ -156,7 +154,7 @@ class Volets extends eqLogic {
 				$Centre['lng'],
 				$Gauche['lat'],
 				$Gauche['lng']);
-			log::add('Volets','debug','La fenêtre d\'ensoleillement '.$this->getHumanName().' est comprise entre : '.$AngleMin.'° et '.$AngleMax.'°');
+			log::add('Volets','debug','La fenêtre d\'ensoleillement '.$this->getHumanName().' est comprise entre : '.$AngleCntDrt.'° et '.$AngleCntGau.'°');
 			if ($AngleCntDrt > $AngleCntGau){
 				if($Azimuth<$AngleCntDrt&&$Azimuth>$AngleCntGau)
 					return true;
@@ -200,11 +198,13 @@ class Volets extends eqLogic {
 			log::add('Volets', 'debug', 'Exécution de '.$this->getHumanName());
 			$result=$this->EvaluateCondition();
 			$Action=$this->SelectAction($Azimuth);
-			if($result && $Action != false){
-				log::add('Volets','debug','Les conditions sont remplies');
-				$this->ExecuteAction($Action);
-			}else
-				log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
+			if($Action != false){
+				if($result){
+					log::add('Volets','debug','Les conditions sont remplies');
+					$this->ExecuteAction($Action);
+				}else
+					log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
+			}
 		}
 	}
 	public function ExecuteAction($Action) {	
@@ -232,7 +232,7 @@ class Volets extends eqLogic {
 		return mktime($Heure,$Minute);
 	}
 	public function CreateCron($Schedule, $logicalId) {
-		$cron =cron::byClassAndFunction('Volets', $logicalId, array('Volets_id' => intval($this->getId())));
+		$cron =cron::byClassAndFunction('Volets', $logicalId, array('Volets_id' => $this->getId()));
 			if (!is_object($cron)) {
 				$cron = new cron();
 				$cron->setClass('Volets');
@@ -285,12 +285,12 @@ class Volets extends eqLogic {
 		if($this->getIsEnable()){
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
-				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($this->getId())));
+				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
 				if (!is_object($listener))
 				    $listener = new listener();
 				$listener->setClass('Volets');
 				$listener->setFunction('pull');
-				$listener->setOption(array('Volets_id' => intval($this->getId())));
+				$listener->setOption(array('Volets_id' => $this->getId()));
 				$listener->emptyEvent();
 				$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
 				$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());

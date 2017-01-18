@@ -82,7 +82,7 @@ class Volets extends eqLogic {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'debug', 'Exécution de la gestion du lever du soleil '.$Volet->getHumanName());
-			$result=$Volet->EvaluateCondition();
+			$result=$Volet->EvaluateCondition('open');
 			if($result){
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['open']);
@@ -99,7 +99,7 @@ class Volets extends eqLogic {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'debug', 'Exécution de la gestion du coucher du soleil '.$Volet->getHumanName());
-			$result=$Volet->EvaluateCondition();
+			$result=$Volet->EvaluateCondition('close');
 			if($result){
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['close']);
@@ -174,21 +174,20 @@ class Volets extends eqLogic {
 		$isInWindows=$this->getCmd(null,'isInWindows');
 		if(!is_object($isInWindows))
 			return false;
-		$Action=$this->getConfiguration('action');
 		if($this->CheckAngle($Azimuth)){
 			$StateCmd->event(true);
 			log::add('Volets','debug','Le soleil est dans la fenêtre');
 			if($isInWindows->execCmd())
-				$Action=$Action['open'];
+				$Action='open';
 			else
-				$Action=$Action['close'];
+				$Action='close';
 		}else{
 			$StateCmd->event(false);
 			log::add('Volets','debug','Le soleil n\'est pas dans la fenêtre');
 			if($isInWindows->execCmd())
-				$Action=$Action['close'];
+				$Action='close';
 			else
-				$Action=$Action['open'];
+				$Action='open';
 		}
 		$StateCmd->save();
 		return $Action;
@@ -196,12 +195,13 @@ class Volets extends eqLogic {
 	public function ActionAzimute($Azimuth) {
 		if($this->checkJour()){
 			log::add('Volets', 'debug', 'Exécution de '.$this->getHumanName());
-			$result=$this->EvaluateCondition();
-			$Action=$this->SelectAction($Azimuth);
-			if($Action != false){
+			$Evenement=$this->SelectAction($Azimuth);
+			if($Evenement != false){
+				$result=$this->EvaluateCondition($Evenement);
 				if($result){
 					log::add('Volets','debug','Les conditions sont remplies');
-					$this->ExecuteAction($Action);
+					$Action=$this->getConfiguration('action');
+					$this->ExecuteAction($Action[$Evenement]);
 				}else
 					log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
 			}
@@ -249,24 +249,26 @@ class Volets extends eqLogic {
 			}
 		return $cron;
 	}
-	public function EvaluateCondition(){
+	public function EvaluateCondition($evaluate){
 		foreach($this->getConfiguration('condition') as $condition){
-			$expression = scenarioExpression::setTags($condition['expression']);
-			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
-			$result = evaluate($expression);
-			if (is_bool($result)) {
-				if ($result) {
-					$message .= __('Vrai', __FILE__);
+			if($evaluate==$condition['evaluation']||$condition['evaluation']=='all'){
+				$expression = scenarioExpression::setTags($condition['expression']);
+				$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
+				$result = evaluate($expression);
+				if (is_bool($result)) {
+					if ($result) {
+						$message .= __('Vrai', __FILE__);
+					} else {
+						$message .= __('Faux', __FILE__);
+					}
 				} else {
-					$message .= __('Faux', __FILE__);
+					$message .= $result;
 				}
-			} else {
-				$message .= $result;
-			}
-			log::add('Volets','info',$message);
-			if(!$result){
-				log::add('Volets','debug','Les conditions ne sont pas remplies');
-				return false;
+				log::add('Volets','info',$message);
+				if(!$result){
+					log::add('Volets','debug','Les conditions ne sont pas remplies');
+					return false;
+				}
 			}
 		}
 		return true;

@@ -216,6 +216,14 @@ function addCondition(_action, _name, _el) {
 				.append($('<i class="fa fa-list-alt">'))))
 		.append($('<div class="col-lg-3">')
 			.append($('<input class="expressionAttr form-control input-sm cmdCondition" data-l1key="expression" />')))
+		.append($('<div class="col-lg-3">')
+			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="evaluation" />')
+			       .append($('<option value="all">')
+					.text('{{Ouverture et Fermeture}}'))
+			       .append($('<option value="open">')
+					.text('{{Ouverture}}'))
+			       .append($('<option value="close">')
+					.text('{{Fermeture}}'))))
  		.append($('<div class="col-lg-1">')
   			.append($('<i class="fa fa-minus-circle pull-left cursor conditionAttr" data-action="remove">')));
         _el.append(div);

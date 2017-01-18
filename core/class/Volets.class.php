@@ -180,7 +180,7 @@ class Volets extends eqLogic {
 			if($isInWindows->execCmd())
 				$Action='open';
 			else
-				$Action'close';
+				$Action='close';
 		}else{
 			$StateCmd->event(false);
 			log::add('Volets','debug','Le soleil n\'est pas dans la fenêtre');

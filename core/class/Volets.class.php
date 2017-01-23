@@ -38,17 +38,15 @@ class Volets extends eqLogic {
 			$Volet->save();
 	}
 	public static function deamon_stop() {	
-		foreach(eqLogic::byType('Volets') as $Volet){
-			$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
-			if (is_object($listener))
-				$listener->remove();
-			$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
-			if (is_object($cron)) 	
-				$cron->remove();
-			$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $Volet->getId()));
-			if (is_object($cron)) 	
-				$cron->remove();
-		}
+		$listener = listener::byClassAndFunction('Volets', 'pull'));
+		if (is_object($listener))
+			$listener->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionJour'));
+		if (is_object($cron)) 	
+			$cron->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionNuit'));
+		if (is_object($cron)) 	
+			$cron->remove();
 	}
 	public static function pull($_option) {
 		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
@@ -276,12 +274,12 @@ class Volets extends eqLogic {
 	public function getAngle($latitudeOrigine,$longitudeOrigne, $latitudeDest,$longitudeDest) {
 		$longDelta = $longitudeDest - $longitudeOrigne;
 		$y = sin($longDelta) * cos($latitudeDest);
-		$x = cos($latitudeOrigine)*sin($latitudeDest) - sin($latitudeOrigine)*cos($latitudeDest)*cos($longDelta);
+		$x = (cos($latitudeOrigine)*sin($latitudeDest)) - (sin($latitudeOrigine)*cos($latitudeDest)*cos($longDelta));
 		$angle = rad2deg(atan2($y, $x));
 		while ($angle < 0) {
 			$angle += 360;
 		}
-		return  $angle % 360;
+		return  floatval($angle % 360);
 	}
 	public function StartDemon() {
 		if($this->getIsEnable()){

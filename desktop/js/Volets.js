@@ -198,8 +198,8 @@ function TraceMapZone(_zone){
 		GaucheLatLng.lat=event.latLng.lat();
 		GaucheLatLng.lng=event.latLng.lng();
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
-		PolylineGauche.setPath([GaucheLatLng,CentreLatLng]);
-	});
+		PolylineGauche.setPath([CentreLatLng,GaucheLatLng]);
+		});
 }
 function addCondition(_action, _name, _el) {
 	if (!isset(_action)) {

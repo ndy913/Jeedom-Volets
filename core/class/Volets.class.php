@@ -276,12 +276,12 @@ class Volets extends eqLogic {
 	public function getAngle($latitudeOrigine,$longitudeOrigne, $latitudeDest,$longitudeDest) {
 		$longDelta = $longitudeDest - $longitudeOrigne;
 		$y = sin($longDelta) * cos($latitudeDest);
-		$x = cos($latitudeOrigine)*sin($latitudeDest) - sin($latitudeOrigine)*cos($latitudeDest)*cos($longDelta);
+		$x = (cos($latitudeOrigine)*sin($latitudeDest)) - (sin($latitudeOrigine)*cos($latitudeDest)*cos($longDelta));
 		$angle = rad2deg(atan2($y, $x));
 		while ($angle < 0) {
 			$angle += 360;
 		}
-		return  $angle % 360;
+		return  floatval($angle % 360);
 	}
 	public function StartDemon() {
 		if($this->getIsEnable()){

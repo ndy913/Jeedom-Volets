@@ -186,6 +186,7 @@ function TraceMapZone(_zone){
 		DroitLatLng.lng=event.latLng.lng();
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(event.latLng));
 		PolylineDroite.setPath([CentreLatLng,DroitLatLng]);
+		alert(google.maps.geometry.spherical.computeHeading(CentreLatLng,DroitLatLng));
 	});
 	google.maps.event.addListener(Centre,'drag', function(event) {
 		CentreLatLng.lat=event.latLng.lat();
@@ -193,12 +194,15 @@ function TraceMapZone(_zone){
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(event.latLng));
 		PolylineGauche.setPath([GaucheLatLng,CentreLatLng]);
 		PolylineDroite.setPath([CentreLatLng,DroitLatLng]);
+		alert(google.maps.geometry.spherical.computeHeading(CentreLatLng,DroitLatLng));
+		alert(google.maps.geometry.spherical.computeHeading(CentreLatLng,GaucheLatLng));
 	});
 	google.maps.event.addListener(Gauche,'drag', function(event) {
 		GaucheLatLng.lat=event.latLng.lat();
 		GaucheLatLng.lng=event.latLng.lng();
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
-		PolylineGauche.setPath([GaucheLatLng,CentreLatLng]);
+		PolylineGauche.setPath([CentreLatLng,GaucheLatLng]);
+		alert(google.maps.geometry.spherical.computeHeading(CentreLatLng,GaucheLatLng));
 	});
 }
 function addCondition(_action, _name, _el) {

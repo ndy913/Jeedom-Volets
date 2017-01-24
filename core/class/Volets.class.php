@@ -38,13 +38,13 @@ class Volets extends eqLogic {
 			$Volet->save();
 	}
 	public static function deamon_stop() {	
-		$listener = listener::byClassAndFunction('Volets', 'pull'));
+		$listener = listener::byClassAndFunction('Volets', 'pull');
 		if (is_object($listener))
 			$listener->remove();
-		$cron = cron::byClassAndFunction('Volets', 'ActionJour'));
+		$cron = cron::byClassAndFunction('Volets', 'ActionJour');
 		if (is_object($cron)) 	
 			$cron->remove();
-		$cron = cron::byClassAndFunction('Volets', 'ActionNuit'));
+		$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
 		if (is_object($cron)) 	
 			$cron->remove();
 	}

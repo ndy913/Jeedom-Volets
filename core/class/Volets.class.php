@@ -38,13 +38,13 @@ class Volets extends eqLogic {
 			$Volet->save();
 	}
 	public static function deamon_stop() {	
-		$listener = listener::byClassAndFunction('Volets', 'pull'));
+		$listener = listener::byClassAndFunction('Volets', 'pull');
 		if (is_object($listener))
 			$listener->remove();
-		$cron = cron::byClassAndFunction('Volets', 'ActionJour'));
+		$cron = cron::byClassAndFunction('Volets', 'ActionJour');
 		if (is_object($cron)) 	
 			$cron->remove();
-		$cron = cron::byClassAndFunction('Volets', 'ActionNuit'));
+		$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
 		if (is_object($cron)) 	
 			$cron->remove();
 	}
@@ -174,14 +174,14 @@ class Volets extends eqLogic {
 			return false;
 		if($this->CheckAngle($Azimuth)){
 			$StateCmd->event(true);
-			log::add('Volets','debug','Le soleil est dans la fenêtre');
+			log::add('Volets','debug',$this->getHumanName().' Le soleil est dans la fenêtre');
 			if($isInWindows->execCmd())
 				$Action='open';
 			else
 				$Action='close';
 		}else{
 			$StateCmd->event(false);
-			log::add('Volets','debug','Le soleil n\'est pas dans la fenêtre');
+			log::add('Volets','debug',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
 			if($isInWindows->execCmd())
 				$Action='close';
 			else
@@ -197,11 +197,11 @@ class Volets extends eqLogic {
 			if($Evenement != false){
 				$result=$this->EvaluateCondition($Evenement);
 				if($result){
-					log::add('Volets','debug','Les conditions sont remplies');
+					log::add('Volets','debug',$this->getHumanName().' Les conditions sont remplies');
 					$Action=$this->getConfiguration('action');
 					$this->ExecuteAction($Action[$Evenement]);
 				}else
-					log::add('Volets','debug','Il fait nuit, la gestion par azimuth est désactivé');
+					log::add('Volets','debug',$this->getHumanName().' Il fait nuit, la gestion par azimuth est désactivé');
 			}
 		}
 	}
@@ -211,7 +211,7 @@ class Volets extends eqLogic {
 			if(is_object($Commande)){
 				if($this->getConfiguration('isRandom'))
 				   sleep(rand(0,$this->getConfiguration('DelaisPresence')));
-				log::add('Volets','debug','Exécution de '.$Commande->getHumanName());
+				log::add('Volets','debug',$this->getHumanName().' Exécution de '.$Commande->getHumanName());
 				$Commande->execute($cmd['options']);
 			}
 		}
@@ -262,9 +262,9 @@ class Volets extends eqLogic {
 				} else {
 					$message .= $result;
 				}
-				log::add('Volets','info',$message);
+				log::add('Volets','info',$this->getHumanName().' : '.$message);
 				if(!$result){
-					log::add('Volets','debug','Les conditions ne sont pas remplies');
+					log::add('Volets','debug',$this->getHumanName().' Les conditions ne sont pas remplies');
 					return false;
 				}
 			}

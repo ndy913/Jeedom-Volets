@@ -154,12 +154,12 @@ class Volets extends eqLogic {
 				$Gauche['lng']);
 			log::add('Volets','debug','La fenêtre d\'ensoleillement '.$this->getHumanName().' est comprise entre : '.$AngleCntDrt.'° et '.$AngleCntGau.'°');
 			if ($AngleCntDrt > $AngleCntGau){
-				if($Azimuth<$AngleCntDrt&&$Azimuth>$AngleCntGau)
+				if($Azimuth>$AngleCntDrt&&$Azimuth<$AngleCntGau)
 					return true;
 			}else{
-				if($Azimuth<$AngleCntGau && $Azimuth<360)
+				if($Azimuth>$AngleCntGau && $Azimuth<360)
 					return true;
-				if($Azimuth>$AngleCntDrt && $Azimuth>0)
+				if($Azimuth<$AngleCntDrt && $Azimuth>0)
 					return true;
 			}
 		}

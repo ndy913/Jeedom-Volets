@@ -29,8 +29,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				CentreLatLng.lng=parseFloat(center[1]);
 				// création de la carte
 				$('#MyMap').show();
-				map = new OpenLayers.Map("MyMap");
-    				map.addLayer(new OpenLayers.Layer.OSM());
+				//map = new OpenLayers.Map("MyMap");
+    				//map.addLayer(new OpenLayers.Layer.OSM());
 				//map.setCenter (CentreLatLng, 20);
 				/*map = new google.maps.Map( document.getElementById('MyMap'),{
 					'mapTypeControl':  true,

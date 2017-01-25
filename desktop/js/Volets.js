@@ -164,19 +164,21 @@ function TraceMapZone(_zone){
 		GaucheLatLng.lat=parseFloat(_zone.configuration.Gauche.lat);
 		GaucheLatLng.lng=parseFloat(_zone.configuration.Gauche.lng);
 	}*/
+	var Droit = new ol.Feature({
+		type: 'icon',
+		geometry: new ol.geom.Point(DroitLatLng),
+		name: _zone.name + " - Droite vue extérieur"
+	});
 	var Centre = new ol.Feature({
-        type: 'icon',
-        geometry: new ol.geom.Point(CentreLatLng)
-      });
-	/*var Droit = new OpenLayers.Layer.Markers( _zone.name + " - Droite vue extérieur" );
-	map.addLayer(Droit);
-	Droit.addMarker(new OpenLayers.Marker(DroitLatLng));
-	var Gauche = new OpenLayers.Layer.Markers( _zone.name + " - Gauche vue extérieur" );
-	map.addLayer(Gauche);
-	Gauche.addMarker(new OpenLayers.Marker(GaucheLatLng));
-	var Centre = new OpenLayers.Layer.Markers( _zone.name + " - Centre de l'angle d'ouverture" );
-	map.addLayer(Centre);
-	Centre.addMarker(new OpenLayers.Marker(CentreLatLng));*/
+		type: 'icon',
+		geometry: new ol.geom.Point(CentreLatLng),
+		name: _zone.name + " - Centre de l'angle d'ouverture"
+	});
+	var Gauche = new ol.Feature({
+		type: 'icon',
+		geometry: new ol.geom.Point(GaucheLatLng),
+		name: _zone.name  + " - Gauche vue extérieur"
+	});
 	/*var Droit=new google.maps.Marker({
 		position: DroitLatLng,
 		map: map,

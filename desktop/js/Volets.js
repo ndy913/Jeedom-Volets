@@ -160,17 +160,17 @@ function TraceMapZone(_zone){
 		GaucheLatLng.lng=parseFloat(_zone.configuration.Gauche.lng);
 	}*/
 	var Droit = new ol.Feature({
-		type: 'icon',
+		type: 'geoMarker',
 		geometry: new ol.geom.Point(DroitLatLng)/*,
 		name: _zone.name + " - Droite vue extérieur"*/
 	});
 	var Centre = new ol.Feature({
-		type: 'icon',
+		type: 'geoMarker',
 		geometry: new ol.geom.Point(CentreLatLng)/*,
 		name: _zone.name + " - Centre de l'angle d'ouverture"*/
 	});
 	var Gauche = new ol.Feature({
-		type: 'icon',
+		type: 'geoMarker',
 		geometry: new ol.geom.Point(GaucheLatLng)/*,
 		name: _zone.name  + " - Gauche vue extérieur"*/
 	});
@@ -178,12 +178,6 @@ function TraceMapZone(_zone){
 		'route': new ol.style.Style({
 			stroke: new ol.style.Stroke({
 				width: 6, color: [237, 212, 0, 0.8]
-			})
-		}),
-		'icon': new ol.style.Style({
-			image: new ol.style.Icon({
-				anchor: [0.5, 1],
-				src: 'https://openlayers.org/en/v3.20.1/examples/data/icon.png'
 			})
 		}),
 		'geoMarker': new ol.style.Style({
@@ -210,6 +204,14 @@ function TraceMapZone(_zone){
 		}
 	});
 	map.addLayer(vectorLayer);
+	/*var moveFeature = function(event) {
+		var vectorContext = event.vectorContext;
+		var frameState = event.frameState;
+		vectorContext.drawFeature(feature, styles.geoMarker);
+		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(event.latLng));
+		map.render();
+	};
+	map.on('postcompose', moveFeature);*/
 	/*var Droit=new google.maps.Marker({
 		position: DroitLatLng,
 		map: map,

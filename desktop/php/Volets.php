@@ -21,10 +21,6 @@ include_file('desktop', 'OpenLayers', 'js', 'Volets');
 		</div>
 	</div>
 	<div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE; padding-left: 25px;">
-		<!--legend>{{Situations}}</legend>
-		<div class="eqLogicThumbnailContainer">
-			<div id="MyMap" style="width:800px;height:600px;margin:auto;display:block;"></div>
-		</div-->
 		<legend>{{Mes Zones de gestion volets}}</legend>
 		<div class="eqLogicThumbnailContainer">
 			<div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
@@ -229,7 +225,7 @@ include_file('desktop', 'OpenLayers', 'js', 'Volets');
 					</form>
 				</div>	
 				<div class="tab-pane active" id="tab_map">	
-					<div id="MyMap" style="width:800px;height:600px;margin:auto;display:block;"></div>
+					<div id="MyMap" style="width:800px;height:600px;margin:auto;"></div>
 				</div>			
 				<div class="tab-pane" id="tab_condition">
 					<form class="form-horizontal">

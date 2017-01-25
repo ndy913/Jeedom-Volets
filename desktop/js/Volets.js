@@ -29,9 +29,9 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				CentreLatLng.lng=parseFloat(center[1]);
 				// création de la carte
 				$('#MyMap').show();
-				 map = new OpenLayers.Map("MyMap");
-    				map.addLayer(new OpenLayers.Layer.OSM());
-				map.setCenter (CentreLatLng, 20);
+				map = new OpenLayers.Map("MyMap");
+    				//map.addLayer(new OpenLayers.Layer.OSM());
+				//map.setCenter (CentreLatLng, 20);
 				/*map = new google.maps.Map( document.getElementById('MyMap'),{
 					'mapTypeControl':  true,
 					'streetViewControl': false,
@@ -150,7 +150,7 @@ function TraceMapZone(_zone){
 		GaucheLatLng.lat=parseFloat(_zone.configuration.Gauche.lat);
 		GaucheLatLng.lng=parseFloat(_zone.configuration.Gauche.lng);
 	}
-	var Droit = new OpenLayers.Layer.Markers( _zone.name + " - Droite vue extérieur" );
+	/*var Droit = new OpenLayers.Layer.Markers( _zone.name + " - Droite vue extérieur" );
 	map.addLayer(Droit);
 	Droit.addMarker(new OpenLayers.Marker(DroitLatLng));
 	var Gauche = new OpenLayers.Layer.Markers( _zone.name + " - Gauche vue extérieur" );
@@ -158,7 +158,7 @@ function TraceMapZone(_zone){
 	Gauche.addMarker(new OpenLayers.Marker(GaucheLatLng));
 	var Centre = new OpenLayers.Layer.Markers( _zone.name + " - Centre de l'angle d'ouverture" );
 	map.addLayer(Centre);
-	Centre.addMarker(new OpenLayers.Marker(CentreLatLng));
+	Centre.addMarker(new OpenLayers.Marker(CentreLatLng));*/
 	/*var Droit=new google.maps.Marker({
 		position: DroitLatLng,
 		map: map,

@@ -321,7 +321,7 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public static function AddCommande($eqLogic,$Name,$_logicalId,$Type="info", $SubType='binary') {
+	public static function AddCommande($eqLogic,$Name,$_logicalId,$Type="info", $SubType='binary',$Template='') {
 		$Commande = $eqLogic->getCmd(null,$_logicalId);
 		if (!is_object($Commande))
 		{
@@ -333,12 +333,14 @@ class Volets extends eqLogic {
 			$Commande->setType($Type);
 			$Commande->setSubType($SubType);
 		}
+     		$Commande->setTemplate('dashboard',$Template );
+		$Commande->setTemplate('mobile', $Template);
 		$Commande->save();
 		return $Commande;
 	}
 	public function postSave() {
 		self::AddCommande($this,"Etat du position du soleil","state","info", 'binary');
-		$isInWindows=self::AddCommande($this,"Etat de l\'activité","isInWindows","info","binary");
+		$isInWindows=self::AddCommande($this,"Etat de l\'activité","isInWindows","info","binary",'isInWindows');
 		$inWindows=self::AddCommande($this,"Actions dans la fenetre","inWindows","action","other");
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();

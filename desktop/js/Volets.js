@@ -35,7 +35,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 							source: new ol.source.OSM()
 						})
 					],
-					target: 'map',
+					target: 'MyMap',
 					controls: ol.control.defaults({
 						attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
 							collapsible: false

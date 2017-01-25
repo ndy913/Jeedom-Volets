@@ -42,7 +42,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 						})
 					}),
 					view: new ol.View({
-						center: CentreLatLng,
+						center: center,
 						zoom: 20
 					})
 				});

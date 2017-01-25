@@ -229,7 +229,7 @@ include_file('desktop', 'OpenLayers', 'js', 'Volets');
 					</form>
 				</div>	
 				<div class="tab-pane active" id="tab_map">	
-					<div id="MyMap" style="width:800px;height:600px;margin:auto;display:block;"></div>
+					<div id="MyMap"></div>
 				</div>			
 				<div class="tab-pane" id="tab_condition">
 					<form class="form-horizontal">

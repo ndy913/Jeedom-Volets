@@ -42,13 +42,10 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 						})
 					}),
 					view: new ol.View({
-						center: [0, 0],
-						zoom: 2
+						center: CentreLatLng,
+						zoom: 20
 					})
 				});
-				//map = new OpenLayers.Map("MyMap");
-    				//map.addLayer(new OpenLayers.Layer.OSM());
-				//map.setCenter (CentreLatLng, 20);
 				/*map = new google.maps.Map( document.getElementById('MyMap'),{
 					'mapTypeControl':  true,
 					'streetViewControl': false,

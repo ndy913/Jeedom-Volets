@@ -161,23 +161,53 @@ function TraceMapZone(_zone){
 	}*/
 	var Droit = new ol.Feature({
 		type: 'icon',
-		geometry: new ol.geom.Point(DroitLatLng),
-		name: _zone.name + " - Droite vue extérieur"
+		geometry: new ol.geom.Point(DroitLatLng)/*,
+		name: _zone.name + " - Droite vue extérieur"*/
 	});
 	var Centre = new ol.Feature({
 		type: 'icon',
-		geometry: new ol.geom.Point(CentreLatLng),
-		name: _zone.name + " - Centre de l'angle d'ouverture"
+		geometry: new ol.geom.Point(CentreLatLng)/*,
+		name: _zone.name + " - Centre de l'angle d'ouverture"*/
 	});
 	var Gauche = new ol.Feature({
 		type: 'icon',
-		geometry: new ol.geom.Point(GaucheLatLng),
-		name: _zone.name  + " - Gauche vue extérieur"
+		geometry: new ol.geom.Point(GaucheLatLng)/*,
+		name: _zone.name  + " - Gauche vue extérieur"*/
 	});
+	var styles = {
+		'route': new ol.style.Style({
+			stroke: new ol.style.Stroke({
+				width: 6, color: [237, 212, 0, 0.8]
+			})
+		}),
+		'icon': new ol.style.Style({
+			image: new ol.style.Icon({
+				anchor: [0.5, 1],
+				src: 'https://openlayers.org/en/v3.20.1/examples/data/icon.png'
+			})
+		}),
+		'geoMarker': new ol.style.Style({
+			image: new ol.style.Circle({
+				radius: 7,
+				snapToPixel: false,
+				fill: new ol.style.Fill({color: 'black'}),
+				stroke: new ol.style.Stroke({
+					color: 'white', width: 2
+				})
+			})
+		})
+	};
 	var vectorLayer = new ol.layer.Vector({
 		source: new ol.source.Vector({
 		  features: [Droit, Centre, Gauche]
-		})
+		}),
+		style: function(feature) {
+			// hide geoMarker if animation is active
+			if (animating && feature.get('type') === 'geoMarker') {
+				return null;
+			}
+			return styles[feature.get('type')];
+		}
 	});
 	map.addLayer(vectorLayer);
 	/*var Droit=new google.maps.Marker({

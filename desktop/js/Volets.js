@@ -24,9 +24,9 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 			if (!data.result)
 				$('#div_alert').showAlert({message: 'Aucun message reçu', level: 'error'});
 			if (typeof(data.result.geoloc) !== 'undefined') {
-				var center=data.result.geoloc.configuration.coordinate.split(",");
-				CentreLatLng.lat=parseFloat(center[0]);
-				CentreLatLng.lng=parseFloat(center[1]);
+				CentreLatLng=data.result.geoloc.configuration.coordinate.split(",");
+				//CentreLatLng.lat=parseFloat(center[0]);
+				//CentreLatLng.lng=parseFloat(center[1]);
 				// création de la carte
 				$('#MyMap').show();
 				map = new ol.Map({
@@ -42,7 +42,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 						})
 					}),
 					view: new ol.View({
-						center: center,
+						center: CentreLatLng,
 						zoom: 20
 					})
 				});
@@ -148,11 +148,11 @@ function printEqLogic(_eqLogic) {
 	}	
 }
 function TraceMapZone(_zone){
-	DroitLatLng.lat=CentreLatLng.lat;
-	DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
-	GaucheLatLng.lat=CentreLatLng.lat;
-	GaucheLatLng.lng=CentreLatLng.lng+ (1 / 3600);
-	if (typeof(_zone.configuration.Droite) !== 'undefined' && _zone.configuration.Droite != "" ) {
+	DroitLatLng[0]=CentreLatLng[0];
+	DroitLatLng[1]=CentreLatLng[1]- (1 / 3600);
+	GaucheLatLng[0]=CentreLatLng[0];
+	GaucheLatLng[1]=CentreLatLng[1]+ (1 / 3600);
+	/*if (typeof(_zone.configuration.Droite) !== 'undefined' && _zone.configuration.Droite != "" ) {
 		DroitLatLng.lat=parseFloat(_zone.configuration.Droite.lat);
 		DroitLatLng.lng=parseFloat(_zone.configuration.Droite.lng);
 	}
@@ -163,7 +163,11 @@ function TraceMapZone(_zone){
 	if (typeof(_zone.configuration.Gauche) !== 'undefined' && _zone.configuration.Gauche != "") {
 		GaucheLatLng.lat=parseFloat(_zone.configuration.Gauche.lat);
 		GaucheLatLng.lng=parseFloat(_zone.configuration.Gauche.lng);
-	}
+	}*/
+	var Centre = new ol.Feature({
+        type: 'icon',
+        geometry: new ol.geom.Point(CentreLatLng)
+      });
 	/*var Droit = new OpenLayers.Layer.Markers( _zone.name + " - Droite vue extérieur" );
 	map.addLayer(Droit);
 	Droit.addMarker(new OpenLayers.Marker(DroitLatLng));

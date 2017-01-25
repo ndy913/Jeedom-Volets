@@ -4,9 +4,9 @@ Après avoir nommé ce groupe, nous allons pouvoir commencer à mettre en place 
 ==== Allgemeine Jeedom Konfiguration
 
 image::../images/ConfigurationGeneral.jpg[]
-* Nom : le nom a déjà été paramètré mais vous avez la possibilité de le changer
+* Name : Der Name wurde bereits festgelegt, aber Sie können ihn ändern.
 * Objet parent : ce paramètre permet d'ajouter l'équipement dans un objet Jeedom
-* Catégorie : déclare l'équipement dans une catégorie
+* Kategorie : Ordnet das Gerät in eine Kategorie ein.
 * Visible : permet de rendre l'équipement visible dans le Dashboard
 * Activer : permet d'activer l'équipement
 * Présence : permet de définir des pauses aléatoires dans la séquence de fermeture des volets de la zone

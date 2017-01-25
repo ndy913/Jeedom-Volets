@@ -1,4 +1,4 @@
-= Gestion de volets
+= Fensterläden Verwaltung
 
 == Beschreibung
 Dieses Plugin erlaubt es, ihre Fensterläden zu verwalten.

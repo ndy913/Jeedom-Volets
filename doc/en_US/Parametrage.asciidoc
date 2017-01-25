@@ -1,5 +1,5 @@
-Comme pour tous les plugins, nous allons commencer par créer un groupe de zone avec le bouton Ajouter.
-Après avoir nommé ce groupe, nous allons pouvoir commencer à mettre en place nos zones.
+As with all plugins, we'll start by creating a zone group with the add button.
+After naming this group , we can begin to put in place our areas.
 
 ==== General configuration
 

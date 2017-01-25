@@ -31,6 +31,11 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				$('#MyMap').show();
 				map = new ol.Map({
 					target: 'MyMap',
+					layers: [
+						new ol.layer.Tile({
+							source: new ol.source.OSM()
+						})
+					],
 					view: new ol.View({
 						center: CentreLatLng,
 						zoom: 5
@@ -159,19 +164,22 @@ function TraceMapZone(_zone){
 		geometry: new ol.geom.Point(DroitLatLng),
 		name: _zone.name + " - Droite vue extérieur"
 	});
-	map.addLayer(Droit);
 	var Centre = new ol.Feature({
 		type: 'icon',
 		geometry: new ol.geom.Point(CentreLatLng),
 		name: _zone.name + " - Centre de l'angle d'ouverture"
 	});
-	map.addLayer(Centre);
 	var Gauche = new ol.Feature({
 		type: 'icon',
 		geometry: new ol.geom.Point(GaucheLatLng),
 		name: _zone.name  + " - Gauche vue extérieur"
 	});
-	map.addLayer(Gauche);
+	var vectorLayer = new ol.layer.Vector({
+		source: new ol.source.Vector({
+		  features: [Droit, Centre, Gauche]
+		})
+	});
+	map.addLayer(vectorLayer);
 	/*var Droit=new google.maps.Marker({
 		position: DroitLatLng,
 		map: map,

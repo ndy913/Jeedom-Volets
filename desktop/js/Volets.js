@@ -24,7 +24,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 			if (!data.result)
 				$('#div_alert').showAlert({message: 'Aucun message reçu', level: 'error'});
 			if (typeof(data.result.geoloc) !== 'undefined') {
-				CentreLatLng=data.result.geoloc.configuration.coordinate.split(",");
+				var center=data.result.geoloc.configuration.coordinate.split(",");
+				//CentreLatLng=data.result.geoloc.configuration.coordinate.split(",");
 				CentreLatLng.lat=parseFloat(center[0]);
 				CentreLatLng.lng=parseFloat(center[1]);
 				// création de la carte

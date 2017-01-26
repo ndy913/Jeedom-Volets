@@ -6,7 +6,7 @@ sendVarToJS('eqType', 'Volets');
 $eqLogics = eqLogic::byType('Volets');
 include_file('desktop', 'OpenLayers', 'js', 'Volets');
 ?>
-<!--script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8&libraries=geometry"></script-->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8&libraries=geometry"></script>
 <div class="row row-overflow">
 	<div class="col-lg-2">
 		<div class="bs-sidebar">

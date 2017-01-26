@@ -157,9 +157,9 @@ class Volets extends eqLogic {
 				if($Azimuth>$AngleCntDrt&&$Azimuth<$AngleCntGau)
 					return true;
 			}else{
-				if($Azimuth>$AngleCntGau && $Azimuth<360)
+				if($Azimuth>$AngleCntDrt && $Azimuth<360)
 					return true;
-				if($Azimuth<$AngleCntDrt && $Azimuth>0)
+				if($Azimuth<$AngleCntGau && $Azimuth>0)
 					return true;
 			}
 		}

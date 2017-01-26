@@ -148,7 +148,7 @@ function TraceMapZone(_zone){
 	GaucheLatLng[0]=CentreLatLng[0];
 	GaucheLatLng[1]=CentreLatLng[1]+ (1 / 3600);*/
 	
-	DroitLatLng.lat=CentreLatLng.lat];
+	DroitLatLng.lat=CentreLatLng.lat;
 	DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
 	GaucheLatLng.lat=CentreLatLng.lat;
 	GaucheLatLng.lng=CentreLatLng.lng+ (1 / 3600);

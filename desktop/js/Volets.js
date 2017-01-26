@@ -25,10 +25,23 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				$('#div_alert').showAlert({message: 'Aucun message reçu', level: 'error'});
 			if (typeof(data.result.geoloc) !== 'undefined') {
 				var center=data.result.geoloc.configuration.coordinate.split(",");
+				//CentreLatLng=data.result.geoloc.configuration.coordinate.split(",");
 				CentreLatLng.lat=parseFloat(center[0]);
 				CentreLatLng.lng=parseFloat(center[1]);
 				// création de la carte
 				$('#MyMap').show();
+				/*map = new ol.Map({
+					target: 'MyMap',
+					layers: [
+						new ol.layer.Tile({
+							source: new ol.source.OSM()
+						})
+					],
+					view: new ol.View({
+						center: CentreLatLng,
+						zoom: 5
+					})
+				});*/
 				map = new google.maps.Map( document.getElementById('MyMap'),{
 					'mapTypeControl':  true,
 					'streetViewControl': false,
@@ -131,6 +144,11 @@ function printEqLogic(_eqLogic) {
 	}	
 }
 function TraceMapZone(_zone){
+	/*DroitLatLng[0]=CentreLatLng[0];
+	DroitLatLng[1]=CentreLatLng[1]- (1 / 3600);
+	GaucheLatLng[0]=CentreLatLng[0];
+	GaucheLatLng[1]=CentreLatLng[1]+ (1 / 3600);*/
+	
 	DroitLatLng.lat=CentreLatLng.lat;
 	DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
 	GaucheLatLng.lat=CentreLatLng.lat;
@@ -147,6 +165,56 @@ function TraceMapZone(_zone){
 		GaucheLatLng.lat=parseFloat(_zone.configuration.Gauche.lat);
 		GaucheLatLng.lng=parseFloat(_zone.configuration.Gauche.lng);
 	}
+	/*var Droit = new ol.Feature({
+		type: 'geoMarker',
+		geometry: new ol.geom.Point(DroitLatLng)
+	});
+	var Centre = new ol.Feature({
+		type: 'geoMarker',
+		geometry: new ol.geom.Point(CentreLatLng)
+	});
+	var Gauche = new ol.Feature({
+		type: 'geoMarker',
+		geometry: new ol.geom.Point(GaucheLatLng)
+	});
+	var styles = {
+		'route': new ol.style.Style({
+			stroke: new ol.style.Stroke({
+				width: 6, color: [237, 212, 0, 0.8]
+			})
+		}),
+		'geoMarker': new ol.style.Style({
+			image: new ol.style.Circle({
+				radius: 7,
+				snapToPixel: false,
+				fill: new ol.style.Fill({color: 'black'}),
+				stroke: new ol.style.Stroke({
+					color: 'white', width: 2
+				})
+			})
+		})
+	};
+	var vectorLayer = new ol.layer.Vector({
+		source: new ol.source.Vector({
+		  features: [Droit, Centre, Gauche]
+		}),
+		style: function(feature) {
+			// hide geoMarker if animation is active
+			if (animating && feature.get('type') === 'geoMarker') {
+				return null;
+			}
+			return styles[feature.get('type')];
+		}
+	});
+	map.addLayer(vectorLayer);
+	/*var moveFeature = function(event) {
+		var vectorContext = event.vectorContext;
+		var frameState = event.frameState;
+		vectorContext.drawFeature(feature, styles.geoMarker);
+		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(event.latLng));
+		map.render();
+	};
+	map.on('postcompose', moveFeature);*/
 	var Droit=new google.maps.Marker({
 		position: DroitLatLng,
 		map: map,

@@ -157,9 +157,9 @@ class Volets extends eqLogic {
 				if($Azimuth>$AngleCntDrt&&$Azimuth<$AngleCntGau)
 					return true;
 			}else{
-				if($Azimuth>$AngleCntGau && $Azimuth<360)
+				if($Azimuth>$AngleCntDrt && $Azimuth<360)
 					return true;
-				if($Azimuth<$AngleCntDrt && $Azimuth>0)
+				if($Azimuth<$AngleCntGau && $Azimuth>0)
 					return true;
 			}
 		}
@@ -321,25 +321,28 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public static function AddCommande($eqLogic,$Name,$_logicalId,$Type="info", $SubType='binary') {
+	public static function AddCommande($eqLogic,$Name,$_logicalId,$Type="info", $SubType='binary',$visible,$Template='') {
 		$Commande = $eqLogic->getCmd(null,$_logicalId);
 		if (!is_object($Commande))
 		{
 			$Commande = new VoletsCmd();
 			$Commande->setId(null);
 			$Commande->setName($Name);
+			$Commande->setIsVisible($visible);
 			$Commande->setLogicalId($_logicalId);
 			$Commande->setEqLogic_id($eqLogic->getId());
 			$Commande->setType($Type);
 			$Commande->setSubType($SubType);
 		}
+     		$Commande->setTemplate('dashboard',$Template );
+		$Commande->setTemplate('mobile', $Template);
 		$Commande->save();
 		return $Commande;
 	}
 	public function postSave() {
-		self::AddCommande($this,"Etat du position du soleil","state","info", 'binary');
-		$isInWindows=self::AddCommande($this,"Etat de l\'activité","isInWindows","info","binary");
-		$inWindows=self::AddCommande($this,"Actions dans la fenetre","inWindows","action","other");
+		self::AddCommande($this,"{{Etat du position du soleil}}","state","info", 'binary',true,'sunInWindows');
+		$isInWindows=self::AddCommande($this,"{{Action dans la fenetre}}","isInWindows","info","binary",false,'isInWindows');
+		$inWindows=self::AddCommande($this,"{{Inverser l'action}}","inWindows","action","other",true,'inWindows');
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
 		$this->StartDemon();

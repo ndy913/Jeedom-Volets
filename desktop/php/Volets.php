@@ -4,8 +4,9 @@ throw new Exception('{{401 - Accès non autorisé}}');
 }
 sendVarToJS('eqType', 'Volets');
 $eqLogics = eqLogic::byType('Volets');
+//include_file('desktop', 'OpenLayers', 'js', 'Volets');
 ?>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8&libraries=geometry"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqFW26gzrAcgO7C2mKNr2A9Y76rd8pSQ8"></script>
 <div class="row row-overflow">
 	<div class="col-lg-2">
 		<div class="bs-sidebar">
@@ -20,10 +21,6 @@ $eqLogics = eqLogic::byType('Volets');
 		</div>
 	</div>
 	<div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE; padding-left: 25px;">
-		<!--legend>{{Situations}}</legend>
-		<div class="eqLogicThumbnailContainer">
-			<div id="MyMap" style="width:800px;height:600px;margin:auto;display:block;"></div>
-		</div-->
 		<legend>{{Mes Zones de gestion volets}}</legend>
 		<div class="eqLogicThumbnailContainer">
 			<div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
@@ -228,7 +225,7 @@ $eqLogics = eqLogic::byType('Volets');
 					</form>
 				</div>	
 				<div class="tab-pane active" id="tab_map">	
-					<div id="MyMap" style="width:800px;height:600px;margin:auto;display:block;"></div>
+					<div id="MyMap" style="width:800px;height:600px;margin:auto;"></div>
 				</div>			
 				<div class="tab-pane" id="tab_condition">
 					<form class="form-horizontal">

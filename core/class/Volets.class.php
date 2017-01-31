@@ -154,12 +154,12 @@ class Volets extends eqLogic {
 				$Gauche['lng']);
 			log::add('Volets','debug','La fenêtre d\'ensoleillement '.$this->getHumanName().' est comprise entre : '.$AngleCntDrt.'° et '.$AngleCntGau.'°');
 			if ($AngleCntDrt < $AngleCntGau){
-				if($Azimuth>$AngleCntDrt&&$Azimuth<$AngleCntGau)
+				if($AngleCntDrt <= $Azimuth && $Azimuth <= $AngleCntGau)
 					return true;
 			}else{
-				if($Azimuth>$AngleCntDrt && $Azimuth<360)
+				if($AngleCntDrt <= $Azimuth && $Azimuth <= 360)
 					return true;
-				if($Azimuth<$AngleCntGau && $Azimuth>0)
+				if(0 <= $Azimut && $Azimuth <= $AngleCntGau)
 					return true;
 			}
 		}
@@ -175,17 +175,23 @@ class Volets extends eqLogic {
 		if($this->CheckAngle($Azimuth)){
 			$StateCmd->event(true);
 			log::add('Volets','debug',$this->getHumanName().' Le soleil est dans la fenêtre');
-			if($isInWindows->execCmd())
+			if($isInWindows->execCmd()){
 				$Action='open';
-			else
+				log::add('Volets','debug',$this->getHumanName().' Le plugin est configuré en mode hiver');
+			}else{
 				$Action='close';
+				log::add('Volets','debug',$this->getHumanName().' Le plugin est configuré en mode été');
+			}
 		}else{
 			$StateCmd->event(false);
 			log::add('Volets','debug',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
-			if($isInWindows->execCmd())
+			if($isInWindows->execCmd()){
 				$Action='close';
-			else
+				log::add('Volets','debug',$this->getHumanName().' Le plugin est configuré en mode été');
+			}else{
 				$Action='open';
+				log::add('Volets','debug',$this->getHumanName().' Le plugin est configuré en mode hiver');
+			}
 		}
 		$StateCmd->save();
 		return $Action;

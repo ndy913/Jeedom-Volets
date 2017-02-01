@@ -228,7 +228,8 @@ class Volets extends eqLogic {
 		else
 			$Heure=substr($HeureStart,0,2);
 		$Minute=floatval(substr($HeureStart,-2));
-		$Minute+=floatval($this->getConfiguration($delais));
+		if($this->getConfiguration($delais)!='')
+			$Minute+=floatval($this->getConfiguration($delais));
 		while($Minute>=60){
 			$Minute-=60;
 			$Heure+=1;

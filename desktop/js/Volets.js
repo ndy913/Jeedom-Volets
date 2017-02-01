@@ -61,16 +61,16 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=TypeGes
 	switch($(this).val()){
 		case 'DayNight':
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisEval]').parent().parent().show();
-			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisDay]').parent().parent().show();
-			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().show();
+			//$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisDay]').parent().parent().show();
+			//$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().show();
 			$('.AngleSoleil').show();
 		break;
 		case 'Helioptrope':
 		case 'Other':
 			$('.AngleSoleil').hide();
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisEval]').parent().parent().hide();
-			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisDay]').parent().parent().hide();
-			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().hide();
+			//$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisDay]').parent().parent().hide();
+			//$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().hide();
 		break;
 	}
 });

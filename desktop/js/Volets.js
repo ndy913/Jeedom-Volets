@@ -90,11 +90,11 @@ function getAngle(Coordinates) {
 	}
 
 function saveEqLogic(_eqLogic) {
-	var state_order = '';
+	/*var state_order = '';
     if (!isset(_eqLogic.configuration)) {
         _eqLogic.configuration = {};
     }	
-	if (typeof( _eqLogic.cmd) !== 'undefined') {
+	if (typeof( _eqLogic.cmd) !== 'undefined') {*/
 			_eqLogic.configuration.condition=new Object();
 			_eqLogic.configuration.action=new Object();
 			var ConditionArray= new Array();
@@ -112,7 +112,7 @@ function saveEqLogic(_eqLogic) {
 			_eqLogic.configuration.condition=ConditionArray;
 			_eqLogic.configuration.action.open=OpenArray;
 			_eqLogic.configuration.action.close=CloseArray;
-	}
+	//}
    	return _eqLogic;
 }
 function printEqLogic(_eqLogic) {

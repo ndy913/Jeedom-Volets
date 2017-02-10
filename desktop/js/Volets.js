@@ -90,11 +90,11 @@ function getAngle(Coordinates) {
 	}
 
 function saveEqLogic(_eqLogic) {
-	var state_order = '';
+	/*var state_order = '';
     if (!isset(_eqLogic.configuration)) {
         _eqLogic.configuration = {};
     }	
-	if (typeof( _eqLogic.cmd) !== 'undefined') {
+	if (typeof( _eqLogic.cmd) !== 'undefined') {*/
 			_eqLogic.configuration.condition=new Object();
 			_eqLogic.configuration.action=new Object();
 			var ConditionArray= new Array();
@@ -112,7 +112,7 @@ function saveEqLogic(_eqLogic) {
 			_eqLogic.configuration.condition=ConditionArray;
 			_eqLogic.configuration.action.open=OpenArray;
 			_eqLogic.configuration.action.close=CloseArray;
-	}
+	//}
    	return _eqLogic;
 }
 function printEqLogic(_eqLogic) {
@@ -270,12 +270,12 @@ function TraceMapZone(_zone){
 		});
 }
 function addCondition(_action, _name, _el) {
-	if (!isset(_action)) {
+	/*if (!isset(_action)) {
 		_action = {};
 	}
 	if (!isset(_action.options)) {
 		_action.options = {};
-	}
+	}*/
     	var div = $('<div class="form-group ConditionGroup">')
   		.append($('<label class="col-lg-1 control-label">')
 			.text(_name))
@@ -299,12 +299,12 @@ function addCondition(_action, _name, _el) {
   
 }
 function addAction(_action, _name, _el) {
-	if (!isset(_action)) {
+	/*if (!isset(_action)) {
 		_action = {};
 	}
 	if (!isset(_action.options)) {
 		_action.options = {};
-	}
+	}*/
     	var div = $('<div class="form-group ActionGroup">')
   		.append($('<label class="col-lg-1 control-label">')
 			.text(_name))
@@ -490,12 +490,12 @@ $('body').on( 'click','.bt_selectCmdExpression', function() {
 	});
 });  
 function addCmdToTable(_cmd) {
-  if (!isset(_cmd)) {
+/*  if (!isset(_cmd)) {
         var _cmd = {};
     }
     if (!isset(_cmd.configuration)) {
         _cmd.configuration = {};
-    }
+    }*/
 	var tr =$('<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">');
 	tr.append($('<td>')
 		.append($('<input type="hidden" class="cmdAttr form-control input-sm" data-l1key="id">'))

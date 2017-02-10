@@ -206,10 +206,11 @@ class Volets extends eqLogic {
 					log::add('Volets','debug',$this->getHumanName().' Les conditions sont remplies');
 					$Action=$this->getConfiguration('action');
 					$this->ExecuteAction($Action[$Evenement]);
-				}else
-					log::add('Volets','debug',$this->getHumanName().' Il fait nuit, la gestion par azimuth est désactivé');
+				}
 			}
+			return;
 		}
+		log::add('Volets','debug',$this->getHumanName().' Il fait nuit, la gestion par azimuth est désactivé');
 	}
 	public function ExecuteAction($Action) {	
 		foreach($Action as $cmd){

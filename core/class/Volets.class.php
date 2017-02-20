@@ -166,6 +166,7 @@ class Volets extends eqLogic {
 		return false;			
 	}	
 	public function SelectAction($Azimuth) {
+		$Action=false;
 		$StateCmd=$this->getCmd(null,'state');
 		if(!is_object($StateCmd))
 			return false;
@@ -173,24 +174,28 @@ class Volets extends eqLogic {
 		if(!is_object($isInWindows))
 			return false;
 		if($this->CheckAngle($Azimuth)){
-			$StateCmd->event(true);
-			log::add('Volets','debug',$this->getHumanName().' Le soleil est dans la fenêtre');
-			if($isInWindows->execCmd()){
-				$Action='open';
-				log::add('Volets','debug',$this->getHumanName().' Le plugin est configuré en mode hiver');
-			}else{
-				$Action='close';
-				log::add('Volets','debug',$this->getHumanName().' Le plugin est configuré en mode été');
+			if(!$StateCmd->execCmd()){
+				$StateCmd->event(true);
+				log::add('Volets','debug',$this->getHumanName().' Le soleil est dans la fenêtre');
+				if($isInWindows->execCmd()){
+					$Action='open';
+					log::add('Volets','debug',$this->getHumanName().' Le plugin est configuré en mode hiver');
+				}else{
+					$Action='close';
+					log::add('Volets','debug',$this->getHumanName().' Le plugin est configuré en mode été');
+				}
 			}
 		}else{
-			$StateCmd->event(false);
-			log::add('Volets','debug',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
-			if($isInWindows->execCmd()){
-				$Action='close';
-				log::add('Volets','debug',$this->getHumanName().' Le plugin est configuré en mode été');
-			}else{
-				$Action='open';
-				log::add('Volets','debug',$this->getHumanName().' Le plugin est configuré en mode hiver');
+			if($StateCmd->execCmd()){
+				$StateCmd->event(false);
+				log::add('Volets','debug',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
+				if($isInWindows->execCmd()){
+					$Action='close';
+					log::add('Volets','debug',$this->getHumanName().' Le plugin est configuré en mode été');
+				}else{
+					$Action='open';
+					log::add('Volets','debug',$this->getHumanName().' Le plugin est configuré en mode hiver');
+				}
 			}
 		}
 		$StateCmd->save();

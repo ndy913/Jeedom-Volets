@@ -1,17 +1,17 @@
 <div style="width:100px;min-height:90px;" class="cmd #history# tooltips cmd-widget" data-type="action" data-subtype="other" data-cmd_id="#id#" title="#collectDate#">
     <center>
-        <img class="action iconCmd#id#"/>
+        <img class="action iconCmd#id#" src="plugins/Volets/core/template/images/ModeOpen.png" width="80px">
         <span class='cmdName' style="font-weight: bold;font-size : 12px;">#name#</span>
     </center>
     <script>
         $('.iconCmd#id#').empty();
         if ('#state#' == '1' || '#state#' == '99' || '#state#' == 'on') {
-            $('.iconCmd#id#').attr('src','../images/ModeOpen.png');
+            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeOpen.png');
   if (jeedom.cmd.normalizeName('#name#') == 'on') {
                 $('.cmd[data-cmd_id=#id#]').hide();
             }
         } else {
-            $('.iconCmd#id#').attr('src','../images/ModeClose.png');
+            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeClose.png');
             if (jeedom.cmd.normalizeName('#name#') == 'off') {
                 $('.cmd[data-cmd_id=#id#]').hide();
             }

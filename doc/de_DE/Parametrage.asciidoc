@@ -16,12 +16,12 @@ image::../images/ConfigurationGeneral.jpg[]
 * Délai après le lever du jour : délai ajouté à l'heure du lever du jour
 * Délai avant la tombée de la nuit : délai retiré à l'heure de la tombée de la nuit
 
-==== Créer une Zone
+==== Eine Zone erstellen
 Nous allons créer une zone en cliquant sur l'onglet ajouter.
 Celui ci va nous demander de le nomer.
 Une fois fait, un nouvelle onglet vas etre créer
 
-==== Définition de la Zone
+==== Raum definieren
 La zone créée, nous avons besoin de définir où est notre fenêtre, ou zone de fenêtres.
 Pour cela il suffit de deplacer les marqueurs droite et gauche de la fenêtre sur la carte.
 

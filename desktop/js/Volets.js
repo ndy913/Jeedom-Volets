@@ -289,7 +289,7 @@ function addCondition(_action, _name, _el) {
 			       .append($('<option value="all">')
 					.text('{{Position du soleil et Jour / Nuit}}'))
 			       .append($('<option value="Helioptrope">')
-					.text('{{{Position du soleil}}'))
+					.text('{{Position du soleil}}'))
 			       .append($('<option value="DayNight">')
 					.text('{{Jour / Nuit}}'))))		
 		.append($('<div class="col-lg-3">')

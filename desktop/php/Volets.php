@@ -174,7 +174,7 @@ $eqLogics = eqLogic::byType('Volets');
 									</select>
 								</div>
 							</div>
-							<div class="form-group">
+							<!--div class="form-group">
 								<label class="col-sm-2 control-label">{{Choisir le type de gestion du groupe}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="Sélectionner le type de gestion"></i>
@@ -184,10 +184,9 @@ $eqLogics = eqLogic::byType('Volets');
 									<select class="eqLogicAttr" data-l1key="configuration" data-l2key="TypeGestion">
 										<option value="DayNight">Jour / Nuit</option>
 										<option value="Helioptrope">Position du soleil</option>
-										<!--option value="Other">Action particuliere</option-->
 									</select>	
 								</div>
-							</div>								
+							</div-->								
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Délai au lever du jour (min)}}
 									<sup>

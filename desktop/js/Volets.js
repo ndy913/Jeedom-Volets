@@ -57,7 +57,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		}
 	});
 });
-$('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=TypeGestion]',function(){
+/*$('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=TypeGestion]',function(){
 	switch($(this).val()){
 		case 'DayNight':
 			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisEval]').parent().parent().show();
@@ -73,7 +73,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=TypeGes
 			//$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().hide();
 		break;
 	}
-});
+});*/
 function getAngle(Coordinates) {
 		var longDelta = Coordinates[1].lng - Coordinates[0].lng;
 		var y = Math.sin(longDelta) * Math.cos(Coordinates[1].lat);
@@ -284,6 +284,14 @@ function addCondition(_action, _name, _el) {
 				.append($('<i class="fa fa-list-alt">'))))
 		.append($('<div class="col-lg-3">')
 			.append($('<input class="expressionAttr form-control input-sm cmdCondition" data-l1key="expression" />')))
+		.append($('<div class="col-lg-3">')
+			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="TypeGestion" />')
+			       .append($('<option value="all">')
+					.text('{{Position du soleil et Jour / Nuit}}'))
+			       .append($('<option value="Helioptrope">')
+					.text('{{{Position du soleil}}'))
+			       .append($('<option value="DayNight">')
+					.text('{{Jour / Nuit}}'))))		
 		.append($('<div class="col-lg-3">')
 			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="evaluation" />')
 			       .append($('<option value="all">')

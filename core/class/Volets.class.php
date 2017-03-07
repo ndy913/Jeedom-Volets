@@ -80,7 +80,7 @@ class Volets extends eqLogic {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'debug', 'Exécution de la gestion du lever du soleil '.$Volet->getHumanName());
-			$result=$Volet->EvaluateCondition('open');
+			$result=$Volet->EvaluateCondition('open','DayNight');
 			if($result){
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['open']);
@@ -97,7 +97,7 @@ class Volets extends eqLogic {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'debug', 'Exécution de la gestion du coucher du soleil '.$Volet->getHumanName());
-			$result=$Volet->EvaluateCondition('close');
+			$result=$Volet->EvaluateCondition('close','DayNight');
 			if($result){
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['close']);
@@ -206,7 +206,7 @@ class Volets extends eqLogic {
 			log::add('Volets', 'debug', 'Exécution de '.$this->getHumanName());
 			$Evenement=$this->SelectAction($Azimuth);
 			if($Evenement != false){
-				$result=$this->EvaluateCondition($Evenement);
+				$result=$this->EvaluateCondition($Evenement,'Helioptrope');
 				if($result){
 					log::add('Volets','debug',$this->getHumanName().' Les conditions sont remplies');
 					$Action=$this->getConfiguration('action');
@@ -260,9 +260,9 @@ class Volets extends eqLogic {
 			}
 		return $cron;
 	}
-	public function EvaluateCondition($evaluate){
+	public function EvaluateCondition($evaluate,$TypeGestion){
 		foreach($this->getConfiguration('condition') as $condition){
-			if($evaluate==$condition['evaluation']||$condition['evaluation']=='all'){
+			if(($evaluate==$condition['evaluation']||$condition['evaluation']=='all')&&($TypeGestion==$condition['TypeGestion']||$condition['TypeGestion']=='all')){
 				$expression = scenarioExpression::setTags($condition['expression']);
 				$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 				$result = evaluate($expression);
@@ -307,28 +307,20 @@ class Volets extends eqLogic {
 				$listener->emptyEvent();
 				$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
 				$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());
-				switch($this->getConfiguration('TypeGestion')){	
-					case 'Other':	
-					break;
-					case 'Helioptrope':
-						$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-					break;
-					case 'DayNight':
-						$sunrise=$heliotrope->getCmd(null,'sunrise');
-						if(is_object($sunrise)){
-							$value=$sunrise->execCmd();
-							$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
-							$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-							$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
-						}
-						$sunset=$heliotrope->getCmd(null,'sunset');
-						if(is_object($sunset)){
-							$value=$sunset->execCmd();
-							$timstamp=$this->CalculHeureEvent($value,'DelaisNight');
-							$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-							$cron = $this->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($this->getId())));
-						}
-					break;
+				$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
+				$sunrise=$heliotrope->getCmd(null,'sunrise');
+				if(is_object($sunrise)){
+					$value=$sunrise->execCmd();
+					$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
+					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+					$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
+				}
+				$sunset=$heliotrope->getCmd(null,'sunset');
+				if(is_object($sunset)){
+					$value=$sunset->execCmd();
+					$timstamp=$this->CalculHeureEvent($value,'DelaisNight');
+					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+					$cron = $this->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($this->getId())));
 				}
 				$listener->save();	
 			}

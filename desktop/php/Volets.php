@@ -149,13 +149,13 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>						
 							<div class="form-group Presence" style="display: none;">
-								<label class="col-sm-2 control-label">{{Temps maximum pour la simulation de présence}}
+								<label class="col-sm-2 control-label">{{Temps maximum pour la simulation de présence (min)}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délai maximum entre l'execution des action"></i>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délai maximum entre l'execution des action (min)"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisPresence" placeholder="{{Saisir le délai maximum entre l'execution des action}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisPresence" placeholder="{{Saisir le délai maximum entre l'execution des action (min)}}"/>
 								</div>
 							</div>
 							<div class="form-group">
@@ -189,33 +189,33 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>								
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Délai au lever du jour}}
+								<label class="col-sm-2 control-label">{{Délai au lever du jour (min)}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (+) ou après (-)"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Délai au lever du jour}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Délai au lever du jour (min)}}"/>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Délai à la tombée de la nuit}}
+								<label class="col-sm-2 control-label">{{Délai à la tombée de la nuit (min)}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (+) ou après (-)"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Délai à la tombée de la nuit}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Délai à la tombée de la nuit (min)}}"/>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Délais d'attente avant réévaluation si les conditions ne sont pas respectées}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délai de réévaluation des conditions"></i>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délai de réévaluation des conditions (min)"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation (min)}}"/>
 								</div>
 							</div>
 							<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>

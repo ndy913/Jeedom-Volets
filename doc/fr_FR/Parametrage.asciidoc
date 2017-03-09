@@ -36,7 +36,9 @@ image::../images/ConfigurationCondition.jpg[]
 Pour vous aider a la configuration des condition un editeur est ajouté.
 
 image::../images/ConfigurationConditionEditeur.jpg[]
+
 Il vous reste 2 champs a configurer
+
 * Choisir sur quel gestion on veut que notre condition soit respecté
 * Choisir pour quel action on veut que notre condition soit respecté
 

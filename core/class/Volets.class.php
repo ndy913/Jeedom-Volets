@@ -11,15 +11,13 @@ class Volets extends eqLogic {
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 				if (!is_object($listener))
 					return $return;
-				switch($Volet->getConfiguration('TypeGestion')){
-					case 'DayNight':
-						$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
-						if (!is_object($cron)) 	
-							return $return;
-						$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $Volet->getId()));
-						if (!is_object($cron)) 	
-							return $return;
-					break;
+				if ($Volet->getConfiguration('DayNight')){
+					$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
+					if (!is_object($cron)) 	
+						return $return;
+					$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $Volet->getId()));
+					if (!is_object($cron)) 	
+						return $return;
 				}
 			}
 		}
@@ -298,6 +296,12 @@ class Volets extends eqLogic {
 		if($this->getIsEnable()){
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
+				$sunrise=$heliotrope->getCmd(null,'sunrise');
+				if(is_object($sunrise))
+					return false;
+				$sunset=$heliotrope->getCmd(null,'sunset');
+				if(is_object($sunset))
+					return false;
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
 				if (!is_object($listener))
 				    $listener = new listener();
@@ -305,18 +309,15 @@ class Volets extends eqLogic {
 				$listener->setFunction('pull');
 				$listener->setOption(array('Volets_id' => $this->getId()));
 				$listener->emptyEvent();
-				$listener->addEvent($heliotrope->getCmd(null,'sunrise')->getId());
-				$listener->addEvent($heliotrope->getCmd(null,'sunset')->getId());
-				$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-				$sunrise=$heliotrope->getCmd(null,'sunrise');
-				if(is_object($sunrise)){
+				$listener->addEvent($sunrise->getId());
+				$listener->addEvent($sunset->getId());
+				if ($Volet->getConfiguration('Helioptrope'))
+					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
+				if ($Volet->getConfiguration('DayNight')){
 					$value=$sunrise->execCmd();
 					$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
 					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
-				}
-				$sunset=$heliotrope->getCmd(null,'sunset');
-				if(is_object($sunset)){
 					$value=$sunset->execCmd();
 					$timstamp=$this->CalculHeureEvent($value,'DelaisNight');
 					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
@@ -345,9 +346,9 @@ class Volets extends eqLogic {
 		return $Commande;
 	}
 	public function postSave() {
-		self::AddCommande($this,"{{Etat du position du soleil}}","state","info", 'binary',true,'sunInWindows');
-		$isInWindows=self::AddCommande($this,"{{Action dans la fenetre}}","isInWindows","info","binary",false,'isInWindows');
-		$inWindows=self::AddCommande($this,"{{Inverser l'action}}","inWindows","action","other",true,'inWindows');
+		self::AddCommande($this,"Position du soleil","state","info", 'binary',true,'sunInWindows');
+		$isInWindows=self::AddCommande($this,"Etat mode","isInWindows","info","binary",false,'isInWindows');
+		$inWindows=self::AddCommande($this,"Mode","inWindows","action","other",true,'inWindows');
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
 		$this->StartDemon();

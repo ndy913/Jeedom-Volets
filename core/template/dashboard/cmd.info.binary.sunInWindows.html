@@ -1,14 +1,14 @@
 <div style="width:90px;min-height:80px;" class="cmd #history# tooltips cmd-widget" data-type="info" data-subtype="binary" data-cmd_id="#id#" data-cmd_uid="#uid#" title="Valeur du #valueDate#, collectée le #collectDate#">
     <center>
         <span class='cmdName' style="font-weight: bold;font-size : 12px;">#name_display#</span>
-        <span style="font-size: 3.5em;" class="iconCmd#uid#"></span>
+        <img class="iconCmd#uid#" src="plugins/Volets/core/template/images/SunInWindows.png" width="80px">
     </center>
     <script>
         $('.iconCmd#uid#').empty();
         if ('#state#' == '1') {
-            $('.iconCmd#uid#').append('<i class="icon meteo-soleil"></i>');
+            $('.iconCmd#uid#').attr('src','plugins/Volets/core/template/images/SunInWindows.png');
         }else {
-            $('.iconCmd#uid#').append('<i class="icon jeedom-volet-ouvert"></i>');
+            $('.iconCmd#uid#').attr('src','plugins/Volets/core/template/images/SunOutWindows.png');
         }
     </script>
 </div>

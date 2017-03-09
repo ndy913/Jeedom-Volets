@@ -174,6 +174,20 @@ $eqLogics = eqLogic::byType('Volets');
 									</select>
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" >
+									{{Choisir les gestions desirer}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Choisissez les types de gestion que vous souhaitez pour cette zone" style="font-size : 1em;color:grey;"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<label>{{Jour / Nuit}}</label>
+									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Jour / Nuit}}" data-l1key="DayNight" checked/>
+									<label>{{Position du soleil}}</label>
+									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Position du soleil}}" data-l1key="Helioptrope" checked/>
+								</div>
+							</div>
 							<!--div class="form-group">
 								<label class="col-sm-2 control-label">{{Choisir le type de gestion du groupe}}
 									<sup>
@@ -190,7 +204,7 @@ $eqLogics = eqLogic::byType('Volets');
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Délai au lever du jour (min)}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (+) ou après (-)"></i>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (-) ou après (+)"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -200,7 +214,7 @@ $eqLogics = eqLogic::byType('Volets');
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Délai à la tombée de la nuit (min)}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (+) ou après (-)"></i>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (-) ou après (+)"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -208,7 +222,7 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Délais d'attente avant réévaluation si les conditions ne sont pas respectées}}
+								<label class="col-sm-2 control-label">{{Délais de réévaluation (min)}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="Saisir le délai de réévaluation des conditions (min)"></i>
 									</sup>

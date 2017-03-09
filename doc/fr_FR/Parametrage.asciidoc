@@ -22,7 +22,6 @@ Nous allons maintenant déterminer l'angle d'exposition au soleil.
 Cette etape est importante pour le fonctionement de la gestion en fonction de la position du soleil.
 
 image::../images/ConfigurationMap.jpg[]
-
 Sur votre fenetre doit apparaitre 3 curseurs.
 Ces 3 curseur vont donc former notre angle
 Le point central doit etre obligatoirement placé au dessus de notre fenetre.
@@ -34,15 +33,14 @@ Dans nos differentes gestions nous pouvons choisir des conditions
 Toutes les conditions, de la gestion active, doivent etre respecté pour que les actions soit executé
 
 image::../images/ConfigurationCondition.jpg[]
-
 Pour vous aider a la configuration des condition un editeur est ajouté.
-image::../images/ConfigurationConditionEditeur.jpg[]
 
+image::../images/ConfigurationConditionEditeur.jpg[]
 Il vous reste 2 champs a configurer
 * Choisir sur quel gestion on veut que notre condition soit respecté
 * Choisir pour quel action on veut que notre condition soit respecté
 
 ==== Actions d'ouverture et de fermeture
-image::../images/ConfigurationAction.jpg[]
 
+image::../images/ConfigurationAction.jpg[]
 Choisissez les actions a mener sans oublier de configurer leur valeurs

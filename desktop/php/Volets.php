@@ -222,7 +222,7 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Délais d'attente avant réévaluation si les conditions ne sont pas respectées}}
+								<label class="col-sm-2 control-label">{{Délais de réévaluation (min)}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="Saisir le délai de réévaluation des conditions (min)"></i>
 									</sup>

@@ -11,8 +11,8 @@ class Volets extends eqLogic {
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 				if (!is_object($listener))
 					return $return;
-				log::add('Volets', 'debug', 'Gestion Jours nuit => ' . json_encode($Volet->getConfiguration('DayNight')));
-				if ($Volet->getConfiguration('DayNight')){
+				//log::add('Volets', 'debug', 'Gestion Jours nuit => ' . json_encode($Volet->getConfiguration('DayNight')));
+				//if ($Volet->getConfiguration('DayNight')){
 					$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
 					if (!is_object($cron)) 	
 						return $return;
@@ -312,9 +312,9 @@ class Volets extends eqLogic {
 				$listener->emptyEvent();
 				$listener->addEvent($sunrise->getId());
 				$listener->addEvent($sunset->getId());
-				if ($this->getConfiguration('Helioptrope'))
+				//if ($this->getConfiguration('Helioptrope'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-				if ($this->getConfiguration('DayNight')){
+				//if ($this->getConfiguration('DayNight')){
 					$value=$sunrise->execCmd();
 					$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
 					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
@@ -323,7 +323,7 @@ class Volets extends eqLogic {
 					$timstamp=$this->CalculHeureEvent($value,'DelaisNight');
 					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($this->getId())));
-				}
+				//}
 				$listener->save();	
 			}
 		}

@@ -183,9 +183,9 @@ $eqLogics = eqLogic::byType('Volets');
 								</label>
 								<div class="col-sm-5">
 									<label>{{Jour / Nuit}}</label>
-									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Jour / Nuit}}" data-l1key="DayNight" checked/>
+									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Jour / Nuit}}" data-l1key="configuration" data-l2key="DayNight" checked/>
 									<label>{{Position du soleil}}</label>
-									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Position du soleil}}" data-l1key="Helioptrope" checked/>
+									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Position du soleil}}" data-l1key="configuration" data-l2key="Helioptrope" checked/>
 								</div>
 							</div>
 							<!--div class="form-group">

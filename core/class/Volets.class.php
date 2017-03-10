@@ -6,7 +6,7 @@ class Volets extends eqLogic {
 		$return['log'] = 'Volets';
 		$return['launchable'] = 'ok';
 		$return['state'] = 'nok';
-		foreach(eqLogic::byType('Volets') as $Volet){
+		/*foreach(eqLogic::byType('Volets') as $Volet){
 			if($Volet->getIsEnable()){
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 				if (!is_object($listener))
@@ -21,7 +21,7 @@ class Volets extends eqLogic {
 						return $return;
 				//}
 			}
-		}
+		}*/
 		$return['state'] = 'ok';
 		return $return;
 	}

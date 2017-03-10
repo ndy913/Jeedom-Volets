@@ -297,10 +297,10 @@ class Volets extends eqLogic {
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
 				$sunrise=$heliotrope->getCmd(null,'sunrise');
-				if(is_object($sunrise))
+				if(!is_object($sunrise))
 					return false;
 				$sunset=$heliotrope->getCmd(null,'sunset');
-				if(is_object($sunset))
+				if(!is_object($sunset))
 					return false;
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
 				if (!is_object($listener))
@@ -311,9 +311,9 @@ class Volets extends eqLogic {
 				$listener->emptyEvent();
 				$listener->addEvent($sunrise->getId());
 				$listener->addEvent($sunset->getId());
-				if ($Volet->getConfiguration('Helioptrope'))
+				if ($this->getConfiguration('Helioptrope'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-				if ($Volet->getConfiguration('DayNight')){
+				if ($this->getConfiguration('DayNight')){
 					$value=$sunrise->execCmd();
 					$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
 					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';

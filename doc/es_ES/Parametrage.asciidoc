@@ -9,27 +9,41 @@ image::../images/ConfigurationGeneral.jpg[]
 * Catégorie : déclare l'équipement dans une catégorie
 * Visible : permet de rendre l'équipement visible dans le Dashboard
 * Activer : permet d'activer l'équipement
+* Jour / Nuit : Activation de la gestion en jour / nuit
+* Position du soleil : Activation de la gestion en fonction de la position du soleil
 * Présence : permet de définir des pauses aléatoires dans la séquence de fermeture des volets de la zone
 * Héliotrope : choisir l'équipement Héliotrope à prendre en compte pour ce groupe de zone
-* Activation de la gestion par rayonnement : permet d'activer la gestion du rayonnement solaire
-* Activation de la gestion jour/nuit : permet de définir si vous voulez ouvrir et fermer vos volet avec le jour et la nuit
-* Délai après le lever du jour : délai ajouté à l'heure du lever du jour
-* Délai avant la tombée de la nuit : délai retiré à l'heure de la tombée de la nuit
+* Délai au lever du jour (min) : délai avant (-) ou après (+) à l'heure du lever du jour
+* Délai à la tombée de la nuit (min) : délai avant (-) ou après (+) à l'heure de la tombée de la nuit
+* Délais de réévaluation (min) : Délais d'attente avant réévaluation si les conditions ne sont pas respectées
 
-==== Créer une Zone
-Nous allons créer une zone en cliquant sur l'onglet ajouter.
-Celui ci va nous demander de le nomer.
-Une fois fait, un nouvelle onglet vas etre créer
-
-==== Définition de la Zone
-La zone créée, nous avons besoin de définir où est notre fenêtre, ou zone de fenêtres.
-Pour cela il suffit de deplacer les marqueurs droite et gauche de la fenêtre sur la carte.
+==== Définition de l'angle d'exposition au soleil 
+Nous allons maintenant déterminer l'angle d'exposition au soleil.
+Cette etape est importante pour le fonctionement de la gestion en fonction de la position du soleil.
 
 image::../images/ConfigurationMap.jpg[]
+Sur votre fenetre doit apparaitre 3 curseurs.
+Ces 3 curseur vont donc former notre angle
+Le point central doit etre obligatoirement placé au dessus de notre fenetre.
+Les 2 autres vont formé l'ange et peuvent etre placer n'importe ou a l'exterieur de la maison 
+Attention toutefoiss a bien respecter la droite et la gauche de notre fenetre en vue de l'exterieur
 
-==== Configuration 
-image::../images/ConfigurationConditionAction.jpg[]
+==== Conditions d'exécution
+Dans nos differentes gestions nous pouvons choisir des conditions
+Toutes les conditions, de la gestion active, doivent etre respecté pour que les actions soit executé
 
-* Angle d'ensoleillement de la Zone : est un indicateur de l'angle de votre fenêtre par rapport au nord
-* Ajouter vos conditions
-* Ajouter vos actions
+image::../images/ConfigurationCondition.jpg[]
+Pour vous aider a la configuration des condition un editeur est ajouté.
+
+image::../images/ConfigurationConditionEditeur.jpg[]
+image::../images/ConfigurationConditionEditeur2.jpg[]
+
+Il vous reste 2 champs a configurer
+
+* Choisir sur quel gestion on veut que notre condition soit respecté
+* Choisir pour quel action on veut que notre condition soit respecté
+
+==== Actions d'ouverture et de fermeture
+
+image::../images/ConfigurationAction.jpg[]
+Choisissez les actions a mener sans oublier de configurer leur valeurs

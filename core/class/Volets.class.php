@@ -19,7 +19,7 @@ class Volets extends eqLogic {
 					$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $Volet->getId()));
 					if (!is_object($cron)) 	
 						return $return;
-				}
+				//}
 			}
 		}
 		$return['state'] = 'ok';

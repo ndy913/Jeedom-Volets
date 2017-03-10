@@ -11,14 +11,14 @@ class Volets extends eqLogic {
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 				if (!is_object($listener))
 					return $return;
-				if ($Volet->getConfiguration('DayNight')){
+				//if ($Volet->getConfiguration('DayNight')){
 					$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
 					if (!is_object($cron)) 	
 						return $return;
 					$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $Volet->getId()));
 					if (!is_object($cron)) 	
 						return $return;
-				}
+				//}
 			}
 		}
 		$return['state'] = 'ok';

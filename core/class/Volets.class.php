@@ -259,25 +259,36 @@ class Volets extends eqLogic {
 		return $cron;
 	}
 	public function EvaluateCondition($evaluate,$TypeGestion){
+		$isInWindows=$this->getCmd(null,'isInWindows');
+		if(!is_object($isInWindows))
+			return false;
 		foreach($this->getConfiguration('condition') as $condition){
-			if(($evaluate==$condition['evaluation']||$condition['evaluation']=='all')&&($TypeGestion==$condition['TypeGestion']||$condition['TypeGestion']=='all')){
-				$expression = scenarioExpression::setTags($condition['expression']);
-				$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
-				$result = evaluate($expression);
-				if (is_bool($result)) {
-					if ($result) {
-						$message .= __('Vrai', __FILE__);
-					} else {
-						$message .= __('Faux', __FILE__);
-					}
+			if($isInWindows>execCmd())
+				$mode="ete";
+			else
+				$mode="hivers";
+			if(($mode!=$condition['ModeGestion']||$condition['ModeGestion']!='all'))
+				break;
+			if(($evaluate!=$condition['evaluation']||$condition['evaluation']!='all'))
+				break;
+			if(($TypeGestion!=$condition['TypeGestion']||$condition['TypeGestion']!='all'))
+				break;
+			$expression = scenarioExpression::setTags($condition['expression']);
+			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
+			$result = evaluate($expression);
+			if (is_bool($result)) {
+				if ($result) {
+					$message .= __('Vrai', __FILE__);
 				} else {
-					$message .= $result;
+					$message .= __('Faux', __FILE__);
 				}
-				log::add('Volets','info',$this->getHumanName().' : '.$message);
-				if(!$result){
-					log::add('Volets','debug',$this->getHumanName().' Les conditions ne sont pas remplies');
-					return false;
-				}
+			} else {
+				$message .= $result;
+			}
+			log::add('Volets','info',$this->getHumanName().' : '.$message);
+			if(!$result){
+				log::add('Volets','debug',$this->getHumanName().' Les conditions ne sont pas remplies');
+				return false;
 			}
 		}
 		return true;

@@ -57,23 +57,6 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		}
 	});
 });
-/*$('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=TypeGestion]',function(){
-	switch($(this).val()){
-		case 'DayNight':
-			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisEval]').parent().parent().show();
-			//$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisDay]').parent().parent().show();
-			//$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().show();
-			$('.AngleSoleil').show();
-		break;
-		case 'Helioptrope':
-		case 'Other':
-			$('.AngleSoleil').hide();
-			$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisEval]').parent().parent().hide();
-			//$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisDay]').parent().parent().hide();
-			//$('.eqLogicAttr[data-l1key=configuration][data-l2key=DelaisNight]').parent().parent().hide();
-		break;
-	}
-});*/
 function getAngle(Coordinates) {
 		var longDelta = Coordinates[1].lng - Coordinates[0].lng;
 		var y = Math.sin(longDelta) * Math.cos(Coordinates[1].lat);
@@ -90,29 +73,23 @@ function getAngle(Coordinates) {
 	}
 
 function saveEqLogic(_eqLogic) {
-	/*var state_order = '';
-    if (!isset(_eqLogic.configuration)) {
-        _eqLogic.configuration = {};
-    }	
-	if (typeof( _eqLogic.cmd) !== 'undefined') {*/
-			_eqLogic.configuration.condition=new Object();
-			_eqLogic.configuration.action=new Object();
-			var ConditionArray= new Array();
-			var OpenArray= new Array();
-			var CloseArray= new Array();
-			$('#tab_condition .ConditionGroup').each(function( index ) {
-				ConditionArray.push($(this).getValues('.expressionAttr')[0])
-			});
-			$('#tab_ouverture .ActionGroup').each(function( index ) {
-				OpenArray.push($(this).getValues('.expressionAttr')[0])
-			});
-			$('#tab_fermeture .ActionGroup').each(function( index ) {
-				CloseArray.push($(this).getValues('.expressionAttr')[0])
-			});
-			_eqLogic.configuration.condition=ConditionArray;
-			_eqLogic.configuration.action.open=OpenArray;
-			_eqLogic.configuration.action.close=CloseArray;
-	//}
+	_eqLogic.configuration.condition=new Object();
+	_eqLogic.configuration.action=new Object();
+	var ConditionArray= new Array();
+	var OpenArray= new Array();
+	var CloseArray= new Array();
+	$('#tab_condition .ConditionGroup').each(function( index ) {
+		ConditionArray.push($(this).getValues('.expressionAttr')[0])
+	});
+	$('#tab_ouverture .ActionGroup').each(function( index ) {
+		OpenArray.push($(this).getValues('.expressionAttr')[0])
+	});
+	$('#tab_fermeture .ActionGroup').each(function( index ) {
+		CloseArray.push($(this).getValues('.expressionAttr')[0])
+	});
+	_eqLogic.configuration.condition=ConditionArray;
+	_eqLogic.configuration.action.open=OpenArray;
+	_eqLogic.configuration.action.close=CloseArray;
    	return _eqLogic;
 }
 function printEqLogic(_eqLogic) {
@@ -270,12 +247,6 @@ function TraceMapZone(_zone){
 		});
 }
 function addCondition(_action, _name, _el) {
-	/*if (!isset(_action)) {
-		_action = {};
-	}
-	if (!isset(_action.options)) {
-		_action.options = {};
-	}*/
     	var div = $('<div class="form-group ConditionGroup">')
   		.append($('<label class="col-lg-1 control-label">')
 			.text(_name))
@@ -294,6 +265,8 @@ function addCondition(_action, _name, _el) {
 					.text('{{Jour / Nuit}}'))))		
 		.append($('<div class="col-lg-3" Helioptrope>')
 			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="ModeGestion" />')
+			       .append($('<option value="all">')
+					.text('{{Toutes saisons}}'))
 			       .append($('<option value="ete">')
 					.text('{{Eté}}'))
 			       .append($('<option value="hivers">')
@@ -313,12 +286,6 @@ function addCondition(_action, _name, _el) {
   
 }
 function addAction(_action, _name, _el) {
-	/*if (!isset(_action)) {
-		_action = {};
-	}
-	if (!isset(_action.options)) {
-		_action.options = {};
-	}*/
     	var div = $('<div class="form-group ActionGroup">')
   		.append($('<label class="col-lg-1 control-label">')
 			.text(_name))

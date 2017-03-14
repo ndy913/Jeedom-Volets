@@ -172,7 +172,7 @@ class Volets extends eqLogic {
 		if(!is_object($isInWindows))
 			return false;
 		if($this->CheckAngle($Azimuth)){
-			if(!$StateCmd->execCmd()){
+			if(!$StateCmd->execCmd() || $StateCmd->execCmd()!= ""){
 				$StateCmd->event(true);
 				log::add('Volets','debug',$this->getHumanName().' Le soleil est dans la fenêtre');
 				if($isInWindows->execCmd()){
@@ -184,7 +184,7 @@ class Volets extends eqLogic {
 				}
 			}
 		}else{
-			if($StateCmd->execCmd()){
+			if($StateCmd->execCmd() || $StateCmd->execCmd()!= ""){
 				$StateCmd->event(false);
 				log::add('Volets','debug',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
 				if($isInWindows->execCmd()){

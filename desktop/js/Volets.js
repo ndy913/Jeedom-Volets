@@ -292,6 +292,12 @@ function addCondition(_action, _name, _el) {
 					.text('{{Position du soleil}}'))
 			       .append($('<option value="DayNight">')
 					.text('{{Jour / Nuit}}'))))		
+		.append($('<div class="col-lg-3" Helioptrope>')
+			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="ModeGestion" />')
+			       .append($('<option value="ete">')
+					.text('{{Eté}}'))
+			       .append($('<option value="hivers">')
+					.text('{{Hivers}}'))))		
 		.append($('<div class="col-lg-3">')
 			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="evaluation" />')
 			       .append($('<option value="all">')
@@ -332,6 +338,17 @@ function addAction(_action, _name, _el) {
 $('#tab_zones a').click(function(e) {
     e.preventDefault();
     $(this).tab('show');
+});
+$('body').on('change','.expressionAttr[data-l1key=TypeGestion]', function (event) {
+    switch($(this).value()){
+	    case "all":
+	    case "Helioptrope":
+		    $(this).closest('.ConditionGroup').find('.Helioptrope').show();
+		    break;
+	    case "DayNight":
+		    $(this).closest('.ConditionGroup').find('.Helioptrope').hide();
+		    break;
+	   }
 });
 $('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
     var expression = $(this).closest('.ActionGroup').getValues('.expressionAttr');

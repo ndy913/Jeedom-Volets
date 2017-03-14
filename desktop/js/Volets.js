@@ -309,10 +309,10 @@ $('#tab_zones a').click(function(e) {
 $('body').on('change','.expressionAttr[data-l1key=TypeGestion]', function (event) {
     switch($(this).value()){
 	    case "all":
-	    case "Helioptrope":
+	    case "ete":
 		    $(this).closest('.ConditionGroup').find('.Helioptrope').show();
 		    break;
-	    case "DayNight":
+	    case "hivers":
 		    $(this).closest('.ConditionGroup').find('.Helioptrope').hide();
 		    break;
 	   }

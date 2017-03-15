@@ -259,20 +259,11 @@ class Volets extends eqLogic {
 		return $cron;
 	}
 	public function EvaluateCondition($evaluate,$TypeGestion){
-		$isInWindows=$this->getCmd(null,'isInWindows');
-		if(!is_object($isInWindows))
-			return false;
 		foreach($this->getConfiguration('condition') as $condition){
-			if($isInWindows>execCmd())
-				$mode="ete";
-			else
-				$mode="hivers";
-			if(($mode!=$condition['ModeGestion']||$condition['ModeGestion']!='all'))
-				break;
 			if(($evaluate!=$condition['evaluation']||$condition['evaluation']!='all'))
-				break;
+				continue;
 			if(($TypeGestion!=$condition['TypeGestion']||$condition['TypeGestion']!='all'))
-				break;
+				continue;
 			$expression = scenarioExpression::setTags($condition['expression']);
 			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 			$result = evaluate($expression);

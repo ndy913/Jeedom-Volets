@@ -261,23 +261,15 @@ function addCondition(_action, _name, _el) {
 			       .append($('<option value="Helioptrope">')
 					.text('{{Position du soleil}}'))
 			       .append($('<option value="DayNight">')
-					.text('{{Jour / Nuit}}'))))		
-		.append($('<div class="col-lg-2" Helioptrope>')
-			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="ModeGestion" />')
-			       .append($('<option value="all">')
-					.text('{{Toutes saisons}}'))
-			       .append($('<option value="ete">')
-					.text('{{Eté}}'))
-			       .append($('<option value="hivers">')
-					.text('{{Hivers}}'))))		
+					.text('{{Jour / Nuit}}'))))			
 		.append($('<div class="col-lg-2">')
 			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="evaluation" />')
 			       .append($('<option value="all">')
-					.text('{{Ouverture et Fermeture}}'))
-			       .append($('<option value="open">')
-					.text('{{Ouverture}}'))
+					.text('{{Toutes les saisons}}'))
 			       .append($('<option value="close">')
-					.text('{{Fermeture}}'))))
+					.text('{{Eté}}'))
+			       .append($('<option value="open">')
+					.text('{{Hivers}}'))))
  		.append($('<div class="col-lg-2">')
   			.append($('<i class="fa fa-minus-circle pull-left cursor conditionAttr" data-action="remove">')));
         _el.append(div);
@@ -304,17 +296,6 @@ function addAction(_action, _name, _el) {
 $('#tab_zones a').click(function(e) {
     e.preventDefault();
     $(this).tab('show');
-});
-$('body').on('change','.expressionAttr[data-l1key=TypeGestion]', function (event) {
-    switch($(this).value()){
-	    case "all":
-	    case "Helioptrope":
-		    $(this).closest('.ConditionGroup').find('.Helioptrope').show();
-		    break;
-	    case "DayNight":
-		    $(this).closest('.ConditionGroup').find('.Helioptrope').hide();
-		    break;
-	   }
 });
 $('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
     var expression = $(this).closest('.ActionGroup').getValues('.expressionAttr');

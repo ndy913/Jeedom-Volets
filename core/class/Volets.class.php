@@ -260,26 +260,24 @@ class Volets extends eqLogic {
 	}
 	public function EvaluateCondition($evaluate,$TypeGestion){
 		foreach($this->getConfiguration('condition') as $condition){
-			if(($evaluate!=$condition['evaluation']||$condition['evaluation']!='all'))
-				continue;
-			if(($TypeGestion!=$condition['TypeGestion']||$condition['TypeGestion']!='all'))
-				continue;
-			$expression = scenarioExpression::setTags($condition['expression']);
-			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
-			$result = evaluate($expression);
-			if (is_bool($result)) {
-				if ($result) {
-					$message .= __('Vrai', __FILE__);
+			if(($evaluate==$condition['evaluation']||$condition['evaluation']=='all') && ($TypeGestion==$condition['TypeGestion']||$condition['TypeGestion']=='all')){			
+				$expression = scenarioExpression::setTags($condition['expression']);
+				$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
+				$result = evaluate($expression);
+				if (is_bool($result)) {
+					if ($result) {
+						$message .= __('Vrai', __FILE__);
+					} else {
+						$message .= __('Faux', __FILE__);
+					}
 				} else {
-					$message .= __('Faux', __FILE__);
+					$message .= $result;
 				}
-			} else {
-				$message .= $result;
-			}
-			log::add('Volets','info',$this->getHumanName().' : '.$message);
-			if(!$result){
-				log::add('Volets','debug',$this->getHumanName().' Les conditions ne sont pas remplies');
-				return false;
+				log::add('Volets','info',$this->getHumanName().' : '.$message);
+				if(!$result){
+					log::add('Volets','debug',$this->getHumanName().' Les conditions ne sont pas remplies');
+					return false;
+				}
 			}
 		}
 		return true;

@@ -83,10 +83,13 @@ class Volets extends eqLogic {
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['open']);
 			}else{
-				$DelaisEval=$Volet->getConfiguration('DelaisEval'); 
-				$Shedule = new DateTime();
-				$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
-				$Volet->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
+				$timstamp=$Volet->CalculHeureEvent($value,'$Volet');
+				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
+				//$DelaisEval=$Volet->getConfiguration('DelaisEval'); 
+				//$Shedule = new DateTime();
+				//$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
+				//$Volet->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
 			}
 		}
 	}
@@ -100,11 +103,14 @@ class Volets extends eqLogic {
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['close']);
 			}else{
-				$DelaisEval=$Volet->getConfiguration('DelaisEval'); 
+				$timstamp=$Volet->CalculHeureEvent($value,'$Volet');
+				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
+				//$DelaisEval=$Volet->getConfiguration('DelaisEval'); 
 				//replannifer le cron
-				$Shedule = new DateTime();
-				$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
-				$Volet->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
+				//$Shedule = new DateTime();
+				//$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
+				//$Volet->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
 			}
 		}
 	} 

@@ -83,10 +83,14 @@ class Volets extends eqLogic {
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['open']);
 			}else{
-				$DelaisEval=$Volet->getConfiguration('DelaisEval'); 
-				$Shedule = new DateTime();
-				$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
-				$Volet->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
+				log::add('Volets', 'debug', 'Replanification de l\'évaluation des conditiond d\'ouverture au lever du soleil');
+				$timstamp=$Volet->CalculHeureEvent($value,'$Volet');
+				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
+				//$DelaisEval=$Volet->getConfiguration('DelaisEval'); 
+				//$Shedule = new DateTime();
+				//$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
+				//$Volet->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
 			}
 		}
 	}
@@ -100,11 +104,15 @@ class Volets extends eqLogic {
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['close']);
 			}else{
-				$DelaisEval=$Volet->getConfiguration('DelaisEval'); 
+				log::add('Volets', 'debug', 'Replanification de l\'évaluation des conditiond de fermeture au coucher du soleil');
+				$timstamp=$Volet->CalculHeureEvent($value,'$Volet');
+				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
+				//$DelaisEval=$Volet->getConfiguration('DelaisEval'); 
 				//replannifer le cron
-				$Shedule = new DateTime();
-				$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
-				$Volet->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
+				//$Shedule = new DateTime();
+				//$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
+				//$Volet->CreateCron($Shedule->format("i H d m *"), 'ActionJour');
 			}
 		}
 	} 
@@ -172,7 +180,7 @@ class Volets extends eqLogic {
 		if(!is_object($isInWindows))
 			return false;
 		if($this->CheckAngle($Azimuth)){
-			if(!$StateCmd->execCmd()){
+			if(!$StateCmd->execCmd() || $StateCmd->execCmd()!= ""){
 				$StateCmd->event(true);
 				log::add('Volets','debug',$this->getHumanName().' Le soleil est dans la fenêtre');
 				if($isInWindows->execCmd()){
@@ -184,7 +192,7 @@ class Volets extends eqLogic {
 				}
 			}
 		}else{
-			if($StateCmd->execCmd()){
+			if($StateCmd->execCmd() || $StateCmd->execCmd()!= ""){
 				$StateCmd->event(false);
 				log::add('Volets','debug',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
 				if($isInWindows->execCmd()){
@@ -260,7 +268,7 @@ class Volets extends eqLogic {
 	}
 	public function EvaluateCondition($evaluate,$TypeGestion){
 		foreach($this->getConfiguration('condition') as $condition){
-			if(($evaluate==$condition['evaluation']||$condition['evaluation']=='all')&&($TypeGestion==$condition['TypeGestion']||$condition['TypeGestion']=='all')){
+			if(($evaluate==$condition['evaluation']||$condition['evaluation']=='all') && ($TypeGestion==$condition['TypeGestion']||$condition['TypeGestion']=='all')){			
 				$expression = scenarioExpression::setTags($condition['expression']);
 				$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 				$result = evaluate($expression);

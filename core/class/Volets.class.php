@@ -83,6 +83,7 @@ class Volets extends eqLogic {
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['open']);
 			}else{
+				log::add('Volets', 'debug', 'Replanification de l\'évaluation des conditiond d\'ouverture au lever du soleil');
 				$timstamp=$Volet->CalculHeureEvent($value,'$Volet');
 				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
@@ -103,6 +104,7 @@ class Volets extends eqLogic {
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['close']);
 			}else{
+				log::add('Volets', 'debug', 'Replanification de l\'évaluation des conditiond de fermeture au coucher du soleil');
 				$timstamp=$Volet->CalculHeureEvent($value,'$Volet');
 				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));

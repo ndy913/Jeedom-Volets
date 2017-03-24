@@ -86,7 +86,7 @@ class Volets extends eqLogic {
 				log::add('Volets', 'debug', 'Replanification de l\'évaluation des conditiond d\'ouverture au lever du soleil');
 				$timstamp=$Volet->CalculHeureEvent($value,'$Volet');
 				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
+				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($Volet->getId())));
 				//$DelaisEval=$Volet->getConfiguration('DelaisEval'); 
 				//$Shedule = new DateTime();
 				//$Shedule->add(new DateInterval('PT'.$DelaisEval.'S'));
@@ -107,7 +107,7 @@ class Volets extends eqLogic {
 				log::add('Volets', 'debug', 'Replanification de l\'évaluation des conditiond de fermeture au coucher du soleil');
 				$timstamp=$Volet->CalculHeureEvent($value,'$Volet');
 				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
+				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($Volet->getId())));
 				//$DelaisEval=$Volet->getConfiguration('DelaisEval'); 
 				//replannifer le cron
 				//$Shedule = new DateTime();

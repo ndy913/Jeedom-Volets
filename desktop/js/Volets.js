@@ -279,18 +279,24 @@ function addCondition(_action, _name, _el) {
   
 }
 function addAction(_action, _name, _el) {
-    	var div = $('<div class="form-group ActionGroup">')
-  		.append($('<label class="col-lg-1 control-label">')
+	var div = $('<div class="form-group ActionGroup">')
+		.append($('<label class="col-sm-1 control-label">')
 			.text(_name))
-   		.append($('<div class="col-lg-2">')
+		.append($('<div class="col-sm-4 has-success">')
 			.append($('<div class="input-group">')
-				.append($('<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd">'))
 				.append($('<span class="input-group-btn">')
-					.append($('<a class="btn btn-warning btn-sm listCmdAction">')
-						.append($('<i class="fa fa-list-alt">'))))))
-		.append($('<div class="col-lg-2 actionOptions">')
-    			.append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))))
- 		.append($('<div class="col-lg-2">')
+					.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable"/>'))
+					.append($('<a class="btn btn-default bt_removeAction btn-sm" data-type="inAction">')
+						.append($('<i class="fa fa-minus-circle">'))))
+				.append($('<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="inAction"/>'))
+				.append($('<span class="input-group-btn">')
+					.append($('<a class="btn btn-success btn-sm listAction" data-type="inAction" title="Sélectionner un mot-clé">')
+						.append($('<i class="fa fa-tasks">')))
+					.append($('<a class="btn btn-success btn-sm listCmdAction" data-type="inAction">')
+						.append($('<i class="fa fa-list-alt">'))))
+		.append($('<div class="col-sm-7 actionOptions">')
+		       .append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options)))
+ 		.append($('<div class="col-sm-8">')
   			.append($('<i class="fa fa-minus-circle pull-left cursor ActionAttr" data-action="remove">')));
         _el.append(div);
         _el.find('.ActionGroup:last').setValues(_action, '.expressionAttr');
@@ -449,28 +455,25 @@ $('body').on('click','.ActionAttr[data-action=add]',function(){
 $('body').on('click','.ActionAttr[data-action=remove]', function () {
 	$(this).closest('.ActionGroup').remove();
 });
-$("body").on('click', ".listCmdAction", function() {
-    	var el = $(this).closest('.form-group').find('.expressionAttr[data-l1key=cmd]');
-    	jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function(result) {
+$("body").on('click', ".listAction", function() {
+	var el = $(this).closest('.form-group').find('.expressionAttr[data-l1key=cmd]');
+	jeedom.getSelectActionModal({}, function (result) {
 		el.value(result.human);
-        	jeedom.cmd.displayActionOption(el.value(), '', function(html) {
+		jeedom.cmd.displayActionOption(el.value(), '', function (html) {
 			el.closest('.form-group').find('.actionOptions').html(html);
-        	});
-    	});
-});
-$('body').on( 'click','.bt_selectCmdExpression', function() {
-	var _this=this;
-	jeedom.cmd.getSelectModal({cmd: {type: 'info'},eqLogic: {eqType_name : ''}}, function (result) {
-		$(_this).closest('.input-group').find('.cmdAttr').val(result.human);
+		});
 	});
-});  
+}); 
+$("body").on('click', ".listCmdAction", function() {
+	var el = $(this).closest('.form-group').find('.expressionAttr[data-l1key=cmd]');
+	jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function (result) {
+		el.value(result.human);
+		jeedom.cmd.displayActionOption(el.value(), '', function (html) {
+			el.closest('.form-group').find('.actionOptions').html(html);
+		});
+	});
+});
 function addCmdToTable(_cmd) {
-/*  if (!isset(_cmd)) {
-        var _cmd = {};
-    }
-    if (!isset(_cmd.configuration)) {
-        _cmd.configuration = {};
-    }*/
 	var tr =$('<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">');
 	tr.append($('<td>')
 		.append($('<input type="hidden" class="cmdAttr form-control input-sm" data-l1key="id">'))

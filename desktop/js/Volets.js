@@ -293,7 +293,7 @@ function addAction(_action, _name, _el) {
 					.append($('<a class="btn btn-success btn-sm listAction" data-type="inAction" title="Sélectionner un mot-clé">')
 						.append($('<i class="fa fa-tasks">')))
 					.append($('<a class="btn btn-success btn-sm listCmdAction" data-type="inAction">')
-						.append($('<i class="fa fa-list-alt">'))))
+						.append($('<i class="fa fa-list-alt">')))))
 		.append($('<div class="col-sm-7 actionOptions">')
 		       .append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options)))
  		.append($('<div class="col-sm-8">')

@@ -130,15 +130,15 @@ function TraceMapZone(_zone){
 	DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
 	GaucheLatLng.lat=CentreLatLng.lat;
 	GaucheLatLng.lng=CentreLatLng.lng+ (1 / 3600);
-	if (typeof(_zone.configuration.Droite) !== 'undefined' && _zone.configuration.Droite != "" ) {
+	if (typeof(_zone.configuration.Droite.lat) !== 'undefined' && _zone.configuration.Droite.lat != "" && typeof(_zone.configuration.Droite.lng) !== 'undefined' && _zone.configuration.Droite.lng != "" ) {
 		DroitLatLng.lat=parseFloat(_zone.configuration.Droite.lat);
 		DroitLatLng.lng=parseFloat(_zone.configuration.Droite.lng);
 	}
-	if (typeof(_zone.configuration.Centre) !== 'undefined' && _zone.configuration.Centre != "" ) {
+	if (typeof(_zone.configuration.Centre.lat) !== 'undefined' && _zone.configuration.Centre.lat != "" && typeof(_zone.configuration.Centre.lng) !== 'undefined' && _zone.configuration.Centre.lng != "" ) {
 		CentreLatLng.lat=parseFloat(_zone.configuration.Centre.lat);
 		CentreLatLng.lng=parseFloat(_zone.configuration.Centre.lng);
 	}
-	if (typeof(_zone.configuration.Gauche) !== 'undefined' && _zone.configuration.Gauche != "") {
+	if (typeof(_zone.configuration.Gauche.lat) !== 'undefined' && _zone.configuration.Gauche.lat != "" && typeof(_zone.configuration.Gauche.lng) !== 'undefined' && _zone.configuration.Gauche.lng != "" ) {
 		GaucheLatLng.lat=parseFloat(_zone.configuration.Gauche.lat);
 		GaucheLatLng.lng=parseFloat(_zone.configuration.Gauche.lng);
 	}

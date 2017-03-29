@@ -95,13 +95,13 @@ class Volets extends eqLogic {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'debug', 'Exécution de la gestion du coucher du soleil '.$Volet->getHumanName());
-			$result=$Volet->EvaluateCondition('close','DelaisNight');
+			$result=$Volet->EvaluateCondition('close','DayNight');
 			if($result){
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['close']);
 			}else{
 				log::add('Volets', 'debug', 'Replanification de l\'évaluation des conditiond de fermeture au coucher du soleil');
-				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DayNight');
+				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisDay');
 				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($Volet->getId())));
 			}

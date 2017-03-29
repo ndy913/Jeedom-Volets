@@ -103,7 +103,7 @@ class Volets extends eqLogic {
 				log::add('Volets', 'debug', 'Replanification de l\'évaluation des conditiond de fermeture au coucher du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
 				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
-				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($Volet->getId())));
+				$cron = $Volet->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($Volet->getId())));
 			}
 		}
 	} 

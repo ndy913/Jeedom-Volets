@@ -216,12 +216,23 @@ class Volets extends eqLogic {
 	}
 	public function ExecuteAction($Action) {	
 		foreach($Action as $cmd){
+			if (isset($cmd['enable']) && $cmd['enable'] == 0)
+				continue;
+			try {
+				$options = array();
+				if (isset($cmd['options'])) {
+					$options = $cmd['options'];
+				}
+				scenarioExpression::createAndExec('action', $cmd['cmd'], $options);
+			} catch (Exception $e) {
+				log::add('alarm', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+			}
 			$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
 			if(is_object($Commande)){
 				if($this->getConfiguration('isRandom'))
 				   sleep(rand(0,$this->getConfiguration('DelaisPresence')));
 				log::add('Volets','debug',$this->getHumanName().' Exécution de '.$Commande->getHumanName());
-				$Commande->execute($cmd['options']);
+				$Commande->event($cmd['options']);
 			}
 		}
 	}

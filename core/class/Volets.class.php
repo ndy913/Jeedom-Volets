@@ -386,6 +386,7 @@ class Volets extends eqLogic {
 class VoletsCmd extends cmd {
     	public function execute($_options = null) {	
 		switch($this->getLogicalId()){
+			case 'arme':
 			case 'inWindows':
 				$Listener=cmd::byId(str_replace('#','',$this->getValue()));
 				if (is_object($Listener)) {

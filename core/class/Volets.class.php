@@ -365,8 +365,8 @@ class Volets extends eqLogic {
 		$inWindows=self::AddCommande($this,"Mode","inWindows","action","other",true,'inWindows');
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
-		$isArmed=self::AddCommande($this,"Etat d'activation","isArmed","info","binary",false,'isArmed');
-		$Armed=self::AddCommande($this,"Activer","arme","action","other",true,'arme');
+		$isArmed=self::AddCommande($this,"Etat d'activation","isArmed","info","binary",false,'lock');
+		$Armed=self::AddCommande($this,"Activer","arme","action","other",true,'lock');
 		$Armed->setValue($isArmed->getId());
 		$Armed->save();
 		$this->StartDemon();

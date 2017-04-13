@@ -198,21 +198,25 @@ class Volets extends eqLogic {
 		$StateCmd->save();
 		return $Action;
 	}
-	public function ActionAzimute($Azimuth) {
-		if($this->checkJour()){
-			log::add('Volets', 'debug', 'Exécution de '.$this->getHumanName());
-			$Evenement=$this->SelectAction($Azimuth);
-			if($Evenement != false){
-				$result=$this->EvaluateCondition($Evenement,'Helioptrope');
-				if($result){
-					log::add('Volets','debug',$this->getHumanName().' Les conditions sont remplies');
-					$Action=$this->getConfiguration('action');
-					$this->ExecuteAction($Action[$Evenement]);
+	public function ActionAzimute($Azimuth) {	
+		if($this->getCmd(null,'isArmed')->execCmd()){
+			if($this->checkJour()){
+				log::add('Volets', 'debug', 'Exécution de '.$this->getHumanName());
+				$Evenement=$this->SelectAction($Azimuth);
+				if($Evenement != false){
+					$result=$this->EvaluateCondition($Evenement,'Helioptrope');
+					if($result){
+						log::add('Volets','debug',$this->getHumanName().' Les conditions sont remplies');
+						$Action=$this->getConfiguration('action');
+						$this->ExecuteAction($Action[$Evenement]);
+					}
 				}
+				return;
 			}
-			return;
+			log::add('Volets','debug',$this->getHumanName().' Il fait nuit, la gestion par azimuth est désactivé');
 		}
-		log::add('Volets','debug',$this->getHumanName().' Il fait nuit, la gestion par azimuth est désactivé');
+		else
+			log::add('Volets','debug',$this->getHumanName().' Gestion par azimute désactivé');
 	}
 	public function ExecuteAction($Action) {	
 		foreach($Action as $cmd){
@@ -361,6 +365,10 @@ class Volets extends eqLogic {
 		$inWindows=self::AddCommande($this,"Mode","inWindows","action","other",true,'inWindows');
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
+		$isArmed=self::AddCommande($this,"Etat d'activation","isArmed","info","binary",false,'isArmed');
+		$Armed=self::AddCommande($this,"Activer","arme","action","other",true,'arme');
+		$Armed->setValue($isArmed->getId());
+		$Armed->save();
 		$this->StartDemon();
 	}	
 	public function postRemove() {

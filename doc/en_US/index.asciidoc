@@ -1,11 +1,16 @@
 = Management of the shutters
 
 == Description
-Ce plugin permet de gérer facilement vos volets.
+Ce plugin a pour but  de gérer facilement et automatiquement vos volets.
 Celui-ci est entièrement basé sur le plugin Heliotrope qui est un prérequis pour l'utilisation de ce plugin.
 
-Vous avez la possibilité de fermer vos volets à la tombée de la nuit et de les réouvrir au lever du soleil.
-Vous avez également la possibilité de gérer vos volets pour qu'ils se ferment si le soleil est dans l'azimuth de votre fenêtre.
+Une fois configurer, 
+* le plugin gerera automatiquement l'ouverture et la fermerture de vos volet au levée du soleil et a latombée de la nuit
+* En mode été, il fermeras les volets lorsque le soleil sera dans la fenetre, afin de préserver une température ideal dans la maison
+* En mode hiver, il ouvirira les volets pour permetre au soleil de chauffer la piece et faire des economies d'energie
+
+== Commande et widget
+include::Commandes.asciidoc[]
 
 == Paramétrage
 include::Parametrage.asciidoc[]

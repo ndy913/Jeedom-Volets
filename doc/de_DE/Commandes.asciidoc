@@ -13,7 +13,7 @@ L'icone si dessus montre le mode été, le volet fermé lorsque le soleil est da
 image::../images/ModeOpen.png[]	
 L'icone si dessus montre le mode hivers, le volet ouvert lorsque le soleil est dans la fenetre
 
-=== la position du soleil
+=== Sonnenposition
 Cette commande nous informe si le soleil est dans la fenetre ou pas
  
 image::../images/SunInWindows.png[]	

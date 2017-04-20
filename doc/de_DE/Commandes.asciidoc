@@ -2,7 +2,7 @@ Pour chaque equipement, le plugin vas creer des commande
 
 image::../images/Volets_screenshot_Widget.jpg[]
 
-=== Le mode et son etat
+=== Der Modus und sein Zustand
 
 Ces 2 commandes vont vous permetre de basculer le plugin en mode été ou hivers.
 C'est a vous de determiner a quel moment on doit gerer se changement

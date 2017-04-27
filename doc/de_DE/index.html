@@ -417,12 +417,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toctitle">Table des matières</div>
 <ul class="sectlevel1">
 <li><a href="#_beschreibung">1. Beschreibung</a></li>
-<li><a href="#_einrichtung">2. Einrichtung</a>
+<li><a href="#_commande_et_widget">2. Commande et widget</a>
+<ul class="sectlevel2">
+<li><a href="#_der_modus_und_sein_zustand">2.1. Der Modus und sein Zustand</a></li>
+<li><a href="#_sonnenposition">2.2. Sonnenposition</a></li>
+</ul>
+</li>
+<li><a href="#_einrichtung">3. Einrichtung</a>
 <ul class="sectlevel3">
-<li><a href="#_allgemeine_jeedom_konfiguration">2.1. Allgemeine Jeedom Konfiguration</a></li>
-<li><a href="#_définition_de_l_angle_d_exposition_au_soleil">2.2. Définition de l&#8217;angle d&#8217;exposition au soleil</a></li>
-<li><a href="#_conditions_d_exécution">2.3. Conditions d&#8217;exécution</a></li>
-<li><a href="#_actions_d_ouverture_et_de_fermeture">2.4. Actions d&#8217;ouverture et de fermeture</a></li>
+<li><a href="#_allgemeine_jeedom_konfiguration">3.1. Allgemeine Jeedom Konfiguration</a></li>
+<li><a href="#_définition_de_l_angle_d_exposition_au_soleil">3.2. Définition de l&#8217;angle d&#8217;exposition au soleil</a></li>
+<li><a href="#_conditions_d_exécution">3.3. Conditions d&#8217;exécution</a></li>
+<li><a href="#_actions_d_ouverture_et_de_fermeture">3.4. Actions d&#8217;ouverture et de fermeture</a></li>
 </ul>
 </li>
 </ul>
@@ -433,24 +439,94 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_beschreibung">1. Beschreibung</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Dieses Plugin erlaubt es, ihre Fensterläden zu verwalten.
+<p>Ce plugin a pour but  de gérer facilement et automatiquement vos volets.
 Celui-ci est entièrement basé sur le plugin Heliotrope qui est un prérequis pour l&#8217;utilisation de ce plugin.</p>
 </div>
 <div class="paragraph">
-<p>Vous avez la possibilité de fermer vos volets à la tombée de la nuit et de les réouvrir au lever du soleil.
-Vous avez également la possibilité de gérer vos volets pour qu&#8217;ils se ferment si le soleil est dans l&#8217;azimuth de votre fenêtre.</p>
+<p>Une fois configurer,</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>le plugin gérera automatiquement l&#8217;ouverture et la fermerture de vos volets au levée du soleil et à la tombée de la nuit</p>
+</li>
+<li>
+<p>En mode été, il fermera les volets lorsque le soleil sera dans la fenêtre, afin de préserver une température idéal dans la maison</p>
+</li>
+<li>
+<p>En mode hiver, il ouvrira les volets pour permettre au soleil de chauffer la piece et faire des économies d&#8217;énergie</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_einrichtung">2. Einrichtung</h2>
+<h2 id="_commande_et_widget">2. Commande et widget</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Pour chaque equipement, le plugin vas creer des commande</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/Volets_screenshot_Widget.jpg" alt="Volets screenshot Widget">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_der_modus_und_sein_zustand">2.1. Der Modus und sein Zustand</h3>
+<div class="paragraph">
+<p>Ces 2 commandes vont vous permetre de basculer le plugin en mode été ou hivers.
+C&#8217;est a vous de determiner a quel moment on doit gerer se changement</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ModeClose.png" alt="ModeClose">
+</div>
+</div>
+<div class="paragraph">
+<p>L&#8217;icone si dessus montre le mode été, le volet fermé lorsque le soleil est dans la fenetre</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ModeOpen.png" alt="ModeOpen">
+</div>
+</div>
+<div class="paragraph">
+<p>L&#8217;icone si dessus montre le mode hivers, le volet ouvert lorsque le soleil est dans la fenetre</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sonnenposition">2.2. Sonnenposition</h3>
+<div class="paragraph">
+<p>Cette commande nous informe si le soleil est dans la fenetre ou pas</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SunInWindows.png" alt="SunInWindows">
+</div>
+</div>
+<div class="paragraph">
+<p>Dans la fenetre</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SunOutWindows.png" alt="SunOutWindows">
+</div>
+</div>
+<div class="paragraph">
+<p>Hors fenetres</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_einrichtung">3. Einrichtung</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Comme pour tous les plugins, nous allons commencer par créer un groupe de zone avec le bouton Ajouter.
 Après avoir nommé ce groupe, nous allons pouvoir commencer à mettre en place nos zones.</p>
 </div>
 <div class="sect3">
-<h4 id="_allgemeine_jeedom_konfiguration">2.1. Allgemeine Jeedom Konfiguration</h4>
+<h4 id="_allgemeine_jeedom_konfiguration">3.1. Allgemeine Jeedom Konfiguration</h4>
 <div class="imageblock">
 <div class="content">
 <img src="../images/ConfigurationGeneral.jpg" alt="ConfigurationGeneral">
@@ -498,7 +574,7 @@ Après avoir nommé ce groupe, nous allons pouvoir commencer à mettre en place 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_définition_de_l_angle_d_exposition_au_soleil">2.2. Définition de l&#8217;angle d&#8217;exposition au soleil</h4>
+<h4 id="_définition_de_l_angle_d_exposition_au_soleil">3.2. Définition de l&#8217;angle d&#8217;exposition au soleil</h4>
 <div class="paragraph">
 <p>Nous allons maintenant déterminer l&#8217;angle d&#8217;exposition au soleil.
 Cette etape est importante pour le fonctionement de la gestion en fonction de la position du soleil.</p>
@@ -517,7 +593,7 @@ Attention toutefoiss a bien respecter la droite et la gauche de notre fenetre en
 </div>
 </div>
 <div class="sect3">
-<h4 id="_conditions_d_exécution">2.3. Conditions d&#8217;exécution</h4>
+<h4 id="_conditions_d_exécution">3.3. Conditions d&#8217;exécution</h4>
 <div class="paragraph">
 <p>Dans nos differentes gestions nous pouvons choisir des conditions
 Toutes les conditions, de la gestion active, doivent etre respecté pour que les actions soit executé</p>
@@ -555,7 +631,7 @@ Toutes les conditions, de la gestion active, doivent etre respecté pour que les
 </div>
 </div>
 <div class="sect3">
-<h4 id="_actions_d_ouverture_et_de_fermeture">2.4. Actions d&#8217;ouverture et de fermeture</h4>
+<h4 id="_actions_d_ouverture_et_de_fermeture">3.4. Actions d&#8217;ouverture et de fermeture</h4>
 <div class="imageblock">
 <div class="content">
 <img src="../images/ConfigurationAction.jpg" alt="ConfigurationAction">

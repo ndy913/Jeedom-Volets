@@ -323,11 +323,11 @@ class Volets extends eqLogic {
 				$listener->setFunction('pull');
 				$listener->setOption(array('Volets_id' => $this->getId()));
 				$listener->emptyEvent();
-				$listener->addEvent($sunrise->getId());
-				$listener->addEvent($sunset->getId());
 				if ($this->getConfiguration('Helioptrope'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
 				if ($this->getConfiguration('DayNight')){
+					$listener->addEvent($sunrise->getId());
+					$listener->addEvent($sunset->getId());
 					$value=$sunrise->execCmd();
 					$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
 					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';

@@ -4,7 +4,7 @@ Après avoir nommé ce groupe, nous allons pouvoir commencer à mettre en place 
 ==== Configuration générale Jeedom
 
 image::../images/ConfigurationGeneral.jpg[]
-* Nom : le nom a déjà été paramètré mais vous avez la possibilité de le changer
+* Nom : le nom a déjà été paramétré mais vous avez la possibilité de le changer
 * Objet parent : ce paramètre permet d'ajouter l'équipement dans un objet Jeedom
 * Catégorie : déclare l'équipement dans une catégorie
 * Visible : permet de rendre l'équipement visible dans le Dashboard
@@ -22,28 +22,28 @@ Nous allons maintenant déterminer l'angle d'exposition au soleil.
 Cette etape est importante pour le fonctionement de la gestion en fonction de la position du soleil.
 
 image::../images/ConfigurationMap.jpg[]
-Sur votre fenetre doit apparaitre 3 curseurs.
-Ces 3 curseur vont donc former notre angle
-Le point central doit etre obligatoirement placé au dessus de notre fenetre.
-Les 2 autres vont formé l'ange et peuvent etre placer n'importe ou a l'exterieur de la maison 
-Attention toutefoiss a bien respecter la droite et la gauche de notre fenetre en vue de l'exterieur
+Sur votre fenêtre doit apparaitre 3 curseurs.
+Ces 3 curseurs vont donc former notre angle
+Le point central doit etre obligatoirement placé au dessus de notre fenêtre.
+Les 2 autres vont former l'ange et peuvent être placés n'importe où à l'extérieur de la maison 
+Attention toutefois a bien respecter la droite et la gauche de votre fenêtre vue de l'exterieur
 
 ==== Conditions d'exécution
-Dans nos differentes gestions nous pouvons choisir des conditions
-Toutes les conditions, de la gestion active, doivent etre respecté pour que les actions soit executé
+Dans nos differentes gestions, nous pouvons choisir des conditions
+Toutes les conditions, de la gestion active, doivent être respectées pour que les actions soient executées
 
 image::../images/ConfigurationCondition.jpg[]
-Pour vous aider a la configuration des condition un editeur est ajouté.
+Pour vous aider a la configuration des conditions, un editeur est ajouté.
 
 image::../images/ConfigurationConditionEditeur.jpg[]
 image::../images/ConfigurationConditionEditeur2.jpg[]
 
-Il vous reste 2 champs a configurer
+Il vous reste 2 champs à configurer
 
-* Choisir sur quel gestion on veut que notre condition soit respecté
-* Choisir pour quel action on veut que notre condition soit respecté
+* Choisir sur quel gestion on veut que notre condition soit respectée
+* Choisir pour quel action on veut que notre condition soit respectée
 
 ==== Actions d'ouverture et de fermeture
 
 image::../images/ConfigurationAction.jpg[]
-Choisissez les actions a mener sans oublier de configurer leur valeurs
+Choisissez les actionsàa mener sans oublier de configurer leur valeurs

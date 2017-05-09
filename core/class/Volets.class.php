@@ -371,7 +371,7 @@ class Volets extends eqLogic {
 		$Armed->setConfiguration('state', '1');
 		$Armed->setConfiguration('armed', '1');
 		$Armed->save();
-		$Released=self::AddCommande($this,"released","disable","action","other",true,'lock');
+		$Released=self::AddCommande($this,"Desactiver","released","action","other",true,'lock');
 		$Released->setValue($isArmed->getId());
 		$Released->save();
 		$Released->setConfiguration('state', '0');

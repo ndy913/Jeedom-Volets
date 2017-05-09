@@ -366,12 +366,16 @@ class Volets extends eqLogic {
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
 		$isArmed=self::AddCommande($this,"Etat activation","isArmed","info","binary",false,'lock');
-		$Armed=self::AddCommande($this,"Activer","arme","action","other",true,'lock');
+		$Armed=self::AddCommande($this,"Activer","armed","action","other",true,'lock');
 		$Armed->setValue($isArmed->getId());
+		$Armed->setConfiguration('state', '1');
+		$Armed->setConfiguration('armed', '1');
 		$Armed->save();
-		$Disable=self::AddCommande($this,"Desactiver","disable","action","other",true,'lock');
-		$Disable->setValue($isArmed->getId());
-		$Disable->save();
+		$Released=self::AddCommande($this,"released","disable","action","other",true,'lock');
+		$Released->setValue($isArmed->getId());
+		$Released->save();
+		$Released->setConfiguration('state', '0');
+		$Released->setConfiguration('armed', '1');
 		$this->StartDemon();
 	}	
 	public function postRemove() {
@@ -391,10 +395,10 @@ class VoletsCmd extends cmd {
 		$Listener=cmd::byId(str_replace('#','',$this->getValue()));
 		if (is_object($Listener)) {	
 			switch($this->getLogicalId()){
-				case 'arme':
+				case 'armed':
 					$Listener->event(true);
 				break;
-				case 'disable':
+				case 'released':
 					$Listener->event(false);
 				break;
 				case 'inWindows':

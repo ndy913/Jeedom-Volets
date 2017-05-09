@@ -365,10 +365,13 @@ class Volets extends eqLogic {
 		$inWindows=self::AddCommande($this,"Mode","inWindows","action","other",true,'inWindows');
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
-		$isArmed=self::AddCommande($this,"Etat d'activation","isArmed","info","binary",false,'lock');
+		$isArmed=self::AddCommande($this,"Etat activation","isArmed","info","binary",false,'lock');
 		$Armed=self::AddCommande($this,"Activer","arme","action","other",true,'lock');
 		$Armed->setValue($isArmed->getId());
 		$Armed->save();
+		$Disable=self::AddCommande($this,"Desactiver","disable","action","other",true,'lock');
+		$Disable->setValue($isArmed->getId());
+		$Disable->save();
 		$this->StartDemon();
 	}	
 	public function postRemove() {
@@ -384,20 +387,25 @@ class Volets extends eqLogic {
 	}
 }
 class VoletsCmd extends cmd {
-    	public function execute($_options = null) {	
-		switch($this->getLogicalId()){
-			case 'arme':
-			case 'inWindows':
-				$Listener=cmd::byId(str_replace('#','',$this->getValue()));
-				if (is_object($Listener)) {
-					if($Listener->execCmd())
-						$Listener->event(false);
-					else
-						$Listener->event(true);
-				$Listener->setCollectDate(date('Y-m-d H:i:s'));
-				$Listener->save();
-				}
-			break;
+    	public function execute($_options = null) {
+		$Listener=cmd::byId(str_replace('#','',$this->getValue()));
+		if (is_object($Listener)) {	
+			switch($this->getLogicalId()){
+				case 'arme':
+					$Listener->event(true);
+				break;
+				case 'disable':
+					$Listener->event(false);
+				break;
+				case 'inWindows':
+						if($Listener->execCmd())
+							$Listener->event(false);
+						else
+							$Listener->event(true);
+				break;
+			}
+			$Listener->setCollectDate(date('Y-m-d H:i:s'));
+			$Listener->save();
 		}
 	}
 }

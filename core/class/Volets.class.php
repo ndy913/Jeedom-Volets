@@ -296,15 +296,19 @@ class Volets extends eqLogic {
 		}
 		return true;
 	}
-	public function getAngle($latitudeOrigine,$longitudeOrigne, $latitudeDest,$longitudeDest) {
-		$longDelta = $longitudeDest - $longitudeOrigne;
-		$y = sin($longDelta) * cos($latitudeDest);
-		$x = (cos($latitudeOrigine)*sin($latitudeDest)) - (sin($latitudeOrigine)*cos($latitudeDest)*cos($longDelta));
-		$angle = rad2deg(atan2($y, $x));
-		while ($angle < 0) {
-			$angle += 360;
+	public function getAngle($latitudeOrigine,$longitudeOrigne, $latitudeDest,$longitudeDest) { 
+		$rlongitudeOrigne = deg2rad($longitudeOrigne); 
+		$rlatitudeOrigine = deg2rad($latitudeOrigine); 
+		$rlongitudeDest = deg2rad($longitudeDest); 
+		$rlatitudeDest = deg2rad($latitudeDest); 
+		$longDelta = $rlongitudeDest - $rlongitudeOrigne; 
+		$y = sin($longDelta) * cos($rlatitudeDest); 
+		$x = (cos($rlatitudeOrigine)*sin($rlatitudeDest)) - (sin($rlatitudeOrigine)*cos($rlatitudeDest)*cos($longDelta)); 
+		$angle = rad2deg(atan2($y, $x)); 
+		if ($angle < 0) { 
+			$angle += 360; 
 		}
-		return  floatval($angle % 360);
+		return floatval($angle % 360);
 	}
 	public function StartDemon() {
 		if($this->getIsEnable()){

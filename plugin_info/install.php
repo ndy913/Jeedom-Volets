@@ -1,5 +1,7 @@
 <?php
+require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 function Volets_update(){
+	log::add('eibd','debug','Lancement du script de mise a jours'); 
   foreach(eqLogic::byType('Volets') as $eqLogic){
     $Armed=$eqLogic->getCmd(null,"arme");
     $Armed->remove();

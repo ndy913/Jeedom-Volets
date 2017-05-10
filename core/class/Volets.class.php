@@ -167,11 +167,12 @@ class Volets extends eqLogic {
 		$StateCmd=$this->getCmd(null,'state');
 		if(!is_object($StateCmd))
 			return false;
+		$State=$StateCmd->execCmd()
 		$isInWindows=$this->getCmd(null,'isInWindows');
 		if(!is_object($isInWindows))
 			return false;
 		if($this->CheckAngle($Azimuth)){
-			if(!$StateCmd->execCmd() || $StateCmd->execCmd()!= ""){
+			if(!$State){
 				$StateCmd->event(true);
 				log::add('Volets','info',$this->getHumanName().' Le soleil est dans la fenêtre');
 				if($isInWindows->execCmd()){
@@ -183,7 +184,7 @@ class Volets extends eqLogic {
 				}
 			}
 		}else{
-			if($StateCmd->execCmd() || $StateCmd->execCmd()!= ""){
+			if($State){
 				$StateCmd->event(false);
 				log::add('Volets','info',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
 				if($isInWindows->execCmd()){
@@ -364,7 +365,8 @@ class Volets extends eqLogic {
 		return $Commande;
 	}
 	public function postSave() {
-		self::AddCommande($this,"Position du soleil","state","info", 'binary',true,'sunInWindows');
+		$state=self::AddCommande($this,"Position du soleil","state","info", 'binary',true,'sunInWindows');
+		$state->event(false);
 		$isInWindows=self::AddCommande($this,"Etat mode","isInWindows","info","binary",false,'isInWindows');
 		$inWindows=self::AddCommande($this,"Mode","inWindows","action","other",true,'inWindows');
 		$inWindows->setValue($isInWindows->getId());

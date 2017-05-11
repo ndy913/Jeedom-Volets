@@ -78,13 +78,13 @@ function saveEqLogic(_eqLogic) {
 	var ConditionArray= new Array();
 	var OpenArray= new Array();
 	var CloseArray= new Array();
-	$('#tab_condition .ConditionGroup').each(function( index ) {
+	$('#conditiontab .ConditionGroup').each(function( index ) {
 		ConditionArray.push($(this).getValues('.expressionAttr')[0])
 	});
-	$('#tab_ouverture .ActionGroup').each(function( index ) {
+	$('#ouverturetab .ActionGroup').each(function( index ) {
 		OpenArray.push($(this).getValues('.expressionAttr')[0])
 	});
-	$('#tab_fermeture .ActionGroup').each(function( index ) {
+	$('#fermeturetab .ActionGroup').each(function( index ) {
 		CloseArray.push($(this).getValues('.expressionAttr')[0])
 	});
 	_eqLogic.configuration.condition=ConditionArray;
@@ -102,20 +102,20 @@ function printEqLogic(_eqLogic) {
 	if (typeof(_eqLogic.configuration.condition) !== 'undefined') {
 		for(var index in _eqLogic.configuration.condition) { 
 			if( (typeof _eqLogic.configuration.condition[index] === "object") && (_eqLogic.configuration.condition[index] !== null) )
-				addCondition(_eqLogic.configuration.condition[index],  '{{Condition}}',$('#tab_condition').find('.div_Condition'));
+				addCondition(_eqLogic.configuration.condition[index],  '{{Condition}}',$('#conditiontab').find('.div_Condition'));
 		}
 	}
 	if (typeof(_eqLogic.configuration.action) !== 'undefined') {
 		if (typeof(_eqLogic.configuration.action.open) !== 'undefined') {
 			for(var index in _eqLogic.configuration.action.open) { 
 				if( (typeof _eqLogic.configuration.action.open[index] === "object") && (_eqLogic.configuration.action.open[index] !== null) )
-					addAction(_eqLogic.configuration.action.open[index],  '{{Action}}',$('#tab_ouverture').find('.div_action'));
+					addAction(_eqLogic.configuration.action.open[index],  '{{Action}}',$('#ouverturetab').find('.div_action'));
 			}
 		}
 		if (typeof(_eqLogic.configuration.action.close) !== 'undefined') {
 			for(var index in _eqLogic.configuration.action.close) { 
 				if( (typeof _eqLogic.configuration.action.close[index] === "object") && (_eqLogic.configuration.action.close[index] !== null) )
-					addAction(_eqLogic.configuration.action.close[index],  '{{Action}}',$('#tab_fermeture').find('.div_action'));
+					addAction(_eqLogic.configuration.action.close[index],  '{{Action}}',$('#fermeturetab').find('.div_action'));
 			}
 		}
 	}	

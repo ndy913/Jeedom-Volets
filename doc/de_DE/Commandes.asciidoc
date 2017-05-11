@@ -1,23 +1,23 @@
-Pour chaque equipement, le plugin vas creer des commande
+Pour chaque equipement, le plugin va créer des commandes.
 
 image::../images/Volets_screenshot_Widget.jpg[]
 
 === Der Modus und sein Zustand
 
-Ces 2 commandes vont vous permetre de basculer le plugin en mode été ou hivers.
-C'est a vous de determiner a quel moment on doit gerer se changement
+Ces 2 commandes vont permetre de basculer le plugin en mode "été" ou "hiver".
+C'est a vous de determiner à quel moment il faut gérer ce changement.
 
 image::../images/ModeClose.png[]
-L'icone si dessus montre le mode été, le volet fermé lorsque le soleil est dans la fenetre
+L'icone ci-dessus montre le mode "été", le volet est fermé lorsque le soleil est dans la fenêtre.
 
 image::../images/ModeOpen.png[]	
-L'icone si dessus montre le mode hivers, le volet ouvert lorsque le soleil est dans la fenetre
+L'icone ci-dessus montre le mode "hiver", le volet est ouvert lorsque le soleil est dans la fenêtre.
 
 === Sonnenposition
-Cette commande nous informe si le soleil est dans la fenetre ou pas
+Cette commande nous informe si le soleil est dans la fenêtre ou pas.
  
 image::../images/SunInWindows.png[]	
-Dans la fenetre
+Dans la fenêtre.
 
 image::../images/SunOutWindows.png[]	
-Hors fenetres
+Hors fenetres.

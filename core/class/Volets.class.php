@@ -167,7 +167,7 @@ class Volets extends eqLogic {
 		$StateCmd=$this->getCmd(null,'state');
 		if(!is_object($StateCmd))
 			return false;
-		$State=$StateCmd->execCmd()
+		$State=$StateCmd->execCmd();
 		$isInWindows=$this->getCmd(null,'isInWindows');
 		if(!is_object($isInWindows))
 			return false;

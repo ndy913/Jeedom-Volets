@@ -168,13 +168,11 @@ class Volets extends eqLogic {
 		if(!is_object($StateCmd))
 			return false;
 		$State=$StateCmd->execCmd();
-		if($State == "")
-			$StateCmd->event(false);
 		$isInWindows=$this->getCmd(null,'isInWindows');
 		if(!is_object($isInWindows))
 			return false;
 		if($this->CheckAngle($Azimuth)){
-			if(!$State){
+			if(!$State || $State == ""){
 				$StateCmd->event(true);
 				log::add('Volets','info',$this->getHumanName().' Le soleil est dans la fenêtre');
 				if($isInWindows->execCmd()){

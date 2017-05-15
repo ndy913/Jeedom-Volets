@@ -196,6 +196,7 @@ class Volets extends eqLogic {
 				}
 			}
 		}
+		$StateCmd->setCollectDate(date('Y-m-d H:i:s'));
 		$StateCmd->save();
 		return $Action;
 	}
@@ -367,6 +368,8 @@ class Volets extends eqLogic {
 	public function postSave() {
 		$state=self::AddCommande($this,"Position du soleil","state","info", 'binary',true,'sunInWindows');
 		$state->event(false);
+		$state->setCollectDate(date('Y-m-d H:i:s'));
+		$state->save();
 		$isInWindows=self::AddCommande($this,"Etat mode","isInWindows","info","binary",false,'isInWindows');
 		$inWindows=self::AddCommande($this,"Mode","inWindows","action","other",true,'inWindows');
 		$inWindows->setValue($isInWindows->getId());

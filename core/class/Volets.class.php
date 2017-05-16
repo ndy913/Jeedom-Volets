@@ -375,6 +375,9 @@ class Volets extends eqLogic {
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
 		$isArmed=self::AddCommande($this,"Etat activation","isArmed","info","binary",false,'lock');
+		$isArmed->event(true);
+		$isArmed->setCollectDate(date('Y-m-d H:i:s'));
+		$isArmed->save();
 		$Armed=self::AddCommande($this,"Activer","armed","action","other",true,'lock');
 		$Armed->setValue($isArmed->getId());
 		$Armed->setConfiguration('state', '1');

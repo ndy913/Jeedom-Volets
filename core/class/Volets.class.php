@@ -278,7 +278,13 @@ class Volets extends eqLogic {
 	}
 	public function EvaluateCondition($evaluate,$TypeGestion){
 		foreach($this->getConfiguration('condition') as $condition){
-			if(($evaluate==$condition['evaluation']||$condition['evaluation']=='all') && (stripos($condition['TypeGestion'],$TypeGestion)>0||$condition['TypeGestion']=='all')){			
+			if($condition['evaluation']!=$evaluate||$condition['evaluation']!='all')
+				continue;
+			log::add('Volets','debug',$this->getHumanName().' : Saison '.$condition['evaluation']);
+			if(stripos($condition['TypeGestion'],$TypeGestion)<0||$condition['TypeGestion']!='all')	
+				continue;		
+			log::add('Volets','debug',$this->getHumanName().' : Gestion '.$condition['TypeGestion']);
+			//if(($evaluate==$condition['evaluation']||$condition['evaluation']=='all') && (stripos($condition['TypeGestion'],$TypeGestion)>0||$condition['TypeGestion']=='all')){			
 				$expression = scenarioExpression::setTags($condition['expression']);
 				$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 				$result = evaluate($expression);
@@ -296,7 +302,7 @@ class Volets extends eqLogic {
 					log::add('Volets','info',$this->getHumanName().' Les conditions ne sont pas remplies');
 					return false;
 				}
-			}
+			//}
 		}
 		return true;
 	}

@@ -252,36 +252,42 @@ function TraceMapZone(_zone){
 		PolylineGauche.setPath([CentreLatLng,GaucheLatLng]);
 		});
 }
-function addCondition(_action, _name, _el) {
-    	var div = $('<div class="form-group ConditionGroup">')
-  		.append($('<label class="col-lg-1 control-label">')
+function addCondition(_condition, _name, _el) {
+	var div = $('<div class="form-group ConditionGroup">')
+		.append($('<label class="col-sm-1 control-label">')
 			.text('ET'))
-   		.append($('<div class="col-lg-2">')
+		.append($('<div class="col-sm-4 has-success">')
 			.append($('<div class="input-group">')
-				.append($('<input class="expressionAttr form-control input-sm cmdCondition" data-l1key="expression">'))
+				.append($('<span class="input-group-btn">')
+					.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable"/>'))
+					.append($('<a class="btn btn-default conditionAttr btn-sm" data-action="remove">')
+						.append($('<i class="fa fa-minus-circle">'))))
+				.append($('<input class="expressionAttr form-control input-sm cmdCondition" data-l1key="expression"/>'))
 				.append($('<span class="input-group-btn">')
 					.append($('<a class="btn btn-warning btn-sm listCmdCondition">')
 						.append($('<i class="fa fa-list-alt">'))))))
-		.append($('<div class="col-lg-2">')
+		.append($('<div class="col-sm-7">')
 			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="TypeGestion" />')
 			       .append($('<option value="all">')
 					.text('{{Position du soleil et Jour / Nuit}}'))
 			       .append($('<option value="Helioptrope">')
 					.text('{{Position du soleil}}'))
 			       .append($('<option value="DayNight">')
-					.text('{{Jour / Nuit}}'))))			
-		.append($('<div class="col-lg-2">')
+					.text('{{Jour / Nuit}}'))
+			       .append($('<option value="Day">')
+					.text('{{Jour}}'))
+			       .append($('<option value="Night">')
+					.text('{{Nuit}}'))))			
+		.append($('<div class="col-sm-7">')
 			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="evaluation" />')
 			       .append($('<option value="all">')
 					.text('{{Toutes les saisons}}'))
 			       .append($('<option value="close">')
 					.text('{{Eté}}'))
 			       .append($('<option value="open">')
-					.text('{{Hivers}}'))))
- 		.append($('<div class="col-lg-2">')
-  			.append($('<i class="fa fa-minus-circle pull-left cursor conditionAttr" data-action="remove">')));
+					.text('{{Hivers}}'))));
         _el.append(div);
-        _el.find('.ConditionGroup:last').setValues(_action, '.expressionAttr');
+        _el.find('.ConditionGroup:last').setValues(_condition, '.expressionAttr');
   
 }
 function addAction(_action, _name, _el) {
@@ -292,18 +298,16 @@ function addAction(_action, _name, _el) {
 			.append($('<div class="input-group">')
 				.append($('<span class="input-group-btn">')
 					.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable"/>'))
-					.append($('<a class="btn btn-default bt_removeAction btn-sm" data-type="inAction">')
+					.append($('<a class="btn btn-default ActionAttr btn-sm" data-action="remove">')
 						.append($('<i class="fa fa-minus-circle">'))))
-				.append($('<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd" data-type="inAction"/>'))
+				.append($('<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd"/>'))
 				.append($('<span class="input-group-btn">')
-					.append($('<a class="btn btn-success btn-sm listAction" data-type="inAction" title="Sélectionner un mot-clé">')
+					.append($('<a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">')
 						.append($('<i class="fa fa-tasks">')))
-					.append($('<a class="btn btn-success btn-sm listCmdAction" data-type="inAction">')
+					.append($('<a class="btn btn-success btn-sm listCmdAction">')
 						.append($('<i class="fa fa-list-alt">'))))))
 		.append($('<div class="col-sm-7 actionOptions">')
-		       .append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))))
- 		.append($('<div class="col-sm-8">')
-  			.append($('<i class="fa fa-minus-circle pull-left cursor ActionAttr" data-action="remove">')));
+		       .append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))));
         _el.append(div);
         _el.find('.ActionGroup:last').setValues(_action, '.expressionAttr');
   

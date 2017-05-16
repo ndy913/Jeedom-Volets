@@ -78,7 +78,7 @@ class Volets extends eqLogic {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info', 'Exécution de la gestion du lever du soleil '.$Volet->getHumanName());
-			$result=$Volet->EvaluateCondition('open','DayNight');
+			$result=$Volet->EvaluateCondition('open','Day');
 			if($result){
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['open']);
@@ -95,7 +95,7 @@ class Volets extends eqLogic {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info', 'Exécution de la gestion du coucher du soleil '.$Volet->getHumanName());
-			$result=$Volet->EvaluateCondition('close','DayNight');
+			$result=$Volet->EvaluateCondition('close','Night');
 			if($result){
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['close']);
@@ -131,7 +131,8 @@ class Volets extends eqLogic {
 			$Now=new DateTime();
 			if($Now>$Jours && $Now<$Nuit)
 				return true;
-		}
+		}else
+			log::add('Volets','debug','Aucune commande Héliotrope de configurer');
 		return false;
 	}		
 	public function CheckAngle($Azimuth) {
@@ -159,7 +160,8 @@ class Volets extends eqLogic {
 				if(0 <= $Azimut && $Azimuth <= $AngleCntGau)
 					return true;
 			}
-		}
+		}else
+			log::add('Volets','debug','Les coordonées GPS sont mal renseigner');
 		return false;			
 	}	
 	public function SelectAction($Azimuth) {
@@ -276,7 +278,7 @@ class Volets extends eqLogic {
 	}
 	public function EvaluateCondition($evaluate,$TypeGestion){
 		foreach($this->getConfiguration('condition') as $condition){
-			if(($evaluate==$condition['evaluation']||$condition['evaluation']=='all') && ($TypeGestion==$condition['TypeGestion']||$condition['TypeGestion']=='all')){			
+			if(($evaluate==$condition['evaluation']||$condition['evaluation']=='all') && (stripos($condition['TypeGestion'],$TypeGestion)>0||$condition['TypeGestion']=='all')){			
 				$expression = scenarioExpression::setTags($condition['expression']);
 				$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 				$result = evaluate($expression);

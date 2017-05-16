@@ -285,7 +285,7 @@ function addCondition(_condition, _name, _el) {
 			       .append($('<option value="close">')
 					.text('{{Eté}}'))
 			       .append($('<option value="open">')
-					.text('{{Hivers}}')))));
+					.text('{{Hivers}}'))));
         _el.append(div);
         _el.find('.ConditionGroup:last').setValues(_condition, '.expressionAttr');
   

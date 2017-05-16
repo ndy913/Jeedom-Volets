@@ -278,10 +278,10 @@ class Volets extends eqLogic {
 	}
 	public function EvaluateCondition($evaluate,$TypeGestion){
 		foreach($this->getConfiguration('condition') as $condition){
-			if($condition['evaluation']!=$evaluate||$condition['evaluation']!='all')
+			if($condition['evaluation']!=$evaluate && $condition['evaluation']!='all')
 				continue;
 			log::add('Volets','debug',$this->getHumanName().' : Saison '.$condition['evaluation']);
-			if(stripos($condition['TypeGestion'],$TypeGestion)<0||$condition['TypeGestion']!='all')	
+			if(stripos($condition['TypeGestion'],$TypeGestion)<0 && $condition['TypeGestion']!='all')	
 				continue;		
 			log::add('Volets','debug',$this->getHumanName().' : Gestion '.$condition['TypeGestion']);
 			if (isset($condition['enable']) && $condition['enable'] == 0)

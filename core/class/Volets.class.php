@@ -280,32 +280,27 @@ class Volets extends eqLogic {
 		foreach($this->getConfiguration('condition') as $condition){
 			if($condition['evaluation']!=$evaluate && $condition['evaluation']!='all')
 				continue;
-			log::add('Volets','debug',$this->getHumanName().' : Saison '.$condition['evaluation']);
 			if(stripos($condition['TypeGestion'],$TypeGestion)<0 && $condition['TypeGestion']!='all')	
 				continue;		
-			log::add('Volets','debug',$this->getHumanName().' : Gestion '.$condition['TypeGestion']);
 			if (isset($condition['enable']) && $condition['enable'] == 0)
 				continue;
-			log::add('Volets','debug',$this->getHumanName().' : La condition '.$condition['expression'].' est désactivé');
-			//if(($evaluate==$condition['evaluation']||$condition['evaluation']=='all') && (stripos($condition['TypeGestion'],$TypeGestion)>0||$condition['TypeGestion']=='all')){			
-				$expression = scenarioExpression::setTags($condition['expression']);
-				$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
-				$result = evaluate($expression);
-				if (is_bool($result)) {
-					if ($result) {
-						$message .= __('Vrai', __FILE__);
-					} else {
-						$message .= __('Faux', __FILE__);
-					}
+			$expression = scenarioExpression::setTags($condition['expression']);
+			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
+			$result = evaluate($expression);
+			if (is_bool($result)) {
+				if ($result) {
+					$message .= __('Vrai', __FILE__);
 				} else {
-					$message .= $result;
+					$message .= __('Faux', __FILE__);
 				}
-				log::add('Volets','info',$this->getHumanName().' : '.$message);
-				if(!$result){
-					log::add('Volets','info',$this->getHumanName().' Les conditions ne sont pas remplies');
-					return false;
-				}
-			//}
+			} else {
+				$message .= $result;
+			}
+			log::add('Volets','info',$this->getHumanName().' : '.$message);
+			if(!$result){
+				log::add('Volets','info',$this->getHumanName().' Les conditions ne sont pas remplies');
+				return false;
+			}
 		}
 		return true;
 	}

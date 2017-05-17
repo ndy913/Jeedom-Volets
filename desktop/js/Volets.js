@@ -37,7 +37,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 						})
 					],
 					view: new ol.View({
-						center: CoordinatesToArray(CentreLatLng),
+						center: CoordinatesToArray(CentreLatLng).toString(),
 						zoom: 5
 					})
 				});
@@ -50,7 +50,7 @@ function CoordinatesToArray(Coordinates) {
 	var ArrayCoord= new Array();
 	ArrayCoord[0]=Coordinates.lat;
 	ArrayCoord[1]=Coordinates.lng;
-	alert(ArrayCoord);
+	alert(ArrayCoord.toString());
 	return  ArrayCoord;
 }
 

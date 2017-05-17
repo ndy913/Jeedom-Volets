@@ -132,6 +132,10 @@ function TraceMapZone(_zone){
 	var Centre = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
 	});
+	map.addInteraction(new ol.interaction.Modify({
+		features: new ol.Collection([Centre]),
+		style: null
+	}));
 	Centre.on('change',function(){
 		CentreLatLng.lat= this.getGeometry().getCoordinates()[1];
 		CentreLatLng.lng= this.getGeometry().getCoordinates()[0];
@@ -141,6 +145,10 @@ function TraceMapZone(_zone){
 	var Gauche = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
 	});
+	map.addInteraction(new ol.interaction.Modify({
+		features: new ol.Collection([Gauche]),
+		style: null
+	}));
 	Gauche.on('change',function(){
 		GaucheLatLng.lat= this.getGeometry().getCoordinates()[1];
 		GaucheLatLng.lng= this.getGeometry().getCoordinates()[0];

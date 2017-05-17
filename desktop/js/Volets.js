@@ -119,6 +119,16 @@ function TraceMapZone(_zone){
 	var Droit = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
 	});
+	var dragInteraction = new ol.interaction.Modify({
+		features: new ol.Collection([Droit]),
+		style: null
+	});
+	Droit.on('change',function(){
+		alert( this.getGeometry().getCoordinates());
+		//DroitLatLng.lat= this.getGeometry().getCoordinates();
+		//DroitLatLng.lng= this.getGeometry().getCoordinates();
+		//$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(DroitLatLng));
+	},Droit);
 	features.push(Droit);
 	var Centre = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
@@ -131,10 +141,18 @@ function TraceMapZone(_zone){
 	var vectorSource = new ol.source.Vector({
 		features: features 
 	});
+	var PolylineDroite  = new ol.format.Polyline().readGeometry({
+		source: encoded_line,
+		options: {
+			dataProjection: ol.proj.get('EPSG:4326'),
+			featureProjection: ol.proj.get('EPSG:900913')
+		}
+	});
 	var vectorLayer = new ol.layer.Vector({
 		source: vectorSource
 	});
 	map.addLayer(vectorLayer);
+	map.zoomToMaxExtent();
 }
 function addCondition(_condition, _name, _el) {
 	var div = $('<div class="form-group ConditionGroup">')

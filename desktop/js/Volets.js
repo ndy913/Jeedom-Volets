@@ -162,7 +162,7 @@ function TraceMapZone(_zone){
 		})
 	});
 	map.addLayer(vectorLayer);
-	var PolylineDroite = new ol.layer.Vector({
+	/*var PolylineDroite = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			features: [new ol.Feature({
 				geometry: new ol.geom.LineString([ new ol.geom.Point([CentreLatLng.lng,CentreLatLng.lat]), 
@@ -183,7 +183,7 @@ function TraceMapZone(_zone){
 		}),
 	});
 
-	map.addLayer(PolylineGauche);
+	map.addLayer(PolylineGauche);*/
 	map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());
 }
 function addCondition(_condition, _name, _el) {

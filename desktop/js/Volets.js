@@ -175,7 +175,7 @@ function TraceMapZone(_zone){
 		})
 	});
 	map.addLayer(vectorPolylineDroite);
-	map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());
+	//map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());
 }
 function addCondition(_condition, _name, _el) {
 	var div = $('<div class="form-group ConditionGroup">')

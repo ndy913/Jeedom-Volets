@@ -162,6 +162,12 @@ function TraceMapZone(_zone){
 	var PolylineGauche = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
 	PolylineGauche.transform('EPSG:4326', 'EPSG:3857');
 	features.push(new ol.Feature(PolylineGauche));
+	/*var PolylineDroite = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
+	PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
+	features.push(new ol.Feature(PolylineDroite));
+	var PolylineGauche = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
+	PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
+	features.push(new ol.Feature(PolylineGauche));*/
 	//PolylineDroite.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]])
 	//PolylineGauche.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]])
 	var vectorLayer = new ol.layer.Vector({

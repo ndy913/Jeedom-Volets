@@ -116,6 +116,12 @@ function TraceMapZone(_zone){
 			CentreLatLng.lng=parseFloat(_zone.configuration.Centre.lng);
 	}
 	var features = [];
+	var PolylineDroite = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
+	PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
+	features.push(new ol.Feature(PolylineDroite));
+	var PolylineGauche = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
+	PolylineGauche.transform('EPSG:4326', 'EPSG:3857');
+	features.push(new ol.Feature(PolylineGauche));
 	var Droit = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
 		style: [new ol.style.Style({text:  _zone.name + " - Droite vue extérieur"})]
@@ -156,18 +162,7 @@ function TraceMapZone(_zone){
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(GaucheLatLng));
 	},Gauche);
 	features.push(Gauche);
-	var PolylineDroite = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
-	PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
-	features.push(new ol.Feature(PolylineDroite));
-	var PolylineGauche = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
-	PolylineGauche.transform('EPSG:4326', 'EPSG:3857');
-	features.push(new ol.Feature(PolylineGauche));
-	/*var PolylineDroite = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
-	PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
-	features.push(new ol.Feature(PolylineDroite));
-	var PolylineGauche = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
-	PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
-	features.push(new ol.Feature(PolylineGauche));*/
+
 	//PolylineDroite.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]])
 	//PolylineGauche.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]])
 	var vectorLayer = new ol.layer.Vector({

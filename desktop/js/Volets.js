@@ -162,13 +162,14 @@ function TraceMapZone(_zone){
 		})
 	});
 	map.addLayer(vectorLayer);
-	var PolylineDroite = new ol.geom.LineString([[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]);
-	PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
+	var latlngs[] = new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857'));
+	latlngs[] = new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857'));
+	var PolylineDroite = new ol.geom.LineString(latlngs);
 	var vectorPolylineDroite = new ol.layer.Vector({
 		source: new ol.source.Vector({
 		features: new ol.Feature({
 			geometry: PolylineDroite,
-			name: 'Line'
+			name: 'Angle droite de la fentetre (Vue exterieur)'
 			})
 		})
 	});

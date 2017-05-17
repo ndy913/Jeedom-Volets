@@ -156,50 +156,16 @@ function TraceMapZone(_zone){
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(GaucheLatLng));
 	},Gauche);
 	features.push(Gauche);
+	map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());
+	var PolylineDroite = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
+	PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
+	features.push(new ol.Feature(PolylineDroite));
 	var vectorLayer = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			features: features 
 		})
 	});
 	map.addLayer(vectorLayer);
-	map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());
-	// A ring must be closed, that is its last coordinate
-// should be the same as its first coordinate.
-var ring = [[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]];
-
-// A polygon is an array of rings, the first ring is
-// the exterior ring, the others are the interior rings.
-// In your case there is one ring only.
-var polygon = new ol.geom.Polygon([ring]);
-polygon.transform('EPSG:4326', 'EPSG:3857');
-// Create feature with polygon.
-var feature = new ol.Feature(polygon);
-
-// Create vector source and the feature to it.
-var vectorSource = new ol.source.Vector();
-vectorSource.addFeature(feature);
-
-// Create vector layer attached to the vector source.
-var vectorLayer = new ol.layer.Vector({
-  source: vectorSource
-});
-
-// Add the vector layer to the map.
-map.addLayer(vectorLayer);
-	/*var latlngs=[]; 
-	latlngs.push(new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857')));
-	latlngs.push(new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857')));
-	var PolylineDroite = new ol.geom.Polygon(null);
-        PolylineDroite.setCoordinates([latlngs]);
-	var vectorPolylineDroite = new ol.layer.Vector({
-		source: new ol.source.Vector({
-		features: new ol.Feature({
-			geometry: PolylineDroite,
-			name: 'Angle droite de la fentetre (Vue exterieur)'
-			})
-		})
-	});
-	map.addLayer(vectorPolylineDroite);*/
 }
 function addCondition(_condition, _name, _el) {
 	var div = $('<div class="form-group ConditionGroup">')

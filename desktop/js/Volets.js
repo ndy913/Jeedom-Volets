@@ -109,7 +109,7 @@ function TraceMapZone(_zone){
 		type: 'geoMarker',
 		geometry: new ol.geom.Point(ol.proj.fromLonLat([GaucheLatLng.lng,GaucheLatLng.lat]))
 	});
-	/*var styles = {
+	var styles = {
 		'route': new ol.style.Style({
 			stroke: new ol.style.Stroke({
 				width: 6, color: [237, 212, 0, 0.8]
@@ -126,7 +126,7 @@ function TraceMapZone(_zone){
 			})
 		})
 	};
-	var vectorLayer = new ol.layer.Vector({
+	/*var vectorLayer = new ol.layer.Vector({
 		source: new ol.source.Vector({
 		  features: [Droit, Centre, Gauche]
 		}),

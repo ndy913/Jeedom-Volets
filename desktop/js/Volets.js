@@ -126,7 +126,7 @@ function TraceMapZone(_zone){
 			})
 		})
 	};
-	/*var vectorLayer = new ol.layer.Vector({
+	var vectorLayer = new ol.layer.Vector({
 		source: new ol.source.Vector({
 		  features: [Droit, Centre, Gauche]
 		}),

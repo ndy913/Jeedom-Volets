@@ -165,7 +165,8 @@ function TraceMapZone(_zone){
 	var PolylineDroite = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			features: [new ol.Feature({
-				geometry: new ol.geom.LineString([[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]),
+				geometry: new ol.geom.LineString([ new ol.geom.Point([CentreLatLng.lng,CentreLatLng.lat]), 
+								   new ol.geom.Point([DroitLatLng.lng,DroitLatLng.lat])]),
 				name: 'Angle droite'
 			})]
 		}),
@@ -175,8 +176,9 @@ function TraceMapZone(_zone){
 	var PolylineGauche = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			features: [new ol.Feature({
-				geometry: new ol.geom.LineString([[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]),
-				name: 'Angle droite'
+				geometry: new ol.geom.LineString([ new ol.geom.Point([CentreLatLng.lng,CentreLatLng.lat]),
+								   new ol.geom.Point([GaucheLatLng.lng,GaucheLatLng.lat])]),
+				name: 'Angle gauche'
 			})]
 		}),
 	});

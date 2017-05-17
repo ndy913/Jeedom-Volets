@@ -148,14 +148,14 @@ function TraceMapZone(_zone){
 		}
 	});
 	map.addLayer(vectorLayer);
-	var moveFeature = function(event) {
+	/*var moveFeature = function(event) {
 		var vectorContext = event.vectorContext;
 		var frameState = event.frameState;
 		vectorContext.drawFeature(feature, styles.geoMarker);
 		//$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(event.latLng));
 		map.render();
 	};
-	map.on('postcompose', moveFeature);
+	map.on('postcompose', moveFeature);*/
 }
 function addCondition(_condition, _name, _el) {
 	var div = $('<div class="form-group ConditionGroup">')

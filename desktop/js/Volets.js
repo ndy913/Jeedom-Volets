@@ -25,12 +25,11 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				$('#div_alert').showAlert({message: 'Aucun message reçu', level: 'error'});
 			if (typeof(data.result.geoloc) !== 'undefined') {
 				var center=data.result.geoloc.configuration.coordinate.split(",");
-				//CentreLatLng=data.result.geoloc.configuration.coordinate.split(",");
 				CentreLatLng.lat=parseFloat(center[0]);
 				CentreLatLng.lng=parseFloat(center[1]);
 				// création de la carte
 				$('#MyMap').show();
-				/*map = new ol.Map({
+				map = new ol.Map({
 					target: 'MyMap',
 					layers: [
 						new ol.layer.Tile({
@@ -38,39 +37,21 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 						})
 					],
 					view: new ol.View({
-						center: CentreLatLng,
+						center: CoordinatesToArray(CentreLatLng),
 						zoom: 5
 					})
-				});*/
-				map = new google.maps.Map( document.getElementById('MyMap'),{
-					'mapTypeControl':  true,
-					'streetViewControl': false,
-					'panControl':true,
-					'scaleControl': true,
-					'overviewMapControl': true,
-					'mapTypeId': google.maps.MapTypeId.ROADMAP,
-					'center': CentreLatLng,
-					'scrollwheel': true,
-					'zoom': 20
 				});
 			}
 		}
 	});
 });
-function getAngle(Coordinates) {
-		var longDelta = Coordinates[1].lng - Coordinates[0].lng;
-		var y = Math.sin(longDelta) * Math.cos(Coordinates[1].lat);
-		var x = Math.cos(Coordinates[0].lat)*Math.sin(Coordinates[1].lat) - Math.sin(Coordinates[0].lat)*Math.cos(Coordinates[1].lat)*Math.cos(longDelta);
 
-		var radians = Math.atan2(y, x);
-		var angle = radians * 180 / Math.PI
-		while (angle < 0) {
-			angle += 360;
-		}
-		angle=angle % 360;
-		angle=angle-90;
-		return  angle;
-	}
+function CoordinatesToArray(Coordinates) {
+	var ArrayCoord= new Array();
+	ArrayCoord[0]=Coordinates.lat;
+	ArrayCoord[1]=Coordinates.lng;
+	return  ArrayCoord;
+}
 
 function saveEqLogic(_eqLogic) {
 	_eqLogic.configuration.condition=new Object();
@@ -121,44 +102,21 @@ function printEqLogic(_eqLogic) {
 	}	
 }
 function TraceMapZone(_zone){
-	/*DroitLatLng[0]=CentreLatLng[0];
-	DroitLatLng[1]=CentreLatLng[1]- (1 / 3600);
-	GaucheLatLng[0]=CentreLatLng[0];
-	GaucheLatLng[1]=CentreLatLng[1]+ (1 / 3600);*/
-	
 	DroitLatLng.lat=CentreLatLng.lat;
 	DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
 	GaucheLatLng.lat=CentreLatLng.lat;
 	GaucheLatLng.lng=CentreLatLng.lng+ (1 / 3600);
-	if (typeof(_zone.configuration.Droite) !== 'undefined' && _zone.configuration.Droite != "") {
-		if (typeof(_zone.configuration.Droite.lat) !== 'undefined' && _zone.configuration.Droite.lat != "" ) 
-			DroitLatLng.lat=parseFloat(_zone.configuration.Droite.lat);
-		if (typeof(_zone.configuration.Droite.lng) !== 'undefined' && _zone.configuration.Droite.lng != "" ) 
-			DroitLatLng.lng=parseFloat(_zone.configuration.Droite.lng);
-	}
-	if (typeof(_zone.configuration.Gauche) !== 'undefined' && _zone.configuration.Gauche != "") {
-		if (typeof(_zone.configuration.Gauche.lat) !== 'undefined' && _zone.configuration.Gauche.lat != "" ) 
-			GaucheLatLng.lat=parseFloat(_zone.configuration.Gauche.lat);
-		if (typeof(_zone.configuration.Gauche.lng) !== 'undefined' && _zone.configuration.Gauche.lng != "" ) 
-			GaucheLatLng.lng=parseFloat(_zone.configuration.Gauche.lng);
-	}
-	if (typeof(_zone.configuration.Centre) !== 'undefined' && _zone.configuration.Centre != "") {
-		if (typeof(_zone.configuration.Centre.lat) !== 'undefined' && _zone.configuration.Centre.lat != "" ) 
-			CentreLatLng.lat=parseFloat(_zone.configuration.Centre.lat);
-		if (typeof(_zone.configuration.Centre.lng) !== 'undefined' && _zone.configuration.Centre.lng != "" )
-			CentreLatLng.lng=parseFloat(_zone.configuration.Centre.lng);
-	}
-	/*var Droit = new ol.Feature({
+	var Droit = new ol.Feature({
 		type: 'geoMarker',
-		geometry: new ol.geom.Point(DroitLatLng)
+		geometry: new ol.geom.Point(CoordinatesToArray(DroitLatLng))
 	});
 	var Centre = new ol.Feature({
 		type: 'geoMarker',
-		geometry: new ol.geom.Point(CentreLatLng)
+		geometry: new ol.geom.Point(CoordinatesToArray(CentreLatLng))
 	});
 	var Gauche = new ol.Feature({
 		type: 'geoMarker',
-		geometry: new ol.geom.Point(GaucheLatLng)
+		geometry: new ol.geom.Point(CoordinatesToArray(GaucheLatLng))
 	});
 	var styles = {
 		'route': new ol.style.Style({
@@ -190,67 +148,14 @@ function TraceMapZone(_zone){
 		}
 	});
 	map.addLayer(vectorLayer);
-	/*var moveFeature = function(event) {
+	var moveFeature = function(event) {
 		var vectorContext = event.vectorContext;
 		var frameState = event.frameState;
 		vectorContext.drawFeature(feature, styles.geoMarker);
-		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(event.latLng));
+		//$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(event.latLng));
 		map.render();
 	};
-	map.on('postcompose', moveFeature);*/
-	var Droit=new google.maps.Marker({
-		position: DroitLatLng,
-		map: map,
-		draggable:true,
-		title: _zone.name + " - Droite vue extérieur"
-	  });
-	var Centre=new google.maps.Marker({
-		position: CentreLatLng,
-		map: map,
-		draggable:true,
-		title: _zone.name + " - Centre de l'angle d'ouverture"
-	  });
-	var Gauche=new google.maps.Marker({
-		position: GaucheLatLng,
-		map: map,
-		draggable:true,
-		title: _zone.name  + " - Gauche vue extérieur"
-	  });
-	var PolylineDroite =new google.maps.Polyline({
-		path: [CentreLatLng,DroitLatLng],
-		geodesic: true,
-		strokeColor: '#40A497',
-		strokeOpacity: 1.0,
-		map: map,
-		strokeWeight: 2
-	});
-	var PolylineGauche =new google.maps.Polyline({
-		path: [GaucheLatLng,CentreLatLng],
-		geodesic: true,
-		strokeColor: '#40A497',
-		strokeOpacity: 1.0,
-		map: map,
-		strokeWeight: 2
-	});
-	google.maps.event.addListener(Droit,'drag', function(event) {
-		DroitLatLng.lat=event.latLng.lat();
-		DroitLatLng.lng=event.latLng.lng();
-		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(event.latLng));
-		PolylineDroite.setPath([CentreLatLng,DroitLatLng]);
-	});
-	google.maps.event.addListener(Centre,'drag', function(event) {
-		CentreLatLng.lat=event.latLng.lat();
-		CentreLatLng.lng=event.latLng.lng();
-		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(event.latLng));
-		PolylineGauche.setPath([GaucheLatLng,CentreLatLng]);
-		PolylineDroite.setPath([CentreLatLng,DroitLatLng]);
-	});
-	google.maps.event.addListener(Gauche,'drag', function(event) {
-		GaucheLatLng.lat=event.latLng.lat();
-		GaucheLatLng.lng=event.latLng.lng();
-		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
-		PolylineGauche.setPath([CentreLatLng,GaucheLatLng]);
-		});
+	map.on('postcompose', moveFeature);
 }
 function addCondition(_condition, _name, _el) {
 	var div = $('<div class="form-group ConditionGroup">')

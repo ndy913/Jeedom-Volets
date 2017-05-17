@@ -146,7 +146,7 @@ function TraceMapZone(_zone){
 		source: vectorSource
 	});
 	map.addLayer(vectorLayer);
-	map.zoomToMaxExtent();
+	//map.zoomToMaxExtent();
 }
 function addCondition(_condition, _name, _el) {
 	var div = $('<div class="form-group ConditionGroup">')

@@ -115,7 +115,7 @@ function TraceMapZone(_zone){
 		if (typeof(_zone.configuration.Centre.lng) !== 'undefined' && _zone.configuration.Centre.lng != "" )
 			CentreLatLng.lng=parseFloat(_zone.configuration.Centre.lng);
 	}
-	var features = [];
+	/*var features = [];
 	var Droit = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
 		style: [new ol.style.Style({text:  _zone.name + " - Droite vue extérieur"})]
@@ -161,7 +161,7 @@ function TraceMapZone(_zone){
 			features: features 
 		})
 	});
-	map.addLayer(vectorLayer);
+	map.addLayer(vectorLayer);*/
 	var latlngs=[]; 
 	latlngs.push(new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857')));
 	latlngs.push(new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857')));

@@ -29,7 +29,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				CentreLatLng.lng=parseFloat(center[1]);
 				map = new ol.Map({
 					view: new ol.View({
-						center: ol.proj.fromLonLat(CoordinatesToArray(CentreLatLng)),
+						center: ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]),
 						zoom: 5
 					}),
 					layers: [
@@ -43,13 +43,6 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 		}
 	});
 });
-
-function CoordinatesToArray(Coordinates) {
-	var ArrayCoord = [];
-	ArrayCoord[1]=Coordinates.lat;
-	ArrayCoord[0]=Coordinates.lng;
-	return  ArrayCoord;
-}
 
 function saveEqLogic(_eqLogic) {
 	_eqLogic.configuration.condition=new Object();

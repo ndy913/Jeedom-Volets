@@ -27,6 +27,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				var center=data.result.geoloc.configuration.coordinate.split(",");
 				CentreLatLng.lat=parseFloat(center[0]);
 				CentreLatLng.lng=parseFloat(center[1]);
+				var center=CoordinatesToArray(CentreLatLng);
+				alert(center)
 				// création de la carte
 				$('#MyMap').show();
 				map = new ol.Map({
@@ -37,7 +39,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 						})
 					],
 					view: new ol.View({
-						center: CoordinatesToArray(CentreLatLng),
+						center: center,
 						zoom: 5
 					})
 				});
@@ -47,9 +49,9 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 });
 
 function CoordinatesToArray(Coordinates) {
-	var ArrayCoord= new Array();
-	ArrayCoord[1]=Coordinates.lat;
-	ArrayCoord[0]=Coordinates.lng;
+	var ArrayCoord = [];
+	ArrayCoord[0]=Coordinates.lat;
+	ArrayCoord[1]=Coordinates.lng;
 	return  ArrayCoord;
 }
 

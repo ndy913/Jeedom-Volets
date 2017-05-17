@@ -238,7 +238,7 @@ include_file('desktop', 'OpenLayers', 'js', 'Volets');
 						</fieldset>
 					</form>
 				</div>	
-				<div role="tabpanel" class="tab-pane active" id="maptab">	
+				<div role="tabpanel" class="tab-pane" id="maptab">	
 					<div id="MyMap" style="width:800px;height:600px;margin:auto;"></div>
 				</div>			
 				<div role="tabpanel" class="tab-pane" id="conditiontab">

@@ -120,6 +120,14 @@ function TraceMapZone(_zone){
 		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
 	});
 	features.push(Droit);
+	var Centre = new ol.Feature({
+		geometry: new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
+	});
+	features.push(Centre);
+	var Gauche = new ol.Feature({
+		geometry: new ol.geom.Point(ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
+	});
+	features.push(Gauche);
 	var vectorSource = new ol.source.Vector({
 		features: features 
 	});
@@ -127,49 +135,6 @@ function TraceMapZone(_zone){
 		source: vectorSource
 	});
 	map.addLayer(vectorLayer);
-	/*var Droit = new ol.Feature({
-		type: 'geoMarker',
-		geometry: new ol.geom.Point(ol.proj.fromLonLat([DroitLatLng.lng,DroitLatLng.lat]))
-	});
-	var Centre = new ol.Feature({
-		type: 'geoMarker',
-		geometry: new ol.geom.Point(ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]))
-	});
-	var Gauche = new ol.Feature({
-		type: 'geoMarker',
-		geometry: new ol.geom.Point(ol.proj.fromLonLat([GaucheLatLng.lng,GaucheLatLng.lat]))
-	});
-	var styles = {
-		'route': new ol.style.Style({
-			stroke: new ol.style.Stroke({
-				width: 6, color: [237, 212, 0, 0.8]
-			})
-		}),
-		'geoMarker': new ol.style.Style({
-			image: new ol.style.Circle({
-				radius: 7,
-				snapToPixel: false,
-				fill: new ol.style.Fill({color: 'black'}),
-				stroke: new ol.style.Stroke({
-					color: 'white', width: 2
-				})
-			})
-		})
-	};
-	var vectorLayer = new ol.layer.Vector({
-		source: new ol.source.Vector({
-		  features: [Droit, Centre, Gauche]
-		})
-	});
-	map.addLayer(vectorLayer);
-	/*var moveFeature = function(event) {
-		var vectorContext = event.vectorContext;
-		var frameState = event.frameState;
-		vectorContext.drawFeature(feature, styles.geoMarker);
-		//$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(event.latLng));
-		map.render();
-	};
-	map.on('postcompose', moveFeature);*/
 }
 function addCondition(_condition, _name, _el) {
 	var div = $('<div class="form-group ConditionGroup">')

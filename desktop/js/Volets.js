@@ -178,7 +178,8 @@ function TraceMapZone(_zone){
 		source: new ol.source.Vector({
 			features: [new ol.Feature({
 				geometry: new ol.geom.LineString([new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
-								  new ol.geom.Point(ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
+								  new ol.geom.Point(ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
+								  ]),
 				name: 'Angle gauche'
 			})]
 		}),

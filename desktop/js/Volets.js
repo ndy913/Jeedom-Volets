@@ -29,7 +29,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				CentreLatLng.lng=parseFloat(center[1]);
 				map = new ol.Map({
 					view: new ol.View({
-						center: ol.proj.fromLonLat(CentreLatLng),
+						center: ol.proj.fromLonLat(CoordinatesToArray(CentreLatLng)),
 						zoom: 5
 					}),
 					layers: [
@@ -104,7 +104,7 @@ function TraceMapZone(_zone){
 	DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
 	GaucheLatLng.lat=CentreLatLng.lat;
 	GaucheLatLng.lng=CentreLatLng.lng+ (1 / 3600);
-	var Droit = new ol.Feature({
+	/*var Droit = new ol.Feature({
 		type: 'geoMarker',
 		geometry: new ol.geom.Point(CoordinatesToArray(DroitLatLng))
 	});

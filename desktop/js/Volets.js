@@ -141,13 +141,7 @@ function TraceMapZone(_zone){
 	var vectorSource = new ol.source.Vector({
 		features: features 
 	});
-	var PolylineDroite  = new ol.format.Polyline().readGeometry({
-		source: encoded_line,
-		options: {
-			dataProjection: ol.proj.get('EPSG:4326'),
-			featureProjection: ol.proj.get('EPSG:900913')
-		}
-	});
+	
 	var vectorLayer = new ol.layer.Vector({
 		source: vectorSource
 	});

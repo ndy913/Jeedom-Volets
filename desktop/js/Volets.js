@@ -50,6 +50,7 @@ function CoordinatesToArray(Coordinates) {
 	var ArrayCoord= new Array();
 	ArrayCoord[0]=Coordinates.lat;
 	ArrayCoord[1]=Coordinates.lng;
+	alert(ArrayCoord);
 	return  ArrayCoord;
 }
 

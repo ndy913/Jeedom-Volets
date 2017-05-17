@@ -165,7 +165,8 @@ function TraceMapZone(_zone){
 	var latlngs=[]; 
 	latlngs.push(new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857')));
 	latlngs.push(new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857')));
-	var PolylineDroite = new ol.geom.Polygon(latlngs);
+	var PolylineDroite = new ol.geom.Polygon(null);
+        PolylineDroite.setCoordinates([latlngs]);
 	var vectorPolylineDroite = new ol.layer.Vector({
 		source: new ol.source.Vector({
 		features: new ol.Feature({

@@ -162,11 +162,12 @@ function TraceMapZone(_zone){
 		})
 	});
 	map.addLayer(vectorLayer);
-	/*var PolylineDroite = new ol.layer.Vector({
+	var PolylineDroite = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			features: [new ol.Feature({
-				geometry: new ol.geom.LineString([ new ol.geom.Point([CentreLatLng.lng,CentreLatLng.lat]), 
-								   new ol.geom.Point([DroitLatLng.lng,DroitLatLng.lat])]),
+				geometry: new ol.geom.LineString([new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857')), 
+								  new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
+								 ]),
 				name: 'Angle droite'
 			})]
 		}),
@@ -176,14 +177,14 @@ function TraceMapZone(_zone){
 	var PolylineGauche = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			features: [new ol.Feature({
-				geometry: new ol.geom.LineString([ new ol.geom.Point([CentreLatLng.lng,CentreLatLng.lat]),
-								   new ol.geom.Point([GaucheLatLng.lng,GaucheLatLng.lat])]),
+				geometry: new ol.geom.LineString([new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
+								  new ol.geom.Point(ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
 				name: 'Angle gauche'
 			})]
 		}),
 	});
 
-	map.addLayer(PolylineGauche);*/
+	map.addLayer(PolylineGauche);
 	map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());
 }
 function addCondition(_condition, _name, _el) {

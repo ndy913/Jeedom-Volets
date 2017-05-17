@@ -29,6 +29,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				CentreLatLng.lng=parseFloat(center[1]);
 				map = new ol.Map({
 					view: new ol.View({
+						center: ol.proj.fromLonLat(CoordinatesToArray(CentreLatLng)),
 						zoom: 5
 					}),
 					layers: [
@@ -45,8 +46,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 
 function CoordinatesToArray(Coordinates) {
 	var ArrayCoord = [];
-	ArrayCoord[0]=Coordinates.lat;
-	ArrayCoord[1]=Coordinates.lng;
+	ArrayCoord[0]=0;//Coordinates.lat;
+	ArrayCoord[1]=0;//Coordinates.lng;
 	return  ArrayCoord;
 }
 

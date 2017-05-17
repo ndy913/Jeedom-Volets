@@ -156,16 +156,24 @@ function TraceMapZone(_zone){
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(GaucheLatLng));
 	},Gauche);
 	features.push(Gauche);
-	var PolylineDroite  = new ol.Feature(new ol.geom.Polygon([ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857'),ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857')]));
-	features.push(PolylineDroite);
-	var PolylineGauche  = new ol.Feature(new ol.geom.Polygon([ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857'),ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat], 'EPSG:4326', 'EPSG:3857')]));
-	features.push(PolylineGauche);
-	var vectorSource = new ol.source.Vector({
-		features: features 
+	var PolylineDroite = new ol.Feature({
+		geometry: new ol.geom.LineString(
+			ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857'),
+			ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857')
+		)
 	});
-	
+	features.push(PolylineDroite);
+	var PolylineGauche = new ol.Feature({
+		geometry: new ol.geom.LineString(
+			ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857'),
+			ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat], 'EPSG:4326', 'EPSG:3857')
+		)
+	});
+	features.push(PolylineGauche);
 	var vectorLayer = new ol.layer.Vector({
-		source: vectorSource
+		source: new ol.source.Vector({
+			features: features 
+		});
 	});
 	map.addLayer(vectorLayer);
 	map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());

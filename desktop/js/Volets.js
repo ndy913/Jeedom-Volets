@@ -124,19 +124,28 @@ function TraceMapZone(_zone){
 		style: null
 	}));
 	Droit.on('change',function(){
-		alert( this.getGeometry().getCoordinates());
-		//DroitLatLng.lat= this.getGeometry().getCoordinates();
-		//DroitLatLng.lng= this.getGeometry().getCoordinates();
-		//$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(DroitLatLng));
+		DroitLatLng.lat= this.getGeometry().getCoordinates()[1];
+		DroitLatLng.lng= this.getGeometry().getCoordinates()[0];
+		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(DroitLatLng));
 	},Droit);
 	features.push(Droit);
 	var Centre = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
 	});
+	Centre.on('change',function(){
+		CentreLatLng.lat= this.getGeometry().getCoordinates()[1];
+		CentreLatLng.lng= this.getGeometry().getCoordinates()[0];
+		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(CentreLatLng));
+	},Centre);
 	features.push(Centre);
 	var Gauche = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
 	});
+	Gauche.on('change',function(){
+		GaucheLatLng.lat= this.getGeometry().getCoordinates()[1];
+		GaucheLatLng.lng= this.getGeometry().getCoordinates()[0];
+		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(GaucheLatLng));
+	},Gauche);
 	features.push(Gauche);
 	var vectorSource = new ol.source.Vector({
 		features: features 

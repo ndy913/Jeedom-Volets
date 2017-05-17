@@ -46,8 +46,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 
 function CoordinatesToArray(Coordinates) {
 	var ArrayCoord = [];
-	ArrayCoord[0]=Coordinates.lat;
-	ArrayCoord[1]=Coordinates.lng;
+	ArrayCoord[1]=Coordinates.lat;
+	ArrayCoord[0]=Coordinates.lng;
 	return  ArrayCoord;
 }
 

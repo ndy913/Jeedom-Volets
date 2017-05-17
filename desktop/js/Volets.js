@@ -117,7 +117,18 @@ function TraceMapZone(_zone){
 	}
 	var features = [];
 	var Droit = new ol.Feature({
-		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
+		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
+		style: [new ol.style.Style({
+				text: new ol.style.Text({
+					font: '12px Calibri,sans-serif',
+					fill: new ol.style.Fill({ color: '#000' }),
+					stroke: new ol.style.Stroke({
+						color: '#fff', width: 2
+					}),
+					text:  _zone.name + " - Droite vue extérieur"
+				})
+			})
+		]
 	});
 	map.addInteraction(new ol.interaction.Modify({
 		features: new ol.Collection([Droit]),

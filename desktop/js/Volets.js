@@ -97,7 +97,15 @@ function TraceMapZone(_zone){
 	DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
 	GaucheLatLng.lat=CentreLatLng.lat;
 	GaucheLatLng.lng=CentreLatLng.lng+ (1 / 3600);
-	var Droit = new ol.Feature({
+	var Droit = new OpenLayers.Layer.Markers( "Droit" );
+	map.addLayer(Droit);
+
+	var size = new OpenLayers.Size(21,25);
+	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+	var icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
+	Droit.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon));
+	Droit.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon.clone()));
+	/*var Droit = new ol.Feature({
 		type: 'geoMarker',
 		geometry: new ol.geom.Point(ol.proj.fromLonLat([DroitLatLng.lng,DroitLatLng.lat]))
 	});
@@ -129,14 +137,7 @@ function TraceMapZone(_zone){
 	var vectorLayer = new ol.layer.Vector({
 		source: new ol.source.Vector({
 		  features: [Droit, Centre, Gauche]
-		}),
-		style: function(feature) {
-			// hide geoMarker if animation is active
-			if (feature.get('type') === 'geoMarker') {
-				return null;
-			}
-			return styles[feature.get('type')];
-		}
+		})
 	});
 	map.addLayer(vectorLayer);
 	/*var moveFeature = function(event) {

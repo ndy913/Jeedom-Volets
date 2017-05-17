@@ -165,8 +165,8 @@ function TraceMapZone(_zone){
 	var PolylineDroite = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			features: [new ol.Feature({
-				geometry: new ol.geom.LineString([ new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat])), 
-								   new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat]))]),
+				geometry: new ol.geom.LineString([ new ol.geom.Point([CentreLatLng.lng,CentreLatLng.lat]), 
+								   new ol.geom.Point([DroitLatLng.lng,DroitLatLng.lat])]),
 				name: 'Angle droite'
 			})]
 		}),
@@ -176,38 +176,14 @@ function TraceMapZone(_zone){
 	var PolylineGauche = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			features: [new ol.Feature({
-				geometry: new ol.geom.LineString([ new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat])),
-								   new ol.geom.Point(ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat]))]),
+				geometry: new ol.geom.LineString([ new ol.geom.Point([CentreLatLng.lng,CentreLatLng.lat]),
+								   new ol.geom.Point([GaucheLatLng.lng,GaucheLatLng.lat])]),
 				name: 'Angle gauche'
 			})]
 		}),
 	});
 
 	map.addLayer(PolylineGauche);
-	/*var PolylineDroite = new ol.Feature({
-		geometry: new ol.geom.LineString(
-			ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857'),
-			ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857')
-		)
-	});
-	var PolylineDroiteLayer = new ol.layer.Vector({
-		source: new ol.source.Vector({
-			features: [PolylineDroite] 
-		})
-	});
-	map.addLayer(PolylineDroiteLayer);
-	var PolylineGauche = new ol.Feature({
-		geometry: new ol.geom.LineString(
-			ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857'),
-			ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat], 'EPSG:4326', 'EPSG:3857')
-		)
-	});
-	var PolylineGaucheLayer = new ol.layer.Vector({
-		source: new ol.source.Vector({
-			features: [PolylineGauche] 
-		})
-	});
-	map.addLayer(PolylineGaucheLayer);*/
 	map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());
 }
 function addCondition(_condition, _name, _el) {

@@ -156,7 +156,6 @@ function TraceMapZone(_zone){
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(GaucheLatLng));
 	},Gauche);
 	features.push(Gauche);
-	map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());
 	var PolylineDroite = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
 	PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
 	features.push(new ol.Feature(PolylineDroite));
@@ -166,6 +165,7 @@ function TraceMapZone(_zone){
 		})
 	});
 	map.addLayer(vectorLayer);
+	map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());
 }
 function addCondition(_condition, _name, _el) {
 	var div = $('<div class="form-group ConditionGroup">')

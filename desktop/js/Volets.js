@@ -29,8 +29,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				CentreLatLng.lng=parseFloat(center[1]);
 				map = new ol.Map({
 					view: new ol.View({
-						center: CoordinatesToArray(CentreLatLng),
-						zoom: 1
+						center: ol.proj.fromLonLat(CoordinatesToArray(CentreLatLng)),
+						zoom: 10
 					}),
 					layers: [
 						new ol.layer.Tile({

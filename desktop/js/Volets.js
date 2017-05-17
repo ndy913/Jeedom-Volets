@@ -115,14 +115,18 @@ function TraceMapZone(_zone){
 		if (typeof(_zone.configuration.Centre.lng) !== 'undefined' && _zone.configuration.Centre.lng != "" )
 			CentreLatLng.lng=parseFloat(_zone.configuration.Centre.lng);
 	}
-	var Droit = new ol.Layer.Markers( "Droit" );
-	map.addLayer(Droit);
-
-	var size = new ol.Size(21,25);
-	var offset = new ol.Pixel(-(size.w/2), -size.h);
-	var icon = new ol.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
-	Droit.addMarker(new ol.Marker(new ol.LonLat(0,0),icon));
-	Droit.addMarker(new ol.Marker(new ol.LonLat(0,0),icon.clone()));
+	var features = [];
+	var Droit = new ol.Feature({
+		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
+	});
+	features.push(Droit);
+	var vectorSource = new ol.source.Vector({
+		features: features 
+	});
+	var vectorLayer = new ol.layer.Vector({
+		source: vectorSource
+	});
+	map.addLayer(vectorLayer);
 	/*var Droit = new ol.Feature({
 		type: 'geoMarker',
 		geometry: new ol.geom.Point(ol.proj.fromLonLat([DroitLatLng.lng,DroitLatLng.lat]))

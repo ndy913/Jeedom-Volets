@@ -27,21 +27,17 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				var center=data.result.geoloc.configuration.coordinate.split(",");
 				CentreLatLng.lat=parseFloat(center[0]);
 				CentreLatLng.lng=parseFloat(center[1]);
-				var center=CoordinatesToArray(CentreLatLng);
-				alert(center)
-				// création de la carte
-				$('#MyMap').show();
 				map = new ol.Map({
-					target: 'MyMap',
+					view: new ol.View({
+						center: CoordinatesToArray(CentreLatLng),
+						zoom: 1
+					}),
 					layers: [
 						new ol.layer.Tile({
 							source: new ol.source.OSM()
 						})
 					],
-					view: new ol.View({
-						center: center,
-						zoom: 5
-					})
+					target: 'MyMap'
 				});
 			}
 		}

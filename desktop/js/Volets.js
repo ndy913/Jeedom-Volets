@@ -30,7 +30,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				map = new ol.Map({
 					view: new ol.View({
 						center: ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]),
-						zoom: 5
+						zoom: 10
 					}),
 					layers: [
 						new ol.layer.Tile({
@@ -97,19 +97,19 @@ function TraceMapZone(_zone){
 	DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
 	GaucheLatLng.lat=CentreLatLng.lat;
 	GaucheLatLng.lng=CentreLatLng.lng+ (1 / 3600);
-	/*var Droit = new ol.Feature({
+	var Droit = new ol.Feature({
 		type: 'geoMarker',
-		geometry: new ol.geom.Point(CoordinatesToArray(DroitLatLng))
+		geometry: new ol.geom.Point(ol.proj.fromLonLat([DroitLatLng.lng,DroitLatLng.lat]))
 	});
 	var Centre = new ol.Feature({
 		type: 'geoMarker',
-		geometry: new ol.geom.Point(CoordinatesToArray(CentreLatLng))
+		geometry: new ol.geom.Point(ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]))
 	});
 	var Gauche = new ol.Feature({
 		type: 'geoMarker',
-		geometry: new ol.geom.Point(CoordinatesToArray(GaucheLatLng))
+		geometry: new ol.geom.Point(ol.proj.fromLonLat([GaucheLatLng.lng,GaucheLatLng.lat]))
 	});
-	var styles = {
+	/*var styles = {
 		'route': new ol.style.Style({
 			stroke: new ol.style.Stroke({
 				width: 6, color: [237, 212, 0, 0.8]

@@ -173,7 +173,7 @@ function TraceMapZone(_zone){
 	var vectorLayer = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			features: features 
-		});
+		})
 	});
 	map.addLayer(vectorLayer);
 	map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());

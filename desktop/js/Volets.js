@@ -156,6 +156,10 @@ function TraceMapZone(_zone){
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(GaucheLatLng));
 	},Gauche);
 	features.push(Gauche);
+	var PolylineDroite  = new ol.Feature(new ol.geom.Polygon([CentreLatLng,DroitLatLng]));
+	features.push(PolylineDroite);
+	var PolylineGauche  = new ol.Feature(new ol.geom.Polygon([CentreLatLng,GaucheLatLng]));
+	features.push(PolylineGauche);
 	var vectorSource = new ol.source.Vector({
 		features: features 
 	});

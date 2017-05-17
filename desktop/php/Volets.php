@@ -4,9 +4,12 @@ throw new Exception('{{401 - Accès non autorisé}}');
 }
 sendVarToJS('eqType', 'Volets');
 $eqLogics = eqLogic::byType('Volets');
-include_file('desktop', 'OpenLayers', 'js', 'Volets');
+//include_file('desktop', 'OpenLayers', 'js', 'Volets');
 ?>
 <div class="row row-overflow">
+	<link rel="stylesheet" href="https://openlayers.org/en/v4.1.1/css/ol.css" type="text/css">
+	    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+	    <script src="https://openlayers.org/en/v4.1.1/build/ol.js"></script>
 	<div class="col-lg-2">
 		<div class="bs-sidebar">
 			<ul id="ul_eqLogic" class="nav nav-list bs-sidenav">

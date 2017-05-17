@@ -119,10 +119,10 @@ function TraceMapZone(_zone){
 	var Droit = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
 	});
-	var dragInteraction = new ol.interaction.Modify({
+	map.addInteraction(new ol.interaction.Modify({
 		features: new ol.Collection([Droit]),
 		style: null
-	});
+	}));
 	Droit.on('change',function(){
 		alert( this.getGeometry().getCoordinates());
 		//DroitLatLng.lat= this.getGeometry().getCoordinates();

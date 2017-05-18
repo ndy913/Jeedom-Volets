@@ -27,36 +27,22 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				var center=data.result.geoloc.configuration.coordinate.split(",");
 				CentreLatLng.lat=parseFloat(center[0]);
 				CentreLatLng.lng=parseFloat(center[1]);
-				$('#MyMap').show();
-				map = new google.maps.Map( document.getElementById('MyMap'),{
-					'mapTypeControl':  true,
-					'streetViewControl': false,
-					'panControl':true,
-					'scaleControl': true,
-					'overviewMapControl': true,
-					'mapTypeId': google.maps.MapTypeId.ROADMAP,
-					'center': CentreLatLng,
-					'scrollwheel': true,
-					'zoom': 20
+				map = new ol.Map({
+					view: new ol.View({
+						center: ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]),
+						zoom: 10
+					}),
+					layers: [
+						new ol.layer.Tile({
+							source: new ol.source.OSM()
+						})
+					],
+					target: 'MyMap'
 				});
 			}
 		}
 	});
 });
-function getAngle(Coordinates) {
-		var longDelta = Coordinates[1].lng - Coordinates[0].lng;
-		var y = Math.sin(longDelta) * Math.cos(Coordinates[1].lat);
-		var x = Math.cos(Coordinates[0].lat)*Math.sin(Coordinates[1].lat) - Math.sin(Coordinates[0].lat)*Math.cos(Coordinates[1].lat)*Math.cos(longDelta);
-
-		var radians = Math.atan2(y, x);
-		var angle = radians * 180 / Math.PI
-		while (angle < 0) {
-			angle += 360;
-		}
-		angle=angle % 360;
-		angle=angle-90;
-		return  angle;
-	}
 
 function saveEqLogic(_eqLogic) {
 	_eqLogic.configuration.condition=new Object();
@@ -106,7 +92,7 @@ function printEqLogic(_eqLogic) {
 		}
 	}	
 }
-function TraceMapZone(_zone){	
+function TraceMapZone(_zone){
 	DroitLatLng.lat=CentreLatLng.lat;
 	DroitLatLng.lng=CentreLatLng.lng- (1 / 3600);
 	GaucheLatLng.lat=CentreLatLng.lat;
@@ -129,59 +115,64 @@ function TraceMapZone(_zone){
 		if (typeof(_zone.configuration.Centre.lng) !== 'undefined' && _zone.configuration.Centre.lng != "" )
 			CentreLatLng.lng=parseFloat(_zone.configuration.Centre.lng);
 	}
-	var Droit=new google.maps.Marker({
-		position: DroitLatLng,
-		map: map,
-		draggable:true,
-		title: _zone.name + " - Droite vue extérieur"
-	  });
-	var Centre=new google.maps.Marker({
-		position: CentreLatLng,
-		map: map,
-		draggable:true,
-		title: _zone.name + " - Centre de l'angle d'ouverture"
-	  });
-	var Gauche=new google.maps.Marker({
-		position: GaucheLatLng,
-		map: map,
-		draggable:true,
-		title: _zone.name  + " - Gauche vue extérieur"
-	  });
-	var PolylineDroite =new google.maps.Polyline({
-		path: [CentreLatLng,DroitLatLng],
-		geodesic: true,
-		strokeColor: '#40A497',
-		strokeOpacity: 1.0,
-		map: map,
-		strokeWeight: 2
+	var features = [];
+	var PolylineDroite = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
+	PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
+	features.push(new ol.Feature(PolylineDroite));
+	var PolylineGauche = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
+	PolylineGauche.transform('EPSG:4326', 'EPSG:3857');
+	features.push(new ol.Feature(PolylineGauche));
+	var Droit = new ol.Feature({
+		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
+		style: [new ol.style.Style({text:  _zone.name + " - Droite vue extérieur"})]
 	});
-	var PolylineGauche =new google.maps.Polyline({
-		path: [GaucheLatLng,CentreLatLng],
-		geodesic: true,
-		strokeColor: '#40A497',
-		strokeOpacity: 1.0,
-		map: map,
-		strokeWeight: 2
+	map.addInteraction(new ol.interaction.Modify({
+		features: new ol.Collection([Droit]),
+		style: null
+	}));
+	Droit.on('change',function(){
+		DroitLatLng.lat= this.getGeometry().getCoordinates()[1];
+		DroitLatLng.lng= this.getGeometry().getCoordinates()[0];
+		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(DroitLatLng));
+		PolylineDroite.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
+	},Droit);
+	features.push(Droit);
+	var Centre = new ol.Feature({
+		geometry: new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
 	});
-	google.maps.event.addListener(Droit,'drag', function(event) {
-		DroitLatLng.lat=event.latLng.lat();
-		DroitLatLng.lng=event.latLng.lng();
-		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(event.latLng));
-		PolylineDroite.setPath([CentreLatLng,DroitLatLng]);
+	map.addInteraction(new ol.interaction.Modify({
+		features: new ol.Collection([Centre]),
+		style: null
+	}));
+	Centre.on('change',function(){
+		CentreLatLng.lat= this.getGeometry().getCoordinates()[1];
+		CentreLatLng.lng= this.getGeometry().getCoordinates()[0];
+		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(CentreLatLng));
+		PolylineDroite.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
+		PolylineGauche.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
+	},Centre);
+	features.push(Centre);
+	var Gauche = new ol.Feature({
+		geometry: new ol.geom.Point(ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
 	});
-	google.maps.event.addListener(Centre,'drag', function(event) {
-		CentreLatLng.lat=event.latLng.lat();
-		CentreLatLng.lng=event.latLng.lng();
-		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(event.latLng));
-		PolylineGauche.setPath([GaucheLatLng,CentreLatLng]);
-		PolylineDroite.setPath([CentreLatLng,DroitLatLng]);
+	map.addInteraction(new ol.interaction.Modify({
+		features: new ol.Collection([Gauche]),
+		style: null
+	}));
+	Gauche.on('change',function(){
+		GaucheLatLng.lat= this.getGeometry().getCoordinates()[1];
+		GaucheLatLng.lng= this.getGeometry().getCoordinates()[0];
+		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(GaucheLatLng));
+		PolylineGauche.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
+	},Gauche);
+	features.push(Gauche);
+	var vectorLayer = new ol.layer.Vector({
+		source: new ol.source.Vector({
+			features: features 
+		})
 	});
-	google.maps.event.addListener(Gauche,'drag', function(event) {
-		GaucheLatLng.lat=event.latLng.lat();
-		GaucheLatLng.lng=event.latLng.lng();
-		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(event.latLng));
-		PolylineGauche.setPath([CentreLatLng,GaucheLatLng]);
-		});
+	map.addLayer(vectorLayer);
+	map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());
 }
 function addCondition(_condition, _name, _el) {
 	var div = $('<div class="form-group ConditionGroup">')

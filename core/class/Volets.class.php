@@ -164,7 +164,7 @@ class Volets extends eqLogic {
 					return true;
 			}
 		}else
-			log::add('Volets','debug','Les coordonées GPS sont mal renseigner');
+			log::add('Volets','debug','Les coordonées GPS de l\'angle d\'exposition au soleil de votre fenetre sont mal configuré');
 		return false;			
 	}	
 	public function SelectAction($Azimuth) {

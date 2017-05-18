@@ -131,8 +131,10 @@ function TraceMapZone(_zone){
 		style: null
 	}));
 	Droit.on('change',function(){
-		DroitLatLng.lat= this.getGeometry().getCoordinates()[1];
-		DroitLatLng.lng= this.getGeometry().getCoordinates()[0];
+		var coord = event.feature.getGeometry().getCoordinates();
+		coord = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
+		DroitLatLng.lat= coord[1];
+		DroitLatLng.lng= coord[0];
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(DroitLatLng));
 		PolylineDroite.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
 	},Droit);
@@ -146,8 +148,10 @@ function TraceMapZone(_zone){
 		style: null
 	}));
 	Centre.on('change',function(){
-		CentreLatLng.lat= this.getGeometry().getCoordinates()[1];
-		CentreLatLng.lng= this.getGeometry().getCoordinates()[0];
+		var coord = event.feature.getGeometry().getCoordinates();
+		coord = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
+		CentreLatLng.lat= coord[1];
+		CentreLatLng.lng= coord[0];
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(CentreLatLng));
 		PolylineDroite.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
 		PolylineGauche.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
@@ -161,9 +165,11 @@ function TraceMapZone(_zone){
 		features: new ol.Collection([Gauche]),
 		style: null
 	}));
-	Gauche.on('change',function(){
-		GaucheLatLng.lat= this.getGeometry().getCoordinates()[1];
-		GaucheLatLng.lng= this.getGeometry().getCoordinates()[0];
+	Gauche.on('change',function(event){
+		var coord = event.feature.getGeometry().getCoordinates();
+		coord = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
+		GaucheLatLng.lat= coord[1];
+		GaucheLatLng.lng= coord[0];
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(GaucheLatLng));
 		PolylineGauche.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
 	},Gauche);

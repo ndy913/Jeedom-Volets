@@ -129,8 +129,8 @@ class Volets extends eqLogic {
 				return false;
 			}
 			$Now=new DateTime();
-			if($Now->format('Hi')>$Jours->format('Hi') && $Now->format('Hi')<$Nuit->format('Hi')){
-				log::add('Volets','debug',$Now->format('Hi').'>'.$Jours->format('Hi') .'&&'. $Now->format('Hi').'<'.$Nuit->format('Hi').' => Vrais');
+			if($Now>$Jours && $Now<$Nuit){
+				log::add('Volets','debug',$Now->format('Hi').'>'.$Jours->format('Hi') .'&&'. $Now->format('Hi').'<'.$Nuit->format('Hi').' => Vrai');
 				return true;
 			}
 			log::add('Volets','debug',$Now->format('Hi').'>'.$Jours->format('Hi') .'&&'. $Now->format('Hi').'<'.$Nuit->format('Hi').' => Faux');
@@ -283,7 +283,7 @@ class Volets extends eqLogic {
 		foreach($this->getConfiguration('condition') as $condition){
 			if($condition['evaluation']!=$evaluate && $condition['evaluation']!='all')
 				continue;
-			if(stripos($condition['TypeGestion'],$TypeGestion)<0 && $condition['TypeGestion']!='all')	
+			if(stripos($condition['TypeGestion'],$TypeGestion) === false && $condition['TypeGestion']!='all')	
 				continue;		
 			if (isset($condition['enable']) && $condition['enable'] == 0)
 				continue;

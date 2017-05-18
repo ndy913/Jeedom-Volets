@@ -130,10 +130,10 @@ class Volets extends eqLogic {
 			}
 			$Now=new DateTime();
 			if($Now->format('Hi')>$Jours->format('Hi') && $Now->format('Hi')<$Nuit->format('Hi')){
-				log::add('Volets','debug',$Now->format('Hi').'>'.$Jours->format('Hi') .'&&.' $Now->format('Hi').'<'.$Nuit->format('Hi').' => Vrais');
+				log::add('Volets','debug',$Now->format('Hi').'>'.$Jours->format('Hi') .'&&'. $Now->format('Hi').'<'.$Nuit->format('Hi').' => Vrais');
 				return true;
 			}
-			log::add('Volets','debug',$Now->format('Hi').'>'.$Jours->format('Hi') .'&&.' $Now->format('Hi').'<'.$Nuit->format('Hi').' => Faux');
+			log::add('Volets','debug',$Now->format('Hi').'>'.$Jours->format('Hi') .'&&'. $Now->format('Hi').'<'.$Nuit->format('Hi').' => Faux');
 		}else
 			log::add('Volets','debug','Aucune commande Héliotrope de configurer');
 		return false;

@@ -148,7 +148,7 @@ function TraceMapZone(_zone){
 	Centre.on('change',function(){
 		CentreLatLng.lat= this.getGeometry().getCoordinates()[1];
 		CentreLatLng.lng= this.getGeometry().getCoordinates()[0];
-		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(CentreLatLng));
+		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(CentreLatLng));
 		PolylineDroite.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
 		PolylineGauche.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
 	},Centre);
@@ -164,7 +164,7 @@ function TraceMapZone(_zone){
 	Gauche.on('change',function(){
 		GaucheLatLng.lat= this.getGeometry().getCoordinates()[1];
 		GaucheLatLng.lng= this.getGeometry().getCoordinates()[0];
-		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(GaucheLatLng));
+		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(GaucheLatLng));
 		PolylineGauche.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
 	},Gauche);
 	features.push(Gauche);

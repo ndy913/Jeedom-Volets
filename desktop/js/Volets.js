@@ -131,7 +131,7 @@ function TraceMapZone(_zone){
 		style: null
 	}));
 	Droit.on('change',function(){
-		var coord = event.feature.getGeometry().getCoordinates();
+		var coord = this.getGeometry().getCoordinates();
 		coord = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
 		DroitLatLng.lat= coord[1];
 		DroitLatLng.lng= coord[0];
@@ -148,7 +148,7 @@ function TraceMapZone(_zone){
 		style: null
 	}));
 	Centre.on('change',function(){
-		var coord = event.feature.getGeometry().getCoordinates();
+		var coord = this.getGeometry().getCoordinates();
 		coord = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
 		CentreLatLng.lat= coord[1];
 		CentreLatLng.lng= coord[0];
@@ -165,8 +165,8 @@ function TraceMapZone(_zone){
 		features: new ol.Collection([Gauche]),
 		style: null
 	}));
-	Gauche.on('change',function(event){
-		var coord = event.feature.getGeometry().getCoordinates();
+	Gauche.on('change',function(){
+		var coord = this.getGeometry().getCoordinates();
 		coord = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
 		GaucheLatLng.lat= coord[1];
 		GaucheLatLng.lng= coord[0];

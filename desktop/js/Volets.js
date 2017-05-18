@@ -137,6 +137,7 @@ function TraceMapZone(_zone){
 		DroitLatLng.lng= coord[0];
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(DroitLatLng));
 		PolylineDroite.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
+		PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
 	},Droit);
 	features.push(Droit);
 	var Centre = new ol.Feature({
@@ -154,7 +155,9 @@ function TraceMapZone(_zone){
 		CentreLatLng.lng= coord[0];
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(CentreLatLng));
 		PolylineDroite.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
+		PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
 		PolylineGauche.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
+		PolylineGauche.transform('EPSG:4326', 'EPSG:3857');
 	},Centre);
 	features.push(Centre);
 	var Gauche = new ol.Feature({
@@ -172,6 +175,7 @@ function TraceMapZone(_zone){
 		GaucheLatLng.lng= coord[0];
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(GaucheLatLng));
 		PolylineGauche.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
+		PolylineGauche.transform('EPSG:4326', 'EPSG:3857');
 	},Gauche);
 	features.push(Gauche);
 	var vectorLayer = new ol.layer.Vector({

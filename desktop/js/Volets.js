@@ -124,7 +124,7 @@ function TraceMapZone(_zone){
 	features.push(new ol.Feature(PolylineGauche));
 	var Droit = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
-		style: new ol.style.Style({text:  _zone.name + " - Droite vue extérieur"})
+		style: new ol.style.Style({text:new ol.style.Text({text: _zone.name + " - Droite vue extérieur"})})
 	});
 	map.addInteraction(new ol.interaction.Modify({
 		features: new ol.Collection([Droit]),
@@ -139,7 +139,7 @@ function TraceMapZone(_zone){
 	features.push(Droit);
 	var Centre = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([CentreLatLng.lng,CentreLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
-		style: new ol.style.Style({text:  _zone.name + " - Centre de l'angle"})
+		style: new ol.style.Style({text:new ol.style.Text({text: _zone.name + " - Centre de l'angle"})})
 	});
 	map.addInteraction(new ol.interaction.Modify({
 		features: new ol.Collection([Centre]),
@@ -155,7 +155,7 @@ function TraceMapZone(_zone){
 	features.push(Centre);
 	var Gauche = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
-		style: new ol.style.Style({text:  _zone.name + " - Gauche vue extérieur"})
+		style: new ol.style.Style({text:new ol.style.Text({text: _zone.name + " - Gauche vue extérieur"})})
 	});
 	map.addInteraction(new ol.interaction.Modify({
 		features: new ol.Collection([Gauche]),

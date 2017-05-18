@@ -123,9 +123,20 @@ function TraceMapZone(_zone){
 	PolylineGauche.transform('EPSG:4326', 'EPSG:3857');
 	features.push(new ol.Feature(PolylineGauche));
 	var Droit = new ol.Feature({
-		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
-		style: new ol.style.Style({text:new ol.style.Text({text: _zone.name + " - Droite vue extérieur"})})
+		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
 	});
+	var style = [
+	    new ol.style.Style({
+		text: new ol.style.Text({
+		    text: _zone.name + " - Droite vue extérieur",
+		    offsetY: -25,
+		    fill: new ol.style.Fill({
+			color: '#fff'
+		    })
+		})
+	    })
+	];
+	Droit.setStyle(style);
 	map.addInteraction(new ol.interaction.Modify({
 		features: new ol.Collection([Droit]),
 		style: null

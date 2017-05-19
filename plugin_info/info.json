@@ -1,0 +1,11 @@
+{
+	"id" : "Volets",
+	"name" : "Gestion de Volet",
+	"description" : "Ce plugin de gere l'ouverture et la fermeture de nos volets",
+	"licence" : "AGPL",
+	"author" : "Halbout Michael",
+	"require" : "3.0",
+	"category" : "automatisation",
+	"hasOwnDeamon" : true,
+	"hasDependency" : true
+}

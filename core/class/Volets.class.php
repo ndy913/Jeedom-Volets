@@ -191,10 +191,10 @@ class Volets extends eqLogic {
 			log::add('Volets','info',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
 			if($isInWindows->execCmd()){
 				$Action='close';
-				log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
+				log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
 			}else{
 				$Action='open';
-				log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
+				log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
 			}
 		}
 		$StateCmd->setCollectDate(date('Y-m-d H:i:s'));

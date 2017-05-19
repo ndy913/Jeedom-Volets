@@ -127,13 +127,15 @@ function TraceMapZone(_zone){
 	});
 	Droit.setStyle([  
 		new ol.style.Style({      
-			fill: new ol.style.Fill({
-				color: 'rgba(255,255,255,0.4)'
-			}),
-			stroke: new ol.style.Stroke({
-				color: '#3399CC',
-				width: 1.25
-			}),
+			image: new ol.style.Circle({
+     				radius: 5,
+        			stroke: new ol.style.Stroke({
+          				color: '#000'
+				}),
+				fill: new ol.style.Fill({
+					color: 'rgba(255,255,255,0.4)'
+				}),
+      			}),
 			text: new ol.style.Text({
 				text: _zone.name + " - Droite vue extérieur",
 				offsetY: -25,
@@ -181,14 +183,16 @@ function TraceMapZone(_zone){
 		style: new ol.style.Style({text:new ol.style.Text({text: _zone.name + " - Gauche vue extérieur"})})
 	});
 	Gauche.setStyle([
-		new ol.style.Style({
-			fill: new ol.style.Fill({
-				color: 'rgba(255,255,255,0.4)'
-			}),
-			stroke: new ol.style.Stroke({
-				color: '#3399CC',
-				width: 1.25
-			}),
+		new ol.style.Style({  
+			image: new ol.style.Circle({
+     				radius: 5,
+        			stroke: new ol.style.Stroke({
+          				color: '#000'
+				}),
+				fill: new ol.style.Fill({
+					color: 'rgba(255,255,255,0.4)'
+				}),
+      			}),
 			text: new ol.style.Text({
 				text: _zone.name + " - Gauche vue extérieur",
 				offsetY: -25,

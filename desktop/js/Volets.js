@@ -238,7 +238,7 @@ function addCondition(_condition, _name, _el) {
 				.append($('<span class="input-group-btn">')
 					.append($('<a class="btn btn-warning btn-sm listCmdCondition">')
 						.append($('<i class="fa fa-list-alt">'))))))
-		.append($('<div class="col-sm-6">')
+		.append($('<div class="col-sm-4">')
 			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="TypeGestion" />')
 			       .append($('<option value="all">')
 					.text('{{Position du soleil et Jour / Nuit}}'))
@@ -257,7 +257,7 @@ function addCondition(_condition, _name, _el) {
 					.text('{{Eté}}'))
 			       .append($('<option value="open">')
 					.text('{{Hivers}}'))))		
-		.append($('<div class="col-sm-8">')
+		.append($('<div class="col-sm-4">')
 			.append($('<label>')
 				.text('{{Forcer l\'execution}}'))
 			.append($('<input type="checkbox" class="expressionAttr cmdCondition" data-label-text="Forcer" data-l1key="configuration" data-l2key="force"/>')));

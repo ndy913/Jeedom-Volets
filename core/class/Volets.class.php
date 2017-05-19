@@ -1,8 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
-	private $_state=false;
-	private $_force=false;
+	private $_state;
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'Volets';
@@ -174,7 +173,6 @@ class Volets extends eqLogic {
 		$StateCmd=$this->getCmd(null,'state');
 		if(!is_object($StateCmd))
 			return false;
-		$this->_state=$StateCmd->execCmd();
 		$isInWindows=$this->getCmd(null,'isInWindows');
 		if(!is_object($isInWindows))
 			return false;
@@ -213,8 +211,10 @@ class Volets extends eqLogic {
 					if($result){
 						log::add('Volets','info',$this->getHumanName().' Les conditions sont remplies');
 						$Action=$this->getConfiguration('action');
-						if($this->_state&&$this->_force)
+						if($this->_state != $Evenement){
 							$this->ExecuteAction($Action[$Evenement]);
+							$this->_state = $Evenement;
+						}
 					}
 				}
 				return;
@@ -279,7 +279,6 @@ class Volets extends eqLogic {
 		return $cron;
 	}
 	public function EvaluateCondition($evaluate,$TypeGestion){
-		$force=false;
 		foreach($this->getConfiguration('condition') as $condition){
 			if($condition['evaluation']!=$evaluate && $condition['evaluation']!='all')
 				continue;
@@ -287,8 +286,6 @@ class Volets extends eqLogic {
 				continue;		
 			if (isset($condition['enable']) && $condition['enable'] == 0)
 				continue;	
-			if ($condition['force'])
-				$this->_force=true;
 			$expression = scenarioExpression::setTags($condition['expression']);
 			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 			$result = evaluate($expression);

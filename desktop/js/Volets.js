@@ -257,7 +257,7 @@ function addCondition(_condition, _name, _el) {
 					.text('{{Eté}}'))
 			       .append($('<option value="open">')
 					.text('{{Hivers}}'))))		
-		.append($('<div class="col-sm-4">')
+		.append($('<div class="col-sm-2">')
 			.append($('<label>')
 				.text('{{Forcer l\'execution}}'))
 			.append($('<input type="checkbox" class="expressionAttr cmdCondition" data-label-text="Forcer" data-l1key="configuration" data-l2key="force"/>')));

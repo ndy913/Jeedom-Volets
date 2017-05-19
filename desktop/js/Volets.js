@@ -125,8 +125,15 @@ function TraceMapZone(_zone){
 	var Droit = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([DroitLatLng.lng,DroitLatLng.lat], 'EPSG:4326', 'EPSG:3857'))
 	});
-	Droit.setStyle([
-		new ol.style.Style({
+	Droit.setStyle([  
+		new ol.style.Style({      
+			fill: new ol.style.Fill({
+				color: 'rgba(255,255,255,0.4)'
+			}),
+			stroke: new ol.style.Stroke({
+				color: '#3399CC',
+				width: 1.25
+			}),
 			text: new ol.style.Text({
 				text: _zone.name + " - Droite vue extérieur",
 				offsetY: -25,
@@ -175,6 +182,13 @@ function TraceMapZone(_zone){
 	});
 	Gauche.setStyle([
 		new ol.style.Style({
+			fill: new ol.style.Fill({
+				color: 'rgba(255,255,255,0.4)'
+			}),
+			stroke: new ol.style.Stroke({
+				color: '#3399CC',
+				width: 1.25
+			}),
 			text: new ol.style.Text({
 				text: _zone.name + " - Gauche vue extérieur",
 				offsetY: -25,

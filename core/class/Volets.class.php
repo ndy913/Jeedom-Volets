@@ -161,7 +161,7 @@ class Volets extends eqLogic {
 					return true;
 			}
 		}else
-			log::add('Volets','debug','Les coordonées GPS sont mal renseigner');
+			log::add('Volets','debug','Les coordonées GPS de l\'angle d\'exposition au soleil de votre fenetre sont mal configuré');
 		return false;			
 	}	
 	public function SelectAction($Azimuth) {
@@ -280,7 +280,7 @@ class Volets extends eqLogic {
 		foreach($this->getConfiguration('condition') as $condition){
 			if($condition['evaluation']!=$evaluate && $condition['evaluation']!='all')
 				continue;
-			if(stripos($condition['TypeGestion'],$TypeGestion)<0 && $condition['TypeGestion']!='all')	
+			if(stripos($condition['TypeGestion'],$TypeGestion) === false && $condition['TypeGestion']!='all')	
 				continue;		
 			if (isset($condition['enable']) && $condition['enable'] == 0)
 				continue;

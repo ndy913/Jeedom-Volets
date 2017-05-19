@@ -1,6 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
+	private $_state=false;
+	private $_force=false;
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'Volets';
@@ -169,33 +171,29 @@ class Volets extends eqLogic {
 		$StateCmd=$this->getCmd(null,'state');
 		if(!is_object($StateCmd))
 			return false;
-		$State=$StateCmd->execCmd();
+		$this->_state=$StateCmd->execCmd();
 		$isInWindows=$this->getCmd(null,'isInWindows');
 		if(!is_object($isInWindows))
 			return false;
 		if($this->CheckAngle($Azimuth)){
-			if(!$State || $State == ""){
-				$StateCmd->event(true);
-				log::add('Volets','info',$this->getHumanName().' Le soleil est dans la fenêtre');
-				if($isInWindows->execCmd()){
-					$Action='open';
-					log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
-				}else{
-					$Action='close';
-					log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
-				}
+			$StateCmd->event(true);
+			log::add('Volets','info',$this->getHumanName().' Le soleil est dans la fenêtre');
+			if($isInWindows->execCmd()){
+				$Action='open';
+				log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
+			}else{
+				$Action='close';
+				log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
 			}
 		}else{
-			if($State){
-				$StateCmd->event(false);
-				log::add('Volets','info',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
-				if($isInWindows->execCmd()){
-					$Action='close';
-					log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
-				}else{
-					$Action='open';
-					log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
-				}
+			$StateCmd->event(false);
+			log::add('Volets','info',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
+			if($isInWindows->execCmd()){
+				$Action='close';
+				log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
+			}else{
+				$Action='open';
+				log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
 			}
 		}
 		$StateCmd->setCollectDate(date('Y-m-d H:i:s'));
@@ -212,7 +210,8 @@ class Volets extends eqLogic {
 					if($result){
 						log::add('Volets','info',$this->getHumanName().' Les conditions sont remplies');
 						$Action=$this->getConfiguration('action');
-						$this->ExecuteAction($Action[$Evenement]);
+						if($this->_state&&$this->_force)
+							$this->ExecuteAction($Action[$Evenement]);
 					}
 				}
 				return;
@@ -277,13 +276,16 @@ class Volets extends eqLogic {
 		return $cron;
 	}
 	public function EvaluateCondition($evaluate,$TypeGestion){
+		$force=false;
 		foreach($this->getConfiguration('condition') as $condition){
 			if($condition['evaluation']!=$evaluate && $condition['evaluation']!='all')
 				continue;
 			if(stripos($condition['TypeGestion'],$TypeGestion) === false && $condition['TypeGestion']!='all')	
 				continue;		
 			if (isset($condition['enable']) && $condition['enable'] == 0)
-				continue;
+				continue;	
+			if ($condition['force'])
+				$this->_force=true;
 			$expression = scenarioExpression::setTags($condition['expression']);
 			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 			$result = evaluate($expression);

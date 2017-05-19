@@ -286,11 +286,11 @@ class Volets extends eqLogic {
 			if(stripos($condition['TypeGestion'],$TypeGestion) === false && $condition['TypeGestion']!='all')	
 				continue;	
 			log::add('Volets','info',$this->getHumanName().' : TypeGestion ok');	
-			/*if (isset($condition['enable']) && $condition['enable'] == 0)
-				continue;*/
+			if (isset($condition['enable']) && $condition['enable'] == 0)
+				continue;
 			log::add('Volets','info',$this->getHumanName().' : enable ok');	
 			$expression = scenarioExpression::setTags($condition['expression']);
-			$message = __('Evaluation de la condition :['.$condition['expression'].'] [', __FILE__) . trim($expression) . '] = ';
+			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 			$result = evaluate($expression);
 			if (is_bool($result)) {
 				if ($result) {

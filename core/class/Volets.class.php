@@ -282,14 +282,10 @@ class Volets extends eqLogic {
 		foreach($this->getConfiguration('condition') as $condition){
 			if($condition['evaluation']!=$evaluate && $condition['evaluation']!='all')
 				continue;
-			log::add('Volets','info',$this->getHumanName().' : evaluation ok');
 			if(stripos($condition['TypeGestion'],$TypeGestion) === false && $condition['TypeGestion']!='all')	
-				continue;	
-			log::add('Volets','info',$this->getHumanName().' : TypeGestion ok');	
+				continue;		
 			if (isset($condition['enable']) && $condition['enable'] == 0)
 				continue;
-			log::add('Volets','info',$this->getHumanName().' : enable ok');	
-			$expression = scenarioExpression::setTags($condition['expression']);
 			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 			$result = evaluate($expression);
 			if (is_bool($result)) {

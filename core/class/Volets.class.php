@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
-	private $_position;
+	//private $_position;
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'Volets';
@@ -210,10 +210,10 @@ class Volets extends eqLogic {
 					if($result){
 						log::add('Volets','info',$this->getHumanName().' Les conditions sont remplies');
 						$Action=$this->getConfiguration('action');
-						if($this->_position!=$Evenement){
+						//if($this->_position!=$Evenement){
 							$this->ExecuteAction($Action[$Evenement]);
-							$this->_position=$Evenement;
-						}
+							//$this->_position=$Evenement;
+						//}
 					}
 				}
 				return;

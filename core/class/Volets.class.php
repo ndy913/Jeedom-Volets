@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
-	//private $_state;
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'Volets';
@@ -37,18 +36,15 @@ class Volets extends eqLogic {
 			$Volet->save();
 	}
 	public static function deamon_stop() {	
-		foreach(eqLogic::byType('Volets') as $Volet){
-			$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
-			if (is_object($listener))
-				$listener->remove();
-			$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
-			if (is_object($cron)) 	
-				$cron->remove();
-			$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $Volet->getId()));
-			if (is_object($cron)) 	
-				$cron->remove();
-
-		}
+		$listener = listener::byClassAndFunction('Volets', 'pull');
+		if (is_object($listener))
+			$listener->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionJour');
+		if (is_object($cron)) 	
+			$cron->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
+		if (is_object($cron)) 	
+			$cron->remove();
 	}
 	public static function pull($_option) {
 		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
@@ -177,25 +173,27 @@ class Volets extends eqLogic {
 		if(!is_object($isInWindows))
 			return false;
 		if($this->CheckAngle($Azimuth)){
-			$StateCmd->event(true);
-			log::add('Volets','info',$this->getHumanName().' Le soleil est dans la fenêtre');
-			if($isInWindows->execCmd()){
-				$Action='open';
-				log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
-			}else{
-				$Action='close';
-				log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
-			}
+				$StateCmd->event(true);
+				log::add('Volets','info',$this->getHumanName().' Le soleil est dans la fenêtre');
+				if($isInWindows->execCmd()){
+					$Action='open';
+					log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
+				}else{
+					$Action='close';
+					log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
+				}
+			
 		}else{
-			$StateCmd->event(false);
-			log::add('Volets','info',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
-			if($isInWindows->execCmd()){
-				$Action='close';
-				log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
-			}else{
-				$Action='open';
-				log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
-			}
+				$StateCmd->event(false);
+				log::add('Volets','info',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
+				if($isInWindows->execCmd()){
+					$Action='close';
+					log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
+				}else{
+					$Action='open';
+					log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
+				}
+			
 		}
 		$StateCmd->setCollectDate(date('Y-m-d H:i:s'));
 		$StateCmd->save();
@@ -211,10 +209,7 @@ class Volets extends eqLogic {
 					if($result){
 						log::add('Volets','info',$this->getHumanName().' Les conditions sont remplies');
 						$Action=$this->getConfiguration('action');
-						//if($this->_state != $Evenement){
-							$this->ExecuteAction($Action[$Evenement]);
-							//$this->_state = $Evenement;
-						//}
+						$this->ExecuteAction($Action[$Evenement]);
 					}
 				}
 				return;
@@ -230,7 +225,7 @@ class Volets extends eqLogic {
 				continue;
 			try {
 				$options = array();
-				if (isset($cmd['options'])) {
+				if (isset($cmd['options'])) 
 					$options = $cmd['options'];
 				}
 				scenarioExpression::createAndExec('action', $cmd['cmd'], $options);
@@ -286,6 +281,7 @@ class Volets extends eqLogic {
 				continue;		
 			if (isset($condition['enable']) && $condition['enable'] == 0)
 				continue;
+			$expression = scenarioExpression::setTags($condition['expression']);
 			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 			$result = evaluate($expression);
 			if (is_bool($result)) {

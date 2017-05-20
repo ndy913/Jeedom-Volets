@@ -70,7 +70,8 @@ function printEqLogic(_eqLogic) {
 	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(_eqLogic.configuration.Droite));
 	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(_eqLogic.configuration.Centre));
 	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(_eqLogic.configuration.Gauche));
-	TraceMapZone(_eqLogic);
+	if (typeof(_eqLogic.configuration.heliotrope) !== 'undefined' && _eqLogic.configuration.heliotrope!='') 
+		TraceMapZone(_eqLogic);
 	if (typeof(_eqLogic.configuration.condition) !== 'undefined') {
 		for(var index in _eqLogic.configuration.condition) { 
 			if( (typeof _eqLogic.configuration.condition[index] === "object") && (_eqLogic.configuration.condition[index] !== null) )

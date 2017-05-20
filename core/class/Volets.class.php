@@ -227,7 +227,6 @@ class Volets extends eqLogic {
 				$options = array();
 				if (isset($cmd['options'])) 
 					$options = $cmd['options'];
-				}
 				scenarioExpression::createAndExec('action', $cmd['cmd'], $options);
 			} catch (Exception $e) {
 				log::add('Volets', 'error', __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());

@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
-	//private $_position;
+	private $_position;
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'Volets';
@@ -165,35 +165,39 @@ class Volets extends eqLogic {
 			log::add('Volets','debug','Les coordonées GPS de l\'angle d\'exposition au soleil de votre fenetre sont mal configuré');
 		return false;			
 	}	
-	public function SelectAction($Azimuth) {
+	public function getSaison() {
+		$isInWindows=$this->getCmd(null,'isInWindows');
+		if(!is_object($isInWindows))
+			return false;
+		if($isInWindows->execCmd()){
+			log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
+			return 'hiver';
+		}else{
+			log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
+			return 'été';
+		}
+		return false;
+	}	
+	public function SelectAction($Azimuth,$saison) {
 		$Action=false;
 		$StateCmd=$this->getCmd(null,'state');
 		if(!is_object($StateCmd))
 			return false;
-		$isInWindows=$this->getCmd(null,'isInWindows');
-		if(!is_object($isInWindows))
-			return false;
 		if($this->CheckAngle($Azimuth)){
 				$StateCmd->event(true);
 				log::add('Volets','info',$this->getHumanName().' Le soleil est dans la fenêtre');
-				if($isInWindows->execCmd()){
+				if($saison)
 					$Action='open';
-					log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
-				}else{
+				else
 					$Action='close';
-					log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
-				}
 			
 		}else{
 				$StateCmd->event(false);
 				log::add('Volets','info',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
-				if($isInWindows->execCmd()){
+				if($saison)
 					$Action='close';
-					log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode hiver');
-				}else{
+				else
 					$Action='open';
-					log::add('Volets','info',$this->getHumanName().' Le plugin est configuré en mode été');
-				}
 			
 		}
 		$StateCmd->setCollectDate(date('Y-m-d H:i:s'));
@@ -204,16 +208,17 @@ class Volets extends eqLogic {
 		if($this->getCmd(null,'isArmed')->execCmd()){
 			if($this->checkJour()){
 				log::add('Volets', 'info', 'Exécution de '.$this->getHumanName());
-				$Evenement=$this->SelectAction($Azimuth);
+				$Saison=$this->getSaison();
+				$Evenement=$this->SelectAction($Azimuth,$Saison);
 				if($Evenement != false){
-					$result=$this->EvaluateCondition($Evenement,'Helioptrope');
+					$result=$this->EvaluateCondition($Evenement,$Saison,'Helioptrope');
 					if($result){
 						log::add('Volets','info',$this->getHumanName().' Les conditions sont remplies');
 						$Action=$this->getConfiguration('action');
-						//if($this->_position!=$Evenement){
+						if($this->_position!=$Evenement){
 							$this->ExecuteAction($Action[$Evenement]);
-							//$this->_position=$Evenement;
-						//}
+							$this->_position=$Evenement;
+						}
 					}
 				}
 				return;
@@ -276,9 +281,11 @@ class Volets extends eqLogic {
 			}
 		return $cron;
 	}
-	public function EvaluateCondition($evaluate,$TypeGestion){
+	public function EvaluateCondition($Evenement,$Saison,$TypeGestion){
 		foreach($this->getConfiguration('condition') as $condition){
-			if($condition['evaluation']!=$evaluate && $condition['evaluation']!='all')
+			if($condition['evaluation']!=$Evenement && $condition['evaluation']!='all')
+				continue;
+			if($condition['saison']!=$Saison && $condition['saison']!='all')
 				continue;
 			if(stripos($condition['TypeGestion'],$TypeGestion) === false && $condition['TypeGestion']!='all')	
 				continue;		

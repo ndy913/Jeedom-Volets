@@ -185,17 +185,17 @@ class Volets extends eqLogic {
 		if($this->CheckAngle($Azimuth)){
 			$StateCmd->event(true);
 			log::add('Volets','info',$this->getHumanName().' Le soleil est dans la fenêtre');
-			if($saison)
+			if($saison =='hiver')
 				$Action='open';
 			else
 				$Action='close';
 		}else{
 			$StateCmd->event(false);
 			log::add('Volets','info',$this->getHumanName().' Le soleil n\'est pas dans la fenêtre');
-			if($saison)
-				$Action='close';
-			else
+			if($saison == 'été')
 				$Action='open';
+			else
+				$Action='close';
 		}
 		$StateCmd->setCollectDate(date('Y-m-d H:i:s'));
 		$StateCmd->save();

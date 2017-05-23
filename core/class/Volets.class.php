@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
-	private $_position;
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'Volets';
@@ -107,7 +106,31 @@ class Volets extends eqLogic {
 				$cron = $Volet->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($Volet->getId())));
 			}
 		}
-	} 
+	}
+  	public function ActionAzimute($Azimuth) {
+		if($this->getCmd(null,'isArmed')->execCmd()){
+			if($this->checkJour()){
+				$Saison=$this->getSaison();
+				$Evenement=$this->SelectAction($Azimuth,$Saison);
+				if($Evenement != false){
+					if($this->EvaluateCondition($Evenement,$Saison,'Helioptrope')){
+						log::add('Volets','info',$this->getHumanName().' :  Les conditions sont remplies');
+						$Action=$this->getConfiguration('action');
+                      	$position = cache::byKey('Volets::Position::'.$this->getId());
+						if($position->getValue('') != $Evenement){
+							log::add('Volets','info',$this->getHumanName().' : Position actuel est '.$Evenement);
+							$this->ExecuteAction($Action[$Evenement]);
+			      			cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
+						}
+					}
+				}
+				return;
+			}
+			log::add('Volets','debug',$this->getHumanName().' : Il fait nuit, la gestion par azimuth est désactivé');
+		}
+		else
+			log::add('Volets','debug',$this->getHumanName().' : Gestion par azimute désactivé');
+	}
    	public function checkJour() {
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){	
@@ -200,29 +223,6 @@ class Volets extends eqLogic {
 		$StateCmd->setCollectDate(date('Y-m-d H:i:s'));
 		$StateCmd->save();
 		return $Action;
-	}
-	public function ActionAzimute($Azimuth) {	
-		if($this->getCmd(null,'isArmed')->execCmd()){
-			if($this->checkJour()){
-				$Saison=$this->getSaison();
-				$Evenement=$this->SelectAction($Azimuth,$Saison);
-				if($Evenement != false){
-					$result=$this->EvaluateCondition($Evenement,$Saison,'Helioptrope');
-				if($result){
-						log::add('Volets','info',$this->getHumanName().' :  Les conditions sont remplies');
-						$Action=$this->getConfiguration('action');
-						if($this->_position!=$Evenement){
-							$this->ExecuteAction($Action[$Evenement]);
-							$this->_position=$Evenement;
-						}
-					}
-				}
-				return;
-			}
-			log::add('Volets','debug',$this->getHumanName().' : Il fait nuit, la gestion par azimuth est désactivé');
-		}
-		else
-			log::add('Volets','debug',$this->getHumanName().' : Gestion par azimute désactivé');
 	}
 	public function ExecuteAction($Action) {	
 		foreach($Action as $cmd){

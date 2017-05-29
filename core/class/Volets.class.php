@@ -286,7 +286,8 @@ class Volets extends eqLogic {
 				continue;		
 			if (isset($condition['enable']) && $condition['enable'] == 0)
 				continue;
-			$expression = scenarioExpression::setTags($condition['expression']);
+			$_scenario = null;
+			$expression = scenarioExpression::setTags($condition['expression'], $_scenario, true);
 			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 			$result = evaluate($expression);
 			if (is_bool($result)) {

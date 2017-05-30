@@ -75,20 +75,20 @@ function printEqLogic(_eqLogic) {
 	if (typeof(_eqLogic.configuration.condition) !== 'undefined') {
 		for(var index in _eqLogic.configuration.condition) { 
 			if( (typeof _eqLogic.configuration.condition[index] === "object") && (_eqLogic.configuration.condition[index] !== null) )
-				addCondition(_eqLogic.configuration.condition[index],$('#conditiontab').find('table'));
+				addCondition(_eqLogic.configuration.condition[index],$('#conditiontab').find('table tbody'));
 		}
 	}
 	if (typeof(_eqLogic.configuration.action) !== 'undefined') {
 		if (typeof(_eqLogic.configuration.action.open) !== 'undefined') {
 			for(var index in _eqLogic.configuration.action.open) { 
 				if( (typeof _eqLogic.configuration.action.open[index] === "object") && (_eqLogic.configuration.action.open[index] !== null) )
-					addAction(_eqLogic.configuration.action.open[index],$('#ouverturetab').find('table'));
+					addAction(_eqLogic.configuration.action.open[index],$('#ouverturetab').find('table tbody'));
 			}
 		}
 		if (typeof(_eqLogic.configuration.action.close) !== 'undefined') {
 			for(var index in _eqLogic.configuration.action.close) { 
 				if( (typeof _eqLogic.configuration.action.close[index] === "object") && (_eqLogic.configuration.action.close[index] !== null) )
-					addAction(_eqLogic.configuration.action.close[index],$('#fermeturetab').find('table'));
+					addAction(_eqLogic.configuration.action.close[index],$('#fermeturetab').find('table tbody'));
 			}
 		}
 	}	

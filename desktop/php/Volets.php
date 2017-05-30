@@ -4,7 +4,6 @@ throw new Exception('{{401 - Accès non autorisé}}');
 }
 sendVarToJS('eqType', 'Volets');
 $eqLogics = eqLogic::byType('Volets');
-//include_file('desktop', 'OpenLayers', 'js', 'Volets');
 ?>
 <div class="row row-overflow">
 	<link rel="stylesheet" href="https://openlayers.org/en/v4.1.1/css/ol.css" type="text/css">
@@ -255,9 +254,19 @@ $eqLogics = eqLogic::byType('Volets');
 									{{Ajouter Condition}}
 								</a>
 							</legend>
-							<div class="div_Condition"></div>
 						</fieldset>
-					</form>
+					</form>			
+					<table id="table_condition" class="table table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Condition</th>
+								<th>Parametre d'évaluation</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
 				</div>				
 				<div role="tabpanel" class="tab-pane" id="ouverturetab">
 					<form class="form-horizontal">
@@ -271,9 +280,17 @@ $eqLogics = eqLogic::byType('Volets');
 									{{Ajouter une Action}}
 								</a>
 							</legend>
-							<div class="div_action"></div>
 						</fieldset>
-					</form>
+					</form>					
+					<table id="table_ouverture" class="table table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
 				</div>		
 				<div role="tabpanel" class="tab-pane" id="fermeturetab">
 					<form class="form-horizontal">
@@ -287,9 +304,18 @@ $eqLogics = eqLogic::byType('Volets');
 									{{Ajouter une Action}}
 								</a>
 							</legend>
-							<div class="div_action"></div>
+
 						</fieldset>
-					</form>
+					</form>							
+					<table id="table_fermeture" class="table table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="commandtab">	
 					<table id="table_cmd" class="table table-bordered table-condensed">

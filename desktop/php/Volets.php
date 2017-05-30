@@ -287,6 +287,7 @@ $eqLogics = eqLogic::byType('Volets');
 							<tr>
 								<th></th>
 								<th>Action</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody></tbody>
@@ -312,6 +313,7 @@ $eqLogics = eqLogic::byType('Volets');
 							<tr>
 								<th></th>
 								<th>Action</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody></tbody>

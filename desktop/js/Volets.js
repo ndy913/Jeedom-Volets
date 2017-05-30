@@ -2,6 +2,10 @@ var map;
 var DroitLatLng=new Object();
 var CentreLatLng=new Object();
 var GaucheLatLng=new Object();
+$("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+$("#table_condition").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+$("#table_ouverture").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+$("#table_fermeture").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=isRandom]',function(){
 	if($(this).is(':checked'))
 		$('.Presence').show();

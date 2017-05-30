@@ -9,6 +9,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=isRando
 		$('.Presence').hide();
 });
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
+	$('#MyMap').html('');
 	$.ajax({
 		type: 'POST',            
 		async: false,
@@ -283,7 +284,7 @@ function addAction(_action,  _el) {
 						.append($('<i class="fa fa-tasks">')))
 					.append($('<a class="btn btn-success btn-sm listCmdAction">')
 						.append($('<i class="fa fa-list-alt">'))))))
-		.append($('td>')
+		.append($('<td>')
 		       .append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))));
         _el.append(tr);
         _el.find('tr:last').setValues(_action, '.expressionAttr');

@@ -263,7 +263,7 @@ function addCondition(_condition,_el) {
 					.text('{{Fermeture}}'))
 			       .append($('<option value="open">')
 					.text('{{Ouverture}}'))))	
-		.append($('<td>')));
+		.append($('<td>'));
 
         _el.append(tr);
         _el.find('tr:last').setValues(_condition, '.expressionAttr');

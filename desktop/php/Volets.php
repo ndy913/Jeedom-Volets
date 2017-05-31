@@ -104,7 +104,7 @@ $eqLogics = eqLogic::byType('Volets');
 							<div class="form-group">
 								<label class="col-sm-2 control-label" >{{Objet parent}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Indiquer l'objet dans lequel le widget de cette zone apparaitra sur le Dashboard" style="font-size : 1em;color:grey;"></i>
+										<i class="fa fa-question-circle tooltips" title="Indiquer l'objet dans lequel le widget de cette zone apparaîtra sur le Dashboard" style="font-size : 1em;color:grey;"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -122,7 +122,7 @@ $eqLogics = eqLogic::byType('Volets');
 									{{Catégorie}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="Choisissez une catégorie
-									Cette information n'est pas obigatoire mais peut être utile pour filtrer les widgets" style="font-size : 1em;color:grey;"></i>
+Cette information n'est pas obigatoire mais peut être utile pour filtrer les widgets" style="font-size : 1em;color:grey;"></i>
 									</sup>
 								</label>
 								<div class="col-md-8">
@@ -141,8 +141,8 @@ $eqLogics = eqLogic::byType('Volets');
 									{{Etat du widget}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="Choisissez les options de visibilité et d'activation
-									Si l'équipement n'est pas activé, il ne sera pas utilisable dans Jeedom ni visible sur le Dashboard
-									Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font-size : 1em;color:grey;"></i>
+Si l'équipement n'est pas activé, il ne sera pas utilisable dans Jeedom ni visible sur le Dashboard
+Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font-size : 1em;color:grey;"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -155,7 +155,7 @@ $eqLogics = eqLogic::byType('Volets');
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Exécution des actions aléatoires}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="{{En activant cette fonction, les actions se produiront les unes après les autres avec un délai aléatoire (entre 0 et 10s)}}"></i>
+										<i class="fa fa-question-circle tooltips" title="{{En activant cette fonction, les actions se produiront les unes après les autres avec un délai maximum à définir}}"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -166,17 +166,17 @@ $eqLogics = eqLogic::byType('Volets');
 							<div class="form-group Presence" style="display: none;">
 								<label class="col-sm-2 control-label">{{Temps maximum pour la simulation de présence (min)}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délai maximum entre l'execution des action (min)"></i>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délai maximum entre l'exécution des actions (min)"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisPresence" placeholder="{{Saisir le délai maximum entre l'execution des action (min)}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisPresence" placeholder="{{Saisir le délai maximum entre l'exécution des actions (min)}}"/>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Héliotrope}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Sélectioner l'équipement du plugin Héliotrope source"></i>
+										<i class="fa fa-question-circle tooltips" title="Sélectionner l'équipement du plugin Héliotrope source"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -191,9 +191,9 @@ $eqLogics = eqLogic::byType('Volets');
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label" >
-									{{Choisir les gestions desirer}}
+									{{Choisir les gestions desirées}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Choisissez les types de gestion que vous souhaitez pour cette zone" style="font-size : 1em;color:grey;"></i>
+										<i class="fa fa-question-circle tooltips" title="Choisissez les types de gestions que vous souhaitez pour cette zone" style="font-size : 1em;color:grey;"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -224,7 +224,7 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Délais de réévaluation (min)}}
+								<label class="col-sm-2 control-label">{{Délai de réévaluation (min)}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="Saisir le délai de réévaluation des conditions (min)"></i>
 									</sup>
@@ -251,7 +251,7 @@ $eqLogics = eqLogic::byType('Volets');
 								</sup>
 								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>
-									{{Ajouter Condition}}
+									{{Ajouter une Condition}}
 								</a>
 							</legend>
 						</fieldset>
@@ -261,7 +261,7 @@ $eqLogics = eqLogic::byType('Volets');
 							<tr>
 								<th></th>
 								<th>Condition</th>
-								<th>Parametre d'évaluation</th>
+								<th>Paramètre d'évaluation</th>
 								<th></th>
 							</tr>
 						</thead>

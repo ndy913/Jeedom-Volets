@@ -314,7 +314,7 @@ $('body').on('click','.conditionAttr[data-action=remove]',function(){
 	$(this).closest('tr').remove();
 });
 $('body').on('click','.listCmdCondition',function(){
-	var el = $(this).closest('.form-group').find('.expressionAttr[data-l1key=expression]');	
+	var el = $(this).closest('tr').find('.expressionAttr[data-l1key=expression]');	
 	jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function (result) {
 		var message = 'Aucun choix possible';
 		if(result.cmd.subType == 'numeric'){

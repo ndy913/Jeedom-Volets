@@ -83,7 +83,7 @@ class Volets extends eqLogic {
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['open']);
 			}else{
-				log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de l\'évaluation des condition d\'ouverture au lever du soleil');
+				log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
 				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($Volet->getId())));
@@ -100,7 +100,7 @@ class Volets extends eqLogic {
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['close']);
 			}else{
-				log::add('Volets', 'info', $Volet->getHumanName().' : Replanification de l\'évaluation des conditiond de fermeture au coucher du soleil');
+				log::add('Volets', 'info', $Volet->getHumanName().' : Replanification de l\'évaluation des conditions de fermeture au coucher du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
 				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 				$cron = $Volet->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($Volet->getId())));
@@ -118,7 +118,7 @@ class Volets extends eqLogic {
 						$Action=$this->getConfiguration('action');
                       	$position = cache::byKey('Volets::Position::'.$this->getId());
 						if($position->getValue('') != $Evenement){
-							log::add('Volets','info',$this->getHumanName().' : Position actuel est '.$Evenement);
+							log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement);
 							$this->ExecuteAction($Action[$Evenement]);
 			      			cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
 						}
@@ -126,10 +126,10 @@ class Volets extends eqLogic {
 				}
 				return;
 			}
-			log::add('Volets','debug',$this->getHumanName().' : Il fait nuit, la gestion par azimuth est désactivé');
+			log::add('Volets','debug',$this->getHumanName().' : Il fait nuit, la gestion par azimuth est désactivée');
 		}
 		else
-			log::add('Volets','debug',$this->getHumanName().' : Gestion par azimute désactivé');
+			log::add('Volets','debug',$this->getHumanName().' : Gestion par azimuth désactivée');
 	}
    	public function checkJour() {
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
@@ -155,7 +155,7 @@ class Volets extends eqLogic {
 			if($Now>$Jours && $Now<$Nuit)
 				return true;
 		}else
-			log::add('Volets','debug',$this->getHumanName().' : Aucune commande Héliotrope de configurer');
+			log::add('Volets','debug',$this->getHumanName().' : Aucune commande Héliotrope configurée');
 		return false;
 	}		
 	public function CheckAngle($Azimuth) {
@@ -184,7 +184,7 @@ class Volets extends eqLogic {
 					return true;
 			}
 		}else
-			log::add('Volets','debug',$this->getHumanName().' : Les coordonées GPS de l\'angle d\'exposition au soleil de votre fenetre sont mal configuré');
+			log::add('Volets','debug',$this->getHumanName().' : Les coordonnées GPS de l\'angle d\'exposition au soleil de votre fenêtre sont mal configurées');
 		return false;			
 	}	
 	public function getSaison() {
@@ -234,7 +234,7 @@ class Volets extends eqLogic {
 					$options = $cmd['options'];
 				scenarioExpression::createAndExec('action', $cmd['cmd'], $options);
 			} catch (Exception $e) {
-				log::add('Volets', 'error',$this->getHumanName().' : '. __('Erreur lors de l\'éxecution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+				log::add('Volets', 'error',$this->getHumanName().' : '. __('Erreur lors de l\'exécution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
 			}
 			$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
 			if(is_object($Commande)){
@@ -393,7 +393,7 @@ class Volets extends eqLogic {
 		$Armed->setConfiguration('state', '1');
 		$Armed->setConfiguration('armed', '1');
 		$Armed->save();
-		$Released=self::AddCommande($this,"Desactiver","released","action","other",true,'lock');
+		$Released=self::AddCommande($this,"Désactiver","released","action","other",true,'lock');
 		$Released->setValue($isArmed->getId());
 		$Released->save();
 		$Released->setConfiguration('state', '0');

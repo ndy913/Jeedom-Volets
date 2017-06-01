@@ -33,18 +33,20 @@ class Volets extends eqLogic {
 		if ($deamon_info['state'] == 'ok') 
 			return;
 		foreach(eqLogic::byType('Volets') as $Volet)
-			$Volet->save();
+			$Volet->StartDemon();
 	}
 	public static function deamon_stop() {	
-		$listener = listener::byClassAndFunction('Volets', 'pull');
-		if (is_object($listener))
-			$listener->remove();
-		$cron = cron::byClassAndFunction('Volets', 'ActionJour');
-		if (is_object($cron)) 	
-			$cron->remove();
-		$cron = cron::byClassAndFunction('Volets', 'ActionNuit');
-		if (is_object($cron)) 	
-			$cron->remove();
+		foreach(eqLogic::byType('Volets') as $Volet){
+			$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => intval($Volet->getId()));
+			if (is_object($listener))
+				$listener->remove();
+			$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => intval($Volet->getId()));
+			if (is_object($cron)) 	
+				$cron->remove();
+			$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => intval($Volet->getId()));
+			if (is_object($cron)) 	
+				$cron->remove();
+		}
 	}
 	public static function pull($_option) {
 		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
@@ -400,7 +402,7 @@ class Volets extends eqLogic {
 		$Released->save();
 		$Released->setConfiguration('state', '0');
 		$Released->setConfiguration('armed', '1');
-		$this->StartDemon();
+		self::deamon_stop();
 	}	
 	public function postRemove() {
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));

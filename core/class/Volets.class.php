@@ -80,7 +80,7 @@ class Volets extends eqLogic {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info', $Volet->getHumanName().' : Exécution de la gestion du lever du soleil');
-			$Saison=$this->getSaison();
+			$Saison=$Volet->getSaison();
 			$result=$Volet->EvaluateCondition('open',$Saison,'Day');
 			if($result){
 				$Action=$Volet->getConfiguration('action');
@@ -98,7 +98,7 @@ class Volets extends eqLogic {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info',$Volet->getHumanName().' : Exécution de la gestion du coucher du soleil ');
-			$Saison=$this->getSaison();
+			$Saison=$Volet->getSaison();
 			$result=$Volet->EvaluateCondition('close',$Saison,'Night');
 			if($result){
 				$Action=$Volet->getConfiguration('action');

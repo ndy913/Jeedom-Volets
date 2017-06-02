@@ -84,7 +84,13 @@ class Volets extends eqLogic {
 			$result=$Volet->EvaluateCondition('open',$Saison,'Day');
 			if($result){
 				$Action=$Volet->getConfiguration('action');
-				$Volet->ExecuteAction($Action['open']);
+				$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
+				if(is_object($heliotrope)){
+					if($this->CheckAngle($heliotrope->getCmd(null,'azimuth360')->execCmd())){
+						$Volet->ExecuteAction($Action['open']);
+						cache::set('Volets::Position::'.$Volet->getId(), 'open', 0);
+					}
+				}
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
@@ -103,6 +109,7 @@ class Volets extends eqLogic {
 			if($result){
 				$Action=$Volet->getConfiguration('action');
 				$Volet->ExecuteAction($Action['close']);
+				cache::set('Volets::Position::'.$Volet->getId(), 'close', 0);
 			}else{
 				log::add('Volets', 'info', $Volet->getHumanName().' : Replanification de l\'évaluation des conditions de fermeture au coucher du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
@@ -120,7 +127,7 @@ class Volets extends eqLogic {
 					if($this->EvaluateCondition($Evenement,$Saison,'Helioptrope')){
 						log::add('Volets','info',$this->getHumanName().' :  Les conditions sont remplies');
 						$Action=$this->getConfiguration('action');
-                      	$position = cache::byKey('Volets::Position::'.$this->getId());
+                      				$position = cache::byKey('Volets::Position::'.$this->getId());
 						if($position->getValue('') != $Evenement){
 							log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement);
 							$this->ExecuteAction($Action[$Evenement]);

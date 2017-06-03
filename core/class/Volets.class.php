@@ -84,13 +84,8 @@ class Volets extends eqLogic {
 			$result=$Volet->EvaluateCondition('open',$Saison,'Day');
 			if($result){
 				$Action=$Volet->getConfiguration('action');
-				$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
-				if(is_object($heliotrope)){
-					if($this->CheckAngle($heliotrope->getCmd(null,'azimuth360')->execCmd())){
-						$Volet->ExecuteAction($Action['open']);
-						cache::set('Volets::Position::'.$Volet->getId(), 'open', 0);
-					}
-				}
+				$Volet->ExecuteAction($Action['open']);
+				cache::set('Volets::Position::'.$Volet->getId(), 'open', 0);
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');

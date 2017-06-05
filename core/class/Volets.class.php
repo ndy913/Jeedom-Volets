@@ -117,10 +117,14 @@ class Volets extends eqLogic {
 		if($this->getCmd(null,'isArmed')->execCmd()){
 			if($this->checkJour()){
 				$Saison=$this->getSaison();
-				$condition=$this->EvaluateCondition($Evenement,$Saison,'Helioptrope');
-				$Evenement=$this->SelectAction($Azimuth,$Saison,$condition);
+				$Evenement=$this->SelectAction($Azimuth,$Saison);
 				if($Evenement != false){
 					log::add('Volets','info',$this->getHumanName().' :  Les conditions sont remplies');
+					$conditon=$this->EvaluateCondition($Evenement,$Saison,'Helioptrope');
+					if(!$conditon && $Evenement =='open')
+                     				$Evenement =='close';
+					if(!$conditon && $Evenement =='close')
+                      				$Evenement =='open';
 					$Action=$this->getConfiguration('action');
                       			$position = cache::byKey('Volets::Position::'.$this->getId());
 					if($position->getValue('') != $Evenement){
@@ -205,7 +209,7 @@ class Volets extends eqLogic {
 		}
 		return false;
 	}	
-	public function SelectAction($Azimuth,$saison,$condition) {
+	public function SelectAction($Azimuth,$saison) {
 		$Action=false;
 		$StateCmd=$this->getCmd(null,'state');
 		if(!is_object($StateCmd))
@@ -213,14 +217,14 @@ class Volets extends eqLogic {
 		if($this->CheckAngle($Azimuth)){
 			$StateCmd->event(true);
 			log::add('Volets','info',$this->getHumanName().' : Le soleil est dans la fenêtre');
-			if($saison =='hiver' && $condition)
+			if($saison =='hiver')
 				$Action='open';
 			else
 				$Action='close';
 		}else{
 			$StateCmd->event(false);
 			log::add('Volets','info',$this->getHumanName().' : Le soleil n\'est pas dans la fenêtre');
-			if($saison == 'été' && $condition)
+			if($saison == 'été')
 				$Action='open';
 			else
 				$Action='close';

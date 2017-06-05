@@ -164,13 +164,13 @@ Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font
 								</div>
 							</div>						
 							<div class="form-group Presence" style="display: none;">
-								<label class="col-sm-2 control-label">{{Temps maximum pour la simulation de présence (min)}}
+								<label class="col-sm-2 control-label">{{Temps maximum pour la simulation de présence (secondes)}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délai maximum entre l'exécution des actions (min)"></i>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délai maximum entre l'exécution des actions (secondes)"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisPresence" placeholder="{{Saisir le délai maximum entre l'exécution des actions (min)}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisPresence" placeholder="{{Saisir le délai maximum entre l'exécution des actions (secondes)}}"/>
 								</div>
 							</div>
 							<div class="form-group">

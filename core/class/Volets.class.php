@@ -121,10 +121,13 @@ class Volets extends eqLogic {
 				if($Evenement != false){
 					log::add('Volets','info',$this->getHumanName().' :  Les conditions sont remplies');
 					$conditon=$this->EvaluateCondition($Evenement,$Saison,'Helioptrope');
-					if(!$conditon && $Evenement =='open')
+					/*if(!$conditon && $Evenement =='open')
                      				$Evenement =='close';
 					if(!$conditon && $Evenement =='close')
-                      				$Evenement =='open';
+                      				$Evenement =='open';*/
+						
+					if(!$conditon)
+						return;
 					$Action=$this->getConfiguration('action');
                       			$position = cache::byKey('Volets::Position::'.$this->getId());
 					if($position->getValue('') != $Evenement){

@@ -119,7 +119,6 @@ class Volets extends eqLogic {
 				$Saison=$this->getSaison();
 				$Evenement=$this->SelectAction($Azimuth,$Saison);
 				if($Evenement != false){
-					log::add('Volets','info',$this->getHumanName().' :  Les conditions sont remplies');
 					$conditon=$this->EvaluateCondition($Evenement,$Saison,'Helioptrope');
 					/*if(!$conditon && $Evenement =='open')
                      				$Evenement =='close';
@@ -317,6 +316,7 @@ class Volets extends eqLogic {
 				return false;
 			}
 		}
+		log::add('Volets','info',$this->getHumanName().' :  Les conditions sont remplies');
 		return true;
 	}
 	public function getAngle($latitudeOrigine,$longitudeOrigne, $latitudeDest,$longitudeDest) { 

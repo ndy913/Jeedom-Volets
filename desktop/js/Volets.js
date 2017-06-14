@@ -52,20 +52,15 @@ function saveEqLogic(_eqLogic) {
 	_eqLogic.configuration.condition=new Object();
 	_eqLogic.configuration.action=new Object();
 	var ConditionArray= new Array();
-	var OpenArray= new Array();
-	var CloseArray= new Array();
+	var ActionArray= new Array();
 	$('#conditiontab .ConditionGroup').each(function( index ) {
 		ConditionArray.push($(this).getValues('.expressionAttr')[0])
 	});
 	$('#actiontab .ActionGroup').each(function( index ) {
-		OpenArray.push($(this).getValues('.expressionAttr')[0])
-	});
-	$('#fermeturetab .ActionGroup').each(function( index ) {
-		CloseArray.push($(this).getValues('.expressionAttr')[0])
+		ActionArray.push($(this).getValues('.expressionAttr')[0])
 	});
 	_eqLogic.configuration.condition=ConditionArray;
-	_eqLogic.configuration.action.open=OpenArray;
-	_eqLogic.configuration.action.close=CloseArray;
+	_eqLogic.configuration.action=ActionArray;
    	return _eqLogic;
 }
 function printEqLogic(_eqLogic) {

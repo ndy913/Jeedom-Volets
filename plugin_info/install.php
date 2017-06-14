@@ -3,6 +3,14 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 function Volets_install(){
 	log::add('Volets','debug','Lancement du script de mise a jours'); 
 	foreach(eqLogic::byType('Volets') as $eqLogic){
+		$Actions=null;
+		foreach($eqLogic->getConfiguration('action') as $key => $Action){
+			if($key == 'open' || $key == 'close'){
+				$Action['evaluation']=$key;
+				$Actions[]=$Action;
+			}
+		}
+		$eqLogic->setConfiguration('action',$Actions);
 		$Armed=$eqLogic->getCmd('',"arme");
 		if(is_object($Armed))
 			$Armed->remove();
@@ -16,6 +24,14 @@ function Volets_install(){
 function Volets_update(){
 	log::add('Volets','debug','Lancement du script de mise a jours'); 
 	foreach(eqLogic::byType('Volets') as $eqLogic){
+		$Actions=null;
+		foreach($eqLogic->getConfiguration('action') as $key => $Action){
+			if($key == 'open' || $key == 'close'){
+				$Action['evaluation']=$key;
+				$Actions[]=$Action;
+			}
+		}
+		$eqLogic->setConfiguration('action',$Actions);
 		$Armed=$eqLogic->getCmd('',"arme");
 		if(is_object($Armed))
 			$Armed->remove();

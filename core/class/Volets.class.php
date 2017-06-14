@@ -83,8 +83,7 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$result=$Volet->EvaluateCondition('open',$Saison,'Day');
 			if($result){
-				$Action=$Volet->getConfiguration('action');
-				$Volet->ExecuteAction($Action['open']);
+				$Volet->ExecuteAction('open',$Saison,'Day');
 				cache::set('Volets::Position::'.$Volet->getId(), 'open', 0);
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
@@ -102,8 +101,7 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$result=$Volet->EvaluateCondition('close',$Saison,'Night');
 			if($result){
-				$Action=$Volet->getConfiguration('action');
-				$Volet->ExecuteAction($Action['close']);
+				$Volet->ExecuteAction('close',$Saison,'Night');
 				cache::set('Volets::Position::'.$Volet->getId(), 'close', 0);
 			}else{
 				log::add('Volets', 'info', $Volet->getHumanName().' : Replanification de l\'évaluation des conditions de fermeture au coucher du soleil');
@@ -127,11 +125,10 @@ class Volets extends eqLogic {
 						
 					if(!$conditon)
 						return;
-					$Action=$this->getConfiguration('action');
                       			$position = cache::byKey('Volets::Position::'.$this->getId());
 					if($position->getValue('') != $Evenement){
 						log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement);
-						$this->ExecuteAction($Action[$Evenement]);
+						$this->ExecuteAction($Evenement,$Saison,'Helioptrope');
 			      			cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
 					}
 				}
@@ -234,9 +231,15 @@ class Volets extends eqLogic {
 		$StateCmd->setCollectDate(date('Y-m-d H:i:s'));
 		$StateCmd->save();
 		return $Action;
-	}
-	public function ExecuteAction($Action) {	
-		foreach($Action as $cmd){
+	}	
+	public function ExecuteAction($Evenement,$Saison,$TypeGestion){
+		foreach($this->getConfiguration('action') as $cmd){
+			if($cmd['evaluation']!=$Evenement && $cmd['evaluation']!='all')
+				continue;
+			if($cmd['saison']!=$Saison && $cmd['saison']!='all')
+				continue;
+			if(stripos($cmd['TypeGestion'],$TypeGestion) === false && $cmd['TypeGestion']!='all')	
+				continue;		
 			if (isset($cmd['enable']) && $cmd['enable'] == 0)
 				continue;
 			try {

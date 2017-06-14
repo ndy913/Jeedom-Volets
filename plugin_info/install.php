@@ -4,10 +4,12 @@ function Volets_install(){
 	log::add('Volets','debug','Lancement du script de mise a jours'); 
 	foreach(eqLogic::byType('Volets') as $eqLogic){
 		$Actions=null;
-		foreach($eqLogic->getConfiguration('action') as $key => $Action){
+		foreach($eqLogic->getConfiguration('action') as $key => $ActionGroup){
 			if($key == 'open' || $key == 'close'){
-				$Action['evaluation']=$key;
-				$Actions[]=$Action;
+				foreach($ActionGroup as $Action){
+					$Action['evaluation']=$key;
+					$Actions[]=$Action;
+				}
 			}
 		}
 		$eqLogic->setConfiguration('action',$Actions);
@@ -25,10 +27,12 @@ function Volets_update(){
 	log::add('Volets','debug','Lancement du script de mise a jours'); 
 	foreach(eqLogic::byType('Volets') as $eqLogic){
 		$Actions=null;
-		foreach($eqLogic->getConfiguration('action') as $key => $Action){
+		foreach($eqLogic->getConfiguration('action') as $key => $ActionGroup){
 			if($key == 'open' || $key == 'close'){
-				$Action['evaluation']=$key;
-				$Actions[]=$Action;
+				foreach($ActionGroup as $Action){
+					$Action['evaluation']=$key;
+					$Actions[]=$Action;
+				}
 			}
 		}
 		$eqLogic->setConfiguration('action',$Actions);

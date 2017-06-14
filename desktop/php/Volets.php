@@ -283,7 +283,8 @@ Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font
 							<tr>
 								<th></th>
 								<th>Action</th>
-								<th></th>
+								<th>Option</th>
+								<th>Configuration</th>
 							</tr>
 						</thead>
 						<tbody></tbody>

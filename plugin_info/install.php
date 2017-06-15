@@ -7,6 +7,8 @@ function Volets_install(){
 		foreach($eqLogic->getConfiguration('action') as $key => $ActionGroup){
 			if($key == 'open' || $key == 'close'){
 				foreach($ActionGroup as $Action){
+					$Action['saison']="all";
+					$Action['TypeGestion']="all";
 					$Action['evaluation']=$key;
 					$Actions[]=$Action;
 				}
@@ -30,6 +32,8 @@ function Volets_update(){
 		foreach($eqLogic->getConfiguration('action') as $key => $ActionGroup){
 			if($key == 'open' || $key == 'close'){
 				foreach($ActionGroup as $Action){
+					$Action['saison']="all";
+					$Action['TypeGestion']="all";
 					$Action['evaluation']=$key;
 					$Actions[]=$Action;
 				}

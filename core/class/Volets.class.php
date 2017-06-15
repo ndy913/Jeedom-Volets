@@ -126,11 +126,12 @@ class Volets extends eqLogic {
 					if(!$conditon)
 						return;
                       			$position = cache::byKey('Volets::Position::'.$this->getId());
-					if($position->getValue('') != $Evenement){
-						log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement);
-						$this->ExecuteAction($Evenement,$Saison,'Helioptrope');
-			      			cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
-					}
+					if(!is_object($position) && $position->getValue('') == $Evenement)
+						return;
+					log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement);
+					$this->ExecuteAction($Evenement,$Saison,'Helioptrope');
+					cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
+					
 				}
 				return;
 			}

@@ -247,7 +247,7 @@ class Volets extends eqLogic {
 		return $Action;
 	}
 	public function ExecuteAction($Evenement,$Saison,$TypeGestion,$Controle){
-		
+		log::add('Volets','info',$this->getHumanName().' : Execution des actions');
 		foreach($this->getConfiguration('action') as $cmd){
 			if($cmd['evaluation']!=$Evenement && $cmd['evaluation']!='all')
 				continue;

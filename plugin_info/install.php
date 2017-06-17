@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 function Volets_install(){
-	log::add('Volets','debug','Lancement du script de mise a jours'); 
+	/*log::add('Volets','debug','Lancement du script de mise a jours'); 
 	foreach(eqLogic::byType('Volets') as $eqLogic){
 		$Actions=null;
 		foreach($eqLogic->getConfiguration('action') as $key => $ActionGroup){
@@ -24,10 +24,10 @@ function Volets_install(){
 			$Released->remove();
 		$eqLogic->save();
 	}
-	log::add('Volets','debug','Fin du script de mise a jours'); 
+	log::add('Volets','debug','Fin du script de mise a jours'); */
 }
 function Volets_update(){
-	log::add('Volets','debug','Lancement du script de mise a jours'); 
+	/*log::add('Volets','debug','Lancement du script de mise a jours'); 
 	foreach(eqLogic::byType('Volets') as $eqLogic){
 		$Actions=null;
 		foreach($eqLogic->getConfiguration('action') as $key => $ActionGroup){
@@ -50,7 +50,7 @@ function Volets_update(){
 			$Released->remove();
 		$eqLogic->save();
 	}
-	log::add('Volets','debug','Fin du script de mise a jours'); 
+	log::add('Volets','debug','Fin du script de mise a jours'); */
 }
 function Volets_remove(){
 	foreach(eqLogic::byType('Volets') as $Volet){

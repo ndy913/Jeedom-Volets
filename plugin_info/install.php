@@ -14,7 +14,8 @@ function Volets_install(){
 				}
 			}
 		}
-		$eqLogic->setConfiguration('action',$Actions);
+		if($Actions!=null)
+			$eqLogic->setConfiguration('action',$Actions);
 		$Armed=$eqLogic->getCmd('',"arme");
 		if(is_object($Armed))
 			$Armed->remove();
@@ -39,7 +40,8 @@ function Volets_update(){
 				}
 			}
 		}
-		$eqLogic->setConfiguration('action',$Actions);
+		if($Actions!=null)
+			$eqLogic->setConfiguration('action',$Actions);
 		$Armed=$eqLogic->getCmd('',"arme");
 		if(is_object($Armed))
 			$Armed->remove();

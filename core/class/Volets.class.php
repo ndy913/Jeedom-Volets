@@ -83,8 +83,7 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$result=$Volet->EvaluateCondition('open',$Saison,'Day','No');
 			if($result){
-				$Action=$Volet->getConfiguration('action');
-				$Volet->ExecuteAction($Action['open']);
+				$Volet->ExecuteAction('open',$Saison,'Day');
 				cache::set('Volets::Position::'.$Volet->getId(), 'open', 0);
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
@@ -102,8 +101,7 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$result=$Volet->EvaluateCondition('close',$Saison,'Night','No');
 			if($result){
-				$Action=$Volet->getConfiguration('action');
-				$Volet->ExecuteAction($Action['close']);
+				$Volet->ExecuteAction('close',$Saison,'Night');
 				cache::set('Volets::Position::'.$Volet->getId(), 'close', 0);
 			}else{
 				log::add('Volets', 'info', $Volet->getHumanName().' : Replanification de l\'évaluation des conditions de fermeture au coucher du soleil');
@@ -120,10 +118,6 @@ class Volets extends eqLogic {
 				$Evenement=$this->SelectAction($Azimuth,$Saison);
 				if($Evenement != false){
 					$conditon=$this->EvaluateCondition($Evenement,$Saison,'Helioptrope','No');
-					/*if(!$conditon && $Evenement =='open')
-                     				$Evenement =='close';
-					if(!$conditon && $Evenement =='close')
-                      				$Evenement =='open';*/
 					$position = cache::byKey('Volets::Position::'.$this->getId());
 					if(!$conditon) {
 						log::add('Volets','info',$this->getHumanName().' : Je teste les conditions inversées');
@@ -132,22 +126,20 @@ class Volets extends eqLogic {
 							$Action=$this->getConfiguration('action');
 							if($position->getValue('') == $Evenement and $Evenement == 'close' and $Saison == 'été'){
 								log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement.' conditions inversées validées, j ouvre les volets');
-								$this->ExecuteAction($Action['open']);
+								$this->ExecuteAction('open',$Saison,'Helioptrope');
 								cache::set('Volets::Position::'.$this->getId(), 'open', 0);						
 							}
 							if($position->getValue('') == $Evenement and $Evenement == 'open' and $Saison == 'hivers'){
 								log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement.' conditions inversées validées, je ferme les volets');
-								$this->ExecuteAction($Action['close']);
+								$this->ExecuteAction('close',$Saison,'Helioptrope');
 								cache::set('Volets::Position::'.$this->getId(), 'close', 0);						
 							}
 						}
 						return;
 					}
-					$Action=$this->getConfiguration('action');
-                    $position = cache::byKey('Volets::Position::'.$this->getId());
 					if($position->getValue('') != $Evenement){
 						log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement);
-						$this->ExecuteAction($Action[$Evenement]);
+						$this->ExecuteAction($Evenement,$Saison,'Helioptrope');
 			      			cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
 					}
 					else {
@@ -254,10 +246,17 @@ class Volets extends eqLogic {
 		$StateCmd->save();
 		return $Action;
 	}
-	public function ExecuteAction($Action) {	
-		foreach($Action as $cmd){
-			if (isset($cmd['enable']) && $cmd['enable'] == 0)
+	public function ExecuteAction($Evenement,$Saison,$TypeGestion,$Controle){
+		
+		foreach($this->getConfiguration('action') as $cmd){
+			if($cmd['evaluation']!=$Evenement && $cmd['evaluation']!='all')
 				continue;
+			if($cmd['saison']!=$Saison && $cmd['saison']!='all')
+				continue;
+			if(stripos($cmd['TypeGestion'],$TypeGestion) === false && $cmd['TypeGestion']!='all')	
+				continue;		
+			if (isset($cmd['enable']) && $cmd['enable'] == 0)
+				continue;	
 			try {
 				$options = array();
 				if (isset($cmd['options'])) 

@@ -107,6 +107,8 @@ function TraceMapZone(_zone){
 		if (typeof(_zone.configuration.Centre.lng) !== 'undefined' && _zone.configuration.Centre.lng != "" )
 			CentreLatLng.lng=parseFloat(_zone.configuration.Centre.lng);
 	}
+	$('.AngleDroite').text(getAngle(CentreLatLng,DroitLatLng));
+	$('.AngleGauche').text(getAngle(CentreLatLng,GaucheLatLng));
 	var features = [];
 	var PolylineDroite = new ol.geom.Polygon([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
 	PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
@@ -539,7 +541,7 @@ function getAngle(Origine, Destination) {
 
 		angle += 360; 
 	}
-	return angle % 360;
+	return Math.round(angle % 360);
 }
 Math.radians = function(degrees) {
   return degrees * Math.PI / 180;

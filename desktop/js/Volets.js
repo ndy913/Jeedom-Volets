@@ -522,3 +522,18 @@ function addCmdToTable(_cmd) {
 	$('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
 	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 }
+function getAngle(latitudeOrigine,longitudeOrigne, latitudeDest,longitudeDest) { 
+	var rlongitudeOrigne = Math.radians(longitudeOrigne); 
+	var rlatitudeOrigine = Math.radians(latitudeOrigine); 
+	var rlongitudeDest = Math.radians(longitudeDest); 
+	var rlatitudeDest = Math.radians(latitudeDest); 
+	var longDelta = rlongitudeDest - rlongitudeOrigne; 
+	var y = Math.sin(longDelta) * Math.cos(rlatitudeDest); 
+	var x = (Math.cos(rlatitudeOrigine)*Math.sin(rlatitudeDest)) - (Math.sin(rlatitudeOrigine)*Math.cos(rlatitudeDest)*Math.cos(longDelta)); 
+	var angle = Math.degrees(Math.atan2(y, x)); 
+	if (angle < 0) { 
+
+		angle += 360; 
+	}
+	return angle % 360;
+}

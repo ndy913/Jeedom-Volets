@@ -236,6 +236,12 @@ Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font
 					</form>
 				</div>	
 				<div role="tabpanel" class="tab-pane active" id="maptab">	
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{L'exposition au soleil est compris entre}}</label>
+						<label class="col-sm-2 control-label AngleDroite"></label>
+						<label class="col-sm-2 control-label">{{ Et }}</label>
+						<label class="col-sm-2 control-label AngleGauche"></label>
+					</div>
 					<div id="MyMap" style="width:800px;height:600px;margin:auto;"></div>
 				</div>			
 				<div role="tabpanel" class="tab-pane" id="conditiontab">

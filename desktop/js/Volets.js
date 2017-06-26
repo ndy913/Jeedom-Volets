@@ -146,6 +146,7 @@ function TraceMapZone(_zone){
 		coord = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
 		DroitLatLng.lat= coord[1];
 		DroitLatLng.lng= coord[0];
+		alert(getAngle(CentreLatLng,DroitLatLng));
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(DroitLatLng));
 		PolylineDroite.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
 		PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
@@ -163,6 +164,8 @@ function TraceMapZone(_zone){
 		coord = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
 		CentreLatLng.lat= coord[1];
 		CentreLatLng.lng= coord[0];
+		alert(getAngle(CentreLatLng,DroitLatLng));
+		alert(getAngle(CentreLatLng,GaucheLatLng));
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(CentreLatLng));
 		PolylineDroite.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [DroitLatLng.lng,DroitLatLng.lat]]]);
 		PolylineDroite.transform('EPSG:4326', 'EPSG:3857');
@@ -203,6 +206,7 @@ function TraceMapZone(_zone){
 		coord = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
 		GaucheLatLng.lat= coord[1];
 		GaucheLatLng.lng= coord[0];
+		alert(getAngle(CentreLatLng,GaucheLatLng));
 		$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(GaucheLatLng));
 		PolylineGauche.setCoordinates([[[CentreLatLng.lng,CentreLatLng.lat], [GaucheLatLng.lng,GaucheLatLng.lat]]]);
 		PolylineGauche.transform('EPSG:4326', 'EPSG:3857');
@@ -522,12 +526,12 @@ function addCmdToTable(_cmd) {
 	$('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
 	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 }
-function getAngle(latitudeOrigine,longitudeOrigne, latitudeDest,longitudeDest) { 
-	var rlongitudeOrigne = Math.radians(longitudeOrigne); 
-	var rlatitudeOrigine = Math.radians(latitudeOrigine); 
-	var rlongitudeDest = Math.radians(longitudeDest); 
-	var rlatitudeDest = Math.radians(latitudeDest); 
-	var longDelta = rlongitudeDest - rlongitudeOrigne; 
+function getAngle(Origine, Destination) { 
+	var rlongitudeOrigine = Math.radians(Origine.lng); 
+	var rlatitudeOrigine = Math.radians(Origine.lat); 
+	var rlongitudeDest = Math.radians(Destination.lng); 
+	var rlatitudeDest = Math.radians(Destination.lat); 
+	var longDelta = rlongitudeDest - rlongitudeOrigine; 
 	var y = Math.sin(longDelta) * Math.cos(rlatitudeDest); 
 	var x = (Math.cos(rlatitudeOrigine)*Math.sin(rlatitudeDest)) - (Math.sin(rlatitudeOrigine)*Math.cos(rlatitudeDest)*Math.cos(longDelta)); 
 	var angle = Math.degrees(Math.atan2(y, x)); 

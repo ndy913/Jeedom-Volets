@@ -148,7 +148,7 @@ Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font
 									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
 								</div>
 							</div>
-							<div class="form-group">
+							<!--div class="form-group">
 								<label class="col-sm-2 control-label">{{Exécution des actions aléatoires}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="{{En activant cette fonction, les actions se produiront les unes après les autres avec un délai maximum à définir}}"></i>
@@ -168,7 +168,7 @@ Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font
 								<div class="col-sm-5">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisPresence" placeholder="{{Saisir le délai maximum entre l'exécution des actions (secondes)}}"/>
 								</div>
-							</div>
+							</div-->
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Héliotrope}}
 									<sup>

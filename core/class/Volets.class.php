@@ -267,8 +267,8 @@ class Volets extends eqLogic {
 			}
 			$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
 			if(is_object($Commande)){
-				if($this->getConfiguration('isRandom'))
-				   sleep(rand(0,$this->getConfiguration('DelaisPresence')));
+				/*if($this->getConfiguration('isRandom'))
+				   sleep(rand(0,$this->getConfiguration('DelaisPresence')));*/
 				log::add('Volets','debug',$this->getHumanName().' : Exécution de '.$Commande->getHumanName());
 				$Commande->event($cmd['options']);
 			}

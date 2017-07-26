@@ -219,7 +219,7 @@ Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font
 											<a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">
 												<i class="fa fa-tasks"></i>
 											</a>
-											<a class="btn btn-success btn-sm listCmdAction">
+											<a class="btn btn-success btn-sm listCmdAction data-type="info"">
 												<i class="fa fa-list-alt"></i>
 											</a>
 										</span>

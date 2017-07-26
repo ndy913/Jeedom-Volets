@@ -420,7 +420,7 @@ $('body').on('click','.ActionAttr[data-action=remove]', function () {
 	$(this).closest('.ActionGroup').remove();
 });
 $("body").on('click', ".listAction", function() {
-	var el = $(this).closest('td').find('.expressionAttr[data-l1key=cmd]');
+	var el = $(this).closest('.input-group').find('input');
 	jeedom.getSelectActionModal({}, function (result) {
 		el.value(result.human);
 		jeedom.cmd.displayActionOption(el.value(), '', function (html) {
@@ -429,7 +429,7 @@ $("body").on('click', ".listAction", function() {
 	});
 }); 
 $("body").on('click', ".listCmdAction", function() {
-	var el = $(this).closest('td').find('input');
+	var el = $(this).closest('.input-group').find('input');
 	var type=$(this).attr('data-type');
 	jeedom.cmd.getSelectModal({cmd: {type: type}}, function (result) {
 		el.value(result.human);

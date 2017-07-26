@@ -293,7 +293,6 @@ Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font
 								<th>Type de gestion</th>
 								<th>Mode</th>
 								<th>Action</th>
-								<th>Inverse</th>
 							</tr>
 						</thead>
 						<tbody></tbody>

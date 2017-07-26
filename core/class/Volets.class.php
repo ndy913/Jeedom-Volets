@@ -85,12 +85,13 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info', $Volet->getHumanName().' : Exécution de la gestion du lever du soleil');
 			$Saison=$Volet->getSaison();
-			$isValid=true;
+			$isValid=false;
 			foreach($Volet->getConfiguration('condition') as $Condition){	
 				if (!$Volet->CheckValid($Condition,'open',$Saison,'Day'))
 					continue;
 				if (!$Volet->EvaluateCondition($Condition,'No'))
-					$isValid=false;
+					break;
+				$isValid=true;
 			}
 			if($isValid){
 				log::add('Volets','info',$this->getHumanName().' : Execution des actions');
@@ -114,12 +115,13 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info',$Volet->getHumanName().' : Exécution de la gestion du coucher du soleil ');
 			$Saison=$Volet->getSaison();
-			$isValid=true;
+			$isValid=false;
 			foreach($Volet->getConfiguration('condition') as $Condition){	
 				if (!$Volet->CheckValid($Condition,'close',$Saison,'Night'))
 					continue;
 				if (!$Volet->EvaluateCondition($Condition,'No'))
-					$isValid=false;
+					break;
+				$isValid=true;
 			}
 			if($isValid){
 				log::add('Volets','info',$this->getHumanName().' : Execution des actions');
@@ -142,11 +144,13 @@ class Volets extends eqLogic {
 			if($this->checkJour()){
 				$Saison=$this->getSaison();
 					$position = cache::byKey('Volets::Position::'.$this->getId());
-					foreach($this->getConfiguration('condition') as $Condition){	
+					$isValid=false;	
+					foreach($this->getConfiguration('condition') as $Condition){
 						if (!$this->CheckValid($Condition,$Evenement,$Saison,'Present'))
 							continue;
 						if (!$this->EvaluateCondition($Condition,'No'))
-							$isValid=false;
+							break;
+						$isValid=true;
 					}
 					if(!$isValid){
 						log::add('Volets','info',$this->getHumanName().' : Je teste les conditions inversées');
@@ -154,9 +158,10 @@ class Volets extends eqLogic {
 							if (!$this->CheckValid($Condition,$Evenement,$Saison,'Present'))
 								continue;
 							if (!$this->EvaluateCondition($Condition,'Yes'))
-								$isValid=false;
+								break;
+							$isValid=true;
 						}
-						if(!$isValid){
+						if($isValid){
 							$Action=$this->getConfiguration('action');
 							if($position->getValue('') == $Evenement and $Evenement == 'close' and $Saison == 'été'){
 								log::add('Volets','info',$this->getHumanName().' : Execution des actions');
@@ -205,11 +210,13 @@ class Volets extends eqLogic {
 				$Evenement=$this->SelectAction($Azimuth,$Saison);
 				if($Evenement != false){
 					$position = cache::byKey('Volets::Position::'.$this->getId());
+					$isValid=false;
 					foreach($this->getConfiguration('condition') as $Condition){	
 						if (!$this->CheckValid($Condition,$Evenement,$Saison,'Helioptrope'))
 							continue;
 						if (!$this->EvaluateCondition($Condition,'No'))
-							$isValid=false;
+							break;
+						$isValid=true;
 					}
 					if(!$isValid){
 						log::add('Volets','info',$this->getHumanName().' : Je teste les conditions inversées');
@@ -217,9 +224,10 @@ class Volets extends eqLogic {
 							if (!$this->CheckValid($Condition,$Evenement,$Saison,'Helioptrope'))
 								continue;
 							if (!$this->EvaluateCondition($Condition,'Yes'))
-								$isValid=false;
+								break;
+							$isValid=true;
 						}
-						if(!$isValid){
+						if($isValid){
 							$Action=$this->getConfiguration('action');
 							if($position->getValue('') == $Evenement and $Evenement == 'close' and $Saison == 'été'){
 								log::add('Volets','info',$this->getHumanName().' : Execution des actions');

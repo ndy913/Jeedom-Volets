@@ -486,7 +486,7 @@ function addParameters() {
 			.append($('<option value="Day">')
 				.text('{{Jour}}'))
 			.append($('<option value="Night">')
-				.text('{{Nuit}}')))
+				.text('{{Nuit}}'))
 			.append($('<option value="Presence">')
 				.text('{{Présence}}'))
 			.append($('<option value="Absent">')

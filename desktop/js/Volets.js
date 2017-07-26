@@ -429,7 +429,7 @@ $("body").on('click', ".listAction", function() {
 	});
 }); 
 $("body").on('click', ".listCmdAction", function() {
-	var el = $(this).closest('td').find('.expressionAttr[data-l1key=cmd]');
+	var el = $(this).closest('td').find('input');
 	var type=$(this).attr('data-type');
 	jeedom.cmd.getSelectModal({cmd: {type: type}}, function (result) {
 		el.value(result.human);

@@ -290,8 +290,10 @@ Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font
 							<tr>
 								<th></th>
 								<th>Condition</th>
-								<th>Paramètre d'évaluation</th>
-								<th></th>
+								<th>Type de gestion</th>
+								<th>Mode</th>
+								<th>Action</th>
+								<th>Inverse</th>
 							</tr>
 						</thead>
 						<tbody></tbody>
@@ -316,8 +318,9 @@ Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font
 							<tr>
 								<th></th>
 								<th>Action</th>
-								<th>Option</th>
-								<th>Configuration</th>
+								<th>Type de gestion</th>
+								<th>Mode</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody></tbody>

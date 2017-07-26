@@ -172,7 +172,7 @@ class Volets extends eqLogic {
 					if (!$this->EvaluateCondition($Condition)){
 						if($Condition['Inverse']){
 							log::add('Volets','info',$this->getHumanName().' : La condition inverse l\'etat du volet');
-							if($Evenement == 'close'){
+							if($Evenement == 'close')
 								$Evenement='open';
 							else
 								$Evenement='close';
@@ -217,7 +217,7 @@ class Volets extends eqLogic {
 						if (!$this->EvaluateCondition($Condition)){
 							if($Condition['Inverse']){
 								log::add('Volets','info',$this->getHumanName().' : La condition inverse l\'etat du volet');
-								if($Evenement == 'close'){
+								if($Evenement == 'close')
 									$Evenement='open';
 								else
 									$Evenement='close';

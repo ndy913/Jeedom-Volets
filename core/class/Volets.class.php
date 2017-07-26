@@ -199,7 +199,8 @@ class Volets extends eqLogic {
 				}
 				return;
 			}
-			log::add('Volets','debug',$this->getHumanName().' : Il fait nuit, la gestion de présence est désactivée');
+			else
+				log::add('Volets','debug',$this->getHumanName().' : Il fait nuit, la gestion de présence est désactivée');
 		}
 		else
 			log::add('Volets','debug',$this->getHumanName().' : Gestion de présence désactivée');
@@ -242,7 +243,8 @@ class Volets extends eqLogic {
 				}
 
 			}
-			log::add('Volets','debug',$this->getHumanName().' : Il fait nuit, la gestion par azimuth est désactivée');
+			else
+				log::add('Volets','debug',$this->getHumanName().' : Il fait nuit, la gestion par azimuth est désactivée');
 		}
 		else
 			log::add('Volets','debug',$this->getHumanName().' : Gestion par azimuth désactivée');

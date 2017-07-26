@@ -81,9 +81,20 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info', $Volet->getHumanName().' : Exécution de la gestion du lever du soleil');
 			$Saison=$Volet->getSaison();
-			$result=$Volet->EvaluateCondition('open',$Saison,'Day','No');
-			if($result){
-				$Volet->ExecuteAction('open',$Saison,'Day');
+			$isValid=true;
+			foreach($Volet->getConfiguration('condition') as $Condition){	
+				if (!$Volet->CheckValid($Condition,'open',$Saison,'Day'))
+					continue;
+				if (!$Volet->EvaluateCondition($Condition,'No'))
+					$isValid=false;
+			}
+			if($isValid){
+				log::add('Volets','info',$this->getHumanName().' : Execution des actions');
+				foreach($Volet->getConfiguration('action') as $Cmd){	
+					if (!$Volet->CheckValid($Cmd,'open',$Saison,'Day'))
+						continue;
+					$Volet->ExecuteAction($Cmd);
+				}
 				cache::set('Volets::Position::'.$Volet->getId(), 'open', 0);
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
@@ -99,9 +110,20 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info',$Volet->getHumanName().' : Exécution de la gestion du coucher du soleil ');
 			$Saison=$Volet->getSaison();
-			$result=$Volet->EvaluateCondition('close',$Saison,'Night','No');
-			if($result){
-				$Volet->ExecuteAction('close',$Saison,'Night');
+			$isValid=true;
+			foreach($Volet->getConfiguration('condition') as $Condition){	
+				if (!$Volet->CheckValid($Condition,'close',$Saison,'Night'))
+					continue;
+				if (!$Volet->EvaluateCondition($Condition,'No'))
+					$isValid=false;
+			}
+			if($isValid){
+				log::add('Volets','info',$this->getHumanName().' : Execution des actions');
+				foreach($Volet->getConfiguration('action') as $Cmd){	
+					if (!$Volet->CheckValid($Cmd,'close',$Saison,'Night'))
+						continue;
+					$Volet->ExecuteAction($Cmd);
+				}
 				cache::set('Volets::Position::'.$Volet->getId(), 'close', 0);
 			}else{
 				log::add('Volets', 'info', $Volet->getHumanName().' : Replanification de l\'évaluation des conditions de fermeture au coucher du soleil');
@@ -117,21 +139,41 @@ class Volets extends eqLogic {
 				$Saison=$this->getSaison();
 				$Evenement=$this->SelectAction($Azimuth,$Saison);
 				if($Evenement != false){
-					$conditon=$this->EvaluateCondition($Evenement,$Saison,'Helioptrope','No');
 					$position = cache::byKey('Volets::Position::'.$this->getId());
-					if(!$conditon) {
+					foreach($this->getConfiguration('condition') as $Condition){	
+						if (!$this->CheckValid($Condition,$Evenement,$Saison,'Helioptrope'))
+							continue;
+						if (!$this->EvaluateCondition($Condition,'No'))
+							$isValid=false;
+					}
+					if(!$isValid){
 						log::add('Volets','info',$this->getHumanName().' : Je teste les conditions inversées');
-						$conditon=$this->EvaluateCondition($Evenement,$Saison,'Helioptrope','Yes');
-						if($conditon) {
+						foreach($this->getConfiguration('condition') as $Condition){	
+							if (!$this->CheckValid($Condition,$Evenement,$Saison,'Helioptrope'))
+								continue;
+							if (!$this->EvaluateCondition($Condition,'Yes'))
+								$isValid=false;
+						}
+						if(!$isValid){
 							$Action=$this->getConfiguration('action');
 							if($position->getValue('') == $Evenement and $Evenement == 'close' and $Saison == 'été'){
 								log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement.' conditions inversées validées, j ouvre les volets');
-								$this->ExecuteAction('open',$Saison,'Helioptrope');
+								log::add('Volets','info',$this->getHumanName().' : Execution des actions');
+								foreach($this->getConfiguration('action') as $Cmd){	
+									if (!$this->CheckValid($Cmd,'open',$Saison,'Helioptrope'))
+										continue;
+									$this->ExecuteAction($Cmd);
+								}
 								cache::set('Volets::Position::'.$this->getId(), 'open', 0);						
 							}
 							if($position->getValue('') == $Evenement and $Evenement == 'open' and $Saison == 'hivers'){
 								log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement.' conditions inversées validées, je ferme les volets');
-								$this->ExecuteAction('close',$Saison,'Helioptrope');
+								log::add('Volets','info',$this->getHumanName().' : Execution des actions');
+								foreach($this->getConfiguration('action') as $Cmd){	
+									if (!$this->CheckValid($Cmd,'close',$Saison,'Helioptrope'))
+										continue;
+									$this->ExecuteAction($Cmd);
+								}
 								cache::set('Volets::Position::'.$this->getId(), 'close', 0);						
 							}
 						}
@@ -139,7 +181,12 @@ class Volets extends eqLogic {
 					}
 					if($position->getValue('') != $Evenement){
 						log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement);
-						$this->ExecuteAction($Evenement,$Saison,'Helioptrope');
+						log::add('Volets','info',$this->getHumanName().' : Execution des actions');
+						foreach($this->getConfiguration('action') as $Cmd){	
+							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Helioptrope'))
+								continue;
+							$this->ExecuteAction($Cmd);
+						}
 			      			cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
 					}
 					else {
@@ -246,32 +293,21 @@ class Volets extends eqLogic {
 		$StateCmd->save();
 		return $Action;
 	}
-	public function ExecuteAction($Evenement,$Saison,$TypeGestion,$Controle){
-		log::add('Volets','info',$this->getHumanName().' : Execution des actions');
-		foreach($this->getConfiguration('action') as $cmd){
-			if($cmd['evaluation']!=$Evenement && $cmd['evaluation']!='all')
-				continue;
-			if($cmd['saison']!=$Saison && $cmd['saison']!='all')
-				continue;
-			if(stripos($cmd['TypeGestion'],$TypeGestion) === false && $cmd['TypeGestion']!='all')	
-				continue;		
-			if (isset($cmd['enable']) && $cmd['enable'] == 0)
-				continue;	
-			try {
-				$options = array();
-				if (isset($cmd['options'])) 
-					$options = $cmd['options'];
-				scenarioExpression::createAndExec('action', $cmd['cmd'], $options);
-			} catch (Exception $e) {
-				log::add('Volets', 'error',$this->getHumanName().' : '. __('Erreur lors de l\'exécution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
-			}
-			$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
-			if(is_object($Commande)){
-				/*if($this->getConfiguration('isRandom'))
-				   sleep(rand(0,$this->getConfiguration('DelaisPresence')));*/
-				log::add('Volets','debug',$this->getHumanName().' : Exécution de '.$Commande->getHumanName());
-				$Commande->event($cmd['options']);
-			}
+	public function ExecuteAction($cmd){
+		try {
+			$options = array();
+			if (isset($cmd['options'])) 
+				$options = $cmd['options'];
+			scenarioExpression::createAndExec('action', $cmd['cmd'], $options);
+		} catch (Exception $e) {
+			log::add('Volets', 'error',$this->getHumanName().' : '. __('Erreur lors de l\'exécution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+		}
+		$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
+		if(is_object($Commande)){
+			/*if($this->getConfiguration('isRandom'))
+			   sleep(rand(0,$this->getConfiguration('DelaisPresence')));*/
+			log::add('Volets','debug',$this->getHumanName().' : Exécution de '.$Commande->getHumanName());
+			$Commande->event($cmd['options']);
 		}
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {
@@ -305,38 +341,40 @@ class Volets extends eqLogic {
 			}
 		return $cron;
 	}
-	public function EvaluateCondition($Evenement,$Saison,$TypeGestion,$Controle){
-		foreach($this->getConfiguration('condition') as $condition){
-			if($condition['evaluation']!=$Evenement && $condition['evaluation']!='all')
-				continue;
-			if($condition['saison']!=$Saison && $condition['saison']!='all')
-				continue;
-			if(stripos($condition['TypeGestion'],$TypeGestion) === false && $condition['TypeGestion']!='all')	
-				continue;		
-			if (isset($condition['enable']) && $condition['enable'] == 0)
-				continue;
-			$_scenario = null;
-			$expression = scenarioExpression::setTags($condition['expression'], $_scenario, true);
-			$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
-			$result = evaluate($expression);
-			if (is_bool($result)) {
-				if ($result) {
-					$message .= __('Vrai', __FILE__);
-				} else {
-					$message .= __('Faux', __FILE__);
-				}
+	
+	public function CheckValid($Element,$Evenement,$Saison,$TypeGestion){
+		if(array_search($Evenement, $Element['evaluation']) === false)
+			return false;
+		if(array_search($Saison, $Element['saison']) === false)
+			return false;
+		if(array_search($TypeGestion, $Element['TypeGestion']) === false)
+			return false;		
+		if (isset($Element['enable']) && $Element['enable'] == 0)
+			return false;
+		return true;
+	}
+	public function EvaluateCondition($Condition,$Controle){
+		$_scenario = null;
+		$expression = scenarioExpression::setTags($Condition['expression'], $_scenario, true);
+		$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
+		$result = evaluate($expression);
+		if (is_bool($result)) {
+			if ($result) {
+				$message .= __('Vrai', __FILE__);
 			} else {
-				$message .= $result;
+				$message .= __('Faux', __FILE__);
 			}
-			if($Controle == 'Yes' and $condition['controle'] == 'Yes' and !$result) {
-				$result = true;
-				$message .= __(' inversé', __FILE__);
-			} 
-			log::add('Volets','info',$this->getHumanName().' : '.$message);
-			if(!$result){
-				log::add('Volets','info',$this->getHumanName().' : Les conditions ne sont pas remplies');
-				return false;
-			}
+		} else {
+			$message .= $result;
+		}
+		if($Controle == 'Yes' and $Condition['controle'] == 'Yes' and !$result) {
+			$result = true;
+			$message .= __(' inversé', __FILE__);
+		} 
+		log::add('Volets','info',$this->getHumanName().' : '.$message);
+		if(!$result){
+			log::add('Volets','info',$this->getHumanName().' : Les conditions ne sont pas remplies');
+			return false;
 		}
 		log::add('Volets','info',$this->getHumanName().' :  Les conditions sont remplies');
 		return true;

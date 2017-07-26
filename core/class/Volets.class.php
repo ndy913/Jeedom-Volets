@@ -415,11 +415,8 @@ class Volets extends eqLogic {
 			$message .= $result;
 		}
 		log::add('Volets','info',$this->getHumanName().' : '.$message);
-		if(!$result){
-			log::add('Volets','info',$this->getHumanName().' : Les conditions ne sont pas remplies');
-			return false;
-		}
-		log::add('Volets','info',$this->getHumanName().' :  Les conditions sont remplies');
+		if(!$result)
+			return false;		
 		return true;
 	}
 	public function getAngle($latitudeOrigine,$longitudeOrigne, $latitudeDest,$longitudeDest) { 

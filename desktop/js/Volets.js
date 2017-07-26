@@ -235,9 +235,8 @@ function addCondition(_condition,_el) {
 				.append($('<span class="input-group-btn">')
 					.append($('<a class="btn btn-warning btn-sm listCmdCondition">')
 						.append($('<i class="fa fa-list-alt">'))))))
-		.append(
-	tr.append(addParameters()
-		.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="controle" />')
+		.append(addParameters()
+			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="controle" />')
 			       .append($('<option value="No">')
 					.text('{{Condition normale}}'))
 			       .append($('<option value="Yes">')

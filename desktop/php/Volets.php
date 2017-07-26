@@ -197,8 +197,35 @@ Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font
 									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Jour / Nuit}}" data-l1key="configuration" data-l2key="DayNight" checked/>
 									<label>{{Position du soleil}}</label>
 									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Position du soleil}}" data-l1key="configuration" data-l2key="Helioptrope" checked/>
+									<label>{{Présences}}</label>
+									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Présences}}" data-l1key="configuration" data-l2key="Present" checked/>
 								</div>
 							</div>								
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Objet indiquant la présence}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Séléctionner la commande determinant la présence"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<div class="input-group">
+										<span class="input-group-btn">
+											<a class="btn btn-default ActionAttr btn-sm" data-action="remove">
+												<i class="fa fa-minus-circle"></i>
+											</a>
+										</span>
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdPresent" placeholder="{{Commande determinant la présence}}"/>
+										<span class="input-group-btn">
+											<a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">
+												<i class="fa fa-tasks"></i>
+											</a>
+											<a class="btn btn-success btn-sm listCmdAction">
+												<i class="fa fa-list-alt"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>						
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Délai au lever du jour (min)}}
 									<sup>

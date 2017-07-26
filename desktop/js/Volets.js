@@ -234,14 +234,12 @@ function addCondition(_condition,_el) {
 				.append($('<input class="expressionAttr form-control input-sm cmdCondition" data-l1key="expression"/>'))
 				.append($('<span class="input-group-btn">')
 					.append($('<a class="btn btn-warning btn-sm listCmdCondition">')
-						.append($('<i class="fa fa-list-alt">'))))))
-		.append(addParameters())
-		.append($('<td>')
-		       .append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="controle" />')
-			       .append($('<option value="No">')
-					.text('{{Condition normale}}'))
-			       .append($('<option value="Yes">')
-					.text('{{Condition vérifiée à l\'inverse si soleil dans fenêtre. Permet d\'ouvrir le volet l\'été et le fermer l\'hiver}}'))));
+						.append($('<i class="fa fa-list-alt">')))))
+			.append($('<div class="col-sm-5">')
+		       		.append($('<label>')
+			       		.text('{{Inverser l\'etat si faux}}'))
+				.append($('<input type="checkbox" class="expressionAttr" data-l1key="Inverse">'))))
+		.append(addParameters()));
 
         _el.append(tr);
         _el.find('tr:last').setValues(_condition, '.expressionAttr');

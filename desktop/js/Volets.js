@@ -239,7 +239,7 @@ function addCondition(_condition,_el) {
 		       		.append($('<label>')
 			       		.text('{{Inverser l\'etat si faux}}'))
 				.append($('<input type="checkbox" class="expressionAttr" data-l1key="Inverse">'))))
-		.append(addParameters()));
+		.append(addParameters());
 
         _el.append(tr);
         _el.find('tr:last').setValues(_condition, '.expressionAttr');

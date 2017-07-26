@@ -235,13 +235,13 @@ function addCondition(_condition,_el) {
 				.append($('<span class="input-group-btn">')
 					.append($('<a class="btn btn-warning btn-sm listCmdCondition">')
 						.append($('<i class="fa fa-list-alt">'))))))
-		.append(addParameters()
-			.append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="controle" />')
+		.append(addParameters())
+		.append($('<td>')
+		       .append($('<select class="expressionAttr form-control input-sm cmdCondition" data-l1key="controle" />')
 			       .append($('<option value="No">')
 					.text('{{Condition normale}}'))
 			       .append($('<option value="Yes">')
-					.text('{{Condition vérifiée à l\'inverse si soleil dans fenêtre. Permet d\'ouvrir le volet l\'été et le fermer l\'hiver}}'))))	
-		.append($('<td>'));
+					.text('{{Condition vérifiée à l\'inverse si soleil dans fenêtre. Permet d\'ouvrir le volet l\'été et le fermer l\'hiver}}'))));
 
         _el.append(tr);
         _el.find('tr:last').setValues(_condition, '.expressionAttr');
@@ -480,8 +480,9 @@ function addCmdToTable(_cmd) {
 	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 }
 function addParameters() {
-	return $('<td>')
-		.append($('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="TypeGestion" multiple>')
+	var Parameter=$('<div>');
+	Parameter.append($('<td>')
+		 .append($('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="TypeGestion" multiple>')
 			.append($('<option value="Helioptrope">')
 				.text('{{Position du soleil}}'))
 			.append($('<option value="Day">')
@@ -489,17 +490,20 @@ function addParameters() {
 			.append($('<option value="Night">')
 				.text('{{Nuit}}'))
 			.append($('<option value="Presence">')
-				.text('{{Présence}}')))
-		.append($('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="saison" multiple>')
+				.text('{{Présence}}'))));
+	Parameter.append($('<td>')
+		 .append($('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="saison" multiple>')
 			.append($('<option value="été">')
 				.text('{{Eté}}'))
 			.append($('<option value="hiver">')
-				.text('{{Hivers}}')))
-		.append($('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="evaluation" multiple>')
+				.text('{{Hivers}}'))));
+	Parameter.append($('<td>')
+		 .append($('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="evaluation" multiple>')
 			.append($('<option value="close">')
 				.text('{{Fermeture}}'))
 			.append($('<option value="open">')
-				.text('{{Ouverture}}')));
+				.text('{{Ouverture}}'))));
+	return Parameter.children();		 		
 }
 function getAngle(Origine, Destination) { 
 	var rlongitudeOrigine = Math.radians(Origine.lng); 

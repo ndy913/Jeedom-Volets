@@ -75,11 +75,11 @@ $eqLogics = eqLogic::byType('Volets');
 			</li>
 			<li role="presentation" class="">
 				<a href="#conditiontab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
-					<i class="fa fa-map"></i> {{Conditions d'exécution}}</a>
+					<i class="fa fa-cube"></i> {{Conditions d'exécution}}</a>
 			</li>
 			<li role="presentation" class="">
 				<a href="#actiontab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
-					<i class="fa fa-map"></i> {{Actions}}</a>
+					<i class="icon divers-viral"></i> {{Actions}}</a>
 			</li>
 		</ul>
 			<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">

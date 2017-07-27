@@ -307,7 +307,7 @@ class Volets extends eqLogic {
 					$Gauche['lng']);
 				$this->setConfiguration('AngleDroite',$AngleCntDrt);
 				$this->setConfiguration('AngleGauche',$AngleCntGau);
-				$this->save()
+				$this->save();
 			}else{
 				log::add('Volets','debug',$this->getHumanName().' : Les coordonnées GPS de l\'angle d\'exposition au soleil de votre fenêtre sont mal configurées');
 				return false;	

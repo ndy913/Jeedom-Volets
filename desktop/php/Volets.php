@@ -265,9 +265,9 @@ Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font
 				<div role="tabpanel" class="tab-pane active" id="maptab">	
 					<div class="form-group">
 						<label class="col-sm-2 control-label">{{L'exposition au soleil est compris entre}}</label>
-						<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleDroite"/>	
+						<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleDroite" disable/>	
 						<label class="col-sm-2 control-label">{{ Et }}</label>
-						<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleGauche"/>
+						<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleGauche" disable/>
 					</div>
 					<div id="MyMap" style="width:800px;height:600px;margin:auto;"></div>
 				</div>			

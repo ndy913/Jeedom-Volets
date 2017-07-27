@@ -54,10 +54,14 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			$Event = cmd::byId($_option['event_id']);
 			if(is_object($Event)){
+				$Mode = cache::byKey('Volets::Mode::'.$Volet->getId());
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
-						log::add('Volets', 'info',$Volet->getHumanName().' : Gestion des volets par l\'azimuth');
-						$Volet->ActionAzimute($_option['value']);
+						if($Mode->getValue('Helioptrope') != "Night" && $Mode->getValue('Helioptrope') != "Absent"){
+							cache::set('Volets::Mode::'.$Volet->getId(), '', 0);
+							log::add('Volets', 'info',$Volet->getHumanName().' : Gestion des volets par l\'azimuth');
+							$Volet->ActionAzimute($_option['value']);
+						}
 					break;
 					case 'sunrise':
 						log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');	
@@ -72,8 +76,10 @@ class Volets extends eqLogic {
 						$cron = $Volet->CreateCron($Schedule, 'ActionNuit');
 					break;
 					default:
-						log::add('Volets', 'info',$Volet->getHumanName().' : Gestion des volets par la présence');
-						$Volet->ActionPresent($_option['value']);
+						if($Mode->getValue('Helioptrope') != "Night"){
+							log::add('Volets', 'info',$Volet->getHumanName().' : Gestion des volets par la présence');
+							$Volet->ActionPresent($_option['value']);
+						}
 					break;
 				}
 			}
@@ -109,6 +115,7 @@ class Volets extends eqLogic {
 						$Volet->ExecuteAction($Cmd);
 					}
 					cache::set('Volets::Position::'.$Volet->getId(),$Evenement, 0);
+					cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
 				}
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
@@ -148,6 +155,7 @@ class Volets extends eqLogic {
 						$Volet->ExecuteAction($Cmd);
 					}
 					cache::set('Volets::Position::'.$Volet->getId(), $Evenement, 0);
+					cache::set('Volets::Mode::'.$Volet->getId(), 'Night', 0);
 				}
 			}else{
 				log::add('Volets', 'info', $Volet->getHumanName().' : Replanification de l\'évaluation des conditions de fermeture au coucher du soleil');
@@ -182,21 +190,22 @@ class Volets extends eqLogic {
 					}
 					$isValid=true;
 				}
-				if($isValid){
-					log::add('Volets','info',$this->getHumanName().' : Execution des actions');					
+				if($isValid){					
 					$position = cache::byKey('Volets::Position::'.$this->getId());
 					if($position->getValue('') != $Evenement){
+						log::add('Volets','info',$this->getHumanName().' : Execution des actions');
 						foreach($this->getConfiguration('action') as $Cmd){	
 							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Present'))
 								continue;
 							$this->ExecuteAction($Cmd);
 						}
-					cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
+						cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
+						if($Evenement=='close')
+							cache::set('Volets::Mode::'.$Volet->getId(), 'Absent', 0);
 					}
 				}
-				else {
+				else 
 					log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
-				}
 				return;
 			}
 			else
@@ -229,9 +238,9 @@ class Volets extends eqLogic {
 						$isValid=true;
 					}
 					if($isValid){
-						log::add('Volets','info',$this->getHumanName().' : Execution des actions');
 						$position = cache::byKey('Volets::Position::'.$this->getId());
 						if($position->getValue('') != $Evenement){
+							log::add('Volets','info',$this->getHumanName().' : Execution des actions');
 							foreach($this->getConfiguration('action') as $Cmd){	
 								if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Helioptrope'))
 									continue;
@@ -239,6 +248,8 @@ class Volets extends eqLogic {
 							}
 							cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
 						}
+					else
+						log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
 					}
 				}
 

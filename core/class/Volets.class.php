@@ -173,7 +173,7 @@ class Volets extends eqLogic {
 					$Evenement='open';
 				else
 					$Evenement='close';
-				$isValid=false;	
+				$isValid=true;	
 				foreach($this->getConfiguration('condition') as $Condition){
 					if (!$this->CheckValid($Condition,$Evenement,$Saison,'Present'))
 						continue;
@@ -186,9 +186,9 @@ class Volets extends eqLogic {
 								$Evenement='close';
 							$isValid=true;
 						}
+						$isValid=false;
 						break;
 					}
-					$isValid=true;
 				}
 				if($isValid){					
 					$position = cache::byKey('Volets::Position::'.$this->getId());
@@ -220,7 +220,7 @@ class Volets extends eqLogic {
 				$Saison=$this->getSaison();
 				$Evenement=$this->SelectAction($Azimuth,$Saison);
 				if($Evenement != false){
-					$isValid=false;
+					$isValid=true;
 					foreach($this->getConfiguration('condition') as $Condition){
 						if (!$this->CheckValid($Condition,$Evenement,$Saison,'Helioptrope'))
 							continue;
@@ -233,9 +233,9 @@ class Volets extends eqLogic {
 									$Evenement='close';
 								$isValid=true;
 							}
+							$isValid=false;
 							break;
 						}
-						$isValid=true;
 					}
 					if($isValid){
 						$position = cache::byKey('Volets::Position::'.$this->getId());
@@ -291,30 +291,38 @@ class Volets extends eqLogic {
 		$Droite=$this->getConfiguration('Droite');
 		$Gauche=$this->getConfiguration('Gauche');
 		$Centre=$this->getConfiguration('Centre');
-		if(is_array($Droite)&&is_array($Centre)&&is_array($Gauche)){
-			$AngleCntDrt=$this->getAngle(
-				$Centre['lat'],
-				$Centre['lng'],
-				$Droite['lat'],
-				$Droite['lng']);
-			$AngleCntGau=$this->getAngle(
-				$Centre['lat'],
-				$Centre['lng'],
-				$Gauche['lat'],
-				$Gauche['lng']);
-			log::add('Volets','info',$this->getHumanName().' : La fenêtre d\'ensoleillement est comprise entre : '.$AngleCntDrt.'° et '.$AngleCntGau.'°');
-			if ($AngleCntDrt < $AngleCntGau){
-				if($AngleCntDrt <= $Azimuth && $Azimuth <= $AngleCntGau)
-					return true;
+		$AngleCntDrt=$this->getConfiguration('AngleDroite');
+		$AngleCntGau=$this->getConfiguration('AngleGauche');
+		if(!is_numeric($AngleCntDrt)&&!is_numeric($AngleCntGau)){
+			if(is_array($Droite)&&is_array($Centre)&&is_array($Gauche)){
+				$AngleCntDrt=$this->getAngle(
+					$Centre['lat'],
+					$Centre['lng'],
+					$Droite['lat'],
+					$Droite['lng']);
+				$AngleCntGau=$this->getAngle(
+					$Centre['lat'],
+					$Centre['lng'],
+					$Gauche['lat'],
+					$Gauche['lng']);
+				$this->setConfiguration('AngleDroite',$AngleCntDrt);
+				$this->setConfiguration('AngleGauche',$AngleCntGau);
+				$this->save()
 			}else{
-				if($AngleCntDrt <= $Azimuth && $Azimuth <= 360)
-					return true;
-				if(0 <= $Azimut && $Azimuth <= $AngleCntGau)
-					return true;
+				log::add('Volets','debug',$this->getHumanName().' : Les coordonnées GPS de l\'angle d\'exposition au soleil de votre fenêtre sont mal configurées');
+				return false;	
 			}
-		}else
-			log::add('Volets','debug',$this->getHumanName().' : Les coordonnées GPS de l\'angle d\'exposition au soleil de votre fenêtre sont mal configurées');
-		return false;			
+		}
+		log::add('Volets','info',$this->getHumanName().' : La fenêtre d\'ensoleillement est comprise entre : '.$AngleCntDrt.'° et '.$AngleCntGau.'°');
+		if ($AngleCntDrt < $AngleCntGau){
+			if($AngleCntDrt <= $Azimuth && $Azimuth <= $AngleCntGau)
+				return true;
+		}else{
+			if($AngleCntDrt <= $Azimuth && $Azimuth <= 360)
+				return true;
+			if(0 <= $Azimut && $Azimuth <= $AngleCntGau)
+				return true;
+		}		
 	}	
 	public function getSaison() {
 		$isInWindows=$this->getCmd(null,'isInWindows');

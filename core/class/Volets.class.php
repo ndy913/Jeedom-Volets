@@ -91,7 +91,7 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info', $Volet->getHumanName().' : Exécution de la gestion du lever du soleil');
 			$Saison=$Volet->getSaison();
-			$isValid=false;
+			$isValid=true;
 			$Evenement='open';
 			foreach($Volet->getConfiguration('condition') as $Condition){	
 				if (!$Volet->CheckValid($Condition,$Evenement,$Saison,'Day'))
@@ -101,9 +101,9 @@ class Volets extends eqLogic {
 						$Evenement='close';
 						$isValid=true;
 					}
+					$isValid=false;
 					break;
 				}
-				$isValid=true;
 			}
 			if($isValid){
 				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
@@ -131,7 +131,7 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info',$Volet->getHumanName().' : Exécution de la gestion du coucher du soleil ');
 			$Saison=$Volet->getSaison();
-			$isValid=false;
+			$isValid=true;
 			$Evenement='close';
 			foreach($Volet->getConfiguration('condition') as $Condition){	
 				if (!$Volet->CheckValid($Condition,$Evenement,$Saison,'Night'))
@@ -141,9 +141,9 @@ class Volets extends eqLogic {
 						$Evenement='open';
 						$isValid=true;
 					}
+					$isValid=false;
 					break;
 				}
-				$isValid=true;
 			}
 			if($isValid){
 				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');

@@ -91,22 +91,8 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info', $Volet->getHumanName().' : Exécution de la gestion du lever du soleil');
 			$Saison=$Volet->getSaison();
-			$isValid=true;
 			$Evenement='open';
-			foreach($Volet->getConfiguration('condition') as $Condition){	
-				if (!$Volet->CheckValid($Condition,$Evenement,$Saison,'Day'))
-					continue;
-				if (!$Volet->EvaluateCondition($Condition)){
-					if($Condition['Inverse']){
-						$Evenement='close';
-						$isValid=true;
-						continue;
-					}
-					$isValid=false;
-					break;
-				}
-			}
-			if($isValid){
+			if($Evenement=$this->checkCondition($Evenement,$Saison,'Day') !== false){
 				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
 				$position = cache::byKey('Volets::Position::'.$Volet->getId());
 				if($position->getValue('') != $Evenement){
@@ -132,22 +118,8 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info',$Volet->getHumanName().' : Exécution de la gestion du coucher du soleil ');
 			$Saison=$Volet->getSaison();
-			$isValid=true;
 			$Evenement='close';
-			foreach($Volet->getConfiguration('condition') as $Condition){	
-				if (!$Volet->CheckValid($Condition,$Evenement,$Saison,'Night'))
-					continue;
-				if (!$Volet->EvaluateCondition($Condition)){
-					if($Condition['Inverse']){
-						$Evenement='open';
-						$isValid=true;
-						continue;
-					}
-					$isValid=false;
-					break;
-				}
-			}
-			if($isValid){
+			if($Evenement=$this->checkCondition($Evenement,$Saison,'Night') !== false){
 				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
 				$position = cache::byKey('Volets::Position::'.$Volet->getId());
 				if($position->getValue('') != $Evenement){
@@ -175,25 +147,7 @@ class Volets extends eqLogic {
 					$Evenement='open';
 				else
 					$Evenement='close';
-				$isValid=true;	
-				foreach($this->getConfiguration('condition') as $Condition){
-					if (!$this->CheckValid($Condition,$Evenement,$Saison,'Present'))
-						continue;
-					if (!$this->EvaluateCondition($Condition)){
-						if($Condition['Inverse']){
-							log::add('Volets','info',$this->getHumanName().' : La condition inverse l\'etat du volet');
-							if($Evenement == 'close')
-								$Evenement='open';
-							else
-								$Evenement='close';
-							$isValid=true;
-							continue;
-						}
-						$isValid=false;
-						break;
-					}
-				}
-				if($isValid){					
+				if($Evenement=$this->checkCondition($Evenement,$Saison,'Present') !== false){
 					$position = cache::byKey('Volets::Position::'.$this->getId());
 					if($position->getValue('') != $Evenement){
 						log::add('Volets','info',$this->getHumanName().' : Execution des actions');
@@ -223,25 +177,7 @@ class Volets extends eqLogic {
 				$Saison=$this->getSaison();
 				$Evenement=$this->SelectAction($Azimuth,$Saison);
 				if($Evenement != false){
-					$isValid=true;
-					foreach($this->getConfiguration('condition') as $Condition){
-						if (!$this->CheckValid($Condition,$Evenement,$Saison,'Helioptrope'))
-							continue;
-						if (!$this->EvaluateCondition($Condition)){
-							if($Condition['Inverse']){
-								log::add('Volets','info',$this->getHumanName().' : La condition inverse l\'etat du volet');
-								if($Evenement == 'close')
-									$Evenement='open';
-								else
-									$Evenement='close';
-								$isValid=true;
-								continue;
-							}
-							$isValid=false;
-							break;
-						}
-					}
-					if($isValid){
+					if($Evenement=$this->checkCondition($Evenement,$Saison,'Helioptrope') !== false){
 						$position = cache::byKey('Volets::Position::'.$this->getId());
 						if($position->getValue('') != $Evenement){
 							log::add('Volets','info',$this->getHumanName().' : Execution des actions');
@@ -422,6 +358,26 @@ class Volets extends eqLogic {
 		if (isset($Element['enable']) && $Element['enable'] == 0)
 			return false;
 		return true;
+	}
+	public function checkCondition($Evenement,$Saison,$TypeGestion){
+		foreach($this->getConfiguration('condition') as $Condition){
+			if (!$this->CheckValid($Condition,$Evenement,$Saison,$TypeGestion))
+				continue;
+			if (!$this->EvaluateCondition($Condition)){
+				if($Condition['Inverse']){
+					log::add('Volets','info',$this->getHumanName().' : La condition inverse l\'etat du volet');
+					if($Evenement == 'close')
+						$EvenementInverse='open';
+					else
+						$EvenementInverse='close';
+					break;
+				}
+				return false;
+			}
+		}
+		if ($EvenementInverse!=$Evenement)
+			$Evenement=$this->checkCondition($Evenement,$Saison,$TypeGestion);
+		return $Evenement;
 	}
 	public function EvaluateCondition($Condition){
 		$_scenario = null;

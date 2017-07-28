@@ -100,6 +100,7 @@ class Volets extends eqLogic {
 					if($Condition['Inverse']){
 						$Evenement='close';
 						$isValid=true;
+						continue;
 					}
 					$isValid=false;
 					break;
@@ -140,6 +141,7 @@ class Volets extends eqLogic {
 					if($Condition['Inverse']){
 						$Evenement='open';
 						$isValid=true;
+						continue;
 					}
 					$isValid=false;
 					break;
@@ -185,6 +187,7 @@ class Volets extends eqLogic {
 							else
 								$Evenement='close';
 							$isValid=true;
+							continue;
 						}
 						$isValid=false;
 						break;
@@ -232,6 +235,7 @@ class Volets extends eqLogic {
 								else
 									$Evenement='close';
 								$isValid=true;
+								continue;
 							}
 							$isValid=false;
 							break;

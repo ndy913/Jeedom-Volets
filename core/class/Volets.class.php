@@ -371,8 +371,10 @@ class Volets extends eqLogic {
 						$Evenement='open';
 					else
 						$Evenement='close';
-					if ($this->_inverseCondition)
+					if ($this->_inverseCondition){
+						$this->_inverseCondition=false;
 						return false;
+					}
 					$this->_inverseCondition=true;
 					break;
 				}

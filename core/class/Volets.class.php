@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
+	private $_inverseCondition=false;
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'Volets';
@@ -367,15 +368,18 @@ class Volets extends eqLogic {
 				if($Condition['Inverse']){
 					log::add('Volets','info',$this->getHumanName().' : La condition inverse l\'etat du volet');
 					if($Evenement == 'close')
-						$EvenementInverse='open';
+						$Evenement='open';
 					else
-						$EvenementInverse='close';
+						$Evenement='close';
+					if ($this->_inverseCondition)
+						return false;
+					$this->_inverseCondition=true;
 					break;
 				}
 				return false;
 			}
 		}
-		if ($EvenementInverse!=$Evenement)
+		if ($this->_inverseCondition)
 			$Evenement=$this->checkCondition($Evenement,$Saison,$TypeGestion);
 		return $Evenement;
 	}

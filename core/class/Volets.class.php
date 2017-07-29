@@ -93,7 +93,7 @@ class Volets extends eqLogic {
 			log::add('Volets', 'info', $Volet->getHumanName().' : Exécution de la gestion du lever du soleil');
 			$Saison=$Volet->getSaison();
 			$Evenement='open';
-			if($Evenement=$this->checkCondition($Evenement,$Saison,'Day') !== false){
+			if($Evenement=$Volet->checkCondition($Evenement,$Saison,'Day') !== false){
 				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
 				$position = cache::byKey('Volets::Position::'.$Volet->getId());
 				if($position->getValue('') != $Evenement){
@@ -120,7 +120,7 @@ class Volets extends eqLogic {
 			log::add('Volets', 'info',$Volet->getHumanName().' : Exécution de la gestion du coucher du soleil ');
 			$Saison=$Volet->getSaison();
 			$Evenement='close';
-			if($Evenement=$this->checkCondition($Evenement,$Saison,'Night') !== false){
+			if($Evenement=$Volet->checkCondition($Evenement,$Saison,'Night') !== false){
 				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
 				$position = cache::byKey('Volets::Position::'.$Volet->getId());
 				if($position->getValue('') != $Evenement){

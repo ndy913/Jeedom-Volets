@@ -148,7 +148,7 @@ class Volets extends eqLogic {
 					$Evenement='open';
 				else
 					$Evenement='close';
-			$Evenement=$Volet->checkCondition($Evenement,$Saison,'Present');
+			$Evenement=$this->checkCondition($Evenement,$Saison,'Present');
 			if( $Evenement!= false){
 					$position = cache::byKey('Volets::Position::'.$this->getId());
 					if($position->getValue('') != $Evenement){
@@ -160,7 +160,7 @@ class Volets extends eqLogic {
 						}
 						cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
 						if($Evenement=='close')
-							cache::set('Volets::Mode::'.$Volet->getId(), 'Absent', 0);
+							cache::set('Volets::Mode::'.$this->getId(), 'Absent', 0);
 					}
 				}
 				else 
@@ -179,7 +179,7 @@ class Volets extends eqLogic {
 				$Saison=$this->getSaison();
 				$Evenement=$this->SelectAction($Azimuth,$Saison);
 				if($Evenement != false){
-					$Evenement=$Volet->checkCondition($Evenement,$Saison,'Helioptrope');
+					$Evenement=$this->checkCondition($Evenement,$Saison,'Helioptrope');
 					if( $Evenement!= false){
 						$position = cache::byKey('Volets::Position::'.$this->getId());
 						if($position->getValue('') != $Evenement){
@@ -349,7 +349,6 @@ class Volets extends eqLogic {
 		return $cron;
 	}
 	public function CheckValid($Element,$Evenement,$Saison,$TypeGestion){
-      log::add('Volets','info',$this->getHumanName().' : '.$Evenement);
 		if(array_search($Evenement, $Element['evaluation']) === false)
 			return false;
 		if(array_search($Saison, $Element['saison']) === false)
@@ -484,7 +483,8 @@ class Volets extends eqLogic {
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
 		$isArmed=self::AddCommande($this,"Etat activation","isArmed","info","binary",false,'lock');
-		$isArmed->event(true);		$isArmed->setCollectDate(date('Y-m-d H:i:s'));
+		$isArmed->event(true);
+		$isArmed->setCollectDate(date('Y-m-d H:i:s'));
 		$isArmed->save();
 		$Armed=self::AddCommande($this,"Activer","armed","action","other",true,'lock');
 		$Armed->setValue($isArmed->getId());

@@ -92,8 +92,8 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info', $Volet->getHumanName().' : Exécution de la gestion du lever du soleil');
 			$Saison=$Volet->getSaison();
-			$Evenement='open';
-			if($Evenement=$Volet->checkCondition($Evenement,$Saison,'Day') !== false){
+			$Evenement=$Volet->checkCondition('open',$Saison,'Day');
+			if( $Evenement!= false){
 				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
 				$position = cache::byKey('Volets::Position::'.$Volet->getId());
 				if($position->getValue('') != $Evenement){
@@ -119,8 +119,8 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->getIsEnable()) {
 			log::add('Volets', 'info',$Volet->getHumanName().' : Exécution de la gestion du coucher du soleil ');
 			$Saison=$Volet->getSaison();
-			$Evenement='close';
-			if($Evenement=$Volet->checkCondition($Evenement,$Saison,'Night') !== false){
+			$Evenement=$Volet->checkCondition('close',$Saison,'Night');
+			if( $Evenement!= false){
 				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
 				$position = cache::byKey('Volets::Position::'.$Volet->getId());
 				if($position->getValue('') != $Evenement){
@@ -148,7 +148,8 @@ class Volets extends eqLogic {
 					$Evenement='open';
 				else
 					$Evenement='close';
-				if($Evenement=$this->checkCondition($Evenement,$Saison,'Present') !== false){
+			$Evenement=$Volet->checkCondition($Evenement,$Saison,'Present');
+			if( $Evenement!= false){
 					$position = cache::byKey('Volets::Position::'.$this->getId());
 					if($position->getValue('') != $Evenement){
 						log::add('Volets','info',$this->getHumanName().' : Execution des actions');
@@ -178,7 +179,8 @@ class Volets extends eqLogic {
 				$Saison=$this->getSaison();
 				$Evenement=$this->SelectAction($Azimuth,$Saison);
 				if($Evenement != false){
-					if($Evenement=$this->checkCondition($Evenement,$Saison,'Helioptrope') !== false){
+					$Evenement=$Volet->checkCondition($Evenement,$Saison,'Helioptrope');
+					if( $Evenement!= false){
 						$position = cache::byKey('Volets::Position::'.$this->getId());
 						if($position->getValue('') != $Evenement){
 							log::add('Volets','info',$this->getHumanName().' : Execution des actions');
@@ -188,12 +190,10 @@ class Volets extends eqLogic {
 								$this->ExecuteAction($Cmd);
 							}
 							cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
-						}
-					else
-						log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
+						}else
+							log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
 					}
 				}
-
 			}
 			else
 				log::add('Volets','debug',$this->getHumanName().' : Il fait nuit, la gestion par azimuth est désactivée');
@@ -348,8 +348,8 @@ class Volets extends eqLogic {
 			}
 		return $cron;
 	}
-	
 	public function CheckValid($Element,$Evenement,$Saison,$TypeGestion){
+      log::add('Volets','info',$this->getHumanName().' : '.$Evenement);
 		if(array_search($Evenement, $Element['evaluation']) === false)
 			return false;
 		if(array_search($Saison, $Element['saison']) === false)
@@ -360,7 +360,7 @@ class Volets extends eqLogic {
 			return false;
 		return true;
 	}
-	public function checkCondition($Evenement,$Saison,$TypeGestion){
+	public function checkCondition($Evenement,$Saison,$TypeGestion){		
 		foreach($this->getConfiguration('condition') as $Condition){
 			if (!$this->CheckValid($Condition,$Evenement,$Saison,$TypeGestion))
 				continue;
@@ -376,13 +376,13 @@ class Volets extends eqLogic {
 						return false;
 					}
 					$this->_inverseCondition=true;
-					break;
+					return $this->checkCondition($Evenement,$Saison,$TypeGestion);
 				}
+				log::add('Volets','info',$this->getHumanName().' : Les conditions ne sont pas remplis');
 				return false;
 			}
 		}
-		if ($this->_inverseCondition)
-			$Evenement=$this->checkCondition($Evenement,$Saison,$TypeGestion);
+		log::add('Volets','info',$this->getHumanName().' : Les conditions sont remplis');
 		return $Evenement;
 	}
 	public function EvaluateCondition($Condition){
@@ -484,8 +484,7 @@ class Volets extends eqLogic {
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
 		$isArmed=self::AddCommande($this,"Etat activation","isArmed","info","binary",false,'lock');
-		$isArmed->event(true);
-		$isArmed->setCollectDate(date('Y-m-d H:i:s'));
+		$isArmed->event(true);		$isArmed->setCollectDate(date('Y-m-d H:i:s'));
 		$isArmed->save();
 		$Armed=self::AddCommande($this,"Activer","armed","action","other",true,'lock');
 		$Armed->setValue($isArmed->getId());

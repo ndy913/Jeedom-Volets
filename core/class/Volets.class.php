@@ -95,8 +95,8 @@ class Volets extends eqLogic {
 			$Evenement=$Volet->checkCondition('open',$Saison,'Day');
 			if( $Evenement!= false){
 				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
-				$position = cache::byKey('Volets::Position::'.$Volet->getId());
-				if($position->getValue('') != $Evenement){
+				//$position = cache::byKey('Volets::Position::'.$Volet->getId());
+				//if($position->getValue('') != $Evenement){
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Day'))
 							continue;
@@ -104,7 +104,7 @@ class Volets extends eqLogic {
 					}
 					cache::set('Volets::Position::'.$Volet->getId(),$Evenement, 0);
 					cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
-				}
+				//}
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
@@ -122,8 +122,8 @@ class Volets extends eqLogic {
 			$Evenement=$Volet->checkCondition('close',$Saison,'Night');
 			if( $Evenement!= false){
 				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
-				$position = cache::byKey('Volets::Position::'.$Volet->getId());
-				if($position->getValue('') != $Evenement){
+				//$position = cache::byKey('Volets::Position::'.$Volet->getId());
+				//if($position->getValue('') != $Evenement){
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Night'))
 							continue;
@@ -131,7 +131,7 @@ class Volets extends eqLogic {
 					}
 					cache::set('Volets::Position::'.$Volet->getId(), $Evenement, 0);
 					cache::set('Volets::Mode::'.$Volet->getId(), 'Night', 0);
-				}
+				//}
 			}else{
 				log::add('Volets', 'info', $Volet->getHumanName().' : Replanification de l\'évaluation des conditions de fermeture au coucher du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');

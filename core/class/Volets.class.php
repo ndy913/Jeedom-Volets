@@ -438,7 +438,7 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('Helioptrope'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
 				if ($this->getConfiguration('Present'))
-					$listener->addEvent(str_replace('#','',$this->getConfiguration('cmdPresent')));
+					$listener->addEvent($this->getConfiguration('cmdPresent'));
 				if ($this->getConfiguration('DayNight')){
 					$listener->addEvent($sunrise->getId());
 					$listener->addEvent($sunset->getId());

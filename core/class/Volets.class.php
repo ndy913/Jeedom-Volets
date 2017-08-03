@@ -148,20 +148,20 @@ class Volets extends eqLogic {
 					$Evenement='open';
 				else
 					$Evenement='close';
-			$Evenement=$this->checkCondition($Evenement,$Saison,'Present');
+			$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
 			if( $Evenement!= false){
-					$position = cache::byKey('Volets::Position::'.$this->getId());
-					if($position->getValue('') != $Evenement){
+					//$position = cache::byKey('Volets::Position::'.$this->getId());
+					//if($position->getValue('') != $Evenement){
 						log::add('Volets','info',$this->getHumanName().' : Execution des actions');
 						foreach($this->getConfiguration('action') as $Cmd){	
-							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Present'))
+							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
 								continue;
 							$this->ExecuteAction($Cmd);
 						}
 						cache::set('Volets::Position::'.$this->getId(), $Evenement, 0);
 						if($Evenement=='close')
 							cache::set('Volets::Mode::'.$this->getId(), 'Absent', 0);
-					}
+					//}
 				}
 				else 
 					log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');

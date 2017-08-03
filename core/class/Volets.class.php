@@ -10,7 +10,7 @@ class Volets extends eqLogic {
 		foreach(eqLogic::byType('Volets') as $Volet){
 			if($Volet->getIsEnable()){
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
-			if (!is_object($listener))
+				if (!is_object($listener))
 					return $return;
 				if ($Volet->getConfiguration('DayNight')){
 					$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));

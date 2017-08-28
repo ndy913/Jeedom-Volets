@@ -504,8 +504,8 @@ class Volets extends eqLogic {
 		$Released->save();
 		$Released->setConfiguration('state', '0');
 		$Released->setConfiguration('armed', '1');
-		$Position=$this->AddCommande("Etat du volet","position","info","binary");
-		$VoletState=$this->AddCommande("Position du volet","VoletState","action","other");
+		$Position=$this->AddCommande("Etat du volet","position","info","binary",false);
+		$VoletState=$this->AddCommande("Position du volet","VoletState","action","other",true);
 		$VoletState->setValue($Position->getId());
 		$VoletState->save();
 		self::deamon_stop();

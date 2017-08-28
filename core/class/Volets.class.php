@@ -451,7 +451,7 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public function AddCommande(,$Name,$_logicalId,$Type="info", $SubType='binary',$visible,$Template='') {
+	public function AddCommande($Name,$_logicalId,$Type="info", $SubType='binary',$visible,$Template='') {
 		$Commande = $this->getCmd(null,$_logicalId);
 		if (!is_object($Commande))
 		{

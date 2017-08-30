@@ -470,17 +470,17 @@ class Volets extends eqLogic {
 		return $Commande;
 	}
 	public function setPosition($Evenement) {
-    if($Evenement == 'open')
-      $this->checkAndUpdateCmd('position',true);
-    else
-      $this->checkAndUpdateCmd('position',false);
-  }
+		if($Evenement == 'open')
+			$this->checkAndUpdateCmd('position',true);
+		else
+			$this->checkAndUpdateCmd('position',false);
+	}
 	public function getPosition() {
-    if($this->getCmd(null,'position'))
-      return 'open';
-    else
-      return 'close';
-  }
+		if($this->getCmd(null,'position'))
+			return 'open';
+		else
+			return 'close';
+	}
 	public function postSave() {
 		$state=$this->AddCommande("Position du soleil","state","info", 'binary',true,'sunInWindows');
 		$state->event(false);
@@ -528,10 +528,10 @@ class VoletsCmd extends cmd {
 		if (is_object($Listener)) {	
 			switch($this->getLogicalId()){
         case 'VoletState':
-          if($this->getEqLogic()->getCmd(null,'position')->execCmd())
-            $this->getEqLogic()->checkAndUpdateCmd('position',false);
-          else
-            $this->getEqLogic()->checkAndUpdateCmd('position',true);
+		if($this->getEqLogic()->getCmd(null,'position')->execCmd())
+			$this->getEqLogic()->checkAndUpdateCmd('position',false);
+		else
+			$this->getEqLogic()->checkAndUpdateCmd('position',true);
         break;
 				case 'armed':
 					$Listener->event(true);

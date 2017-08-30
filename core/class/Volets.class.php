@@ -178,7 +178,7 @@ class Volets extends eqLogic {
 				if($Evenement != false){
 					$Evenement=$this->checkCondition($Evenement,$Saison,'Helioptrope');
 					if( $Evenement!= false){
-						log::add('Volets','debug',$this->getHumanName().' : Position actuelle est '.$this->getPosition() .' != '. $Evenement){
+						log::add('Volets','debug',$this->getHumanName().' : Position actuelle est '.$this->getPosition() .' != '. $Evenement);
 						if($this->getPosition() != $Evenement){
 							log::add('Volets','info',$this->getHumanName().' : Execution des actions');
 							foreach($this->getConfiguration('action') as $Cmd){	

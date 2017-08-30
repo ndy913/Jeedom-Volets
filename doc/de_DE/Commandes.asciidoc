@@ -2,6 +2,12 @@ Pour chaque équipement, le plugin va créer des commandes.
 
 image::../images/Volets_screenshot_Widget.jpg[]
 
+=== La position du volet et son état
+
+Une commande nous permet de mettre a jours manullement l'etat de la position du volet vue par le plugin.
+Cette commande nous permet de faire de gere certaine option par scénario.
+L'etat est egalement visible depuis le widget afin de faciliter la comprehention du plugin.
+
 === Le mode et son état
 
 Ces 2 commandes vont permettre de basculer le plugin en mode "été" ou "hiver".

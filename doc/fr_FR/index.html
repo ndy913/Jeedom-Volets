@@ -419,8 +419,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_description">1. Description</a></li>
 <li><a href="#_commandes_et_widgets">2. Commandes et widgets</a>
 <ul class="sectlevel2">
-<li><a href="#_le_mode_et_son_état">2.1. Le mode et son état</a></li>
-<li><a href="#_la_position_du_soleil">2.2. la position du soleil</a></li>
+<li><a href="#_la_position_du_volet_et_son_état">2.1. La position du volet et son état</a></li>
+<li><a href="#_le_mode_et_son_état">2.2. Le mode et son état</a></li>
+<li><a href="#_la_position_du_soleil">2.3. la position du soleil</a></li>
 </ul>
 </li>
 <li><a href="#_paramétrage">3. Paramétrage</a>
@@ -451,10 +452,16 @@ Celui-ci est entièrement basé sur le plugin Heliotrope qui est un prérequis p
 <p>le plugin gérera automatiquement l&#8217;ouverture et la fermerture de vos volets au lever du soleil et à la tombée de la nuit</p>
 </li>
 <li>
+<p>le plugin gérera automatiquement l&#8217;ouverture et la fermerture de vos volets en fonction de la position du soleil</p>
+</li>
+<li>
 <p>en mode été, il fermera les volets lorsque le soleil sera dans la fenêtre afin de préserver une température idéale dans la maison</p>
 </li>
 <li>
 <p>en mode hiver, il ouvrira les volets pour permettre au soleil de chauffer la pièce et faire des économies d&#8217;énergie.</p>
+</li>
+<li>
+<p>le plugin gérera automatiquement l&#8217;ouverture et la fermerture de vos volets en fonction de votre présence</p>
 </li>
 </ul>
 </div>
@@ -472,7 +479,15 @@ Celui-ci est entièrement basé sur le plugin Heliotrope qui est un prérequis p
 </div>
 </div>
 <div class="sect2">
-<h3 id="_le_mode_et_son_état">2.1. Le mode et son état</h3>
+<h3 id="_la_position_du_volet_et_son_état">2.1. La position du volet et son état</h3>
+<div class="paragraph">
+<p>Une commande nous permet de mettre a jours manullement l&#8217;etat de la position du volet vue par le plugin.
+Cette commande nous permet de faire de gere certaine option par scénario.
+L&#8217;etat est egalement visible depuis le widget afin de faciliter la comprehention du plugin.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_le_mode_et_son_état">2.2. Le mode et son état</h3>
 <div class="paragraph">
 <p>Ces 2 commandes vont permettre de basculer le plugin en mode "été" ou "hiver".
 C&#8217;est à vous de déterminer à quel moment il faut gérer ce changement.</p>
@@ -495,7 +510,7 @@ C&#8217;est à vous de déterminer à quel moment il faut gérer ce changement.<
 </div>
 </div>
 <div class="sect2">
-<h3 id="_la_position_du_soleil">2.2. la position du soleil</h3>
+<h3 id="_la_position_du_soleil">2.3. la position du soleil</h3>
 <div class="paragraph">
 <p>Cette commande nous informe si le soleil est dans la fenêtre ou pas.</p>
 </div>
@@ -556,7 +571,10 @@ Après avoir nommé ce groupe, nous allons pouvoir commencer à mettre en place 
 <p>Position du soleil : Activation de la gestion en fonction de la position du soleil</p>
 </li>
 <li>
-<p>Présence : permet de définir des pauses aléatoires dans la séquence de fermeture des volets de la zone</p>
+<p>Présence : Activation de la gestion en fonction de la présence</p>
+</li>
+<li>
+<p>Objet indiquant la présence: Objet jeedom indiquant s&#8217;il y a quelqu&#8217;un dans la maison</p>
 </li>
 <li>
 <p>Héliotrope : choisir l&#8217;équipement Héliotrope à prendre en compte pour ce groupe de zone</p>
@@ -595,12 +613,11 @@ Attention toutefois a bien respecter la droite et la gauche de votre fenêtre vu
 <div class="sect3">
 <h4 id="_conditions_d_exécution">3.3. Conditions d&#8217;exécution</h4>
 <div class="paragraph">
-<p>Dans nos differentes gestions, nous pouvons choisir des conditions
-Toutes les conditions, de la gestion active, doivent être respectées pour que les actions soient executées</p>
+<p>Afin d&#8217;affiné tous les cas d&#8217;utilisation des gestions de nos volet, nous pouvons ajouté des conditions.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/ConfigurationCondition.jpg" alt="ConfigurationCondition">
+<img src="../images/Volets_screenshot_ConfigurationCondition.jpg" alt="Volets screenshot ConfigurationCondition">
 </div>
 </div>
 <div class="paragraph">
@@ -617,28 +634,53 @@ Toutes les conditions, de la gestion active, doivent être respectées pour que 
 </div>
 </div>
 <div class="paragraph">
-<p>Il vous reste 2 champs à configurer</p>
+<p>Parametre complémentaire:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Choisir sur quel gestion on veut que notre condition soit respectée</p>
+<p>Type de gestion: Séléctioner tous les gestions ou la condition doit etre verifier (avec la touche ctrl appuillé)</p>
 </li>
 <li>
-<p>Choisir pour quel action on veut que notre condition soit respectée</p>
+<p>Mode: Séléctioner tous les mode ou la condition doit etre verifier (avec la touche ctrl appuillé)</p>
+</li>
+<li>
+<p>Action: Séléctioner tous les actions ou la condition doit etre verifier (avec la touche ctrl appuillé)</p>
+</li>
+<li>
+<p>Inverser l&#8217;etat si faux : permet de relancer un evaluation des condition avec l&#8217;action inverse.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Chaque condition validé par leur parametre doivent etre valide pour l&#8217;execution des actions</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_actions_d_ouverture_et_de_fermeture">3.4. Actions d&#8217;ouverture et de fermeture</h4>
 <div class="imageblock">
 <div class="content">
-<img src="../images/ConfigurationAction.jpg" alt="ConfigurationAction">
+<img src="../images/Volets_screenshot_ConfigurationAction.jpg" alt="Volets screenshot ConfigurationAction">
 </div>
 </div>
 <div class="paragraph">
-<p>Choisissez les actionsàa mener sans oublier de configurer leur valeurs</p>
+<p>Choisissez les actions à mener sans oublier de configurer leur valeurs</p>
+</div>
+<div class="paragraph">
+<p>Parametre complémentaire:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Type de gestion: Séléctioner tous les gestions ou la condition doit etre verifier (avec la touche ctrl appuillé)</p>
+</li>
+<li>
+<p>Mode: Séléctioner tous les mode ou la condition doit etre verifier (avec la touche ctrl appuillé)</p>
+</li>
+<li>
+<p>Action: Séléctioner tous les actions ou la condition doit etre verifier (avec la touche ctrl appuillé)</p>
+</li>
+</ul>
 </div>
 </div>
 </div>

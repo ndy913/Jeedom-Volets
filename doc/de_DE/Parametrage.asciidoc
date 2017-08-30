@@ -11,7 +11,8 @@ image::../images/ConfigurationGeneral.jpg[]
 * Activer : permet d'activer l'équipement
 * Jour / Nuit : Activation de la gestion en jour / nuit
 * Position du soleil : Activation de la gestion en fonction de la position du soleil
-* Présence : permet de définir des pauses aléatoires dans la séquence de fermeture des volets de la zone
+* Présence : Activation de la gestion en fonction de la présence
+* Objet indiquant la présence: Objet jeedom indiquant s'il y a quelqu'un dans la maison
 * Héliotrope : choisir l'équipement Héliotrope à prendre en compte pour ce groupe de zone
 * Délai au lever du jour (min) : délai avant (-) ou après (+) à l'heure du lever du jour
 * Délai à la tombée de la nuit (min) : délai avant (-) ou après (+) à l'heure de la tombée de la nuit
@@ -29,21 +30,31 @@ Les 2 autres vont former l'ange et peuvent être placés n'importe où à l'ext�
 Attention toutefois a bien respecter la droite et la gauche de votre fenêtre vue de l'exterieur
 
 ==== Conditions d'exécution
-Dans nos differentes gestions, nous pouvons choisir des conditions
-Toutes les conditions, de la gestion active, doivent être respectées pour que les actions soient executées
+Afin d'affiné tous les cas d'utilisation des gestions de nos volet, nous pouvons ajouté des conditions.
 
-image::../images/ConfigurationCondition.jpg[]
+image::../images/Volets_screenshot_ConfigurationCondition.jpg[]
+
 Pour vous aider a la configuration des conditions, un editeur est ajouté.
 
 image::../images/ConfigurationConditionEditeur.jpg[]
 image::../images/ConfigurationConditionEditeur2.jpg[]
 
-Il vous reste 2 champs à configurer
+Parametre complémentaire:
 
-* Choisir sur quel gestion on veut que notre condition soit respectée
-* Choisir pour quel action on veut que notre condition soit respectée
+* Type de gestion: Séléctioner tous les gestions ou la condition doit etre verifier (avec la touche ctrl appuillé)
+* Mode: Séléctioner tous les mode ou la condition doit etre verifier (avec la touche ctrl appuillé)
+* Action: Séléctioner tous les actions ou la condition doit etre verifier (avec la touche ctrl appuillé)
+* Inverser l'etat si faux : permet de relancer un evaluation des condition avec l'action inverse.
+
+Chaque condition validé par leur parametre doivent etre valide pour l'execution des actions
 
 ==== Actions d'ouverture et de fermeture
 
-image::../images/ConfigurationAction.jpg[]
-Choisissez les actionsàa mener sans oublier de configurer leur valeurs
+image::../images/Volets_screenshot_ConfigurationAction.jpg[]
+Choisissez les actions à mener sans oublier de configurer leur valeurs
+
+Parametre complémentaire:
+
+* Type de gestion: Séléctioner tous les gestions ou la condition doit etre verifier (avec la touche ctrl appuillé)
+* Mode: Séléctioner tous les mode ou la condition doit etre verifier (avec la touche ctrl appuillé)
+* Action: Séléctioner tous les actions ou la condition doit etre verifier (avec la touche ctrl appuillé)

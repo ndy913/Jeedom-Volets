@@ -168,12 +168,12 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 								<div class="form-group">
 									<label class="col-sm-2 control-label" >
-										{{Choisir les gestions desirées}}
+										{{Gestions}}
 										<sup>
 											<i class="fa fa-question-circle tooltips" title="Choisissez les types de gestions que vous souhaitez pour cette zone" style="font-size : 1em;color:grey;"></i>
 										</sup>
 									</label>
-									<div class="col-sm-5">
+									<div class="col-sm-8">
 										<label>{{Jour / Nuit}}</label>
 										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Jour / Nuit}}" data-l1key="configuration" data-l2key="DayNight" checked/>
 										<label>{{Position du soleil}}</label>

@@ -101,7 +101,7 @@ class Volets extends eqLogic {
 							continue;
 						$Volet->ExecuteAction($Cmd);
 					}
-          $this->setPosition($Evenement);
+          				$this->setPosition($Evenement);
 					cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
 				//}
 			}else{
@@ -127,7 +127,7 @@ class Volets extends eqLogic {
 							continue;
 						$Volet->ExecuteAction($Cmd);
 					}
-        $this->setPosition($Evenement);
+     					$this->setPosition($Evenement);
 					cache::set('Volets::Mode::'.$Volet->getId(), 'Night', 0);
 				//}
 			}else{
@@ -146,8 +146,8 @@ class Volets extends eqLogic {
 					$Evenement='open';
 				else
 					$Evenement='close';
-			$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
-			if( $Evenement!= false){
+				$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
+				if( $Evenement!= false){
 					//if($this->getPosition(); != $Evenement){
 						log::add('Volets','info',$this->getHumanName().' : Execution des actions');
 						foreach($this->getConfiguration('action') as $Cmd){	
@@ -155,7 +155,7 @@ class Volets extends eqLogic {
 								continue;
 							$this->ExecuteAction($Cmd);
 						}
-            $this->setPosition($Evenement);
+          					$this->setPosition($Evenement);
 						if($Evenement=='close')
 							cache::set('Volets::Mode::'.$this->getId(), 'Absent', 0);
 					//}
@@ -178,6 +178,7 @@ class Volets extends eqLogic {
 				if($Evenement != false){
 					$Evenement=$this->checkCondition($Evenement,$Saison,'Helioptrope');
 					if( $Evenement!= false){
+						log::add('Volets','debug',$this->getHumanName().' : Position actuelle est '.$this->getPosition() .' != '. $Evenement){
 						if($this->getPosition() != $Evenement){
 							log::add('Volets','info',$this->getHumanName().' : Execution des actions');
 							foreach($this->getConfiguration('action') as $Cmd){	
@@ -185,7 +186,7 @@ class Volets extends eqLogic {
 									continue;
 								$this->ExecuteAction($Cmd);
 							}
-              $this->setPosition($Evenement);
+              						$this->setPosition($Evenement);
 						}else
 							log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
 					}

@@ -84,183 +84,179 @@ $eqLogics = eqLogic::byType('Volets');
 		</ul>
 			<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
 				<div role="tabpanel" class="tab-pane active" id="eqlogictab">
-					<form class="form-horizontal">
-						<fieldset>
-							<div class="form-group ">
-								<label class="col-sm-2 control-label">{{Nom de la Zone}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="Indiquer le nom de votre zone" style="font-size : 1em;color:grey;"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-									<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du groupe de zones}}"/>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label" >{{Objet parent}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="Indiquer l'objet dans lequel le widget de cette zone apparaîtra sur le Dashboard" style="font-size : 1em;color:grey;"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
-										<option value="">{{Aucun}}</option>
-										<?php
-											foreach (object::all() as $object) 
-												echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
-										?>
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-2 control-label">
-									{{Catégorie}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="Choisissez une catégorie
-Cette information n'est pas obigatoire mais peut être utile pour filtrer les widgets" style="font-size : 1em;color:grey;"></i>
-									</sup>
-								</label>
-								<div class="col-md-8">
-									<?php
-									foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
-										echo '<label class="checkbox-inline">';
-										echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
-										echo '</label>';
-									}
-									?>
-
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label" >
-									{{Etat du widget}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="Choisissez les options de visibilité et d'activation
-Si l'équipement n'est pas activé, il ne sera pas utilisable dans Jeedom ni visible sur le Dashboard
-Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font-size : 1em;color:grey;"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<label>{{Activer}}</label>
-									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
-									<label>{{Visible}}</label>
-									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
-								</div>
-							</div>
-							<!--div class="form-group">
-								<label class="col-sm-2 control-label">{{Exécution des actions aléatoires}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="{{En activant cette fonction, les actions se produiront les unes après les autres avec un délai maximum à définir}}"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<label>{{Présence}}</label>
-									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="configuration" data-l2key="isRandom" />
-								</div>
-							</div>						
-							<div class="form-group Presence" style="display: none;">
-								<label class="col-sm-2 control-label">{{Temps maximum pour la simulation de présence (secondes)}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délai maximum entre l'exécution des actions (secondes)"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisPresence" placeholder="{{Saisir le délai maximum entre l'exécution des actions (secondes)}}"/>
-								</div>
-							</div-->
-							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Héliotrope}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="Sélectionner l'équipement du plugin Héliotrope source"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<select class="eqLogicAttr" data-l1key="configuration" data-l2key="heliotrope">
-										<option>Aucun</option>
-										<?php
-											foreach(eqLogic::byType('heliotrope') as $heliotrope)
-												echo '<option value="'.$heliotrope->getId().'">'.$heliotrope->getName().'</option>';
-										?>
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label" >
-									{{Choisir les gestions desirées}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="Choisissez les types de gestions que vous souhaitez pour cette zone" style="font-size : 1em;color:grey;"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<label>{{Jour / Nuit}}</label>
-									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Jour / Nuit}}" data-l1key="configuration" data-l2key="DayNight" checked/>
-									<label>{{Position du soleil}}</label>
-									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Position du soleil}}" data-l1key="configuration" data-l2key="Helioptrope" checked/>
-									<label>{{Présences}}</label>
-									<input type="checkbox" class="eqLogicAttr" data-label-text="{{Présences}}" data-l1key="configuration" data-l2key="Present" checked/>
-								</div>
-							</div>								
-							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Objet indiquant la présence}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="Séléctionner la commande determinant la présence"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<div class="input-group">
-										<span class="input-group-btn">
-											<a class="btn btn-default ActionAttr btn-sm" data-action="remove">
-												<i class="fa fa-minus-circle"></i>
-											</a>
-										</span>
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdPresent" placeholder="{{Commande determinant la présence}}"/>
-										<span class="input-group-btn">
-											<a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">
-												<i class="fa fa-tasks"></i>
-											</a>
-											<a class="btn btn-success btn-sm listCmdAction data-type="info"">
-												<i class="fa fa-list-alt"></i>
-											</a>
-										</span>
+					<div class="col-sm-6">
+						<form class="form-horizontal">
+							<legend>Général</legend>
+							<fieldset>
+								<div class="form-group ">
+									<label class="col-sm-2 control-label">{{Nom de la Zone}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="Indiquer le nom de votre zone" style="font-size : 1em;color:grey;"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+										<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du groupe de zones}}"/>
 									</div>
 								</div>
-							</div>						
-							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Délai au lever du jour (min)}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (-) ou après (+)"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Délai au lever du jour (min)}}"/>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" >{{Objet parent}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="Indiquer l'objet dans lequel le widget de cette zone apparaîtra sur le Dashboard" style="font-size : 1em;color:grey;"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
+											<option value="">{{Aucun}}</option>
+											<?php
+												foreach (object::all() as $object) 
+													echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
+											?>
+										</select>
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Délai à la tombée de la nuit (min)}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (-) ou après (+)"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Délai à la tombée de la nuit (min)}}"/>
+								<div class="form-group">
+									<label class="col-md-2 control-label">
+										{{Catégorie}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="Choisissez une catégorie
+	Cette information n'est pas obigatoire mais peut être utile pour filtrer les widgets" style="font-size : 1em;color:grey;"></i>
+										</sup>
+									</label>
+									<div class="col-md-8">
+										<?php
+										foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+											echo '<label class="checkbox-inline">';
+											echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
+											echo '</label>';
+										}
+										?>
+
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Délai de réévaluation (min)}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="Saisir le délai de réévaluation des conditions (min)"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation (min)}}"/>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" >
+										{{Etat du widget}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="Choisissez les options de visibilité et d'activation
+	Si l'équipement n'est pas activé, il ne sera pas utilisable dans Jeedom ni visible sur le Dashboard
+	Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font-size : 1em;color:grey;"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<label>{{Activer}}</label>
+										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
+										<label>{{Visible}}</label>
+										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
+									</div>
 								</div>
-							</div>
-							<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
-							<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
-							<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>	
-						</fieldset>
-					</form>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Héliotrope}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="Sélectionner l'équipement du plugin Héliotrope source"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<select class="eqLogicAttr" data-l1key="configuration" data-l2key="heliotrope">
+											<option>Aucun</option>
+											<?php
+												foreach(eqLogic::byType('heliotrope') as $heliotrope)
+													echo '<option value="'.$heliotrope->getId().'">'.$heliotrope->getName().'</option>';
+											?>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" >
+										{{Choisir les gestions desirées}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="Choisissez les types de gestions que vous souhaitez pour cette zone" style="font-size : 1em;color:grey;"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<label>{{Jour / Nuit}}</label>
+										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Jour / Nuit}}" data-l1key="configuration" data-l2key="DayNight" checked/>
+										<label>{{Position du soleil}}</label>
+										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Position du soleil}}" data-l1key="configuration" data-l2key="Helioptrope" checked/>
+										<label>{{Présences}}</label>
+										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Présences}}" data-l1key="configuration" data-l2key="Present" checked/>
+									</div>
+								</div>	
+							</fieldset>
+						</form>
+					</div>
+					<div class="col-sm-6">
+						<form class="form-horizontal">
+							<legend>Gestion de la présence</legend>
+							<fieldset>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Objet indiquant la présence}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="Séléctionner la commande determinant la présence"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<div class="input-group">
+											<span class="input-group-btn">
+												<a class="btn btn-default ActionAttr btn-sm" data-action="remove">
+													<i class="fa fa-minus-circle"></i>
+												</a>
+											</span>
+											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdPresent" placeholder="{{Commande determinant la présence}}"/>
+											<span class="input-group-btn">
+												<a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">
+													<i class="fa fa-tasks"></i>
+												</a>
+												<a class="btn btn-success btn-sm listCmdAction data-type="info"">
+													<i class="fa fa-list-alt"></i>
+												</a>
+											</span>
+										</div>
+									</div>
+								</div>	
+							</fieldset>
+						</form>
+					</div>
+					<div class="col-sm-6">
+						<form class="form-horizontal">
+							<legend>Gestion Jours / Nuit</legend>
+							<fieldset>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Délai au lever du jour (min)}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (-) ou après (+)"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Délai au lever du jour (min)}}"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Délai à la tombée de la nuit (min)}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (-) ou après (+)"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Délai à la tombée de la nuit (min)}}"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Délai de réévaluation (min)}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="Saisir le délai de réévaluation des conditions (min)"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation (min)}}"/>
+									</div>
+								</div>
+								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
+								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
+								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>	
+							</fieldset>
+						</form>
+					</div>	
 				</div>	
 				<div role="tabpanel" class="tab-pane active" id="maptab">	
 					<div class="form-group">

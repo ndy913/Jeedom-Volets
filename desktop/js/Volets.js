@@ -92,6 +92,7 @@ function printEqLogic(_eqLogic) {
 					addAction(_eqLogic.configuration.action[index],$('#actiontab').find('table tbody'));
 			}
 	}	
+	$('#maptab').removeClass('active');
 }
 function TraceMapZone(_zone){
 	DroitLatLng.lat=CentreLatLng.lat;

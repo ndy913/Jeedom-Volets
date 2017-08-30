@@ -477,7 +477,7 @@ class Volets extends eqLogic {
 			$this->checkAndUpdateCmd('position',false);
 	}
 	public function getPosition() {
-		if($this->getCmd(null,'position'))
+		if($this->getCmd(null,'position')->execCmd())
 			return 'open';
 		else
 			return 'close';

@@ -11,7 +11,8 @@ image::../images/ConfigurationGeneral.jpg[]
 * Activer : permet d'activer l'équipement
 * Jour / Nuit : Activation de la gestion en jour / nuit
 * Position du soleil : Activation de la gestion en fonction de la position du soleil
-* Présence : permet de définir des pauses aléatoires dans la séquence de fermeture des volets de la zone
+* Présence : Activation de la gestion en fonction de la présence
+* Objet indiquant la présence: Objet jeedom indiquant s'il y a quelqu'un dans la maison
 * Héliotrope : choisir l'équipement Héliotrope à prendre en compte pour ce groupe de zone
 * Délai au lever du jour (min) : délai avant (-) ou après (+) à l'heure du lever du jour
 * Délai à la tombée de la nuit (min) : délai avant (-) ou après (+) à l'heure de la tombée de la nuit

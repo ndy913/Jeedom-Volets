@@ -258,7 +258,7 @@ $eqLogics = eqLogic::byType('Volets');
 						</form>
 					</div>	
 				</div>	
-				<div role="tabpanel" class="tab-pane" id="maptab">	
+				<div role="tabpanel" class="tab-pane active" id="maptab">	
 					<div class="form-group">
 						<label class="col-sm-2 control-label">{{L'exposition au soleil est compris entre}}</label>
 						<div class="col-sm-5">

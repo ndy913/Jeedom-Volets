@@ -5,11 +5,20 @@ var GaucheLatLng=new Object();
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
-$('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=isRandom]',function(){
+$('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=DayNight]',function(){
 	if($(this).is(':checked'))
-		$('.Presence').show();
+		$('.DayNight').show();
 	else
-		$('.Presence').hide();
+		$('.DayNight').hide();
+});
+$('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=Present]',function(){	
+	if($(this).is(':checked'))
+		$('.Present').show();
+	else
+		$('.Present').hide();
+});
+$('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=isRandom]',function(){
+
 });
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
 	$('#MyMap').html('');

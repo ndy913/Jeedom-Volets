@@ -185,7 +185,7 @@ $eqLogics = eqLogic::byType('Volets');
 							</fieldset>
 						</form>
 					</div>
-					<div class="col-sm-6">
+					<div class="col-sm-6 Present">
 						<form class="form-horizontal">
 							<legend>Gestion de la présence</legend>
 							<fieldset>
@@ -217,7 +217,7 @@ $eqLogics = eqLogic::byType('Volets');
 							</fieldset>
 						</form>
 					</div>
-					<div class="col-sm-6">
+					<div class="col-sm-6 DayNight">
 						<form class="form-horizontal">
 							<legend>Gestion Jours / Nuit</legend>
 							<fieldset>

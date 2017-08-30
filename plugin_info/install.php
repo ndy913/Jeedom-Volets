@@ -12,7 +12,7 @@ function Volets_update(){
 	foreach(eqLogic::byType('Volets') as $eqLogic){
 		$eqLogic->save();
 	}
-	log::add('Volets','debug','Fin du script de mise a jours'); */
+	log::add('Volets','debug','Fin du script de mise a jours');
 }
 function Volets_remove(){
 	foreach(eqLogic::byType('Volets') as $Volet){

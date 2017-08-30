@@ -258,12 +258,16 @@ $eqLogics = eqLogic::byType('Volets');
 						</form>
 					</div>	
 				</div>	
-				<div role="tabpanel" class="tab-pane active" id="maptab">	
+				<div role="tabpanel" class="tab-pane" id="maptab">	
 					<div class="form-group">
 						<label class="col-sm-2 control-label">{{L'exposition au soleil est compris entre}}</label>
-						<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleDroite" disable/>	
+						<div class="col-sm-5">
+							<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleDroite" disable/>
+						</div>
 						<label class="col-sm-2 control-label">{{ Et }}</label>
-						<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleGauche" disable/>
+						<div class="col-sm-5">
+							<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleGauche" disable/>
+						</div>
 					</div>
 					<div id="MyMap" style="width:800px;height:600px;margin:auto;"></div>
 				</div>			

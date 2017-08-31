@@ -4,13 +4,17 @@
         <img class="action iconCmd#id#" src="plugins/Volets/core/template/images/Open.png" width="40px">
     </center>
     <script>
-        if ('#state#' == '1' || '#state#' == '99' || '#state#' == 'on')
+        var message='';
+        if ('#state#' == '1' || '#state#' == '99' || '#state#' == 'on'){
             $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/Open.png');
-        else
+            message='close';
+        }else{
             $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/Close.png');
+            message='open';
+        }
         $('.cmd[data-cmd_id=#id#] .action').off();
         $('.cmd[data-cmd_id=#id#] .action').on('click', function () {
-            jeedom.cmd.execute({id: '#id#'});
+            jeedom.cmd.execute({id: '#id#', value: {message:message}});
         });
     </script>
 </div>

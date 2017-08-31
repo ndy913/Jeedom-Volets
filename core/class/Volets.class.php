@@ -461,25 +461,19 @@ class Volets extends eqLogic {
 			$Commande->setIsVisible($visible);
 			$Commande->setLogicalId($_logicalId);
 			$Commande->setEqLogic_id($this->getId());
-			$Commande->setType($Type);
-			$Commande->setSubType($SubType);
 		}
+		$Commande->setType($Type);
+		$Commande->setSubType($SubType);
    		$Commande->setTemplate('dashboard',$Template );
 		$Commande->setTemplate('mobile', $Template);
 		$Commande->save();
 		return $Commande;
 	}
 	public function setPosition($Evenement) {
-		if($Evenement == 'open')
-			$this->checkAndUpdateCmd('position',true);
-		else
-			$this->checkAndUpdateCmd('position',false);
+		$this->checkAndUpdateCmd('position',$Evenement);
 	}
 	public function getPosition() {
-		if($this->getCmd(null,'position')->execCmd())
-			return 'open';
-		else
-			return 'close';
+		return $this->getCmd(null,'position')->execCmd();
 	}
 	public function postSave() {
 		$state=$this->AddCommande("Position du soleil","state","info", 'binary',true,'sunInWindows');
@@ -504,8 +498,8 @@ class Volets extends eqLogic {
 		$Released->save();
 		$Released->setConfiguration('state', '0');
 		$Released->setConfiguration('armed', '1');
-		$Position=$this->AddCommande("Etat du volet","position","info","binary",false);
-		$VoletState=$this->AddCommande("Position du volet","VoletState","action","other",true,'volet');
+		$Position=$this->AddCommande("Etat du volet","position","info","string",false);
+		$VoletState=$this->AddCommande("Position du volet","VoletState","action","message",true,'volet');
 		$VoletState->setValue($Position->getId());
 		$VoletState->save();
 		self::deamon_stop();
@@ -527,12 +521,9 @@ class VoletsCmd extends cmd {
 		$Listener=cmd::byId(str_replace('#','',$this->getValue()));
 		if (is_object($Listener)) {	
 			switch($this->getLogicalId()){
-        case 'VoletState':
-		if($this->getEqLogic()->getCmd(null,'position')->execCmd())
-			$this->getEqLogic()->checkAndUpdateCmd('position',false);
-		else
-			$this->getEqLogic()->checkAndUpdateCmd('position',true);
-        break;
+				case 'VoletState':
+					$this->getEqLogic()->checkAndUpdateCmd('position',$_options['message']);
+				break;
 				case 'armed':
 					$Listener->event(true);
 				break;

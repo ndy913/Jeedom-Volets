@@ -95,13 +95,13 @@ class Volets extends eqLogic {
 			$Evenement=$Volet->checkCondition('open',$Saison,'Day');
 			if( $Evenement!= false){
 				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
-				//if($this->getPosition(); != $Evenement){
+				//if($Volet->getPosition(); != $Evenement){
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Day'))
 							continue;
 						$Volet->ExecuteAction($Cmd);
 					}
-          				$this->setPosition($Evenement);
+          				$Volet->setPosition($Evenement);
 					cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
 				//}
 			}else{
@@ -121,13 +121,13 @@ class Volets extends eqLogic {
 			$Evenement=$Volet->checkCondition('close',$Saison,'Night');
 			if( $Evenement!= false){
 				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
-				//if($this->getPosition(); != $Evenement){
+				//if($Volet->getPosition(); != $Evenement){
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Night'))
 							continue;
 						$Volet->ExecuteAction($Cmd);
 					}
-     					$this->setPosition($Evenement);
+     					$Volet->setPosition($Evenement);
 					cache::set('Volets::Mode::'.$Volet->getId(), 'Night', 0);
 				//}
 			}else{

@@ -536,6 +536,9 @@ class Volets extends eqLogic {
 		$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $this->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionMeteo', array('Volets_id' => $this->getId()));
+		if (is_object($cron)) 	
+			$cron->remove();
 	}
 }
 class VoletsCmd extends cmd {

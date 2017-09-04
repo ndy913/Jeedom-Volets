@@ -497,7 +497,9 @@ function addParameters() {
 			.append($('<option value="Night">')
 				.text('{{Nuit}}'))
 			.append($('<option value="Presence">')
-				.text('{{Présence}}'))));
+				.text('{{Présence}}'))
+			.append($('<option value="Meteo">')
+				.text('{{Méteo}}'))));
 	Parameter.append($('<td>')
 		 .append($('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="saison" multiple>')
 			.append($('<option value="été">')

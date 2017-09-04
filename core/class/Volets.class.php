@@ -138,6 +138,25 @@ class Volets extends eqLogic {
 			}
 		}
 	}
+	public static function ActionMeteo($_option) {
+		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
+		$Volet = Volets::byId($_option['Volets_id']);
+		if (is_object($Volet) && $Volet->getIsEnable() && $Volet->getCmd(null,'isArmed')->execCmd()){
+			log::add('Volets', 'info',$Volet->getHumanName().' : Exécution de la gestion météo');
+			$Saison=$Volet->getSaison();
+			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');
+			log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
+			//if($Volet->getPosition(); != $Evenement){
+				foreach($Volet->getConfiguration('action') as $Cmd){	
+					if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Meteo'))
+						continue;
+					$Volet->ExecuteAction($Cmd);
+				}
+				$Volet->setPosition($Evenement);
+				cache::set('Volets::Mode::'.$Volet->getId(), 'Night', 0);
+			//}
+		}
+	}
   	public function ActionPresent($Etat) {
 		if($this->getCmd(null,'isArmed')->execCmd()){
 			if($this->checkJour()){
@@ -447,6 +466,8 @@ class Volets extends eqLogic {
 					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($this->getId())));
 				}
+				if ($this->getConfiguration('Meteo'))
+					$cron = $this->CreateCron('* * * * * *', 'ActionMeteo', array('Volets_id' => intval($this->getId())));
 				$listener->save();	
 			}
 		}

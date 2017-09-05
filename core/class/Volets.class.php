@@ -422,11 +422,11 @@ class Volets extends eqLogic {
 					$this->_inverseCondition=true;
 					return $this->checkCondition($Evenement,$Saison,$TypeGestion);
 				}
-				log::add('Volets','info',$this->getHumanName().' : Les conditions ne sont pas remplis');
+				log::add('Volets','info',$this->getHumanName().' : Les conditions ne sont pas remplies');
 				return false;
 			}
 		}
-		log::add('Volets','info',$this->getHumanName().' : Les conditions sont remplis');
+		log::add('Volets','info',$this->getHumanName().' : Les conditions sont remplies');
 		return $Evenement;
 	}
 	public function EvaluateCondition($Condition){

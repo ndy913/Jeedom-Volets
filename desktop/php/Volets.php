@@ -21,7 +21,7 @@ $eqLogics = eqLogic::byType('Volets');
 		</div>
 	</div>
 	<div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE; padding-left: 25px;">
-		<legend>{{Mes Zones de gestion volets}}</legend>
+		<legend>{{Mes Zones de gestion de volets}}</legend>
 		<div class="eqLogicThumbnailContainer">
 			<div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
 				<center>
@@ -194,7 +194,7 @@ $eqLogics = eqLogic::byType('Volets');
 								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Objet indiquant la présence}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Séléctionner la commande determinant la présence"></i>
+											<i class="fa fa-question-circle tooltips" title="Séléctionner la commande déterminant la présence"></i>
 										</sup>
 									</label>
 									<div class="col-sm-5">
@@ -204,7 +204,7 @@ $eqLogics = eqLogic::byType('Volets');
 													<i class="fa fa-minus-circle"></i>
 												</a>
 											</span>
-											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdPresent" placeholder="{{Commande determinant la présence}}"/>
+											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdPresent" placeholder="{{Commande déterminant la présence}}"/>
 											<span class="input-group-btn">
 												<a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">
 													<i class="fa fa-tasks"></i>

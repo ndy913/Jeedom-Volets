@@ -37,7 +37,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 			if (!data.result)
 				$('#div_alert').showAlert({message: 'Aucun message reçu', level: 'error'});
 			if (typeof(data.result.geoloc) !== 'undefined') {
-				var center=data.result.geoloc.configuration.coordinate.split(",");
+				//var center=data.result.geoloc.configuration.coordinate.split(",");
+				var center=data.result.geoloc.split(",");
 				CentreLatLng.lat=parseFloat(center[0]);
 				CentreLatLng.lng=parseFloat(center[1]);
 				map = new ol.Map({

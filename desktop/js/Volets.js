@@ -490,7 +490,7 @@ function addParameters() {
 	var Parameter=$('<div>');
 	Parameter.append($('<td>')
 		 .append($('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="TypeGestion" multiple>')
-			.append($('<option value="Heliotrope">')
+			.append($('<option value="Helioptrope">')
 				.text('{{Position du soleil}}'))
 			.append($('<option value="Day">')
 				.text('{{Jour}}'))

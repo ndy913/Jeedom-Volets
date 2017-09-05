@@ -14,7 +14,7 @@ try {
 			//$geoloc=eqLogic::byId($heliotrope->getConfiguration('geoloc'));
 			$geoloc = geotravCmd::byEqLogicIdAndLogicalId($heliotrope->getConfiguration('geoloc'),'location:coordinate');
 			if(is_object($geoloc)){
-				$result['geoloc']=utils::o2a($geoloc);
+				$result['geoloc']=$geoloc->execCmd();
 			}
 		}
 		ajax::success($result);

@@ -183,6 +183,8 @@ class Volets extends eqLogic {
 					cache::set('Volets::Mode::'.$Volet->getId(), 'Meteo', 0);
 				//}
 			}
+			else
+				cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
 		}
 	}
   	public function ActionPresent($Etat) {
@@ -208,7 +210,7 @@ class Volets extends eqLogic {
 					//}
 				}
 				else 
-					log::add('Volets','info',$this->getHumanName().' : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
+					cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
 				return;
 			}
 			else

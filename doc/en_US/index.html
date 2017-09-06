@@ -449,10 +449,10 @@ Celui-ci est entièrement basé sur le plugin Heliotrope qui est un prérequis p
 <div class="ulist">
 <ul>
 <li>
-<p>le plugin gérera automatiquement l&#8217;ouverture et la fermerture de vos volets au lever du soleil et à la tombée de la nuit</p>
+<p>le plugin gérera automatiquement l&#8217;ouverture et la fermeture de vos volets au lever du soleil et à la tombée de la nuit</p>
 </li>
 <li>
-<p>le plugin gérera automatiquement l&#8217;ouverture et la fermerture de vos volets en fonction de la position du soleil</p>
+<p>le plugin gérera automatiquement l&#8217;ouverture et la fermeture de vos volets en fonction de la position du soleil</p>
 </li>
 <li>
 <p>en mode été, il fermera les volets lorsque le soleil sera dans la fenêtre afin de préserver une température idéale dans la maison</p>
@@ -461,7 +461,7 @@ Celui-ci est entièrement basé sur le plugin Heliotrope qui est un prérequis p
 <p>en mode hiver, il ouvrira les volets pour permettre au soleil de chauffer la pièce et faire des économies d&#8217;énergie.</p>
 </li>
 <li>
-<p>le plugin gérera automatiquement l&#8217;ouverture et la fermerture de vos volets en fonction de votre présence</p>
+<p>le plugin gérera automatiquement l&#8217;ouverture et la fermeture de vos volets en fonction de votre présence</p>
 </li>
 </ul>
 </div>
@@ -559,26 +559,18 @@ After naming this group , we can begin to put in place our areas.</p>
 <p>Catégorie : déclare l&#8217;équipement dans une catégorie</p>
 </li>
 <li>
-<p>Visible : permet de rendre l&#8217;équipement visible dans le Dashboard</p>
-</li>
-<li>
 <p>Activer : permet d&#8217;activer l&#8217;équipement</p>
 </li>
 <li>
-<p>Jour / Nuit : Activation de la gestion en jour / nuit</p>
-</li>
-<li>
-<p>Position du soleil : Activation de la gestion en fonction de la position du soleil</p>
-</li>
-<li>
-<p>Présence : Activation de la gestion en fonction de la présence</p>
-</li>
-<li>
-<p>Objet indiquant la présence: Objet jeedom indiquant s&#8217;il y a quelqu&#8217;un dans la maison</p>
+<p>Visible : permet de rendre l&#8217;équipement visible dans le Dashboard</p>
 </li>
 <li>
 <p>Héliotrope : choisir l&#8217;équipement Héliotrope à prendre en compte pour ce groupe de zone</p>
 </li>
+<li>
+<p>Jour / Nuit : activation de la gestion en jour / nuit</p>
+<div class="ulist">
+<ul>
 <li>
 <p>Délai au lever du jour (min) : délai avant (-) ou après (+) à l&#8217;heure du lever du jour</p>
 </li>
@@ -586,7 +578,23 @@ After naming this group , we can begin to put in place our areas.</p>
 <p>Délai à la tombée de la nuit (min) : délai avant (-) ou après (+) à l&#8217;heure de la tombée de la nuit</p>
 </li>
 <li>
-<p>Délais de réévaluation (min) : Délais d&#8217;attente avant réévaluation si les conditions ne sont pas respectées</p>
+<p>Délais de réévaluation (min) : délai d&#8217;attente avant réévaluation si les conditions ne sont pas respectées</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Position du soleil : activation de la gestion en fonction de la position du soleil (dépend de l&#8217;équipement Héliotrope)</p>
+</li>
+<li>
+<p>Présence : activation de la gestion en fonction de la présence</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Gestion de la présence: objet Jeedom indiquant s&#8217;il y a quelqu&#8217;un dans la maison</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -595,7 +603,7 @@ After naming this group , we can begin to put in place our areas.</p>
 <h4 id="_définition_de_l_angle_d_exposition_au_soleil">3.2. Définition de l&#8217;angle d&#8217;exposition au soleil</h4>
 <div class="paragraph">
 <p>Nous allons maintenant déterminer l&#8217;angle d&#8217;exposition au soleil.
-Cette etape est importante pour le fonctionement de la gestion en fonction de la position du soleil.</p>
+Cette étape est importante pour le fonctionement de la gestion en fonction de la position du soleil.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -604,16 +612,16 @@ Cette etape est importante pour le fonctionement de la gestion en fonction de la
 </div>
 <div class="paragraph">
 <p>Sur votre fenêtre doit apparaitre 3 curseurs.
-Ces 3 curseurs vont donc former notre angle
-Le point central doit etre obligatoirement placé au dessus de notre fenêtre.
-Les 2 autres vont former l&#8217;ange et peuvent être placés n&#8217;importe où à l&#8217;extérieur de la maison
-Attention toutefois a bien respecter la droite et la gauche de votre fenêtre vue de l&#8217;exterieur</p>
+Ces 3 curseurs vont donc former notre angle.
+Le point central doit être obligatoirement placé au dessus de notre fenêtre.
+Les 2 autres vont former l&#8217;angle et peuvent être placés n&#8217;importe où à l&#8217;extérieur de la maison.
+Attention toutefois à bien respecter la droite et la gauche de votre fenêtre vue de l&#8217;extérieur (indiqué sur les points de la carte).</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_conditions_d_exécution">3.3. Conditions d&#8217;exécution</h4>
 <div class="paragraph">
-<p>Afin d&#8217;affiné tous les cas d&#8217;utilisation des gestions de nos volet, nous pouvons ajouté des conditions.</p>
+<p>Afin d&#8217;affiner tous les cas d&#8217;utilisation de gestions de nos volets, nous pouvons ajouter des conditions.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -621,7 +629,7 @@ Attention toutefois a bien respecter la droite et la gauche de votre fenêtre vu
 </div>
 </div>
 <div class="paragraph">
-<p>Pour vous aider a la configuration des conditions, un editeur est ajouté.</p>
+<p>Pour vous aider à la configuration des conditions, un éditeur est ajouté.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -634,26 +642,26 @@ Attention toutefois a bien respecter la droite et la gauche de votre fenêtre vu
 </div>
 </div>
 <div class="paragraph">
-<p>Parametre complémentaire:</p>
+<p>Paramètres complémentaires:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Type de gestion: Séléctioner tous les gestions ou la condition doit etre verifier (avec la touche ctrl appuillé)</p>
+<p>Inverser l&#8217;état si faux : permet de relancer une évaluation des conditions avec l&#8217;action inverse</p>
 </li>
 <li>
-<p>Mode: Séléctioner tous les mode ou la condition doit etre verifier (avec la touche ctrl appuillé)</p>
+<p>Type de gestion: séléctioner toutes les gestions où la condition doit être vérifiée (avec la touche Ctrl)</p>
 </li>
 <li>
-<p>Action: Séléctioner tous les actions ou la condition doit etre verifier (avec la touche ctrl appuillé)</p>
+<p>Mode: séléctioner tous les modes où la condition doit être vérifiée (avec la touche Ctrl)</p>
 </li>
 <li>
-<p>Inverser l&#8217;etat si faux : permet de relancer un evaluation des condition avec l&#8217;action inverse.</p>
+<p>Action: séléctioner toutes les actions ou la condition doit être vérifiée (avec la touche Ctrl)</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Chaque condition validé par leur parametre doivent etre valide pour l&#8217;execution des actions</p>
+<p>Pour que chaque condition soit validée et les actions éxécutées, ses paramètres doivent être validés.</p>
 </div>
 </div>
 <div class="sect3">
@@ -664,21 +672,21 @@ Attention toutefois a bien respecter la droite et la gauche de votre fenêtre vu
 </div>
 </div>
 <div class="paragraph">
-<p>Choisissez les actions à mener sans oublier de configurer leur valeurs</p>
+<p>Choisissez les actions à mener sans oublier de configurer leur valeurs.</p>
 </div>
 <div class="paragraph">
-<p>Parametre complémentaire:</p>
+<p>Paramètres complémentaires:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Type de gestion: Séléctioner tous les gestions ou la condition doit etre verifier (avec la touche ctrl appuillé)</p>
+<p>Type de gestion: séléctioner tous les gestions où la condition doit être vérifiée (avec la touche Ctrl)</p>
 </li>
 <li>
-<p>Mode: Séléctioner tous les mode ou la condition doit etre verifier (avec la touche ctrl appuillé)</p>
+<p>Mode: séléctioner tous les modes où la condition doit être vérifiée (avec la touche Ctrl)</p>
 </li>
 <li>
-<p>Action: Séléctioner tous les actions ou la condition doit etre verifier (avec la touche ctrl appuillé)</p>
+<p>Action: Séléctioner toutes les actions où la condition doit être vérifiée (avec la touche Ctrl)</p>
 </li>
 </ul>
 </div>

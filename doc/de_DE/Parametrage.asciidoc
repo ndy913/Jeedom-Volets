@@ -7,54 +7,54 @@ image::../images/ConfigurationGeneral.jpg[]
 * Nom : le nom a déjà été paramétré mais vous avez la possibilité de le changer
 * Objet parent : ce paramètre permet d'ajouter l'équipement dans un objet Jeedom
 * Kategorie : Ordnet das Gerät in eine Kategorie ein.
-* Visible : permet de rendre l'équipement visible dans le Dashboard
 * Activer : permet d'activer l'équipement
-* Jour / Nuit : Activation de la gestion en jour / nuit
-* Position du soleil : Activation de la gestion en fonction de la position du soleil
-* Présence : Activation de la gestion en fonction de la présence
-* Objet indiquant la présence: Objet jeedom indiquant s'il y a quelqu'un dans la maison
+* Visible : permet de rendre l'équipement visible dans le Dashboard
 * Héliotrope : choisir l'équipement Héliotrope à prendre en compte pour ce groupe de zone
-* Délai au lever du jour (min) : délai avant (-) ou après (+) à l'heure du lever du jour
-* Délai à la tombée de la nuit (min) : délai avant (-) ou après (+) à l'heure de la tombée de la nuit
-* Délais de réévaluation (min) : Délais d'attente avant réévaluation si les conditions ne sont pas respectées
+* Jour / Nuit : activation de la gestion en jour / nuit
+** Délai au lever du jour (min) : délai avant (-) ou après (+) à l'heure du lever du jour
+** Délai à la tombée de la nuit (min) : délai avant (-) ou après (+) à l'heure de la tombée de la nuit
+** Délais de réévaluation (min) : délai d'attente avant réévaluation si les conditions ne sont pas respectées
+* Position du soleil : activation de la gestion en fonction de la position du soleil (dépend de l'équipement Héliotrope)
+* Présence : activation de la gestion en fonction de la présence
+** Gestion de la présence: objet Jeedom indiquant s'il y a quelqu'un dans la maison
 
 ==== Définition de l'angle d'exposition au soleil 
 Nous allons maintenant déterminer l'angle d'exposition au soleil.
-Cette etape est importante pour le fonctionement de la gestion en fonction de la position du soleil.
+Cette étape est importante pour le fonctionement de la gestion en fonction de la position du soleil.
 
 image::../images/ConfigurationMap.jpg[]
-Sur votre fenêtre doit apparaitre 3 curseurs.
-Ces 3 curseurs vont donc former notre angle
-Le point central doit etre obligatoirement placé au dessus de notre fenêtre.
-Les 2 autres vont former l'ange et peuvent être placés n'importe où à l'extérieur de la maison 
-Attention toutefois a bien respecter la droite et la gauche de votre fenêtre vue de l'exterieur
+Sur votre fenêtre doit apparaitre 3 curseurs. 
+Ces 3 curseurs vont donc former notre angle. 
+Le point central doit être obligatoirement placé au dessus de notre fenêtre. 
+Les 2 autres vont former l'angle et peuvent être placés n'importe où à l'extérieur de la maison. 
+Attention toutefois à bien respecter la droite et la gauche de votre fenêtre vue de l'extérieur (indiqué sur les points de la carte).
 
 ==== Conditions d'exécution
-Afin d'affiné tous les cas d'utilisation des gestions de nos volet, nous pouvons ajouté des conditions.
+Afin d'affiner tous les cas d'utilisation de gestions de nos volets, nous pouvons ajouter des conditions.
 
 image::../images/Volets_screenshot_ConfigurationCondition.jpg[]
 
-Pour vous aider a la configuration des conditions, un editeur est ajouté.
+Pour vous aider à la configuration des conditions, un éditeur est ajouté.
 
 image::../images/ConfigurationConditionEditeur.jpg[]
 image::../images/ConfigurationConditionEditeur2.jpg[]
 
-Parametre complémentaire:
+Paramètres complémentaires:
 
-* Type de gestion: Séléctioner tous les gestions ou la condition doit etre verifier (avec la touche ctrl appuillé)
-* Mode: Séléctioner tous les mode ou la condition doit etre verifier (avec la touche ctrl appuillé)
-* Action: Séléctioner tous les actions ou la condition doit etre verifier (avec la touche ctrl appuillé)
-* Inverser l'etat si faux : permet de relancer un evaluation des condition avec l'action inverse.
+* Inverser l'état si faux : permet de relancer une évaluation des conditions avec l'action inverse
+* Type de gestion: séléctioner toutes les gestions où la condition doit être vérifiée (avec la touche Ctrl)
+* Mode: séléctioner tous les modes où la condition doit être vérifiée (avec la touche Ctrl)
+* Action: séléctioner toutes les actions ou la condition doit être vérifiée (avec la touche Ctrl)
 
-Chaque condition validé par leur parametre doivent etre valide pour l'execution des actions
+Pour que chaque condition soit validée et les actions éxécutées, ses paramètres doivent être validés.
 
 ==== Actions d'ouverture et de fermeture
 
 image::../images/Volets_screenshot_ConfigurationAction.jpg[]
-Choisissez les actions à mener sans oublier de configurer leur valeurs
+Choisissez les actions à mener sans oublier de configurer leur valeurs.
 
-Parametre complémentaire:
+Paramètres complémentaires:
 
-* Type de gestion: Séléctioner tous les gestions ou la condition doit etre verifier (avec la touche ctrl appuillé)
-* Mode: Séléctioner tous les mode ou la condition doit etre verifier (avec la touche ctrl appuillé)
-* Action: Séléctioner tous les actions ou la condition doit etre verifier (avec la touche ctrl appuillé)
+* Type de gestion: séléctioner tous les gestions où la condition doit être vérifiée (avec la touche Ctrl)
+* Mode: séléctioner tous les modes où la condition doit être vérifiée (avec la touche Ctrl)
+* Action: Séléctioner toutes les actions où la condition doit être vérifiée (avec la touche Ctrl)

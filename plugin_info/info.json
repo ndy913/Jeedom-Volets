@@ -1,7 +1,7 @@
 {
 	"id" : "Volets",
-	"name" : "Gestion de Volet",
-	"description" : "Ce plugin de gere l'ouverture et la fermeture de nos volets",
+	"name" : "Gestion de Volets",
+	"description" : "Ce plugin de gère l'ouverture et la fermeture de nos volets",
 	"licence" : "AGPL",
 	"author" : "Halbout Michael",
 	"require" : "2.4",

@@ -21,7 +21,7 @@ $eqLogics = eqLogic::byType('Volets');
 		</div>
 	</div>
 	<div class="col-lg-10 col-md-9 col-sm-8 eqLogicThumbnailDisplay" style="border-left: solid 1px #EEE; padding-left: 25px;">
-		<legend>{{Mes Zones de gestion volets}}</legend>
+		<legend>{{Mes Zones de gestion de volets}}</legend>
 		<div class="eqLogicThumbnailContainer">
 			<div class="cursor eqLogicAction" data-action="add" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
 				<center>
@@ -119,7 +119,7 @@ $eqLogics = eqLogic::byType('Volets');
 									<label class="col-md-2 control-label">
 										{{Catégorie}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Choisissez une catégorie
+											<i class="fa fa-question-circle tooltips" title="Choisir une catégorie
 	Cette information n'est pas obigatoire mais peut être utile pour filtrer les widgets" style="font-size : 1em;color:grey;"></i>
 										</sup>
 									</label>
@@ -138,7 +138,7 @@ $eqLogics = eqLogic::byType('Volets');
 									<label class="col-sm-2 control-label" >
 										{{Etat du widget}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Choisissez les options de visibilité et d'activation
+											<i class="fa fa-question-circle tooltips" title="Choisir les options de visibilité et d'activation
 	Si l'équipement n'est pas activé, il ne sera pas utilisable dans Jeedom ni visible sur le Dashboard
 	Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font-size : 1em;color:grey;"></i>
 										</sup>
@@ -153,7 +153,7 @@ $eqLogics = eqLogic::byType('Volets');
 								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Héliotrope}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Sélectionner l'équipement du plugin Héliotrope source"></i>
+											<i class="fa fa-question-circle tooltips" title="Sélectionner l'équipement source du plugin Héliotrope"></i>
 										</sup>
 									</label>
 									<div class="col-sm-5">
@@ -170,7 +170,7 @@ $eqLogics = eqLogic::byType('Volets');
 									<label class="col-sm-2 control-label" >
 										{{Gestions}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Choisissez les types de gestions que vous souhaitez pour cette zone" style="font-size : 1em;color:grey;"></i>
+											<i class="fa fa-question-circle tooltips" title="Choisir les types de gestions souhaités pour cette zone" style="font-size : 1em;color:grey;"></i>
 										</sup>
 									</label>
 									<div class="col-sm-8">
@@ -194,7 +194,7 @@ $eqLogics = eqLogic::byType('Volets');
 								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Objet indiquant la présence}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Séléctionner la commande determinant la présence"></i>
+											<i class="fa fa-question-circle tooltips" title="Sélectionner la commande déterminant la présence"></i>
 										</sup>
 									</label>
 									<div class="col-sm-5">
@@ -204,7 +204,7 @@ $eqLogics = eqLogic::byType('Volets');
 													<i class="fa fa-minus-circle"></i>
 												</a>
 											</span>
-											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdPresent" placeholder="{{Commande determinant la présence}}"/>
+											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdPresent" placeholder="{{Commande déterminant la présence}}"/>
 											<span class="input-group-btn">
 												<a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">
 													<i class="fa fa-tasks"></i>
@@ -262,7 +262,7 @@ $eqLogics = eqLogic::byType('Volets');
 				</div>	
 				<div role="tabpanel" class="tab-pane active" id="maptab">	
 					<div class="form-group">
-						<label class="col-sm-2 control-label">{{L'exposition au soleil est compris entre}}</label>
+						<label class="col-sm-2 control-label">{{L'exposition au soleil est comprise entre}}</label>
 						<div class="col-sm-3">
 							<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleDroite" disabled />
 						</div>

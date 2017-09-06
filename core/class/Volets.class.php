@@ -172,7 +172,7 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');
 			if( $Evenement!= false){
-				log::add('Volets','info',$Volet->getHumanName().' : Execution des actions');
+				log::add('Volets','info',$Volet->getHumanName().' : Exécution des actions');
 				//if($Volet->getPosition() != $Evenement){
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Meteo'))
@@ -198,7 +198,7 @@ class Volets extends eqLogic {
 				$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
 				if( $Evenement!= false){
 					//if($this->getPosition(); != $Evenement){
-						log::add('Volets','info',$this->getHumanName().' : Execution des actions');
+						log::add('Volets','info',$this->getHumanName().' : Exécution des actions');
 						foreach($this->getConfiguration('action') as $Cmd){	
 							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
 								continue;
@@ -228,7 +228,7 @@ class Volets extends eqLogic {
 					$Evenement=$this->checkCondition($Evenement,$Saison,'Helioptrope');
 					if( $Evenement!= false){
 						if($this->getPosition() != $Evenement){
-							log::add('Volets','info',$this->getHumanName().' : Execution des actions');
+							log::add('Volets','info',$this->getHumanName().' : Exécution des actions');
 							foreach($this->getConfiguration('action') as $Cmd){	
 								if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Helioptrope'))
 									continue;
@@ -410,7 +410,7 @@ class Volets extends eqLogic {
 				continue;
 			if (!$this->EvaluateCondition($Condition)){
 				if($Condition['Inverse']){
-					log::add('Volets','info',$this->getHumanName().' : La condition inverse l\'etat du volet');
+					log::add('Volets','info',$this->getHumanName().' : La condition inverse l\'état du volet');
 					if($Evenement == 'close')
 						$Evenement='open';
 					else

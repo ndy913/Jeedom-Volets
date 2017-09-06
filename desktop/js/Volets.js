@@ -143,7 +143,7 @@ function TraceMapZone(_zone){
 				}),
       			}),
 			text: new ol.style.Text({
-				text: _zone.name + " - Droite vue extérieur",
+				text: _zone.name + " - Droite vue extérieure",
 				offsetY: -25,
 				fill: new ol.style.Fill({
 					color: '#fff'
@@ -189,7 +189,7 @@ function TraceMapZone(_zone){
 	features.push(Centre);
 	var Gauche = new ol.Feature({
 		geometry: new ol.geom.Point(ol.proj.transform([GaucheLatLng.lng,GaucheLatLng.lat], 'EPSG:4326', 'EPSG:3857')),
-		style: new ol.style.Style({text:new ol.style.Text({text: _zone.name + " - Gauche vue extérieur"})})
+		style: new ol.style.Style({text:new ol.style.Text({text: _zone.name + " - Gauche vue extérieure"})})
 	});
 	Gauche.setStyle([
 		new ol.style.Style({  
@@ -203,7 +203,7 @@ function TraceMapZone(_zone){
 				}),
       			}),
 			text: new ol.style.Text({
-				text: _zone.name + " - Gauche vue extérieur",
+				text: _zone.name + " - Gauche vue extérieure",
 				offsetY: -25,
 				fill: new ol.style.Fill({
 					color: '#fff'
@@ -472,7 +472,7 @@ function addCmdToTable(_cmd) {
 				.append('{{Historiser}}')
 				.append($('<sup>')
 					.append($('<i class="fa fa-question-circle tooltips" style="font-size : 1em;color:grey;">')
-					.attr('title','Souhaitez vous Historiser les changements de valeur'))))));
+					.attr('title','Souhaitez-vous historiser les changements de valeurs ?'))))));
 	parmetre.append($('<div>')
 		.append($('<span>')
 			.append($('<label class="checkbox-inline">')
@@ -480,7 +480,7 @@ function addCmdToTable(_cmd) {
 				.append('{{Afficher}}')
 				.append($('<sup>')
 					.append($('<i class="fa fa-question-circle tooltips" style="font-size : 1em;color:grey;">')
-					.attr('title','Souhaitez vous afficher cette commande sur le dashboard'))))));
+					.attr('title','Souhaitez-vous afficher cette commande sur le dashboard ?'))))));
 	tr.append(parmetre);
 	$('#table_cmd tbody').append(tr);
 	$('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
@@ -505,7 +505,7 @@ function addParameters() {
 			.append($('<option value="été">')
 				.text('{{Eté}}'))
 			.append($('<option value="hiver">')
-				.text('{{Hivers}}'))));
+				.text('{{Hiver}}'))));
 	Parameter.append($('<td>')
 		 .append($('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="evaluation" multiple>')
 			.append($('<option value="close">')

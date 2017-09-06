@@ -171,7 +171,7 @@ class Volets extends eqLogic {
 			log::add('Volets', 'info',$Volet->getHumanName().' : Exécution de la gestion météo');
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');
-			if( $Evenement!= false){
+			if($Evenement!= false){
 				log::add('Volets','info',$Volet->getHumanName().' : Exécution des actions');
 				//if($Volet->getPosition() != $Evenement){
 					foreach($Volet->getConfiguration('action') as $Cmd){	
@@ -180,9 +180,10 @@ class Volets extends eqLogic {
 						$Volet->ExecuteAction($Cmd);
 					}
 					$Volet->setPosition($Evenement);
-					cache::set('Volets::Mode::'.$Volet->getId(), 'Meteo', 0);
 				//}
 			}
+			if($Evenement == 'close')
+				cache::set('Volets::Mode::'.$Volet->getId(), 'Meteo', 0);
 			else
 				cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
 		}
@@ -205,13 +206,12 @@ class Volets extends eqLogic {
 							$this->ExecuteAction($Cmd);
 						}
           					$this->setPosition($Evenement);
-						if($Evenement=='close')
-							cache::set('Volets::Mode::'.$this->getId(), 'Absent', 0);
 					//}
-				}
-				else 
+				}				
+				if($Evenement == 'close')
+					cache::set('Volets::Mode::'.$Volet->getId(), 'Absent', 0);
+				else
 					cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
-				return;
 			}
 			else
 				log::add('Volets','debug',$this->getHumanName().' : Il fait nuit, la gestion de présence est désactivée');

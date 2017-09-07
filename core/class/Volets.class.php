@@ -162,12 +162,14 @@ class Volets extends eqLogic {
 	}
 	public static function ActionMeteo($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
-		if(array_search('Meteo', $Volet->getConfiguration('condition')/*['TypeGestion']*/) === false)
-			return false;			
 		if (is_object($Volet) && $Volet->AutorisationAction('Meteo')){
 			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Meteo] : Exécution de la gestion météo');
 			$Saison=$Volet->getSaison();
-			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');
+			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');   		
+			foreach($Volet->getConfiguration('condition') as $Condition){
+				if($Condition['TypeGestion'] == 'Meteo')
+					break;
+			}
 			if($Evenement!= false){
 				log::add('Volets','info',$Volet->getHumanName().'[Gestion Meteo] : Exécution des actions');
 				//if($Volet->getPosition() != $Evenement){

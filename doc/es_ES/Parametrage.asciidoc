@@ -42,9 +42,9 @@ image::../images/ConfigurationConditionEditeur2.jpg[]
 Paramètres complémentaires:
 
 * Inverser l'état si faux : permet de relancer une évaluation des conditions avec l'action inverse
-* Type de gestion: séléctioner toutes les gestions où la condition doit être vérifiée (avec la touche Ctrl)
-* Mode: séléctioner tous les modes où la condition doit être vérifiée (avec la touche Ctrl)
-* Action: séléctioner toutes les actions ou la condition doit être vérifiée (avec la touche Ctrl)
+* Type de gestion: sélectionner toutes les gestions où la condition doit être vérifiée (avec la touche Ctrl)
+* Mode: sélectionner tous les modes où la condition doit être vérifiée (avec la touche Ctrl)
+* Action: sélectionner toutes les actions ou la condition doit être vérifiée (avec la touche Ctrl)
 
 Pour que chaque condition soit validée et les actions éxécutées, ses paramètres doivent être validés.
 
@@ -55,6 +55,6 @@ Choisissez les actions à mener sans oublier de configurer leur valeurs.
 
 Paramètres complémentaires:
 
-* Type de gestion: séléctioner tous les gestions où la condition doit être vérifiée (avec la touche Ctrl)
-* Mode: séléctioner tous les modes où la condition doit être vérifiée (avec la touche Ctrl)
-* Action: Séléctioner toutes les actions où la condition doit être vérifiée (avec la touche Ctrl)
+* Type de gestion: sélectionner tous les gestions où l'action doit être exécutée (avec la touche Ctrl)
+* Mode: sélectionner tous les modes où l'action doit être exécutée (avec la touche Ctrl)
+* Action: Sélectionner toutes les actions où l'action doit être exécutée (avec la touche Ctrl)

@@ -2,6 +2,7 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
   private $_inverseCondition=false;
+	public static $_Gestions=['Jours','Nuit','Meteo','Presence','Azimute'];
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'Volets';
@@ -161,7 +162,7 @@ class Volets extends eqLogic {
 	}
 	public static function ActionMeteo($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
-		if(array_search('Meteo', $this->getConfiguration('condition')/*['TypeGestion']*/) === false)
+		if(array_search('Meteo', $Volet->getConfiguration('condition')/*['TypeGestion']*/) === false)
 			return false;			
 		if (is_object($Volet) && $Volet->AutorisationAction('Meteo')){
 			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Meteo] : Exécution de la gestion météo');

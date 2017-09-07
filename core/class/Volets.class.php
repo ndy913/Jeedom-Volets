@@ -1,8 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
-  private $_inverseCondition=false;
-	public static $_Gestions=['Jours','Nuit','Meteo','Presence','Azimute'];
+  	private $_inverseCondition=false;
+	//public static $_Gestions=['Jours','Nuit','Meteo','Presence','Azimute'];
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'Volets';
@@ -221,7 +221,7 @@ class Volets extends eqLogic {
 					$Evenement=$this->checkCondition($Evenement,$Saison,'Helioptrope');
 					if( $Evenement!= false){
 						if($this->getPosition() != $Evenement){
-							log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Exécution des actions');
+							log::add('Volets','info',$this->getHumanName().'[Gestion Helioptrope] : Exécution des actions');
 							foreach($this->getConfiguration('action') as $Cmd){	
 								if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Helioptrope'))
 									continue;
@@ -229,7 +229,7 @@ class Volets extends eqLogic {
 							}
               						$this->setPosition($Evenement);
 						}else
-							log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
+							log::add('Volets','info',$this->getHumanName().'[Gestion Helioptrope] : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
 					}
 				}
 			}
@@ -284,11 +284,11 @@ class Volets extends eqLogic {
 				$this->setConfiguration('AngleGauche',$AngleCntGau);
 				$this->save();
 			}else{
-				log::add('Volets','debug',$this->getHumanName().'[Gestion Azimuth] : Les coordonnées GPS de l\'angle d\'exposition au soleil de votre fenêtre sont mal configurées');
+				log::add('Volets','debug',$this->getHumanName().'[Gestion Helioptrope] : Les coordonnées GPS de l\'angle d\'exposition au soleil de votre fenêtre sont mal configurées');
 				return false;	
 			}
 		}
-		log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : La fenêtre d\'ensoleillement est comprise entre : '.$AngleCntDrt.'° et '.$AngleCntGau.'°');
+		log::add('Volets','info',$this->getHumanName().'[Gestion Helioptrope] : La fenêtre d\'ensoleillement est comprise entre : '.$AngleCntDrt.'° et '.$AngleCntGau.'°');
 		if ($AngleCntDrt < $AngleCntGau){
 			if($AngleCntDrt <= $Azimuth && $Azimuth <= $AngleCntGau)
 				return true;
@@ -319,14 +319,14 @@ class Volets extends eqLogic {
 			return false;
 		if($this->CheckAngle($Azimuth)){
 			$StateCmd->event(true);
-			log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Le soleil est dans la fenêtre');
+			log::add('Volets','info',$this->getHumanName().'[Gestion Helioptrope] : Le soleil est dans la fenêtre');
 			if($saison =='hiver')
 				$Action='open';
 			else
 				$Action='close';
 		}else{
 			$StateCmd->event(false);
-			log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Le soleil n\'est pas dans la fenêtre');
+			log::add('Volets','info',$this->getHumanName().'[Gestion Helioptrope] : Le soleil n\'est pas dans la fenêtre');
 			if($saison == 'été')
 				$Action='open';
 			else

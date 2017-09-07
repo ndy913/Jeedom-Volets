@@ -167,6 +167,8 @@ class Volets extends eqLogic {
 	public static function ActionMeteo($_option) {
 		log::add('Volets', 'debug', 'Objet mis à jour => ' . json_encode($_option));
 		$Volet = Volets::byId($_option['Volets_id']);
+		if(array_search('Meteo', $this->getConfiguration('condition')/*['TypeGestion']*/) === false)
+			return false;			
 		if (is_object($Volet) && $Volet->AutorisationAction('Meteo')){
 			log::add('Volets', 'info',$Volet->getHumanName().' : Exécution de la gestion météo');
 			$Saison=$Volet->getSaison();

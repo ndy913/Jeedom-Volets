@@ -237,7 +237,7 @@ function TraceMapZone(_zone){
 function addCondition(_condition,_el) {
 	var tr = $('<tr class="ConditionGroup">')
 		.append($('<td>')
-			.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable"/>')))
+			.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable" checked/>')))
 		.append($('<td>')
 			.append($('<div class="input-group">')
 				.append($('<span class="input-group-btn">')
@@ -260,7 +260,7 @@ function addCondition(_condition,_el) {
 function addAction(_action,  _el) {
 	var tr = $('<tr class="ActionGroup">');
 	tr.append($('<td>')
-		.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable"/>')));		
+		.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable" checked/>')));		
 	tr.append($('<td>')
 		.append($('<div class="input-group">')
 			.append($('<span class="input-group-btn">')

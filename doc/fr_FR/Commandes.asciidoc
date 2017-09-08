@@ -4,9 +4,9 @@ image::../images/Volets_screenshot_Widget.jpg[]
 
 === La position du volet et son état
 
-Une commande nous permet de mettre a jours manullement l'etat de la position du volet vue par le plugin.
-Cette commande nous permet de faire de gere certaine option par scénario.
-L'etat est egalement visible depuis le widget afin de faciliter la comprehention du plugin.
+Une commande nous permet de mettre à jour manuellement l'état de la position du volet vue par le plugin.
+Cette commande nous permet de faire gérer certaines options par scénarios.
+L'état est également visible depuis le widget afin de faciliter la compréhention du plugin.
 
 === Le mode et son état
 

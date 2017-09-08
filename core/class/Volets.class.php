@@ -180,9 +180,8 @@ class Volets extends eqLogic {
 					}
 					$Volet->setPosition($Evenement);
 				//}
-			}
-			if($Evenement == 'close')
 				cache::set('Volets::Mode::'.$Volet->getId(), 'Meteo', 0);
+			}
 			else
 				cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
 		}
@@ -290,16 +289,18 @@ class Volets extends eqLogic {
 				return false;	
 			}
 		}
-		log::add('Volets','info',$this->getHumanName().'[Gestion Helioptrope] : La fenêtre d\'ensoleillement est comprise entre : '.$AngleCntDrt.'° et '.$AngleCntGau.'°');
+		$result=false;
 		if ($AngleCntDrt < $AngleCntGau){
 			if($AngleCntDrt <= $Azimuth && $Azimuth <= $AngleCntGau)
-				return true;
+				$result= true;
 		}else{
 			if($AngleCntDrt <= $Azimuth && $Azimuth <= 360)
-				return true;
+				$result= true;
 			if(0 <= $Azimut && $Azimuth <= $AngleCntGau)
-				return true;
+				$result= true;
 		}		
+		log::add('Volets','info',$this->getHumanName().'[Gestion Helioptrope] : L\'ensoleillement est comprise entre : '.$AngleCntDrt.'°  < '.$Azimuth.'°  <'.$AngleCntGau.'° => '.$result);
+		return $result;
 	}	
 	public function getSaison() {
 		$isInWindows=$this->getCmd(null,'isInWindows');

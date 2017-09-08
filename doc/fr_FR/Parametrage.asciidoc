@@ -20,7 +20,7 @@ image::../images/ConfigurationGeneral.jpg[]
 
 ==== Définition de l'angle d'exposition au soleil 
 Nous allons maintenant déterminer l'angle d'exposition au soleil.
-Cette étape est importante pour le fonctionement de la gestion en fonction de la position du soleil.
+Cette étape est importante pour le fonctionnement de la gestion en fonction de la position du soleil.
 
 image::../images/ConfigurationMap.jpg[]
 Sur votre fenêtre doit apparaitre 3 curseurs. 
@@ -30,7 +30,7 @@ Les 2 autres vont former l'angle et peuvent être placés n'importe où à l'ext
 Attention toutefois à bien respecter la droite et la gauche de votre fenêtre vue de l'extérieur (indiqué sur les points de la carte).
 
 ==== Conditions d'exécution
-Afin d'affiner tous les cas d'utilisation de gestions de nos volets, nous pouvons ajouter des conditions.
+Afin d'affiner tous les cas d'utilisation de gestion de nos volets, nous pouvons ajouter des conditions.
 
 image::../images/Volets_screenshot_ConfigurationCondition.jpg[]
 
@@ -44,17 +44,17 @@ Paramètres complémentaires:
 * Inverser l'état si faux : permet de relancer une évaluation des conditions avec l'action inverse
 * Type de gestion: sélectionner toutes les gestions où la condition doit être vérifiée (avec la touche Ctrl)
 * Mode: sélectionner tous les modes où la condition doit être vérifiée (avec la touche Ctrl)
-* Action: sélectionner toutes les actions ou la condition doit être vérifiée (avec la touche Ctrl)
+* Action: sélectionner toutes les actions où la condition doit être vérifiée (avec la touche Ctrl)
 
-Pour que chaque condition soit validée et les actions éxécutées, ses paramètres doivent être validés.
+Pour que chaque condition soit validée et les actions éxécutées, ces paramètres doivent être validés.
 
 ==== Actions d'ouverture et de fermeture
 
 image::../images/Volets_screenshot_ConfigurationAction.jpg[]
-Choisissez les actions à mener sans oublier de configurer leur valeurs.
+Choisissez les actions à mener sans oublier de configurer leurs valeurs.
 
 Paramètres complémentaires:
 
-* Type de gestion: sélectionner tous les gestions où l'action doit être exécutée (avec la touche Ctrl)
+* Type de gestion: sélectionner toutes les gestions où l'action doit être exécutée (avec la touche Ctrl)
 * Mode: sélectionner tous les modes où l'action doit être exécutée (avec la touche Ctrl)
 * Action: Sélectionner toutes les actions où l'action doit être exécutée (avec la touche Ctrl)

@@ -170,20 +170,26 @@ class Volets extends eqLogic {
 				if($Condition['TypeGestion'] == 'Meteo')
 					break;
 			}
+			if($Evenement== false){
+				$Mode = cache::byKey('Volets::Mode::'.$this->getId())->getValue('Helioptrope');
+				if($Mode=='Meteo'){
+					cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
+					$Evenement=$Volet->checkCondition('open',$Saison,'Meteo'); 
+				}
+			}
+			else
+				cache::set('Volets::Mode::'.$Volet->getId(), 'Meteo', 0);
 			if($Evenement!= false){
 				log::add('Volets','info',$Volet->getHumanName().'[Gestion Meteo] : Exécution des actions');
-				//if($Volet->getPosition() != $Evenement){
+				if($Volet->getPosition() != $Evenement){
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Meteo'))
 							continue;
 						$Volet->ExecuteAction($Cmd, 'Meteo');
 					}
 					$Volet->setPosition($Evenement);
-				//}
-				cache::set('Volets::Mode::'.$Volet->getId(), 'Meteo', 0);
+				}
 			}
-			else
-				cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
 		}
 	}
   	public function ActionPresent($Etat) {

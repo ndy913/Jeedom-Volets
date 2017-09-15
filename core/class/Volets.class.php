@@ -171,7 +171,7 @@ class Volets extends eqLogic {
 					break;
 			}
 			if($Evenement== false){
-				$Mode = cache::byKey('Volets::Mode::'.$this->getId())->getValue('Helioptrope');
+				$Mode = cache::byKey('Volets::Mode::'.$Volet->getId())->getValue('Helioptrope');
 				if($Mode=='Meteo'){
 					cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
 					$Evenement=$Volet->checkCondition('open',$Saison,'Meteo'); 

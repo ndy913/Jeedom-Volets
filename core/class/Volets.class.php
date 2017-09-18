@@ -213,7 +213,7 @@ class Volets extends eqLogic {
 							$this->ExecuteAction($Cmd,'Presence');
 						}
           					$this->setPosition($Evenement);
-					//}
+					}
 				}				
 				if($Evenement == 'close')
 					cache::set('Volets::Mode::'.$Volet->getId(), 'Absent', 0);

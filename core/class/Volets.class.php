@@ -119,7 +119,7 @@ class Volets extends eqLogic {
 			$Evenement=$Volet->checkCondition('open',$Saison,'Day');
 			if( $Evenement!= false){
 				log::add('Volets','info',$Volet->getHumanName().'[Gestion Jours] : Execution des actions');
-				if($Volet->getPosition() != $Evenement || $Mode != $Evenement)){
+				if($Volet->getPosition() != $Evenement || $Mode != $Evenement){
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Day'))
 							continue;
@@ -145,7 +145,7 @@ class Volets extends eqLogic {
 			$Evenement=$Volet->checkCondition('close',$Saison,'Night');
 			if( $Evenement!= false){
 				log::add('Volets','info',$Volet->getHumanName().'[Gestion Nuit] : Execution des actions');
-				if($Volet->getPosition() != $Evenement || $Mode != $Evenement)){
+				if($Volet->getPosition() != $Evenement || $Mode != $Evenement){
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Night'))
 							continue;
@@ -182,7 +182,7 @@ class Volets extends eqLogic {
 			}
 			if($Evenement!= false){
 				log::add('Volets','info',$Volet->getHumanName().'[Gestion Meteo] : Exécution des actions');
-				if($Volet->getPosition() != $Evenement || $Mode != $Evenement)){
+				if($Volet->getPosition() != $Evenement || $Mode != $Evenement){
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Meteo'))
 							continue;
@@ -205,7 +205,7 @@ class Volets extends eqLogic {
 					$Evenement='close';
 				$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
 				if( $Evenement!= false){
-					if($this->getPosition() != $Evenement || $Mode != $Evenement)){
+					if($this->getPosition() != $Evenement || $Mode != $Evenement){
 						log::add('Volets','info',$this->getHumanName().'[Gestion Presence] : Exécution des actions');
 						foreach($this->getConfiguration('action') as $Cmd){	
 							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
@@ -231,7 +231,7 @@ class Volets extends eqLogic {
 				if($Evenement != false){
 					$Evenement=$this->checkCondition($Evenement,$Saison,'Helioptrope');
 					if( $Evenement!= false){
-						if($this->getPosition() != $Evenement || $Mode != $Evenement)){
+						if($this->getPosition() != $Evenement || $Mode != $Evenement){
 							log::add('Volets','info',$this->getHumanName().'[Gestion Helioptrope] : Exécution des actions');
 							foreach($this->getConfiguration('action') as $Cmd){	
 								if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Helioptrope'))

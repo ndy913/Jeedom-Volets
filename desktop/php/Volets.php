@@ -178,10 +178,10 @@ $eqLogics = eqLogic::byType('Volets');
 										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Jour / Nuit}}" data-l1key="configuration" data-l2key="DayNight" checked/>
 										<label>{{Position du soleil}}</label>
 										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Position du soleil}}" data-l1key="configuration" data-l2key="Helioptrope" checked/>
-										<label>{{Présences}}</label>
-										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Présences}}" data-l1key="configuration" data-l2key="Present" checked/>
+										<label>{{Présence}}</label>
+										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Présence}}" data-l1key="configuration" data-l2key="Present" checked/>
 										<label>{{Météo}}</label>
-										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Présences}}" data-l1key="configuration" data-l2key="Meteo" checked/>
+										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Météo}}" data-l1key="configuration" data-l2key="Meteo" checked/>
 									</div>
 								</div>	
 							</fieldset>

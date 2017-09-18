@@ -177,7 +177,7 @@ class Volets extends eqLogic {
 				if($Mode=='Meteo'){
 					cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
 					$Evenement=$Volet->checkCondition('open',$Saison,'Meteo'); 
-					retrun;
+					return;
 				}
 			}
 			if($Evenement!= false){

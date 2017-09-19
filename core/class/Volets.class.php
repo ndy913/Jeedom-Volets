@@ -309,7 +309,7 @@ class Volets extends eqLogic {
 			if(0 <= $Azimut && $Azimuth <= $AngleCntGau)
 				$result= true;
 		}		
-		log::add('Volets','info',$this->getHumanName().'[Gestion Helioptrope] : L\'ensoleillement est comprise entre : '.$AngleCntDrt.'°  < '.$Azimuth.'°  <'.$AngleCntGau.'° => '.$result);
+		log::add('Volets','info',$this->getHumanName().'[Gestion Helioptrope] : L\'azimute ' . $Azimuth . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$result);
 		return $result;
 	}	
 	public function getSaison() {

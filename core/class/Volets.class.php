@@ -57,21 +57,23 @@ class Volets extends eqLogic {
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
+						log::add('Volets','info',$Volet->getHumanName().' : Mise a jours de la position du soleil');	
 						$Volet->ActionAzimute($_option['value']);
 					break;
 					case $Volet->getConfiguration('TypeDay'):
-						log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');	
+						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');	
 						$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisDay');
 						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 						$cron = $Volet->CreateCron($Schedule, 'ActionJour');
 					break;
 					case $Volet->getConfiguration('TypeDay'):
-						log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil');	
+						log::add('Volets','info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil');	
 						$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');
 						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 						$cron = $Volet->CreateCron($Schedule, 'ActionNuit');
 					break;
 					default:
+						log::add('Volets','info',$Volet->getHumanName().' : Mise a jours de la présence');	
 						$Volet->ActionPresent($_option['value']);
 					break;
 				}

@@ -167,6 +167,7 @@ class Volets extends eqLogic {
 	public static function ActionMeteo($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->AutorisationAction('Meteo')){
+			$Mode = cache::byKey('Volets::Mode::'.$Volet->getId())->getValue('Azimuth');
 			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Meteo] : Exécution de la gestion météo');
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');   		
@@ -175,9 +176,9 @@ class Volets extends eqLogic {
 					break;
 			}
 			if($Evenement== false){
-				$Mode = cache::byKey('Volets::Mode::'.$Volet->getId())->getValue('Azimuth');
 				if($Mode=='Meteo'){
 					cache::set('Volets::Mode::'.$Volet->getId(), 'Day', 0);
+					$Mode='Day';
 					$Evenement=$Volet->checkCondition('open',$Saison,'Meteo'); 
 					return;
 				}
@@ -245,7 +246,7 @@ class Volets extends eqLogic {
 							log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
 					}
 				}
-				cache::set('Volets::Mode::'.$Volet->getId(), 'Azimuth', 0);
+				cache::set('Volets::Mode::'.$this->getId(), 'Azimuth', 0);
 			}
 		}
 	}

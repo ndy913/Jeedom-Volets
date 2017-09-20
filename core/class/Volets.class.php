@@ -99,7 +99,7 @@ class Volets extends eqLogic {
 					    && $Mode != "Absent")
 						return true;
 				break;
-				case 'Azimuth':
+				case 'Helioptrope':
 					if ($this->getConfiguration('Helioptrope')
 					    && $Mode != "Night" 
 					    && $Mode != "Absent" 
@@ -236,7 +236,7 @@ class Volets extends eqLogic {
 							foreach($this->getConfiguration('action') as $Cmd){	
 								if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Helioptrope'))
 									continue;
-								$this->ExecuteAction($Cmd,'Azimuth');
+								$this->ExecuteAction($Cmd,'Helioptrope');
 							}
               						$this->setPosition($Evenement);
 						}else

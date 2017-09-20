@@ -230,7 +230,7 @@ $eqLogics = eqLogic::byType('Volets');
 										</sup>
 									</label>
 									<div class="col-sm-5">
-										<selectclass="eqLogicAttr form-control" data-l1key="configuration" data-l2key="TypeDay">
+										<select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="TypeDay">
 											<option value="sunrise">Lever du Soleil</option>
 											<option value="aubenau">Aube Nautique</option>
 											<option value="aubeciv">Aube Civile</option>
@@ -255,7 +255,7 @@ $eqLogics = eqLogic::byType('Volets');
 										</sup>
 									</label>
 									<div class="col-sm-5">
-										<selectclass="eqLogicAttr form-control" data-l1key="configuration" data-l2key="TypeNight">
+										<select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="TypeNight">
 											<option value="sunset">Coucher du Soleil</option>
 											<option value="crepnau">Crépuscule Nautique</option>
 											<option value="crepciv">Crépuscule Civile</option>

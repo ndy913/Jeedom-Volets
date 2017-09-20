@@ -224,6 +224,21 @@ $eqLogics = eqLogic::byType('Volets');
 							<legend>Gestion Jours / Nuit</legend>
 							<fieldset>
 								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Type de lever du soleil}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="Choisir le type de lever du jour "></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<selectclass="eqLogicAttr form-control" data-l1key="configuration" data-l2key="TypeDay">
+											<option value="sunrise">Lever du Soleil</option>
+											<option value="aubenau">Aube Nautique</option>
+											<option value="aubeciv">Aube Civile</option>
+											<option value="aubeast">Aube Astronomique</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Délai au lever du jour (min)}}
 										<sup>
 											<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (-) ou après (+)"></i>
@@ -231,6 +246,21 @@ $eqLogics = eqLogic::byType('Volets');
 									</label>
 									<div class="col-sm-5">
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Délai au lever du jour (min)}}"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Type de coucher du soleil}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="Choisir le type de coucher du soleil"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<selectclass="eqLogicAttr form-control" data-l1key="configuration" data-l2key="TypeNight">
+											<option value="sunset">Coucher du Soleil</option>
+											<option value="crepnau">Crépuscule Nautique</option>
+											<option value="crepciv">Crépuscule Civile</option>
+											<option value="crepast">Crépuscule Astronomique</option>
+										</select>
 									</div>
 								</div>
 								<div class="form-group">

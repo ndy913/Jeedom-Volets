@@ -59,13 +59,13 @@ class Volets extends eqLogic {
 					case 'azimuth360':
 						$Volet->ActionAzimute($_option['value']);
 					break;
-					case 'sunrise':
+					case $Volet->getConfiguration('TypeDay'):
 						log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');	
 						$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisDay');
 						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 						$cron = $Volet->CreateCron($Schedule, 'ActionJour');
 					break;
-					case 'sunset':	
+					case $Volet->getConfiguration('TypeDay'):
 						log::add('Volets', 'info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil');	
 						$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');
 						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
@@ -249,7 +249,7 @@ class Volets extends eqLogic {
    	public function checkJour() {
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){	
-			$sunrise=$heliotrope->getCmd(null,'sunrise');
+			$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDay'));
 			if(is_object($sunrise)){
 				$value=$sunrise->execCmd();
 				$Jours= new DateTime('@' .$this->CalculHeureEvent($value,'DelaisDay'));
@@ -258,7 +258,7 @@ class Volets extends eqLogic {
 				log::add('Volets','debug',$this->getHumanName().' : L\'objet "sunrise" n\'a pas été trouvé');
 				return false;
 			}
-			$sunset=$heliotrope->getCmd(null,'sunset');
+			$sunset=$heliotrope->getCmd(null,$this->getConfiguration('TypeNight'));
 			if(is_object($sunset)){
 				$value=$sunset->execCmd();
 				$Nuit= new DateTime('@' .$this->CalculHeureEvent($value,'DelaisNight'));
@@ -469,10 +469,10 @@ class Volets extends eqLogic {
 		if($this->getIsEnable()){
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
-				$sunrise=$heliotrope->getCmd(null,'sunrise');
+				$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDAy'));
 				if(!is_object($sunrise))
 					return false;
-				$sunset=$heliotrope->getCmd(null,'sunset');
+				$sunset=$heliotrope->getCmd(null,$this->getConfiguration('TypeNight'));
 				if(!is_object($sunset))
 					return false;
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
@@ -489,12 +489,10 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('DayNight')){
 					$listener->addEvent($sunrise->getId());
 					$listener->addEvent($sunset->getId());
-					$value=$sunrise->execCmd();
-					$timstamp=$this->CalculHeureEvent($value,'DelaisDay');
+					$timstamp=$this->CalculHeureEvent($sunrise->execCmd(),'DelaisDay');
 					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
-					$value=$sunset->execCmd();
-					$timstamp=$this->CalculHeureEvent($value,'DelaisNight');
+					$timstamp=$this->CalculHeureEvent($sunset->execCmd(),'DelaisNight');
 					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($this->getId())));
 				}

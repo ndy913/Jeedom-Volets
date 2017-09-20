@@ -469,7 +469,7 @@ class Volets extends eqLogic {
 		if($this->getIsEnable()){
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
-				$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDAy'));
+				$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDay'));
 				if(!is_object($sunrise))
 					return false;
 				$sunset=$heliotrope->getCmd(null,$this->getConfiguration('TypeNight'));

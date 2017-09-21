@@ -120,8 +120,8 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('open',$Saison,'Day');
 			if( $Evenement!= false){
-				log::add('Volets','info',$Volet->getHumanName().'[Gestion Jours] : Execution des actions');
 				if($Volet->getPosition() != $Evenement || $Mode != 'Day'){
+					log::add('Volets','info',$Volet->getHumanName().'[Gestion Jours] : Execution des actions');
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Day'))
 							continue;
@@ -146,8 +146,8 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Night');
 			if( $Evenement!= false){
-				log::add('Volets','info',$Volet->getHumanName().'[Gestion Nuit] : Execution des actions');
 				if($Volet->getPosition() != $Evenement || $Mode != 'Night'){
+					log::add('Volets','info',$Volet->getHumanName().'[Gestion Nuit] : Execution des actions');
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Night'))
 							continue;
@@ -184,8 +184,8 @@ class Volets extends eqLogic {
 				}
 			}
 			if($Evenement!= false){
-				log::add('Volets','info',$Volet->getHumanName().'[Gestion Meteo] : Exécution des actions');
 				if($Volet->getPosition() != $Evenement || $Mode != 'Meteo'){
+					log::add('Volets','info',$Volet->getHumanName().'[Gestion Meteo] : Exécution des actions');
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Meteo'))
 							continue;

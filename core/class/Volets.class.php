@@ -174,7 +174,7 @@ class Volets extends eqLogic {
 			}
 			if($Evenement== false){
 				if($Volet->getCmd(null,'gestion')->execCmd()=='Meteo'){
-					$this->checkAndUpdateCmd('gestion','Day');
+					$Volet->checkAndUpdateCmd('gestion','Day');
 					$Evenement=$Volet->checkCondition('open',$Saison,'Meteo'); 
 				}
 			}else 

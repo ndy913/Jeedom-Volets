@@ -202,7 +202,7 @@ class Volets extends eqLogic {
 					$Evenement='close';
 				$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
 				if( $Evenement!= false){
-					if($this->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Absent'){
+					if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Absent'){
 						log::add('Volets','info',$this->getHumanName().'[Gestion Presence] : Exécution des actions');
 						foreach($this->getConfiguration('action') as $Cmd){	
 							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
@@ -227,7 +227,7 @@ class Volets extends eqLogic {
 				if($Evenement != false){
 					$Evenement=$this->checkCondition($Evenement,$Saison,'Azimuth');
 					if( $Evenement!= false){
-						if($this->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Azimuth'){
+						if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Azimuth'){
 							log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Exécution des actions');
 							foreach($this->getConfiguration('action') as $Cmd){	
 								if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Azimuth'))

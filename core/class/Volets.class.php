@@ -181,7 +181,8 @@ class Volets extends eqLogic {
 					$Mode='Day';
 					$Evenement=$Volet->checkCondition('open',$Saison,'Meteo'); 
 				}
-			}
+			}else 
+				cache::set('Volets::Mode::'.$Volet->getId(), 'Meteo', 0);
 			if($Evenement!= false){
 				if($Volet->getPosition() != $Evenement || $Mode != 'Meteo'){
 					log::add('Volets','info',$Volet->getHumanName().'[Gestion Meteo] : Exécution des actions');
@@ -192,7 +193,6 @@ class Volets extends eqLogic {
 					}
 					$Volet->setPosition($Evenement);
 				}
-				cache::set('Volets::Mode::'.$Volet->getId(), 'Meteo', 0);
 			}
 		}
 	}

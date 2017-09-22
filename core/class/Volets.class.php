@@ -436,22 +436,20 @@ class Volets extends eqLogic {
 		return $Evenement;
 	}
 	public function boolToText($value){
-		if (is_bool($result)) {
-			if ($result) {
+		if (is_bool($value)) {
+			if ($value) 
 				return __('Vrai', __FILE__);
-			} else {
+			else 
 				return __('Faux', __FILE__);
-			}
-		} else {
-			return $result;
-		}
+		} else 
+			return $value;
 	}
 	public function EvaluateCondition($Condition,$TypeGestion){
 		$_scenario = null;
 		$expression = scenarioExpression::setTags($Condition['expression'], $_scenario, true);
 		$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 		$result = evaluate($expression);
-		$message .=$this->boolToText($result)
+		$message .=$this->boolToText($result);
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$TypeGestion.'] : '.$message);
 		if(!$result)
 			return false;		

@@ -83,7 +83,7 @@ class Volets extends eqLogic {
 	
 	public function AutorisationAction($Evenement) {   
 		if ($this->getIsEnable() && $this->getCmd(null,'isArmed')->execCmd()){
-			$Mode = cache::byKey('Volets::Mode::'.$this->getId())->getValue('Azimuth');
+			$Mode = $Volet->getCmd(null,'gestion')->execCmd();
 			switch($Evenement){
 				case 'Day':
 				case 'Night':

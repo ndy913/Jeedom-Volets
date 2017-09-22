@@ -313,7 +313,7 @@ class Volets extends eqLogic {
 			if(0 <= $Azimut && $Azimuth <= $AngleCntGau)
 				$result= true;
 		}		
-		log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : L\'azimute ' . $Azimuth . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$result);
+		log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : L\'azimute ' . $Azimuth . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
 		return $result;
 	}	
 	public function getSaison() {
@@ -435,20 +435,23 @@ class Volets extends eqLogic {
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$TypeGestion.'] : Les conditions sont remplies');
 		return $Evenement;
 	}
+	public function boolToText($value){
+		if (is_bool($result)) {
+			if ($result) {
+				return __('Vrai', __FILE__);
+			} else {
+				return __('Faux', __FILE__);
+			}
+		} else {
+			return $result;
+		}
+	}
 	public function EvaluateCondition($Condition,$TypeGestion){
 		$_scenario = null;
 		$expression = scenarioExpression::setTags($Condition['expression'], $_scenario, true);
 		$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 		$result = evaluate($expression);
-		if (is_bool($result)) {
-			if ($result) {
-				$message .= __('Vrai', __FILE__);
-			} else {
-				$message .= __('Faux', __FILE__);
-			}
-		} else {
-			$message .= $result;
-		}
+		$message .=$this->boolToText($result)
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$TypeGestion.'] : '.$message);
 		if(!$result)
 			return false;		
@@ -468,6 +471,14 @@ class Volets extends eqLogic {
 			$angle += 360; 
 		}
 		return floatval($angle % 360);
+	}
+	public function checkAltitude() { 
+		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
+		if(is_object($heliotrope)){
+			$altitude=$heliotrope->getCmd(null,'altitude');
+			if(!is_object($altitude))
+				return false;
+		}
 	}
 	public function StartDemon() {
 		if($this->getIsEnable()){

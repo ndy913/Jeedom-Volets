@@ -41,17 +41,27 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 				var center=data.result.geoloc.split(",");
 				CentreLatLng.lat=parseFloat(center[0]);
 				CentreLatLng.lng=parseFloat(center[1]);
+				var view = new ol.View({
+					center: ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]),
+					zoom: 10
+    				});
 				map = new ol.Map({
-					view: new ol.View({
-						center: ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]),
-						zoom: 10
-					}),
+					view: view,
 					layers: [
 						new ol.layer.Tile({
 							source: new ol.source.OSM()
 						})
 					],
 					target: 'MyMap'
+				});
+				var geolocation = new ol.Geolocation({projection: view.getProjection()});
+        			geolocation.setTracking(true);
+				geolocation.on('change', function() {
+					//geolocation.getAccuracy() + ' [m]';
+					alert(geolocation.getAltitude() + ' [m]');
+					//geolocation.getAltitudeAccuracy() + ' [m]';
+					//geolocation.getHeading() + ' [rad]';
+					//geolocation.getSpeed() + ' [m/s]';
 				});
 			}
 		}

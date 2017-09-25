@@ -7,7 +7,7 @@ $eqLogics = eqLogic::byType('Volets');
 ?>
 <div class="row row-overflow">
 	<link rel="stylesheet" href="https://openlayers.org/en/v4.1.1/css/ol.css" type="text/css">
-	<script src="https://openlayers.org/en/v4.1.1/build/ol.js"></script>
+	<script src="https://openlayers.org/en/v4.3.3/build/ol.js" type="text/javascript"></script>
 	<div class="col-lg-2">
 		<div class="bs-sidebar">
 			<ul id="ul_eqLogic" class="nav nav-list bs-sidenav">

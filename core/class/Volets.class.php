@@ -469,6 +469,12 @@ class Volets extends eqLogic {
 			$altitude=$heliotrope->getCmd(null,'altitude');
 			if(!is_object($altitude))
 				return false;
+			//On verifie que le soleil est au dessus de la hauteur occultante
+			if($altitude->execCmd() > $this->getConfiguration('Altitude') + $this->getConfiguration('Occultation'))
+				return false;
+			//On calcule la hauteur du volet (a modifier par un angle de pénétration)
+			$Hauteur = $altitude->execCmd() - $this->getConfiguration('Altitude');
+			return $Hauteur;
 		}
 	}
 	public function StartDemon() {

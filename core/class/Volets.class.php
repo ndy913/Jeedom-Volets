@@ -188,7 +188,8 @@ class Volets extends eqLogic {
 					}
 					$Volet->setPosition($Evenement);
 				}
-				$Volet->checkAndUpdateCmd('gestion','Meteo');
+				if($Evenement == "close")
+					$Volet->checkAndUpdateCmd('gestion','Meteo');
 			}
 		}
 	}

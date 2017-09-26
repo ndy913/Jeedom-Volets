@@ -77,7 +77,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					target: 'MyMap',
 					view: view
 				});
-          			layers[i].setVisible(styles[i] === 'Aerial');
+          			layers[0].setVisible(styles[0]);
 				/*map =new ol.Map({
 					view: view,
 					layers: [

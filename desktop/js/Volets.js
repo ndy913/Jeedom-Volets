@@ -45,7 +45,36 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					center: ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]),
 					zoom: 10
     				});
+				var styles = [
+					'Road',
+					'RoadOnDemand',
+					'Aerial',
+					'AerialWithLabels',
+					'collinsBart',
+					'ordnanceSurvey'
+				];
+				var layers = [];
+				var i, ii;
+				for (i = 0, ii = styles.length; i < ii; ++i) {
+					layers.push(new ol.layer.Tile({
+						visible: false,
+						preload: Infinity,
+						source: new ol.source.BingMaps({
+							key: 'Your Bing Maps Key from http://www.bingmapsportal.com/ here',
+							imagerySet: styles[i]
+							// use maxZoom 19 to see stretched tiles instead of the BingMaps
+							// "no photos at this zoom level" tiles
+							// maxZoom: 19
+						})
+					}));
+				}
 				map = new ol.Map({
+					layers: layers,
+					loadTilesWhileInteracting: true,
+					target: 'MyMap',
+					view: view
+				});
+				/*map =new ol.Map({
 					view: view,
 					layers: [
 						new ol.layer.Tile({
@@ -53,8 +82,8 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 						})
 					],
 					target: 'MyMap'
-				});
-				var geolocation = new ol.Geolocation({projection: view.getProjection()});
+				});*/
+				/*var geolocation = new ol.Geolocation({projection: view.getProjection()});
         			geolocation.setTracking(true);
 				geolocation.on('change', function() {
 					//geolocation.getAccuracy() + ' [m]';
@@ -62,7 +91,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					//geolocation.getAltitudeAccuracy() + ' [m]';
 					//geolocation.getHeading() + ' [rad]';
 					//geolocation.getSpeed() + ' [m/s]';
-				});
+				});*/
 			}
 		}
 	});

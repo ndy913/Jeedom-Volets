@@ -276,6 +276,10 @@ function TraceMapZone(_zone){
 	});
 	map.addLayer(vectorLayer);
 	map.getView().fit(vectorLayer.getSource().getExtent(), map.getSize());
+	if(map.getView().getZoom() >19){
+		if($('#layer-select').val() =='Aerial' || $('#layer-select').val() == 'AerialWithLabels' || $('#layer-select').val() =='collinsBart' || $('#layer-select').val() =='ordnanceSurvey'")
+			map.getView().setZoom(19);
+	}
 }
 function addCondition(_condition,_el) {
 	var tr = $('<tr class="ConditionGroup">')

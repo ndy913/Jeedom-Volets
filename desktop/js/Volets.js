@@ -1,4 +1,14 @@
 var map;
+var layers = [];
+var i, ii;
+var styles = [
+	'Road',
+	'RoadOnDemand',
+	'Aerial',
+	'AerialWithLabels',
+	'collinsBart',
+	'ordnanceSurvey'
+];
 var DroitLatLng=new Object();
 var CentreLatLng=new Object();
 var GaucheLatLng=new Object();
@@ -19,6 +29,12 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=Present
 });
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=isRandom]',function(){
 
+});
+$('body').on('change','#layer-select',function(){
+        var style = $(this).val();
+        for (var i = 0, ii = layers.length; i < ii; ++i) {
+          layers[i].setVisible(styles[i] === style);
+        }
 });
 $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]',function(){
 	$('#MyMap').html('');
@@ -45,26 +61,13 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					center: ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]),
 					zoom: 10
     				});
-				var styles = [
-					'Road',
-					'RoadOnDemand',
-					'Aerial',
-					'AerialWithLabels',
-					'collinsBart',
-					'ordnanceSurvey'
-				];
-				var layers = [];
-				var i, ii;
 				for (i = 0, ii = styles.length; i < ii; ++i) {
 					layers.push(new ol.layer.Tile({
 						visible: false,
 						preload: Infinity,
 						source: new ol.source.BingMaps({
-							key: 'Your Bing Maps Key from http://www.bingmapsportal.com/ here',
+							key: 'AuT3N8ChmgGQQmlcsgZXgyrP663Pf9Jsv5lKdoIa_65s2MGOME24ZLYSAf6T4vfx',
 							imagerySet: styles[i]
-							// use maxZoom 19 to see stretched tiles instead of the BingMaps
-							// "no photos at this zoom level" tiles
-							// maxZoom: 19
 						})
 					}));
 				}

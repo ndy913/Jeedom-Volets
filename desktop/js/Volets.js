@@ -77,7 +77,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					target: 'MyMap',
 					view: view
 				});
-          			layers[0].setVisible(styles[0]);
+          			layers[3].setVisible(styles[3]);
 				/*map =new ol.Map({
 					view: view,
 					layers: [

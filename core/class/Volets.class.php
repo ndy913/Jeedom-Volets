@@ -114,7 +114,14 @@ class Volets extends eqLogic {
 	}
 	public static function ActionJour($_option) {    
 		$Volet = Volets::byId($_option['Volets_id']);
-		if (is_object($Volet) && $Volet->AutorisationAction('Day')){
+		if (is_object($Volet) && $Volet->AutorisationAction('Day')){	
+			if ($Volet->getConfiguration('Present')){	
+				$Commande=cmd::byId(str_replace('#','',$Volet->getConfiguration('cmdPresent')));
+				if(is_object($Commande) && $Commande->execCmd() == false){
+					$Volet->ActionPresent($Commande->execCmd());
+					return;
+				}
+			}
 			log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Jours] : Exécution de la gestion du lever du soleil');
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('open',$Saison,'Day');

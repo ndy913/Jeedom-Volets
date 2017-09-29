@@ -476,6 +476,10 @@ class Volets extends eqLogic {
 	public function checkAltitude() { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
+			
+			$Centre=$this->getConfiguration('Centre');
+			//Recuperation de l'altitude sur bing
+			$bingAlt=json_decode(fopen("http://dev.virtualearth.net/REST/v1/Elevation/List?pts=".$Centre['lat'].",".$Centre['lng']."&key=AuT3N8ChmgGQQmlcsgZXgyrP663Pf9Jsv5lKdoIa_65s2MGOME24ZLYSAf6T4vfx"),'r'))['resourceSets']['resources']['elevations'][0];
 			$altitude=$heliotrope->getCmd(null,'altitude');
 			if(!is_object($altitude))
 				return false;
@@ -483,7 +487,7 @@ class Volets extends eqLogic {
 			if($altitude->execCmd() > $this->getConfiguration('Altitude') + $this->getConfiguration('Occultation'))
 				return false;
 			//On calcule la hauteur du volet (a modifier par un angle de pénétration)
-			$Hauteur = $altitude->execCmd() - $this->getConfiguration('Altitude');
+			$Hauteur = $altitude->execCmd() - $bingAlt;
 			return $Hauteur;
 		}
 	}

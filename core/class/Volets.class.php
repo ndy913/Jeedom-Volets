@@ -86,6 +86,8 @@ class Volets extends eqLogic {
 			$Mode = $this->getCmd(null,'gestion')->execCmd();
 			switch($Evenement){
 				case 'Day':
+					if ($Mode == "Absent")
+						return false;
 				case 'Night':
 					if ($this->getConfiguration('DayNight'))
 						return true;
@@ -115,18 +117,19 @@ class Volets extends eqLogic {
 	public static function ActionJour($_option) {    
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->AutorisationAction('Day')){	
-			if ($Volet->getConfiguration('Present')){	
-				$Commande=cmd::byId(str_replace('#','',$Volet->getConfiguration('cmdPresent')));
-				if(is_object($Commande) && $Commande->execCmd() == false){
-					$Volet->ActionPresent($Commande->execCmd());
-					return;
-				}
-			}
 			log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Jours] : Exécution de la gestion du lever du soleil');
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('open',$Saison,'Day');
 			if( $Evenement!= false){
 				if($Volet->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Day'){
+					$Volet->checkAndUpdateCmd('gestion','Day');
+					if ($Volet->getConfiguration('Present')){	
+						$Commande=cmd::byId(str_replace('#','',$Volet->getConfiguration('cmdPresent')));
+						if(is_object($Commande) && $Commande->execCmd() == false){
+							$Volet->ActionPresent($Commande->execCmd());
+							retrun;
+						}
+					}
 					log::add('Volets','info',$Volet->getHumanName().'[Gestion Jours] : Execution des actions');
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Day'))
@@ -134,7 +137,6 @@ class Volets extends eqLogic {
 						$Volet->ExecuteAction($Cmd, 'Jour');
 					}
           				$Volet->setPosition($Evenement);
-					$Volet->checkAndUpdateCmd('gestion','Day');
 				}
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Jours] : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');

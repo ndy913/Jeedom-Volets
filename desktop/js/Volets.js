@@ -1,7 +1,6 @@
 var map;
 var layers = [];
 var i, ii;
-var BingAPIKey;
 var styles = [
 	'Road',
 	'RoadOnDemand',
@@ -10,13 +9,6 @@ var styles = [
 	'collinsBart',
 	'ordnanceSurvey'
 ];
-jeedom.config.load({
-	plugin: 'Volets',
-	configuration: 'BingAPIKey',
-	success: function (data) {
-		BingAPIKey=data.result;
-	}
-});
 var DroitLatLng=new Object();
 var CentreLatLng=new Object();
 var GaucheLatLng=new Object();
@@ -69,36 +61,43 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					center: ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]),
 					zoom: 10
     				});
-				if(BingAPIKey != ""){
-					for (i = 0, ii = styles.length; i < ii; ++i) {
-						layers.push(new ol.layer.Tile({
-							visible: false,
-							preload: Infinity,
-							source: new ol.source.BingMaps({
-								key: BingAPIKey,
-								imagerySet: styles[i]
-							})
-						}));
+				jeedom.config.load({
+					plugin: 'Volets',
+					configuration: 'BingAPIKey',
+					success: function (data) {
+						if(data.result != ""){
+							for (i = 0, ii = styles.length; i < ii; ++i) {
+							layers.push(new ol.layer.Tile({
+								visible: false,
+								preload: Infinity,
+								source: new ol.source.BingMaps({
+									key: data.result,
+									imagerySet: styles[i]
+								})
+							}));
+						}
+						map = new ol.Map({
+							layers: layers,
+							loadTilesWhileInteracting: true,
+							target: 'MyMap',
+							view: view
+						});
+						layers[3].setVisible(styles[3]);
+					}else{
+						$('#layer-select').hide();
+						map =new ol.Map({
+							view: view,
+							layers: [
+								new ol.layer.Tile({
+									source: new ol.source.OSM()
+								})
+							],
+							target: 'MyMap'
+						});
 					}
-					map = new ol.Map({
-						layers: layers,
-						loadTilesWhileInteracting: true,
-						target: 'MyMap',
-						view: view
-					});
-					layers[3].setVisible(styles[3]);
-				}else{
-					$('#layer-select').hide();
-					map =new ol.Map({
-						view: view,
-						layers: [
-							new ol.layer.Tile({
-								source: new ol.source.OSM()
-							})
-						],
-						target: 'MyMap'
-					});
-				}
+					}
+				});
+					
 				/*var geolocation = new ol.Geolocation({projection: view.getProjection()});
         			geolocation.setTracking(true);
 				geolocation.on('change', function() {

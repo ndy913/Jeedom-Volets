@@ -17,7 +17,7 @@ jeedom.config.load({
 	plugin: 'Volets',
 	configuration: 'BingAPIKey',
 	success: function (data) {
-		BingAPIKey=data.result;
+		BingAPIKey=data;
 	}
 });
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});

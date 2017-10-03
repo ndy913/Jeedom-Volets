@@ -124,9 +124,11 @@ class Volets extends eqLogic {
 				if($Volet->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Day'){
 					$Volet->checkAndUpdateCmd('gestion','Day');
 					if ($Volet->getConfiguration('Present')){	
+						log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Verification de la présence');
 						$Commande=cmd::byId(str_replace('#','',$Volet->getConfiguration('cmdPresent')));
 						if(is_object($Commande) && $Commande->execCmd() == false){
-							$Volet->ActionPresent($Commande->execCmd());
+							log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Il n\'y a personne nous executon la gestion de présence');
+							$Volet->ActionPresent();
 							retrun;
 						}
 					}
@@ -202,7 +204,7 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-  	public function ActionPresent($Etat) {
+  	public function ActionPresent($Etat=false) {
 		if ($this->AutorisationAction('Present')){
 			if($this->checkJour()){
 				$Saison=$this->getSaison();

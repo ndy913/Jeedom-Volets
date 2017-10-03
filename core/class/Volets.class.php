@@ -57,7 +57,7 @@ class Volets extends eqLogic {
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
-						log::add('Volets','info',$Volet->getHumanName().' : Mise a jours de la position du soleil');	
+						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la position du soleil');	
 						$Volet->ActionAzimute($_option['value']);
 					break;
 					case $Volet->getConfiguration('TypeDay'):
@@ -73,7 +73,7 @@ class Volets extends eqLogic {
 						$cron = $Volet->CreateCron($Schedule, 'ActionNuit');
 					break;
 					default:
-						log::add('Volets','info',$Volet->getHumanName().' : Mise a jours de la présence');	
+						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	
 						$Volet->ActionPresent($_option['value']);
 					break;
 				}
@@ -124,10 +124,10 @@ class Volets extends eqLogic {
 				if($Volet->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Day'){
 					$Volet->checkAndUpdateCmd('gestion','Day');
 					if ($Volet->getConfiguration('Present')){	
-						log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Verification de la présence');
+						log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Vérification de la présence');
 						$Commande=cmd::byId(str_replace('#','',$Volet->getConfiguration('cmdPresent')));
 						if(is_object($Commande) && $Commande->execCmd() == false){
-							log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Il n\'y a personne nous executon la gestion de présence');
+							log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Il n\'y a personne nous exécutons la gestion de présence');
 							$Volet->ActionPresent();
 							retrun;
 						}
@@ -156,7 +156,7 @@ class Volets extends eqLogic {
 			$Evenement=$Volet->checkCondition('close',$Saison,'Night');
 			if( $Evenement!= false){
 				if($Volet->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Night'){
-					log::add('Volets','info',$Volet->getHumanName().'[Gestion Night] : Execution des actions');
+					log::add('Volets','info',$Volet->getHumanName().'[Gestion Night] : Exécution des actions');
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Night'))
 							continue;
@@ -318,7 +318,7 @@ class Volets extends eqLogic {
 			if(0 <= $Azimut && $Azimuth <= $AngleCntGau)
 				$result= true;
 		}		
-		log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : L\'azimute ' . $Azimuth . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
+		log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : L\'azimuth ' . $Azimuth . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
 		return $result;
 	}	
 	public function getSaison() {

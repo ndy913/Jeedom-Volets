@@ -117,7 +117,7 @@ class Volets extends eqLogic {
 	public static function ActionJour($_option) {    
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->AutorisationAction('Day')){	
-			log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Jours] : Exécution de la gestion du lever du soleil');
+			log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Exécution de la gestion du lever du soleil');
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('open',$Saison,'Day');
 			if( $Evenement!= false){
@@ -130,16 +130,16 @@ class Volets extends eqLogic {
 							retrun;
 						}
 					}
-					log::add('Volets','info',$Volet->getHumanName().'[Gestion Jours] : Execution des actions');
+					log::add('Volets','info',$Volet->getHumanName().'[Gestion Day] : Execution des actions');
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Day'))
 							continue;
-						$Volet->ExecuteAction($Cmd, 'Jour');
+						$Volet->ExecuteAction($Cmd, 'Day');
 					}
           				$Volet->setPosition($Evenement);
 				}
 			}else{
-				log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Jours] : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
+				log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Day] : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
 				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 				$cron = $Volet->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($Volet->getId())));
@@ -149,22 +149,22 @@ class Volets extends eqLogic {
 	public static function ActionNuit($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->AutorisationAction('Night')){
-			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Nuit] : Exécution de la gestion du coucher du soleil ');
+			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Night] : Exécution de la gestion du coucher du soleil ');
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Night');
 			if( $Evenement!= false){
 				if($Volet->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Night'){
-					log::add('Volets','info',$Volet->getHumanName().'[Gestion Nuit] : Execution des actions');
+					log::add('Volets','info',$Volet->getHumanName().'[Gestion Night] : Execution des actions');
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Night'))
 							continue;
-						$Volet->ExecuteAction($Cmd, 'Nuit');
+						$Volet->ExecuteAction($Cmd, 'Night');
 					}
      					$Volet->setPosition($Evenement);
 					$Volet->checkAndUpdateCmd('gestion','Night');
 				}
 			}else{
-				log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Nuit] : Replanification de l\'évaluation des conditions de fermeture au coucher du soleil');
+				log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Night] : Replanification de l\'évaluation des conditions de fermeture au coucher du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
 				$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 				$cron = $Volet->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($Volet->getId())));

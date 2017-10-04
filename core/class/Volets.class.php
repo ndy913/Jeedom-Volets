@@ -98,13 +98,13 @@ class Volets extends eqLogic {
 				case 'Meteo':					
 					if ($this->getConfiguration('Meteo')
 					    && $Mode != "Night" 
-					    && $Mode != "Absent")
+					    && $Mode != "Present")
 						return true;
 				break;
 				case 'Azimuth':
 					if ($this->getConfiguration('Azimuth')
 					    && $Mode != "Night" 
-					    && $Mode != "Absent" 
+					    && $Mode != "Present" 
 					    && $Mode != "Meteo")
 						return true;
 				break;
@@ -212,7 +212,7 @@ class Volets extends eqLogic {
 					$Evenement='close';
 				$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
 				if( $Evenement!= false){
-					if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Absent'){
+					if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Present'){
 						log::add('Volets','info',$this->getHumanName().'[Gestion Presence] : Exécution des actions');
 						foreach($this->getConfiguration('action') as $Cmd){	
 							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
@@ -223,7 +223,7 @@ class Volets extends eqLogic {
 					}
 				}				
 				if($Evenement == 'close')
-					$this->checkAndUpdateCmd('gestion','Absent');
+					$this->checkAndUpdateCmd('gestion','Present');
 				else
 					$this->checkAndUpdateCmd('gestion','Day');
 			}

@@ -86,8 +86,6 @@ class Volets extends eqLogic {
 			$Mode = $this->getCmd(null,'gestion')->execCmd();
 			switch($Evenement){
 				case 'Day':
-					if ($Mode == "Absent")
-						return false;
 				case 'Night':
 					if ($this->getConfiguration('DayNight'))
 						return true;
@@ -129,7 +127,7 @@ class Volets extends eqLogic {
 						if(is_object($Commande) && $Commande->execCmd() == false){
 							log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Il n\'y a personne nous exécutons la gestion de présence');
 							$Volet->ActionPresent();
-							retrun;
+							exit;
 						}
 					}
 					log::add('Volets','info',$Volet->getHumanName().'[Gestion Day] : Execution des actions');

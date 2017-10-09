@@ -554,7 +554,7 @@ class Volets extends eqLogic {
 	public function getPosition() {
 		return $this->getCmd(null,'position')->execCmd();
 	}
-	public function preSave() {
+	/*public function preSave() {
 		if($this->getConfiguration('heliotrope') == "")
 			throw new Exception(__('Impossible d\'enregister, la configuration de l\'equipement heliotrope n\'existe pas', __FILE__));
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
@@ -565,7 +565,7 @@ class Volets extends eqLogic {
 			if(is_object($geoloc) && $geoloc->execCmd()='')	
 				throw new Exception(__('Impossible d\'enregister, la configuration de  "Localisation et trajet" (geotrav) n\'est pas correcte', __FILE__));
 		}
-	}
+	}*/
 	public function postSave() {
 		$this->AddCommande("Gestion Active","gestion","info", 'string',true);
 		$state=$this->AddCommande("Position du soleil","state","info", 'binary',true,'sunInWindows');

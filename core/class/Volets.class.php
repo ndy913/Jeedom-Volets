@@ -127,7 +127,7 @@ class Volets extends eqLogic {
 						if(is_object($Commande) && $Commande->execCmd() == false){
 							log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Il n\'y a personne nous exécutons la gestion de présence');
 							$Volet->ActionPresent();
-							exit;
+							return;
 						}
 					}
 					log::add('Volets','info',$Volet->getHumanName().'[Gestion Day] : Execution des actions');

@@ -108,8 +108,7 @@ $('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=heliotr
 					//geolocation.getHeading() + ' [rad]';
 					//geolocation.getSpeed() + ' [m/s]';
 				});*/
-			}else
-				$('#div_alert').showAlert({message: 'Impossible de retrouver les coordonnées gps de votre maison.\nVérifiez que vous avez sélectionné un équipement "Héliotrope"\nVérifiez que vos équipements "Héliotrope" et "Localisation et trajet" (geotrav) soient correctement configurés', level: 'error'});
+			}
 		}
 	});
 });

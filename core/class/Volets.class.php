@@ -573,7 +573,8 @@ class Volets extends eqLogic {
 		$state->setCollectDate(date('Y-m-d H:i:s'));
 		$state->save();
 		$isInWindows=$this->AddCommande("Etat mode","isInWindows","info","binary",false,'isInWindows');
-		$inWindows=$this->AddCommande("Mode","inWindows","action","other",true,'inWindows');
+		$inWindows=$this->AddCommande("Mode","inWindows","action","select",true,'inWindows');
+		$inWindows->setConfiguration('listValue','1|Hivers;0|Eté');
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
 		$isArmed=$this->AddCommande("Etat activation","isArmed","info","binary",false,'lock');

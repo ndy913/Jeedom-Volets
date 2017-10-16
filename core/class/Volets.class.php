@@ -138,7 +138,7 @@ class Volets extends eqLogic {
 					}
 					if ($Volet->getConfiguration('Meteo')){
 						$_option['Volets_id']=$Volet->getId();
-						Volet::ActionMeteo($_option);
+						Volets::ActionMeteo($_option);
 					}
 					if ($Volet->getConfiguration('Azimuth')){
 						$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));

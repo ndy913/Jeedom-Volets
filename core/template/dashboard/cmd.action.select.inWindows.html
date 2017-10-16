@@ -6,12 +6,12 @@
     <script>
         $('.iconCmd#id#').empty();
         if ('#state#' == '1' || '#state#' == '99' || '#state#' == 'on') {
-            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeOpen.png').attr('value',0);
+            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeOpen.png').attr('data-value',0);
             if (jeedom.cmd.normalizeName('#name#') == 'on') {
                 $('.cmd[data-cmd_id=#id#]').hide();
             }
         } else {
-            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeClose.png').attr('value',1);
+            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeClose.png').attr('data-value',1);
             if (jeedom.cmd.normalizeName('#name#') == 'off') {
                 $('.cmd[data-cmd_id=#id#]').hide();
             }
@@ -19,7 +19,7 @@
         $('.cmd[data-cmd_id=#id#] .action').off();
         $('.cmd[data-cmd_id=#id#] .action').on('click', function () {
            //jeedom.cmd.execute({id: '#id#'});
-          	jeedom.cmd.execute({id: '#id#', value: {select:$(this).val()}});
+          	jeedom.cmd.execute({id: '#id#', value: {select:$(this).attr('data-value')}});
         });
     </script>
 </div>

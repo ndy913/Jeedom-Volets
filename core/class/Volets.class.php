@@ -86,6 +86,12 @@ class Volets extends eqLogic {
 			$Mode = $this->getCmd(null,'gestion')->execCmd();
 			switch($Evenement){
 				case 'Day':
+					if ($this->getConfiguration('DayNight')
+					    && $Mode != "Azimuth" 
+					    && $Mode != "Present" 
+					    && $Mode != "Meteo")
+						return true;
+				break
 				case 'Night':
 					if ($this->getConfiguration('DayNight'))
 						return true;
@@ -130,12 +136,25 @@ class Volets extends eqLogic {
 							return;
 						}
 					}
-					log::add('Volets','info',$Volet->getHumanName().'[Gestion Day] : Execution des actions');
-					foreach($Volet->getConfiguration('action') as $Cmd){	
-						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Day'))
-							continue;
-						$Volet->ExecuteAction($Cmd, 'Day');
-          					$Volet->setPosition($Evenement);
+					if ($Volet->getConfiguration('Meteo')){
+						$_option['Volets_id']=$Volet->getId();
+						Volet::ActionMeteo($_option);
+					}
+					if ($Volet->getConfiguration('Azimuth')){
+						$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
+						if(is_object($heliotrope)){
+							$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
+							$Volet->ActionAzimute($Azimuth);
+						}
+					}
+					if ($Volet->AutorisationAction('Day')){	
+						log::add('Volets','info',$Volet->getHumanName().'[Gestion Day] : Execution des actions');
+						foreach($Volet->getConfiguration('action') as $Cmd){	
+							if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Day'))
+								continue;
+							$Volet->ExecuteAction($Cmd, 'Day');
+							$Volet->setPosition($Evenement);
+						}
 					}
 				}
 			}else{

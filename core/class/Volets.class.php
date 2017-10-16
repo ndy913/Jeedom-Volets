@@ -91,7 +91,7 @@ class Volets extends eqLogic {
 					    && $Mode != "Present" 
 					    && $Mode != "Meteo")
 						return true;
-				break
+				break;
 				case 'Night':
 					if ($this->getConfiguration('DayNight'))
 						return true;

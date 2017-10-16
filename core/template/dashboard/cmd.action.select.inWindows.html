@@ -6,12 +6,12 @@
     <script>
         $('.iconCmd#id#').empty();
         if ('#state#' == '1' || '#state#' == '99' || '#state#' == 'on') {
-            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeOpen.png');
+            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeOpen.png').attr('value',0);
             if (jeedom.cmd.normalizeName('#name#') == 'on') {
                 $('.cmd[data-cmd_id=#id#]').hide();
             }
         } else {
-            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeClose.png');
+            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeClose.png').attr('value',1);
             if (jeedom.cmd.normalizeName('#name#') == 'off') {
                 $('.cmd[data-cmd_id=#id#]').hide();
             }

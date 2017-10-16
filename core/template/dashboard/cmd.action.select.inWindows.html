@@ -7,7 +7,7 @@
         $('.iconCmd#id#').empty();
         if ('#state#' == '1' || '#state#' == '99' || '#state#' == 'on') {
             $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeOpen.png');
-  if (jeedom.cmd.normalizeName('#name#') == 'on') {
+            if (jeedom.cmd.normalizeName('#name#') == 'on') {
                 $('.cmd[data-cmd_id=#id#]').hide();
             }
         } else {
@@ -18,7 +18,8 @@
         }
         $('.cmd[data-cmd_id=#id#] .action').off();
         $('.cmd[data-cmd_id=#id#] .action').on('click', function () {
-            jeedom.cmd.execute({id: '#id#'});
+           //jeedom.cmd.execute({id: '#id#'});
+          	jeedom.cmd.execute({id: '#id#', value: {select:$(this).val()}});
         });
     </script>
 </div>

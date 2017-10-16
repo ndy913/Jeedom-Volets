@@ -628,10 +628,7 @@ class VoletsCmd extends cmd {
 					$Listener->event(false);
 				break;
 				case 'inWindows':
-						if($Listener->execCmd())
-							$Listener->event(false);
-						else
-							$Listener->event(true);
+					$Listener->event($ActionValue = $_options['select']);
 				break;
 			}
 			$Listener->setCollectDate(date('Y-m-d H:i:s'));

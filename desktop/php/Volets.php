@@ -199,16 +199,11 @@ $eqLogics = eqLogic::byType('Volets');
 									</label>
 									<div class="col-sm-5">
 										<div class="input-group">
-											<span class="input-group-btn">
-												<a class="btn btn-default ActionAttr btn-sm" data-action="remove">
-													<i class="fa fa-minus-circle"></i>
-												</a>
-											</span>
 											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdPresent" placeholder="{{Commande déterminant la présence}}"/>
 											<span class="input-group-btn">
-												<a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">
+												<!--a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">
 													<i class="fa fa-tasks"></i>
-												</a>
+												</a-->
 												<a class="btn btn-success btn-sm listCmdAction data-type="info"">
 													<i class="fa fa-list-alt"></i>
 												</a>

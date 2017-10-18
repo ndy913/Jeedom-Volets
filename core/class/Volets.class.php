@@ -454,7 +454,7 @@ class Volets extends eqLogic {
 				return false;
 			}
 		}
-		log::add('Volets','info',$this->getHumanName().'[Gestion '.$TypeGestion.'] : Les conditions sont remplies');
+		log::add('Volets','info',$this->getHumanName().'[Gestion '.$TypeGestion.'] : Les conditions sont remplies pour '.$Evenement);
 		return $Evenement;
 	}
 	public function boolToText($value){

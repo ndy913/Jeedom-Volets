@@ -57,7 +57,7 @@ class Volets extends eqLogic {
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
-						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la position du soleil');	
+						//log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la position du soleil');	
 						$Volet->ActionAzimute($_option['value']);
 					break;
 					case $Volet->getConfiguration('TypeDay'):
@@ -73,7 +73,7 @@ class Volets extends eqLogic {
 						$cron = $Volet->CreateCron($Schedule, 'ActionNuit');
 					break;
 					default:
-						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	
+						//log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	
 						$Volet->ActionPresent($_option['value']);
 					break;
 				}
@@ -223,29 +223,27 @@ class Volets extends eqLogic {
 	}
   	public function ActionPresent($Etat=false) {
 		if ($this->AutorisationAction('Present')){
-			if($this->checkJour()){
-				$Saison=$this->getSaison();
-				if($Etat)
-					$Evenement='open';
-				else
-					$Evenement='close';
-				$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
-				if( $Evenement!= false){
-					if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Present'){
-						log::add('Volets','info',$this->getHumanName().'[Gestion Presence] : Exécution des actions');
-						foreach($this->getConfiguration('action') as $Cmd){	
-							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
-								continue;
-							$this->ExecuteAction($Cmd,'Presence');
-          						$this->setPosition($Evenement);
-						}
+			$Saison=$this->getSaison();
+			if($Etat)
+				$Evenement='open';
+			else
+				$Evenement='close';
+			$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
+			if( $Evenement!= false){
+				if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Present'){
+					log::add('Volets','info',$this->getHumanName().'[Gestion Presence] : Exécution des actions');
+					foreach($this->getConfiguration('action') as $Cmd){	
+						if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
+							continue;
+						$this->ExecuteAction($Cmd,'Presence');
+						$this->setPosition($Evenement);
 					}
-				}				
-				if($Evenement == 'close')
-					$this->checkAndUpdateCmd('gestion','Present');
-				else
-					$this->checkAndUpdateCmd('gestion','Day');
-			}
+				}
+			}				
+			if($Evenement == 'close')
+				$this->checkAndUpdateCmd('gestion','Present');
+			else
+				$this->checkAndUpdateCmd('gestion','Day');
 		}
 	}
 	public function ActionAzimute($Azimuth) {

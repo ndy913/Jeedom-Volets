@@ -5,6 +5,7 @@ image::../images/Volets_screenshot_Widget.jpg[]
 === Gestion Active
 
 Cette commande permet de déterminer quel gestion est en cours sur.
+
 - Day: Il fait jours, on active tous les gestion. On verife les autres gestion avant d'executé les actions.
 - Night: Il fait nuit, toutes les autres gestions sont desactivé
 - Present: Il n'y a personne a la maison, on ferme les volets. La gesion de presence interdit toutes autres actions hormis la nuit

@@ -11,12 +11,48 @@ image::../images/ConfigurationGeneral.jpg[]
 * Visible : permet de rendre l'équipement visible dans le Dashboard
 * Héliotrope : choisir l'équipement Héliotrope à prendre en compte pour ce groupe de zone
 * Jour / Nuit : activation de la gestion en jour / nuit
-** Délai au lever du jour (min) : délai avant (-) ou après (+) à l'heure du lever du jour
-** Délai à la tombée de la nuit (min) : délai avant (-) ou après (+) à l'heure de la tombée de la nuit
-** Délais de réévaluation (min) : délai d'attente avant réévaluation si les conditions ne sont pas respectées
 * Position du soleil : activation de la gestion en fonction de la position du soleil (dépend de l'équipement Héliotrope)
 * Présence : activation de la gestion en fonction de la présence
-** Gestion de la présence: objet Jeedom indiquant s'il y a quelqu'un dans la maison
+* Météo : active la gestion météo. 
+
+==== Gestion du lever et coucher du soleil
+
+Cette gestion permet d'ouvrir ou de fermer le volets en fonction du lever et du coucher du soleil
+Il faut l'activer la gestion pour faire apparaitre les champs de configuration spécifique
+
+* Type de lever du soleil : Permet de choisir quel type d'horraire vous voulez pour le lever du jour
+* Délai au lever du jour (min) : délai avant (-) ou après (+) à l'heure du lever du jour
+* Type de coucher du soleil : Permet de choisir quel type d'horraire vous voulez pour la tombée de la nuit
+* Délai à la tombée de la nuit (min) : délai avant (-) ou après (+) à l'heure de la tombée de la nuit
+* Délais de réévaluation (min) : délai d'attente avant réévaluation si les conditions ne sont pas respectées
+
+Pour compléter cette gestion, il est possible d'ajouter des conditions.
+Par exemple, dans les chambres, je ne veux pas que les volets s'ouvre avant 8h.
+J'ajouterais donc une condition de ce type
+
+image::../images/ConditionTime.jpg[]
+
+==== Gestion de présence
+
+La gestion de présence permet de fermer les volets lorsque nous ne somme pas la.
+Il faut l'activer la gestion pour faire apparaitre les champs de configuration spécifique
+
+* Gestion de la présence: objet Jeedom indiquant s'il y a quelqu'un dans la maison
+
+Lorsque la gestion de presence détecte une abscence, toutes les autres gestions hormis la gestion de la nuits est inactif
+
+==== Gestion Météo
+La gestion meteo verifie toutes les minutes les contidions enregister.
+Si toutes les conditions que vous avez complété sont valide, alors l'ordre de fermeture sera donnée et  toutes les autres gestions hormis la gestion de la nuits est inactif
+
+==== Gestion par Azimute
+
+Ce mode de fonctionement permet de fermer les volets lorsque le soleil est entre les angles d'exposition au soleil de la fenetre
+Pour compléter cette gestion, il est possible d'ajouter des conditions.
+Par exemple, je veux que les volets se ferme que si j'ai une température ambiante en été supperieur a 23
+J'ajouterais donc une condition de ce type
+
+image::../images/ConditionTemps.jpg[]
 
 ==== Définition de l'angle d'exposition au soleil 
 Nous allons maintenant déterminer l'angle d'exposition au soleil.

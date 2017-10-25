@@ -20,37 +20,37 @@ image::../images/ConfigurationGeneral.jpg[]
 Cette gestion permet d'ouvrir ou de fermer le volets en fonction du lever et du coucher du soleil
 Il faut l'activer la gestion pour faire apparaitre les champs de configuration spécifique
 
-* Type de lever du soleil : Permet de choisir quel type d'horraire vous voulez pour le lever du jour
-* Délai au lever du jour (min) : délai avant (-) ou après (+) à l'heure du lever du jour
-* Type de coucher du soleil : Permet de choisir quel type d'horraire vous voulez pour la tombée de la nuit
-* Délai à la tombée de la nuit (min) : délai avant (-) ou après (+) à l'heure de la tombée de la nuit
+* Type de lever du soleil : Permet de choisir quel type d'horaire vous voulez pour le lever du jour
+* Délai au lever du jour (min) : délai avant (-) ou après (+) l'heure du lever du jour
+* Type de coucher du soleil : Permet de choisir quel type d'horaire vous voulez pour la tombée de la nuit
+* Délai à la tombée de la nuit (min) : délai avant (-) ou après (+) l'heure de la tombée de la nuit
 * Délais de réévaluation (min) : délai d'attente avant réévaluation si les conditions ne sont pas respectées
 
 Pour compléter cette gestion, il est possible d'ajouter des conditions.
-Par exemple, dans les chambres, je ne veux pas que les volets s'ouvre avant 8h.
-J'ajouterais donc une condition de ce type
+Par exemple, dans les chambres, je ne veux pas que les volets s'ouvrent avant 8h.
+J'ajouterai donc une condition de ce type
 
 image::../images/ConditionTime.jpg[]
 
 ==== Gestion de présence
 
-La gestion de présence permet de fermer les volets lorsque nous ne somme pas la.
+La gestion de présence permet de fermer les volets lorsque nous ne somme pas là.
 Il faut l'activer la gestion pour faire apparaitre les champs de configuration spécifique
 
 * Gestion de la présence: objet Jeedom indiquant s'il y a quelqu'un dans la maison
 
-Lorsque la gestion de presence détecte une abscence, toutes les autres gestions hormis la gestion de la nuits est inactif
+Lorsque la gestion de presence détecte une absence, toutes les autres gestions hormis la gestion de la nuit sont inactives
 
 ==== Gestion Météo
-La gestion meteo verifie toutes les minutes les contidions enregister.
-Si toutes les conditions que vous avez complété sont valide, alors l'ordre de fermeture sera donnée et  toutes les autres gestions hormis la gestion de la nuits est inactif
+La gestion météo verifie toutes les minutes les contidions enregistrées.
+Si toutes les conditions que vous avez complétées sont valides, alors l'ordre de fermeture sera donnée et  toutes les autres gestions hormis la gestion de la nuit sont inactives
 
-==== Gestion par Azimute
+==== Gestion par Azimuth
 
-Ce mode de fonctionement permet de fermer les volets lorsque le soleil est entre les angles d'exposition au soleil de la fenetre
+Ce mode de fonctionement permet de fermer les volets lorsque le soleil est entre les angles d'exposition au soleil de la fenêtre
 Pour compléter cette gestion, il est possible d'ajouter des conditions.
-Par exemple, je veux que les volets se ferme que si j'ai une température ambiante en été supperieur a 23
-J'ajouterais donc une condition de ce type
+Par exemple, je veux que les volets ne se ferment que si j'ai une température ambiante en été supérieure à 23
+J'ajouterai donc une condition de ce type
 
 image::../images/ConditionTemps.jpg[]
 

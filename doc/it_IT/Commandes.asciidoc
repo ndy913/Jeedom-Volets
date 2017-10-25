@@ -4,13 +4,13 @@ image::../images/Volets_screenshot_Widget.jpg[]
 
 === Gestion Active
 
-Cette commande permet de déterminer quel gestion est en cours sur.
+Cette commande permet de déterminer quelle gestion est en cours actuellement.
 
-- Day: Il fait jours, on active tous les gestion. On verife les autres gestion avant d'executé les actions.
-- Night: Il fait nuit, toutes les autres gestions sont desactivé
-- Present: Il n'y a personne a la maison, on ferme les volets. La gesion de presence interdit toutes autres actions hormis la nuit
-- Meteo: Le condition meteo sont verifier, on ferme les volets. La gesion meteo interdit toutes autres actions hormis la nuit					
-- Azimuth: Le soleil est dans le fenetre, on ferme les volets. La gesion par azimute autorise toutes autres actions.	
+- Day: Il fait jour, on active toutes les autres gestions. On verife les autres gestions avant d'executer les actions.
+- Night: Il fait nuit, toutes les autres gestions sont desactivées.
+- Present: Il n'y a personne à la maison, on ferme les volets. La gestion de présence interdit toutes autres actions hormis la nuit
+- Meteo: Si toutes les conditions meteo sont verifiées, on ferme les volets. La gestion meteo interdit toutes autres gestions hormis la gestion Night					
+- Azimuth: Si le soleil est dans le fenêtre, on ferme les volets. La gestion par azimuth autorise toutes autres gestions.	
 
 === La position du volet et son état
 

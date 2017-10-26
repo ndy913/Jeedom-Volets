@@ -5,7 +5,7 @@
     </center>
     <script>
         $('.iconCmd#id#').empty();
-        if ('#state#' == '1' || '#state#' == '99' || '#state#' == 'on') {
+        if ('#state#' == 'close') {
             $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/Open.png').attr('data-value','close');
             if (jeedom.cmd.normalizeName('#name#') == 'on') {
                 $('.cmd[data-cmd_id=#id#]').hide();

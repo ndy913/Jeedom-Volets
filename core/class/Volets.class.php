@@ -508,21 +508,20 @@ class Volets extends eqLogic {
 		if(is_object($heliotrope)){
 			
 			$Centre=$this->getConfiguration('Centre');
-			//Recuperation de l'altitude sur bing
-			//$bingAlt=json_decode(fopen("http://dev.virtualearth.net/REST/v1/Elevation/List?pts=".$Centre['lat'].",".$Centre['lng']."&key=".config::byKey('BingAPIKey','Volets'),'r'))['resourceSets']['resources']['elevations'][0];
-			$url="https://maps.googleapis.com/maps/api/elevation/json?locations=".$Centre['lat'].",".$Centre['lng']."&key=AIzaSyANadE1gWZ4AmzdddG1fe6hyTDtE9wWJ-U"
+			$url="https://maps.googleapis.com/maps/api/elevation/json?locations=".$Centre['lat'].",".$Centre['lng']."&key=AIzaSyANadE1gWZ4AmzdddG1fe6hyTDtE9wWJ-U";
 			$MaisonElevation=json_decode(fopen($url,'r'));
 			$MaisonElevation=$MaisonElevation['results']['elevation'];
 			$altitude=$heliotrope->getCmd(null,'altitude');
 			if(!is_object($altitude))
 				return false;
-			log::add('Volets','debug',$this->getHumanName().'[Gestion Altitude] : Soleil: '. $altitude->execCmd().' Maison:'.$MaisonElevation);
+			$SoleilElevation=$altitude->execCmd();
+			log::add('Volets','debug',$this->getHumanName().'[Gestion Altitude] : Soleil: '. $SoleilElevation .' Maison:'.$MaisonElevation);
 			//On verifie que le soleil est au dessus de la hauteur occultante
-			if($altitude->execCmd() < $MaisonElevation/* + $this->getConfiguration('Occultation')*/)
+			if($SoleilElevation < $MaisonElevation/* + $this->getConfiguration('Occultation')*/)
 				return false;
 			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : Le soleil est au dessus de la maison');
-		//On calcule la hauteur du volet (a modifier par un angle de pénétration)
-			//$Hauteur = $altitude->execCmd() - $MaisonElevation;
+			//On calcule la hauteur du volet (a modifier par un angle de pénétration)
+			//$Hauteur = $SoleilElevation - $MaisonElevation;
 			//return $Hauteur;
 		}
 	}

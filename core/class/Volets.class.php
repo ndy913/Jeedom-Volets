@@ -506,11 +506,12 @@ class Volets extends eqLogic {
 	public function checkAltitude() { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
-			
 			$Centre=$this->getConfiguration('Centre');
 			$url="https://maps.googleapis.com/maps/api/elevation/json?locations=".$Centre['lat'].",".$Centre['lng']."&key=AIzaSyANadE1gWZ4AmzdddG1fe6hyTDtE9wWJ-U";
-			$MaisonElevation=json_decode(fopen($url,'r'));
-			$MaisonElevation=$MaisonElevation['results']['elevation'];
+			$http = new com_http($url);
+			$result = $http->exec(30, 2);
+			$MaisonElevation=json_decode($result,true);
+			$MaisonElevation=$MaisonElevation['results'][0]['elevation'];
 			$altitude=$heliotrope->getCmd(null,'altitude');
 			if(!is_object($altitude))
 				return false;

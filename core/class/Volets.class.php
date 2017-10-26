@@ -266,6 +266,7 @@ class Volets extends eqLogic {
 				if($Evenement != false){
 					$Evenement=$this->checkCondition($Evenement,$Saison,'Azimuth');
 					if( $Evenement!= false){
+						$this->checkAltitude();
 						if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Azimuth'){
 							log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Exécution des actions');
 							foreach($this->getConfiguration('action') as $Cmd){	
@@ -512,12 +513,13 @@ class Volets extends eqLogic {
 			$altitude=$heliotrope->getCmd(null,'altitude');
 			if(!is_object($altitude))
 				return false;
+			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : Soleil: '. $altitude->execCmd().' Maison:'.$bingAlt);
 			//On verifie que le soleil est au dessus de la hauteur occultante
-			if($altitude->execCmd() > $this->getConfiguration('Altitude') + $this->getConfiguration('Occultation'))
-				return false;
+			//if($altitude->execCmd() > $this->getConfiguration('Altitude') + $this->getConfiguration('Occultation'))
+			//	return false;
 			//On calcule la hauteur du volet (a modifier par un angle de pénétration)
-			$Hauteur = $altitude->execCmd() - $bingAlt;
-			return $Hauteur;
+			//$Hauteur = $altitude->execCmd() - $bingAlt;
+			//return $Hauteur;
 		}
 	}
 	public function StartDemon() {

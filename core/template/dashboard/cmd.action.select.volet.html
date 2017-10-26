@@ -5,17 +5,10 @@
     </center>
     <script>
         $('.iconCmd#id#').empty();
-        if ('#state#' == 'close') {
-            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/Open.png').attr('data-value','close');
-            if (jeedom.cmd.normalizeName('#name#') == 'on') {
-                $('.cmd[data-cmd_id=#id#]').hide();
-            }
-        } else {
-            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/Close.png').attr('data-value','open');
-            if (jeedom.cmd.normalizeName('#name#') == 'off') {
-                $('.cmd[data-cmd_id=#id#]').hide();
-            }
-        }
+        if ('#state#' == 'close') 
+            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/Open.png').attr('data-value','open');
+        else
+            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/Close.png').attr('data-value','close');
         $('.cmd[data-cmd_id=#id#] .action').off();
         $('.cmd[data-cmd_id=#id#] .action').on('click', function () {
           	jeedom.cmd.execute({id: '#id#', value: {select:$(this).attr('data-value')}});

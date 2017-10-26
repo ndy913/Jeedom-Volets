@@ -602,7 +602,8 @@ class Volets extends eqLogic {
 		$Released->setConfiguration('state', '0');
 		$Released->setConfiguration('armed', '1');
 		$Position=$this->AddCommande("Etat du volet","position","info","string",false);
-		$VoletState=$this->AddCommande("Position du volet","VoletState","action","message",true,'volet');
+		$VoletState=$this->AddCommande("Position du volet","VoletState","action","select",true,'volet');
+		$VoletState->setConfiguration('listValue','open|Ouvert;close|Fermé');
 		$VoletState->setDisplay('title_disable', 1);
 		$VoletState->setValue($Position->getId());
 		$VoletState->save();
@@ -629,7 +630,7 @@ class VoletsCmd extends cmd {
 		if (is_object($Listener)) {	
 			switch($this->getLogicalId()){
 				case 'VoletState':
-					$this->getEqLogic()->checkAndUpdateCmd('position',$_options['message']);
+					$this->getEqLogic()->checkAndUpdateCmd('position',$_options['select']);
 				break;
 				case 'armed':
 					$Listener->event(true);
@@ -638,7 +639,7 @@ class VoletsCmd extends cmd {
 					$Listener->event(false);
 				break;
 				case 'inWindows':
-					$Listener->event($ActionValue = $_options['select']);
+					$Listener->event($_options['select']);
 				break;
 			}
 			$Listener->setCollectDate(date('Y-m-d H:i:s'));

@@ -497,7 +497,7 @@ class Volets extends eqLogic {
 		$MaisonElevation=json_decode($result,true);
 		$MaisonElevation=$MaisonElevation['results'][0]['elevation'];
 		//Calcule de l'ange de l'atitude en fonction de l'elevation et du rayon de la terre
-		return rad2deg(atan2(6371*1000,$MaisonElevation));
+		return round(rad2deg(atan2(6371*1000,$MaisonElevation)));
 	}
 	public function checkAltitude() { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
@@ -508,8 +508,11 @@ class Volets extends eqLogic {
 			/*$Zenith=$heliotrope->getCmd(null,'zenith');
 			if(!is_object($Zenith))
 				return false;*/
-			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude de la maison est a '.$this->HomeElevation().'°');
-			$Hauteur=round($Altitude->execCmd()*100/90);
+			$AltitudeMaison=$this->getConfiguration('AltitudeMaison');
+			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude de la maison est a '.$AltitudeMaison.'°');
+			if($Altitude->execCmd() < $AltitudeMaison)
+				return 100;
+			$Hauteur=round(($Altitude->execCmd()-$AltitudeMaison)*100/90);
 			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'%');
 			return $Hauteur;
 		}
@@ -578,8 +581,8 @@ class Volets extends eqLogic {
 	public function getPosition() {
 		return $this->getCmd(null,'position')->execCmd();
 	}
-	/*public function preSave() {
-		if($this->getConfiguration('heliotrope') == "")
+	public function preSave() {
+		/*if($this->getConfiguration('heliotrope') == "")
 			throw new Exception(__('Impossible d\'enregister, la configuration de l\'equipement heliotrope n\'existe pas', __FILE__));
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){	
@@ -588,8 +591,9 @@ class Volets extends eqLogic {
 			$geoloc = geotravCmd::byEqLogicIdAndLogicalId($heliotrope->getConfiguration('geoloc'),'location:coordinate');
 			if(is_object($geoloc) && $geoloc->execCmd()='')	
 				throw new Exception(__('Impossible d\'enregister, la configuration de  "Localisation et trajet" (geotrav) n\'est pas correcte', __FILE__));
-		}
-	}*/
+		}*/
+		$this->setConfiguration('AltitudeMaison',$this->HomeElevation());
+	}
 	public function postSave() {
 		$this->AddCommande("Hauteur du volet","hauteur","info", 'numeric',true);
 		$this->AddCommande("Gestion Active","gestion","info", 'string',true);

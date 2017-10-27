@@ -496,7 +496,8 @@ class Volets extends eqLogic {
 		$result = $http->exec(30, 2);
 		$MaisonElevation=json_decode($result,true);
 		$MaisonElevation=$MaisonElevation['results'][0]['elevation'];
-		return rad2deg(atan2($MaisonElevation, 6371*1000));
+		//Calcule de l'ange de l'atitude en fonction de l'elevation et du rayon de la terre
+		return rad2deg(atan2(6371*1000,$MaisonElevation));
 	}
 	public function checkAltitude() { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));

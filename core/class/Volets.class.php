@@ -498,6 +498,23 @@ class Volets extends eqLogic {
 		$MaisonElevation=$MaisonElevation['results'][0]['elevation'];
 		//Calcule de l'ange de l'atitude en fonction de l'elevation et du rayon de la terre
 		return round(rad2deg(atan2(6371*1000,$MaisonElevation)));
+		
+		//$this->setConfiguration('AltitudeMaison',$this->HomeElevation());
+	}
+	public function AltiudeZenith() { 
+		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
+		if(is_object($heliotrope)){
+			$Zenith=$heliotrope->getCmd(null,'zenith');
+			if(!is_object($Zenith))
+				return false;
+			$Centre=$this->getConfiguration('Centre');
+			//Exemple, quelle est la hauteur du soleil à 10 h vrai le 1er juillet pour Mulhouse ?
+			$Ah = 180 x (round($Zenith/100) / 12 - 1);
+			$Dec = asin(0,398 x sin(0,985 x date('z') - 80));
+			$hauteur = asin(sin($Centre['lat']) x sin($Dec) + Cos($Centre['lat']) x cos($Dec) x cos($Ah));
+			return round(rad2deg($hauteur));
+		}
+		return false;
 	}
 	public function checkAltitude() { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
@@ -508,12 +525,14 @@ class Volets extends eqLogic {
 			/*$Zenith=$heliotrope->getCmd(null,'zenith');
 			if(!is_object($Zenith))
 				return false;*/
-			$AltitudeMaison=$this->getConfiguration('AltitudeMaison');
+			/*$AltitudeMaison=$this->getConfiguration('AltitudeMaison');
 			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude de la maison est a '.$AltitudeMaison.'°');
 			if($Altitude->execCmd() < $AltitudeMaison)
-				return 100;
-			$Hauteur=round(($Altitude->execCmd()-$AltitudeMaison)*100/90);
-			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'%');
+				return 100;*/
+			$AltiudeZenith=$this->AltiudeZenith();			
+			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude du zenith est a '.$AltiudeZenith.'°');
+			$Hauteur=round($Altitude->execCmd()*100/$AltiudeZenith);
+			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');
 			return $Hauteur;
 		}
 		return false;
@@ -592,7 +611,6 @@ class Volets extends eqLogic {
 			if(is_object($geoloc) && $geoloc->execCmd()='')	
 				throw new Exception(__('Impossible d\'enregister, la configuration de  "Localisation et trajet" (geotrav) n\'est pas correcte', __FILE__));
 		}*/
-		$this->setConfiguration('AltitudeMaison',$this->HomeElevation());
 	}
 	public function postSave() {
 		$this->AddCommande("Hauteur du volet","hauteur","info", 'numeric',true);

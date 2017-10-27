@@ -516,13 +516,16 @@ class Volets extends eqLogic {
 			$siderialUtcHours = fmod((18.697374558 + 0.06570982441908*$midnightUtc/86400 + (1.00273790935*(fmod($dSec,86400))/3600)),24);
 			$siderialLocalDeg = fmod((($siderialUtcHours * 15) + $longitude),360);
 			$hourAngleDeg = fmod(($siderialLocalDeg - $rightAscensionDeg),360);
-			
+			$meanLongitudeDeg = fmod((280.461 + 0.9856474 * $dSec/86400),360);
+			$meanAnomalyDeg = fmod((357.528 + 0.9856003 * $dSec/86400),360);
 			$eclipticLongitudeDeg = $meanLongitudeDeg + 1.915 * sin(deg2rad($meanAnomalyDeg)) + 0.020 * sin(2*deg2rad($meanAnomalyDeg));
-     			$eclipticObliquityDeg = 23.439 - 0.0000004 * $dSec/86400;
+			$eclipticObliquityDeg = 23.439 - 0.0000004 * $dSec/86400;
        			$declinationRad = asin(sin(deg2rad($eclipticObliquityDeg))*sin(deg2rad($eclipticLongitudeDeg)));
-			$hauteur = asin(sin(deg2rad($declinationDeg))*sin(deg2rad($latitude)) + cos(deg2rad($declinationDeg)) * cos(deg2rad($latitude)) * cos(deg2rad($hourAngleDeg)));
-       			$hauteur=$hauteur+heliotrope::correctForRefraction($hauteur);
-			return round(rad2deg($hauteur));
+			$declinationDeg=rad2deg($declinationRad);
+			$altitudeRad = asin(sin(deg2rad($declinationDeg))*sin(deg2rad($latitude)) + cos(deg2rad($declinationDeg)) * cos(deg2rad($latitude)) * cos(deg2rad($hourAngleDeg)));
+			$hauteur=rad2deg($altitudeRad);
+			$hauteur=$hauteur+heliotrope::correctForRefraction($hauteur);
+			return $hauteur;
 		}
 		return false;
 	}

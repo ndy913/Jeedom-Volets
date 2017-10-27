@@ -495,7 +495,8 @@ class Volets extends eqLogic {
 		$http = new com_http($url);
 		$result = $http->exec(30, 2);
 		$MaisonElevation=json_decode($result,true);
-		return $MaisonElevation['results'][0]['elevation'];
+		$MaisonElevation=$MaisonElevation['results'][0]['elevation'];
+		return rad2deg(atan2($MaisonElevation, 6371*1000));
 	}
 	public function checkAltitude() { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
@@ -506,8 +507,9 @@ class Volets extends eqLogic {
 			/*$Zenith=$heliotrope->getCmd(null,'zenith');
 			if(!is_object($Zenith))
 				return false;*/
+			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude de la maison est a '.$this->HomeElevation().'°');
 			$Hauteur=round($Altitude->execCmd()*100/90);
-			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au Zenith');
+			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'%');
 			return $Hauteur;
 		}
 		return false;

@@ -268,13 +268,14 @@ class Volets extends eqLogic {
 			if($Evenement != false){
 				$Evenement=$this->checkCondition($Evenement,$Saison,'Azimuth');
 				if( $Evenement!= false){
-					$this->checkAltitude();
-					if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Azimuth'){
+					$Hauteur=$this->checkAltitude();
+					if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Azimuth' || $this->getCmd(null,'hauteur')->execCmd() != $Hauteur){
+						$this->checkAndUpdateCmd('hauteur',$Hauteur);
 						log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Exécution des actions');
 						foreach($this->getConfiguration('action') as $Cmd){	
 							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Azimuth'))
 								continue;
-							$this->ExecuteAction($Cmd,'Azimuth');
+							$this->ExecuteAction($Cmd,'Azimuth',$Hauteur);
 							$this->setPosition($Evenement);
 						}
 						$this->checkAndUpdateCmd('gestion','Azimuth');
@@ -361,7 +362,7 @@ class Volets extends eqLogic {
 		$StateCmd->save();
 		return $Action;
 	}
-	public function ExecuteAction($cmd,$TypeGestion){
+	public function ExecuteAction($cmd,$TypeGestion,$Hauteur=0){
 		try {
 			$options = array();
 			if (isset($cmd['options'])) 
@@ -373,7 +374,7 @@ class Volets extends eqLogic {
 		$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
 		if(is_object($Commande)){
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$TypeGestion.'] : Exécution de '.$Commande->getHumanName());
-			$Commande->event($cmd['options']);
+			$Commande->event(str_replace('#Hauteur#',$Hauteur,$cmd['options']));
 		}
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {
@@ -478,28 +479,28 @@ class Volets extends eqLogic {
 		}
 		return floatval($angle % 360);
 	}
+	public function HomeElevation() { 
+		$Centre=$this->getConfiguration('Centre');
+		$url="https://maps.googleapis.com/maps/api/elevation/json?locations=".$Centre['lat'].",".$Centre['lng']."&key=AIzaSyANadE1gWZ4AmzdddG1fe6hyTDtE9wWJ-U";
+		$http = new com_http($url);
+		$result = $http->exec(30, 2);
+		$MaisonElevation=json_decode($result,true);
+		return $MaisonElevation['results'][0]['elevation'];
+	}
 	public function checkAltitude() { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
-			$Centre=$this->getConfiguration('Centre');
-			$url="https://maps.googleapis.com/maps/api/elevation/json?locations=".$Centre['lat'].",".$Centre['lng']."&key=AIzaSyANadE1gWZ4AmzdddG1fe6hyTDtE9wWJ-U";
-			$http = new com_http($url);
-			$result = $http->exec(30, 2);
-			$MaisonElevation=json_decode($result,true);
-			$MaisonElevation=$MaisonElevation['results'][0]['elevation'];
-			$altitude=$heliotrope->getCmd(null,'altitude');
-			if(!is_object($altitude))
+			$Altitude =$heliotrope->getCmd(null,'altitude');
+			if(!is_object($Altitude))
 				return false;
-			$SoleilElevation=$altitude->execCmd();
-			log::add('Volets','debug',$this->getHumanName().'[Gestion Altitude] : Soleil: '. $SoleilElevation .' Maison:'.$MaisonElevation);
-			//On verifie que le soleil est au dessus de la hauteur occultante
-			if($SoleilElevation < $MaisonElevation/* + $this->getConfiguration('Occultation')*/)
+			$Zenith=$heliotrope->getCmd(null,'zenith');
+			if(!is_object($Zenith))
 				return false;
-			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : Le soleil est au dessus de la maison');
-			//On calcule la hauteur du volet (a modifier par un angle de pénétration)
-			//$Hauteur = $SoleilElevation - $MaisonElevation;
-			//return $Hauteur;
+			$Hauteur=$Altitude->execCmd()*100/$Zenith->execCmd();
+			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au Zenith');
+			return $Hauteur;
 		}
+		return false;
 	}
 	public function StartDemon() {
 		if($this->getIsEnable()){
@@ -577,6 +578,7 @@ class Volets extends eqLogic {
 		}
 	}*/
 	public function postSave() {
+		$this->AddCommande("Hauteur du volet","hauteur","info", 'numeric',true);
 		$this->AddCommande("Gestion Active","gestion","info", 'string',true);
 		$state=$this->AddCommande("Position du soleil","state","info", 'binary',true,'sunInWindows');
 		$state->event(false);
@@ -629,15 +631,13 @@ class VoletsCmd extends cmd {
 		$Listener=cmd::byId(str_replace('#','',$this->getValue()));
 		if (is_object($Listener)) {	
 			switch($this->getLogicalId()){
-				case 'VoletState':
-					$this->getEqLogic()->checkAndUpdateCmd('position',$_options['select']);
-				break;
 				case 'armed':
 					$Listener->event(true);
 				break;
 				case 'released':
 					$Listener->event(false);
 				break;
+				case 'VoletState':
 				case 'inWindows':
 					$Listener->event($_options['select']);
 				break;

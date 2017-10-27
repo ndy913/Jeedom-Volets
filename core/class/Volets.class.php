@@ -510,7 +510,7 @@ class Volets extends eqLogic {
 			$Centre=$this->getConfiguration('Centre');
 			$latitude=deg2rad($Centre['lat']);
 			$longitude=deg2rad($Centre['lng']);	
-			$t=mktime(substr($Zenith->execCmd(),0,-2,substr($Zenith->execCmd(),-2));
+			$t=mktime(substr($Zenith->execCmd(),0,-2),substr($Zenith->execCmd(),-2));
 			$dSec = $t - 946728000;
 			$midnightUtc = $dSec - fmod($dSec,86400);
 			$siderialUtcHours = fmod((18.697374558 + 0.06570982441908*$midnightUtc/86400 + (1.00273790935*(fmod($dSec,86400))/3600)),24);

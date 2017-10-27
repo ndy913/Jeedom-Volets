@@ -509,9 +509,9 @@ class Volets extends eqLogic {
 				return false;
 			$Centre=$this->getConfiguration('Centre');
 			//Exemple, quelle est la hauteur du soleil à 10 h vrai le 1er juillet pour Mulhouse ?
-			$Ah = 180 * (round($Zenith/100) / 12 - 1);
-			$Dec = asin(0,398 * sin(0,985 * date('z') - 80));
-			$hauteur = asin(sin($Centre['lat']) * sin($Dec) + Cos($Centre['lat']) * cos($Dec) * cos($Ah));
+			$Ah = deg2rad(180 * (round($Zenith/100) / 12 - 1));
+			$Dec = asin(deg2rad(0,398 * sin(0,985 * date('z') - 80)));
+			$hauteur = asin(sin(deg2rad($Centre['lat'])) * sin($Dec) + Cos(deg2rad($Centre['lat'])) * cos($Dec) * cos($Ah));
 			return round(rad2deg($hauteur));
 		}
 		return false;

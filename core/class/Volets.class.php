@@ -506,7 +506,7 @@ class Volets extends eqLogic {
 			$Zenith=$heliotrope->getCmd(null,'zenith');
 			if(!is_object($Zenith))
 				return false;
-			$Hauteur=$Altitude->execCmd()*100/$Zenith->execCmd();
+			$Hauteur=round($Altitude->execCmd()*100/$Zenith->execCmd());
 			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au Zenith');
 			return $Hauteur;
 		}

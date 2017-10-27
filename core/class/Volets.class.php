@@ -489,18 +489,6 @@ class Volets extends eqLogic {
 		}
 		return floatval($angle % 360);
 	}
-	public function HomeElevation() { 
-		$Centre=$this->getConfiguration('Centre');
-		$url="https://maps.googleapis.com/maps/api/elevation/json?locations=".$Centre['lat'].",".$Centre['lng']."&key=AIzaSyANadE1gWZ4AmzdddG1fe6hyTDtE9wWJ-U";
-		$http = new com_http($url);
-		$result = $http->exec(30, 2);
-		$MaisonElevation=json_decode($result,true);
-		$MaisonElevation=$MaisonElevation['results'][0]['elevation'];
-		//Calcule de l'ange de l'atitude en fonction de l'elevation et du rayon de la terre
-		return round(rad2deg(atan2(6371*1000,$MaisonElevation)));
-		
-		//$this->setConfiguration('AltitudeMaison',$this->HomeElevation());
-	}
 	public function AltiudeZenith() { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
@@ -511,21 +499,10 @@ class Volets extends eqLogic {
 			$latitude=$Centre['lat'];
 			$longitude=$Centre['lng'];	
 			$t=mktime(substr($Zenith->execCmd(),0,-2),substr($Zenith->execCmd(),-2));
-			$dSec = $t - 946728000;
-			$midnightUtc = $dSec - fmod($dSec,86400);
-			$siderialUtcHours = fmod((18.697374558 + 0.06570982441908*$midnightUtc/86400 + (1.00273790935*(fmod($dSec,86400))/3600)),24);
-			$siderialLocalDeg = fmod((($siderialUtcHours * 15) + $longitude),360);
-			$hourAngleDeg = fmod(($siderialLocalDeg - $rightAscensionDeg),360);
-			$meanLongitudeDeg = fmod((280.461 + 0.9856474 * $dSec/86400),360);
-			$meanAnomalyDeg = fmod((357.528 + 0.9856003 * $dSec/86400),360);
-			$eclipticLongitudeDeg = $meanLongitudeDeg + 1.915 * sin(deg2rad($meanAnomalyDeg)) + 0.020 * sin(2*deg2rad($meanAnomalyDeg));
-			$eclipticObliquityDeg = 23.439 - 0.0000004 * $dSec/86400;
-       			$declinationRad = asin(sin(deg2rad($eclipticObliquityDeg))*sin(deg2rad($eclipticLongitudeDeg)));
-			$declinationDeg=rad2deg($declinationRad);
-			$altitudeRad = asin(sin(deg2rad($declinationDeg))*sin(deg2rad($latitude)) + cos(deg2rad($declinationDeg)) * cos(deg2rad($latitude)) * cos(deg2rad($hourAngleDeg)));
-			$hauteur=rad2deg($altitudeRad);
-			$hauteur=$hauteur+heliotrope::correctForRefraction($hauteur);
-			return $hauteur;
+			list($ra,$dec)=heliotrope::sunAbsolutePositionDeg($t);
+			list($az, $alt) = heliotrope::absoluteToRelativeDeg($t, $ra, $dec, $latitude, $longitude);
+			$alt=$alt+heliotrope::correctForRefraction($alt);
+			return round($alt,1);
 		}
 		return false;
 	}
@@ -535,20 +512,8 @@ class Volets extends eqLogic {
 			$Altitude =$heliotrope->getCmd(null,'altitude');
 			if(!is_object($Altitude))
 				return false;
-			/*$Zenith=$heliotrope->getCmd(null,'zenith');
-			if(!is_object($Zenith))
-				return false;*/
-			/*$AltitudeMaison=$this->getConfiguration('AltitudeMaison');
-			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude de la maison est a '.$AltitudeMaison.'°');
-			if($Altitude->execCmd() < $AltitudeMaison)
-				return 100;*/
-			
-			if (!$heliotrope->getConfiguration('zenith', '')) {
-			    $zenith = '90.58';
-			} else {
-			    $zenith = $heliotrope->getConfiguration('zenith', '');
-			}
-			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude du zenith est a '.$this->AltiudeZenith().'°');
+			$zenith =$this->AltiudeZenith();
+			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude du zenith est a '. $zenith.'°');
 			$Hauteur=round($Altitude->execCmd()*100/$zenith);
 			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');
 			return $Hauteur;

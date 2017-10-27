@@ -521,6 +521,7 @@ class Volets extends eqLogic {
      			$eclipticObliquityDeg = 23.439 - 0.0000004 * $dSec/86400;
        			$declinationRad = asin(sin(deg2rad($eclipticObliquityDeg))*sin(deg2rad($eclipticLongitudeDeg)));
 			$hauteur = asin(sin(deg2rad($declinationDeg))*sin(deg2rad($latitude)) + cos(deg2rad($declinationDeg)) * cos(deg2rad($latitude)) * cos(deg2rad($hourAngleDeg)));
+       			$hauteur=$hauteur+heliotrope::correctForRefraction($hauteur);
 			return round(rad2deg($hauteur));
 		}
 		return false;

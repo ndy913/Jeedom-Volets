@@ -508,10 +508,19 @@ class Volets extends eqLogic {
 			if(!is_object($Zenith))
 				return false;
 			$Centre=$this->getConfiguration('Centre');
-			//Exemple, quelle est la hauteur du soleil à 10 h vrai le 1er juillet pour Mulhouse ?
-			$Ah = deg2rad(180 * (round($Zenith/100) / 12 - 1));
-			$Dec = asin(deg2rad(0,398 * sin(0,985 * date('z') - 80)));
-			$hauteur = asin(sin(deg2rad($Centre['lat'])) * sin($Dec) + Cos(deg2rad($Centre['lat'])) * cos($Dec) * cos($Ah));
+			$latitude=deg2rad($Centre['lat']);
+			$longitude=deg2rad($Centre['lng']);	
+			$t=mktime(substr($Zenith->execCmd(),0,-2,substr($Zenith->execCmd(),-2));
+			$dSec = $t - 946728000;
+			$midnightUtc = $dSec - fmod($dSec,86400);
+			$siderialUtcHours = fmod((18.697374558 + 0.06570982441908*$midnightUtc/86400 + (1.00273790935*(fmod($dSec,86400))/3600)),24);
+			$siderialLocalDeg = fmod((($siderialUtcHours * 15) + $longitude),360);
+			$hourAngleDeg = fmod(($siderialLocalDeg - $rightAscensionDeg),360);
+			
+			$eclipticLongitudeDeg = $meanLongitudeDeg + 1.915 * sin(deg2rad($meanAnomalyDeg)) + 0.020 * sin(2*deg2rad($meanAnomalyDeg));
+     			$eclipticObliquityDeg = 23.439 - 0.0000004 * $dSec/86400;
+       			$declinationRad = asin(sin(deg2rad($eclipticObliquityDeg))*sin(deg2rad($eclipticLongitudeDeg)));
+			$hauteur = asin(sin(deg2rad($declinationDeg))*sin(deg2rad($latitude)) + cos(deg2rad($declinationDeg)) * cos(deg2rad($latitude)) * cos(deg2rad($hourAngleDeg)));
 			return round(rad2deg($hauteur));
 		}
 		return false;
@@ -529,9 +538,14 @@ class Volets extends eqLogic {
 			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude de la maison est a '.$AltitudeMaison.'°');
 			if($Altitude->execCmd() < $AltitudeMaison)
 				return 100;*/
-			$AltiudeZenith=$this->AltiudeZenith();			
-			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude du zenith est a '.$AltiudeZenith.'°');
-			$Hauteur=round($Altitude->execCmd()*100/$AltiudeZenith);
+			
+			if (!$heliotrope->getConfiguration('zenith', '')) {
+			    $zenith = '90.58';
+			} else {
+			    $zenith = $heliotrope->getConfiguration('zenith', '');
+			}
+			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude du zenith est a '.$this->AltiudeZenith().'°');
+			$Hauteur=round($Altitude->execCmd()*100/$zenith);
 			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');
 			return $Hauteur;
 		}

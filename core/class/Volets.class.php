@@ -135,14 +135,14 @@ class Volets extends eqLogic {
 						if($Evenement=Volets::ActionMeteo($_option) !== false)
 							return $Evenement;
 					}
-					if ($Volet->getConfiguration('Azimuth')){
+					/*if ($Volet->getConfiguration('Azimuth')){
 						$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
 						if(is_object($heliotrope)){
 							$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
 							if($Evenement=$Volet->ActionAzimute($Azimuth) !== false)
 								return $Evenement;
 						}
-					}
+					}*/
 					log::add('Volets','info',$Volet->getHumanName().'[Gestion Day] : Execution des actions');
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Day'))
@@ -206,14 +206,14 @@ class Volets extends eqLogic {
 							return $Evenement;
 						}
 					}
-					if ($Volet->getConfiguration('Azimuth')){
+					/*if ($Volet->getConfiguration('Azimuth')){
 						$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
 						if(is_object($heliotrope)){
 							$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
 							if($Evenement=$Volet->ActionAzimute($Azimuth) !== false)
 								return $Evenement;
 						}
-					}
+					}*/
 				}
 			} 
 			if($Evenement!= false){
@@ -258,14 +258,14 @@ class Volets extends eqLogic {
 							if($Evenement=Volets::ActionMeteo($_option) !== false)
 								return $Evenement;
 						}
-						if ($this->getConfiguration('Azimuth')){
+						/*if ($this->getConfiguration('Azimuth')){
 							$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 							if(is_object($heliotrope)){
 								$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
 								if($Evenement=$this->ActionAzimute($Azimuth) !== false)
 									return $Evenement;
 							}
-						}
+						}*/
 					}
 				}
 			}
@@ -279,7 +279,7 @@ class Volets extends eqLogic {
 				$Evenement=$this->checkCondition($Evenement,$Saison,'Azimuth');
 				if( $Evenement!= false){
 					$Hauteur=$this->checkAltitude();
-					if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Azimuth' || $this->getCmd(null,'hauteur')->execCmd() != $Hauteur){
+					if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Azimuth' /*|| $this->getCmd(null,'hauteur')->execCmd() != $Hauteur*/){
 						$this->checkAndUpdateCmd('hauteur',$Hauteur);
 						log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Exécution des actions');
 						foreach($this->getConfiguration('action') as $Cmd){	

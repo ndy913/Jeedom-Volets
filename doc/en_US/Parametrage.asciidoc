@@ -1,30 +1,30 @@
-As with all plugins, we'll start by creating a zone group with the add button.
+Comme pour tous les plugins, nous allons commencer par créer un groupe de zone avec le bouton `Ajouter`.
 After naming this group , we can begin to put in place our areas.
 
 ==== General configuration
 
 image::../images/ConfigurationGeneral.jpg[]
-* Nom : le nom a déjà été paramétré mais vous avez la possibilité de le changer
-* Objet parent : ce paramètre permet d'ajouter l'équipement dans un objet Jeedom
-* Catégorie : déclare l'équipement dans une catégorie
-* Activer : permet d'activer l'équipement
-* Visible : permet de rendre l'équipement visible dans le Dashboard
-* Héliotrope : choisir l'équipement Héliotrope à prendre en compte pour ce groupe de zone
-* Jour / Nuit : activation de la gestion en jour / nuit
-* Position du soleil : activation de la gestion en fonction de la position du soleil (dépend de l'équipement Héliotrope)
-* Présence : activation de la gestion en fonction de la présence
-* Météo : active la gestion météo. 
+* `Nom` : le nom a déjà été paramétré mais vous avez la possibilité de le changer
+* `Objet parent` : ce paramètre permet d'ajouter l'équipement dans un objet Jeedom
+* `Catégorie` : déclare l'équipement dans une catégorie
+* `Activer` : permet d'activer l'équipement
+* `Visible` : permet de rendre l'équipement visible dans le Dashboard
+* `Héliotrope` : choisir l'équipement Héliotrope à prendre en compte pour ce groupe de zone
+* `Jour / Nuit` : activation de la gestion en jour / nuit
+* `Position du soleil` : activation de la gestion en fonction de la position du soleil (dépend de l'équipement Héliotrope)
+* `Présence` : activation de la gestion en fonction de la présence
+* `Météo` : active la gestion météo. 
 
 ==== Gestion du lever et coucher du soleil
 
-Cette gestion permet d'ouvrir ou de fermer le volets en fonction du lever et du coucher du soleil
-Il faut l'activer la gestion pour faire apparaitre les champs de configuration spécifique
+Cette gestion permet d'ouvrir ou de fermer le volets en fonction du lever et du coucher du soleil.
+Il faut activer la gestion pour faire apparaitre les champs de configuration spécifique.
 
-* Type de lever du soleil : Permet de choisir quel type d'horaire vous voulez pour le lever du jour
-* Délai au lever du jour (min) : délai avant (-) ou après (+) l'heure du lever du jour
-* Type de coucher du soleil : Permet de choisir quel type d'horaire vous voulez pour la tombée de la nuit
-* Délai à la tombée de la nuit (min) : délai avant (-) ou après (+) l'heure de la tombée de la nuit
-* Délais de réévaluation (min) : délai d'attente avant réévaluation si les conditions ne sont pas respectées
+* `Type de lever du soleil` : permet de choisir quel type d'horaire vous voulez pour le lever du jour
+* `Délai au lever du jour (min)` : délai avant (-) ou après (+) l'heure du lever du jour
+* `Type de coucher du soleil` : permet de choisir quel type d'horaire vous voulez pour la tombée de la nuit
+* `Délai à la tombée de la nuit (min)` : délai avant (-) ou après (+) l'heure de la tombée de la nuit
+* `Délais de réévaluation (min)` : délai d'attente avant réévaluation si les conditions ne sont pas respectées
 
 Pour compléter cette gestion, il est possible d'ajouter des conditions.
 Par exemple, dans les chambres, je ne veux pas que les volets s'ouvrent avant 8h.
@@ -34,23 +34,23 @@ image::../images/ConditionTime.jpg[]
 
 ==== Gestion de présence
 
-La gestion de présence permet de fermer les volets lorsque nous ne somme pas là.
-Il faut l'activer la gestion pour faire apparaitre les champs de configuration spécifique
+La gestion de présence permet de fermer les volets lorsque nous ne sommes pas là.
+Il faut activer la gestion pour faire apparaitre les champs de configuration spécifique.
 
-* Gestion de la présence: objet Jeedom indiquant s'il y a quelqu'un dans la maison
+* Gestion de la présence : objet Jeedom indiquant s'il y a quelqu'un dans la maison.
 
-Lorsque la gestion de presence détecte une absence, toutes les autres gestions hormis la gestion de la nuit sont inactives
+Lorsque la gestion de presence détecte une absence, toutes les autres gestions hormis la gestion de la nuit sont inactives.
 
 ==== Gestion Météo
-La gestion météo verifie toutes les minutes les contidions enregistrées.
-Si toutes les conditions que vous avez complétées sont valides, alors l'ordre de fermeture sera donnée et  toutes les autres gestions hormis la gestion de la nuit sont inactives
+La gestion météo verifie toutes les minutes les conditions enregistrées.
+Si toutes les conditions que vous avez complétées sont valides, alors l'ordre de fermeture sera donné et toutes les autres gestions hormis la gestion de la nuit sont inactives.
 
 ==== Gestion par Azimuth
 
-Ce mode de fonctionement permet de fermer les volets lorsque le soleil est entre les angles d'exposition au soleil de la fenêtre
+Ce mode de fonctionement permet de fermer les volets lorsque le soleil est entre les angles d'exposition au soleil de la fenêtre.
 Pour compléter cette gestion, il est possible d'ajouter des conditions.
-Par exemple, je veux que les volets ne se ferment que si j'ai une température ambiante en été supérieure à 23
-J'ajouterai donc une condition de ce type
+Par exemple, je veux que les volets ne se ferment que si j'ai une température ambiante en été supérieure à 23.
+J'ajouterai donc une condition de ce type.
 
 image::../images/ConditionTemps.jpg[]
 
@@ -60,7 +60,7 @@ Cette étape est importante pour le fonctionnement de la gestion en fonction de 
 
 image::../images/ConfigurationMap.jpg[]
 Sur votre fenêtre doit apparaitre 3 curseurs. 
-Ces 3 curseurs vont donc former notre angle. 
+Ces 3 curseurs vont donc former notre angle.
 Le point central doit être obligatoirement placé au dessus de notre fenêtre. 
 Les 2 autres vont former l'angle et peuvent être placés n'importe où à l'extérieur de la maison. 
 Attention toutefois à bien respecter la droite et la gauche de votre fenêtre vue de l'extérieur (indiqué sur les points de la carte).
@@ -75,12 +75,12 @@ Pour vous aider à la configuration des conditions, un éditeur est ajouté.
 image::../images/ConfigurationConditionEditeur.jpg[]
 image::../images/ConfigurationConditionEditeur2.jpg[]
 
-Paramètres complémentaires:
+Paramètres complémentaires :
 
-* Inverser l'état si faux : permet de relancer une évaluation des conditions avec l'action inverse
-* Type de gestion: sélectionner toutes les gestions où la condition doit être vérifiée (avec la touche Ctrl)
-* Mode: sélectionner tous les modes où la condition doit être vérifiée (avec la touche Ctrl)
-* Action: sélectionner toutes les actions où la condition doit être vérifiée (avec la touche Ctrl)
+* `Inverser l'état si faux` : permet de relancer une évaluation des conditions avec l'action inverse
+* `Type de gestion` : sélectionner toutes les gestions où la condition doit être vérifiée (avec la touche `Ctrl`)
+* `Mode` : sélectionner tous les modes où la condition doit être vérifiée (avec la touche `Ctrl`)
+* `Action` : sélectionner toutes les actions où la condition doit être vérifiée (avec la touche `Ctrl`)
 
 Pour que chaque condition soit validée et les actions éxécutées, ces paramètres doivent être validés.
 
@@ -91,6 +91,6 @@ Choisissez les actions à mener sans oublier de configurer leurs valeurs.
 
 Paramètres complémentaires:
 
-* Type de gestion: sélectionner toutes les gestions où l'action doit être exécutée (avec la touche Ctrl)
-* Mode: sélectionner tous les modes où l'action doit être exécutée (avec la touche Ctrl)
-* Action: Sélectionner toutes les actions où l'action doit être exécutée (avec la touche Ctrl)
+* `Type de gestion` : sélectionner toutes les gestions où l'action doit être exécutée (avec la touche `Ctrl`)
+* `Mode` : sélectionner tous les modes où l'action doit être exécutée (avec la touche `Ctrl`)
+* `Action` : Sélectionner toutes les actions où l'action doit être exécutée (avec la touche `Ctrl`)

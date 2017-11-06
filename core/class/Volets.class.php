@@ -278,7 +278,10 @@ class Volets extends eqLogic {
 			if($Evenement != false){
 				$Evenement=$this->checkCondition($Evenement,$Saison,'Azimuth');
 				if( $Evenement!= false){
-					$Hauteur=$this->checkAltitude();
+					if($Evenement == 'open')
+						$Hauteur=100;
+					else		
+						$Hauteur=$this->checkAltitude();
 					$this->checkAndUpdateCmd('hauteur',$Hauteur);
 					foreach($this->getConfiguration('action') as $Cmd){	
 						if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Azimuth'))

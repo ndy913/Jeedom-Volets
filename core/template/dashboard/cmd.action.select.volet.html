@@ -6,9 +6,9 @@
     <script>
         $('.iconCmd#id#').empty();
         if ('#state#' == 'open') 
-            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/Open.png').attr('data-value','open');
+            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/Open.png').attr('data-value','close');
         else
-            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/Close.png').attr('data-value','close');
+            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/Close.png').attr('data-value','open');
         $('.cmd[data-cmd_id=#id#] .action').off();
         $('.cmd[data-cmd_id=#id#] .action').on('click', function () {
           	jeedom.cmd.execute({id: '#id#', value: {select:$(this).attr('data-value')}});

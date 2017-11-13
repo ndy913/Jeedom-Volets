@@ -314,6 +314,9 @@ function addCondition(_condition,_el) {
 
         _el.append(tr);
         _el.find('tr:last').setValues(_condition, '.expressionAttr');
+	$('.conditionAttr[data-action=remove]').off().on('click',function(){
+		$(this).closest('tr').remove();
+	});
   
 }
 function addAction(_action,  _el) {
@@ -335,24 +338,23 @@ function addAction(_action,  _el) {
 	tr.append(addParameters());
         _el.append(tr);
         _el.find('tr:last').setValues(_action, '.expressionAttr');
-  
+	$('.ActionAttr[data-action=remove]').off().on('click',function () {
+		$(this).closest('.ActionGroup').remove();
+	});
+	$('.expressionAttr[data-l1key=cmd]').off().on('focusout', function (event) {
+	    var expression = $(this).closest('.ActionGroup').getValues('.expressionAttr');
+	    var el = $(this);
+	    jeedom.cmd.displayActionOption($(this).value(), init(expression[0].options), function (html) {
+		el.closest('.ActionGroup').find('.actionOptions').html(html);
+	    })
+	});
 }
 $('#tab_zones a').click(function(e) {
     e.preventDefault();
     $(this).tab('show');
 });
-$('body').on('focusout','.expressionAttr[data-l1key=cmd]', function (event) {
-    var expression = $(this).closest('.ActionGroup').getValues('.expressionAttr');
-    var el = $(this);
-    jeedom.cmd.displayActionOption($(this).value(), init(expression[0].options), function (html) {
-        el.closest('.ActionGroup').find('.actionOptions').html(html);
-    })
-});
 $('.conditionAttr[data-action=add]').off().on('click',function(){
 	addCondition({},$(this).closest('.tab-pane').find('table'));
-	$('.conditionAttr[data-action=remove]').off().on('click',function(){
-		$(this).closest('tr').remove();
-	});
 });
 $('body').on('click','.listCmdCondition',function(){
 	var el = $(this).closest('tr').find('.expressionAttr[data-l1key=expression]');	
@@ -486,9 +488,6 @@ $('body').on('click','.listCmdCondition',function(){
 });
 $('.ActionAttr[data-action=add]').off().on('click',function(){
 	addAction({},$(this).closest('.tab-pane').find('table'));
-	$('.ActionAttr[data-action=remove]').off().on('click',function () {
-		$(this).closest('.ActionGroup').remove();
-	});
 });
 $("body").on('click', ".listAction", function() {
 	var el = $(this).closest('.input-group').find('input');

@@ -272,33 +272,31 @@ class Volets extends eqLogic {
 		}
 	}
 	public function ActionAzimute($Azimuth) {
-		if ($this->AutorisationAction('Azimuth')){
-			$Saison=$this->getSaison();
-			$Evenement=$this->SelectAction($Azimuth,$Saison);
-			if($Evenement != false){
-				$Evenement=$this->checkCondition($Evenement,$Saison,'Azimuth');
-				if( $Evenement!= false){
-					if($Evenement == 'open')
-						$Hauteur=100;
-					else		
-						$Hauteur=$this->checkAltitude();
-					$this->checkAndUpdateCmd('hauteur',$Hauteur);
-					foreach($this->getConfiguration('action') as $Cmd){	
-						if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Azimuth'))
-							continue;
-						if($this->getPosition() != $Evenement 
-						   || $this->getCmd(null,'gestion')->execCmd() != 'Azimuth' 
-						   || ($this->getCmd(null,'hauteur')->execCmd() != $Hauteur && array_search('#Hauteur#', $cmd['options'])!== false)){
-							$this->ExecuteAction($Cmd,'Azimuth',$Hauteur);
-							$this->setPosition($Evenement);
-						}else
-							log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
-					}
-					$this->checkAndUpdateCmd('gestion','Azimuth');
+		$Saison=$this->getSaison();
+		$Evenement=$this->SelectAction($Azimuth,$Saison);
+		if ($this->AutorisationAction('Azimuth') && $Evenement != false){
+			$Evenement=$this->checkCondition($Evenement,$Saison,'Azimuth');
+			if( $Evenement!= false){
+				if($Evenement == 'open')
+					$Hauteur=100;
+				else		
+					$Hauteur=$this->checkAltitude();
+				$this->checkAndUpdateCmd('hauteur',$Hauteur);
+				foreach($this->getConfiguration('action') as $Cmd){	
+					if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Azimuth'))
+						continue;
+					if($this->getPosition() != $Evenement 
+					   || $this->getCmd(null,'gestion')->execCmd() != 'Azimuth' 
+					   || ($this->getCmd(null,'hauteur')->execCmd() != $Hauteur && array_search('#Hauteur#', $cmd['options'])!== false)){
+						$this->ExecuteAction($Cmd,'Azimuth',$Hauteur);
+						$this->setPosition($Evenement);
+					}else
+						log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
 				}
+				$this->checkAndUpdateCmd('gestion','Azimuth');
 			}
-			return $Evenement;
 		}
+		return $Evenement;
 	}	
 	public function CheckAngle($Azimuth) {
 		$Droite=$this->getConfiguration('Droite');
@@ -354,26 +352,21 @@ class Volets extends eqLogic {
 	}	
 	public function SelectAction($Azimuth,$saison) {
 		$Action=false;
-		$StateCmd=$this->getCmd(null,'state');
-		if(!is_object($StateCmd))
-			return false;
 		if($this->CheckAngle($Azimuth)){
-			$StateCmd->event(true);
+			$this->checkAndUpdateCmd('state',true);
 			log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Le soleil est dans la fenêtre');
 			if($saison =='hiver')
 				$Action='open';
 			else
 				$Action='close';
 		}else{
-			$StateCmd->event(false);
+			$this->checkAndUpdateCmd('state',false);
 			log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Le soleil n\'est pas dans la fenêtre');
 			if($saison == 'été')
 				$Action='open';
 			else
 				$Action='close';
 		}
-		$StateCmd->setCollectDate(date('Y-m-d H:i:s'));
-		$StateCmd->save();
 		return $Action;
 	}
 	public function ExecuteAction($cmd,$TypeGestion,$Hauteur=0){
@@ -609,18 +602,14 @@ class Volets extends eqLogic {
 		$this->AddCommande("Hauteur du volet","hauteur","info", 'numeric',true);
 		$this->AddCommande("Gestion Active","gestion","info", 'string',true);
 		$state=$this->AddCommande("Position du soleil","state","info", 'binary',true,'sunInWindows');
-		$state->event(false);
-		$state->setCollectDate(date('Y-m-d H:i:s'));
-		$state->save();
+		$this->checkAndUpdateCmd('state',false);
 		$isInWindows=$this->AddCommande("Etat mode","isInWindows","info","binary",false,'isInWindows');
 		$inWindows=$this->AddCommande("Mode","inWindows","action","select",true,'inWindows');
 		$inWindows->setConfiguration('listValue','1|Hivers;0|Eté');
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
 		$isArmed=$this->AddCommande("Etat activation","isArmed","info","binary",false,'lock');
-		$isArmed->event(true);
-		$isArmed->setCollectDate(date('Y-m-d H:i:s'));
-		$isArmed->save();
+		$this->checkAndUpdateCmd('isArmed',false);
 		$Armed=$this->AddCommande("Activer","armed","action","other",true,'lock');
 		$Armed->setValue($isArmed->getId());
 		$Armed->setConfiguration('state', '1');

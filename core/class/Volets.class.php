@@ -488,30 +488,12 @@ class Volets extends eqLogic {
 		}
 		return floatval($angle % 360);
 	}
-	public function AltiudeZenith() { 
-		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
-		if(is_object($heliotrope)){
-			$Zenith=$heliotrope->getCmd(null,'zenith');
-			if(!is_object($Zenith))
-				return false;
-			$Centre=$this->getConfiguration('Centre');
-			$latitude=$Centre['lat'];
-			$longitude=$Centre['lng'];	
-			$t=mktime(substr($Zenith->execCmd(),0,-2),substr($Zenith->execCmd(),-2));
-			list($ra,$dec)=heliotrope::sunAbsolutePositionDeg($t);
-			list($az, $alt) = heliotrope::absoluteToRelativeDeg($t, $ra, $dec, $latitude, $longitude);
-			$alt=$alt+heliotrope::correctForRefraction($alt);
-			return round($alt,1);
-		}
-		return false;
-	}
 	public function checkAltitude() { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){
 			$Altitude =$heliotrope->getCmd(null,'altitude');
 			if(!is_object($Altitude))
 				return false;
-			//$zenith =$this->AltiudeZenith();
 			if (!$heliotrope->getConfiguration('zenith', '')) {
 			    $zenith = '90.58';
 			} else {

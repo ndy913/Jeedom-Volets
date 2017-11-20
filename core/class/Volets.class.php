@@ -531,16 +531,42 @@ class Volets extends eqLogic {
 						return false;
 					$listener->addEvent($sunrise->getId());
 					$listener->addEvent($sunset->getId());
-					$timstamp=$this->CalculHeureEvent($sunrise->execCmd(),'DelaisDay');
-					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+					$DelaisDay=$this->CalculHeureEvent($sunrise->execCmd(),'DelaisDay');
+					if(mktime() > $DelaisDay)
+						$this->checkAndUpdateCmd('gestion','Day');
+					$Schedule=date("i",$timstamp) . ' ' . date("H",$DelaisDay) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
-					$timstamp=$this->CalculHeureEvent($sunset->execCmd(),'DelaisNight');
+					$DelaisNight=$this->CalculHeureEvent($sunset->execCmd(),'$DelaisNight');
+					if(mktime() > $DelaisNight)
+						$this->checkAndUpdateCmd('gestion','Night');
 					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($this->getId())));
 				}
 				if ($this->getConfiguration('Meteo'))
 					$cron = $this->CreateCron('* * * * * *', 'ActionMeteo', array('Volets_id' => intval($this->getId())));
 				$listener->save();	
+				if ($this->getConfiguration('Present')){	
+					log::add('Volets', 'info', $this->getHumanName().'[Gestion Day] : Vérification de la présence');
+					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));
+					if(is_object($Commande) && $Commande->execCmd() == false){
+						log::add('Volets', 'info', $this->getHumanName().'[Gestion Day] : Il n\'y a personne nous exécutons la gestion de présence');
+						if($Evenement=$this->ActionPresent() !== false)
+						return $Evenement;
+					}
+				}
+				if ($this->getConfiguration('Meteo')){
+					$_option['Volets_id']=$this->getId();
+					if($Evenement=Volets::ActionMeteo($_option) !== false)
+						return $Evenement;
+				}
+				if ($this->getConfiguration('Azimuth')){
+					$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
+					if(is_object($heliotrope)){
+						$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
+						if($Evenement=$this->ActionAzimute($Azimuth) !== false)
+							return $Evenement;
+					}
+				}
 			}
 		}
 	}
@@ -591,7 +617,7 @@ class Volets extends eqLogic {
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
 		$isArmed=$this->AddCommande("Etat activation","isArmed","info","binary",false,'lock');
-		$this->checkAndUpdateCmd('isArmed',false);
+		$this->checkAndUpdateCmd('isArmed',true);
 		$Armed=$this->AddCommande("Activer","armed","action","other",true,'lock');
 		$Armed->setValue($isArmed->getId());
 		$Armed->setConfiguration('state', '1');
@@ -632,6 +658,31 @@ class VoletsCmd extends cmd {
 			switch($this->getLogicalId()){
 				case 'armed':
 					$Listener->event(true);
+					$this->getEqLogic()->StartDemon();
+					$timstamp=$this->CalculHeureEvent($sunrise->execCmd(),'DelaisDay');
+					$timstamp=$this->CalculHeureEvent($sunset->execCmd(),'DelaisNight');
+					if ($this->getEqLogic()->getConfiguration('Present')){	
+						log::add('Volets', 'info', $this->getEqLogic()->getHumanName().'[Gestion Day] : Vérification de la présence');
+						$Commande=cmd::byId(str_replace('#','',$this->getEqLogic()->getConfiguration('cmdPresent')));
+						if(is_object($Commande) && $Commande->execCmd() == false){
+							log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Il n\'y a personne nous exécutons la gestion de présence');
+							if($Evenement=$this->getEqLogic()->ActionPresent() !== false)
+							return $Evenement;
+						}
+					}
+					if ($this->getEqLogic()->getConfiguration('Meteo')){
+						$_option['Volets_id']=$this->getEqLogic()->getId();
+						if($Evenement=Volets::ActionMeteo($_option) !== false)
+							return $Evenement;
+					}
+					if ($this->getEqLogic()->getConfiguration('Azimuth')){
+						$heliotrope=eqlogic::byId($this->getEqLogic()->getConfiguration('heliotrope'));
+						if(is_object($heliotrope)){
+							$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
+							if($Evenement=$this->getEqLogic()->ActionAzimute($Azimuth) !== false)
+								return $Evenement;
+						}
+					}
 				break;
 				case 'released':
 					$Listener->event(false);

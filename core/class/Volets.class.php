@@ -534,12 +534,12 @@ class Volets extends eqLogic {
 					$DelaisDay=$this->CalculHeureEvent($sunrise->execCmd(),'DelaisDay');
 					if(mktime() > $DelaisDay)
 						$this->checkAndUpdateCmd('gestion','Day');
-					$Schedule=date("i",$timstamp) . ' ' . date("H",$DelaisDay) . ' * * * *';
+					$Schedule=date("i",$DelaisDay) . ' ' . date("H",$DelaisDay) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
-					$DelaisNight=$this->CalculHeureEvent($sunset->execCmd(),'$DelaisNight');
+					$DelaisNight=$this->CalculHeureEvent($sunset->execCmd(),'DelaisNight');
 					if(mktime() > $DelaisNight)
 						$this->checkAndUpdateCmd('gestion','Night');
-					$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
+					$Schedule=date("i",$DelaisNight) . ' ' . date("H",$DelaisNight) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($this->getId())));
 				}
 				if ($this->getConfiguration('Meteo'))

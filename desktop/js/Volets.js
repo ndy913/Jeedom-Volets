@@ -526,7 +526,7 @@ function addCmdToTable(_cmd) {
 	parmetre.append($('<div>')
 		.append($('<span>')
 			.append($('<label class="checkbox-inline">')
-				.append($('<input type="checkbox" class="cmdAttr checkbox-inline" data-size="mini" data-label-text="{{Historiser}}" data-l1key="isHistorized" checked/>'))
+				.append($('<input type="checkbox" class="cmdAttr checkbox-inline" data-size="mini" data-label-text="{{Historiser}}" data-l1key="isHistorized"/>'))
 				.append('{{Historiser}}')
 				.append($('<sup>')
 					.append($('<i class="fa fa-question-circle tooltips" style="font-size : 1em;color:grey;">')

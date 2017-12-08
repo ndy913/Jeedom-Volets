@@ -228,7 +228,7 @@ class Volets extends eqLogic {
 		}
 	}
   	public function ActionPresent($Etat=false,$force=false) {
-		if ($this->AutorisationAction('Present') || $force)){
+		if ($this->AutorisationAction('Present') || $force){
 			$Saison=$this->getSaison();
 			if($Etat)
 				$Evenement='open';

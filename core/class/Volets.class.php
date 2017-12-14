@@ -131,10 +131,17 @@ class Volets extends eqLogic {
 					}
 					if ($Volet->getConfiguration('Meteo')){
 						log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Day] : Exécution de la gestion météo');
-						if($Volet->checkCondition('close',$Saison,'Meteo')!= false){
-							log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Day] : Pas d\'ouverture à cause de la [Gestion météo]');
-							$Volet->checkAndUpdateCmd('gestion','Meteo');
+						$_option['Volets_id']=$Volet->getId();
+						if(self::ActionMeteo($_option,true) !== false)
 							return;
+					}
+					if ($Volet->getConfiguration('Azimuth')){
+						log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Day] : Exécution de la gestion par Azimuth');
+						$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
+						if(is_object($heliotrope)){
+							$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
+							if($Volet->ActionAzimute($Azimuth,true) !== false)
+								return;
 						}
 					}
 					$Volet->checkAndUpdateCmd('gestion','Day');
@@ -179,21 +186,30 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public static function ActionMeteo($_option) {
+	public static function ActionMeteo($_option, $force=false) {
 		$Volet = Volets::byId($_option['Volets_id']);
-		if (is_object($Volet) && $Volet->AutorisationAction('Meteo')){
+		if (is_object($Volet) && ($Volet->AutorisationAction('Meteo') || $force)){
 			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Meteo] : Exécution de la gestion météo');
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');   		
 			if($Evenement== false && $Volet->getCmd(null,'gestion')->execCmd()=='Meteo'){
 				$Volet->checkAndUpdateCmd('gestion','Day');
 				if ($Volet->getConfiguration('Present')){	
-					log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Vérification de la présence');
+					log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Meteo] : Vérification de la présence');
 					$Commande=cmd::byId(str_replace('#','',$Volet->getConfiguration('cmdPresent')));
 					if(is_object($Commande) && $Commande->execCmd() == false){
-						log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Il n\'y a personne nous exécutons la gestion de présence');
-						if($Evenement=$Volet->ActionPresent() !== false)
+						log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Meteo] : Il n\'y a personne nous exécutons la gestion de présence');
+						if($Evenement=$Volet->ActionPresent(false,true) !== false)
 						return $Evenement;
+					}
+				}
+				if ($Volet->getConfiguration('Azimuth')){
+					log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Meteo] : Exécution de la gestion par Azimuth');
+					$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
+					if(is_object($heliotrope)){
+						$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
+						if($Volet->ActionAzimute($Azimuth,true) !== false)
+							return;
 					}
 				}
 			} 
@@ -213,7 +229,7 @@ class Volets extends eqLogic {
 			return $Evenement;
 		}
 	}
-  	public function ActionPresent($Etat=false,$force=false) {
+  	public function ActionPresent($Etat,$force=false) {
 		if ($this->AutorisationAction('Present') || $force){
 			$Saison=$this->getSaison();
 			if($Etat)
@@ -233,21 +249,29 @@ class Volets extends eqLogic {
 						}
 						$this->checkAndUpdateCmd('gestion','Present');
 					}else{
-						$this->checkAndUpdateCmd('gestion','Day');
+						if ($Volet->getConfiguration('Azimuth')){
+							log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Meteo] : Exécution de la gestion par Azimuth');
+							$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
+							if(is_object($heliotrope)){
+								$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
+								if($Volet->ActionAzimute($Azimuth,true) !== false)
+									return;
+							}
+						}
 						if ($this->getConfiguration('Meteo')){
 							$_option['Volets_id']=$this->getId();
-							if($Evenement=Volets::ActionMeteo($_option) !== false)
-								return $Evenement;
+							if(self::ActionMeteo($_option,true) !== false)
+								return;
 						}
 					}
 				}
 			}
 		}
 	}
-	public function ActionAzimute($Azimuth) {
+	public function ActionAzimute($Azimuth, $force=false) {
 		$Saison=$this->getSaison();
 		$Evenement=$this->SelectAction($Azimuth,$Saison);
-		if ($this->AutorisationAction('Azimuth') && $Evenement != false){
+		if (($force || $this->AutorisationAction('Azimuth')) && $Evenement != false){
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Azimuth');
 			if( $Evenement!= false){
 				if($Evenement == 'open')
@@ -523,21 +547,21 @@ class Volets extends eqLogic {
 					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));
 					if(is_object($Commande) && $Commande->execCmd() == false){
 						log::add('Volets', 'info', $this->getHumanName().'[Gestion Day] : Il n\'y a personne nous exécutons la gestion de présence');
-						if($Evenement=$this->ActionPresent() !== false)
-						return $Evenement;
+						if($this->ActionPresent(false,true) !== false)
+						return;
 					}
 				}
 				if ($this->getConfiguration('Meteo')){
 					$_option['Volets_id']=$this->getId();
-					if($Evenement=Volets::ActionMeteo($_option) !== false)
-						return $Evenement;
+					if(self::ActionMeteo($_option,true) !== false)
+						return;
 				}
 				if ($this->getConfiguration('Azimuth')){
 					$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 					if(is_object($heliotrope)){
 						$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
-						if($Evenement=$this->ActionAzimute($Azimuth) !== false)
-							return $Evenement;
+						if($this->ActionAzimute($Azimuth,true) !== false)
+							return;
 					}
 				}
 			}

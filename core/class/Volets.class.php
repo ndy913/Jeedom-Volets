@@ -125,14 +125,13 @@ class Volets extends eqLogic {
 						$Commande=cmd::byId(str_replace('#','',$Volet->getConfiguration('cmdPresent')));
 						if(is_object($Commande) && $Commande->execCmd() == false){
 							log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Il n\'y a personne nous exécutons la gestion de présence');
-							if($Evenement=$Volet->ActionPresent(false,true) !== false)
-							return;
+							if($Volet->ActionPresent(false,true) !== false)
+								return;
 						}
 					}
 					if ($Volet->getConfiguration('Meteo')){
 						log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Day] : Exécution de la gestion météo');
-						$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');
-						if($Evenement!= false){
+						if($Volet->checkCondition('close',$Saison,'Meteo')!= false){
 							log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Day] : Pas d\'ouverture à cause de la [Gestion météo]');
 							$Volet->checkAndUpdateCmd('gestion','Meteo');
 							return;

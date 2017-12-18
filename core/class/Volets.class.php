@@ -272,7 +272,7 @@ class Volets extends eqLogic {
 	public function ActionAzimute($Azimuth) {
 		$Saison=$this->getSaison();
 		$Evenement=$this->SelectAction($Azimuth,$Saison);
-		if (($this->AutorisationAction('Azimuth') && $Evenement != false){
+		if ($this->AutorisationAction('Azimuth') && $Evenement != false){
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Azimuth');
 			if( $Evenement!= false){
 				if($Evenement == 'open')

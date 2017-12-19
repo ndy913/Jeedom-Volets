@@ -250,18 +250,17 @@ class Volets extends eqLogic {
 			if( $Evenement!= false){
 				if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Present'){
 					log::add('Volets','info',$this->getHumanName().'[Gestion Presence] : Exécution des actions');
-					if($Evenement == 'close'){
-						foreach($this->getConfiguration('action') as $Cmd){	
-							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
-								continue;
-							$this->ExecuteAction($Cmd,'Presence');
-							$this->setPosition($Evenement);
-						}
-						$this->checkAndUpdateCmd('gestion','Present');
-					}else{
-						if(!$this->CheckOtherGestion('Meteo'))
-							return;						
+					if($Evenement == 'open')	
 						$this->checkAndUpdateCmd('gestion','Day');
+						if(!$this->CheckOtherGestion('Present'))
+							return;				
+					}
+					$this->checkAndUpdateCmd('gestion','Present');
+					foreach($this->getConfiguration('action') as $Cmd){	
+						if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
+							continue;
+						$this->ExecuteAction($Cmd,'Presence');
+						$this->setPosition($Evenement);
 					}
 				}
 			}
@@ -278,6 +277,7 @@ class Volets extends eqLogic {
 				else		
 					$Hauteur=$this->checkAltitude();
 				$this->checkAndUpdateCmd('hauteur',$Hauteur);
+				$this->checkAndUpdateCmd('gestion','Azimuth');
 				foreach($this->getConfiguration('action') as $Cmd){	
 					if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Azimuth'))
 						continue;
@@ -289,7 +289,6 @@ class Volets extends eqLogic {
 					}else
 						log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
 				}
-				$this->checkAndUpdateCmd('gestion','Azimuth');
 			}
 		}
 		return $Evenement;

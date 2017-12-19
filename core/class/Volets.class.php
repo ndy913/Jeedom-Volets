@@ -259,7 +259,7 @@ class Volets extends eqLogic {
 						}
 						$this->checkAndUpdateCmd('gestion','Present');
 					}else{
-						if(!$Volet->CheckOtherGestion('Meteo'))
+						if(!$this->CheckOtherGestion('Meteo'))
 							return;						
 						$this->checkAndUpdateCmd('gestion','Day');
 					}

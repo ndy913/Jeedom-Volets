@@ -111,9 +111,9 @@ class Volets extends eqLogic {
 		}
 		return false;
 	}
-	public function CheckOtherGestion($Evenement) {   
+	public function CheckOtherGestion($Gestion) {   
 		$Saison=$this->getSaison();
-		switch($Evenement){
+		switch($Gestion){
 			case 'Day':
 				if ($this->getConfiguration('Present')){	
 					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));

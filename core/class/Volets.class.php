@@ -170,7 +170,6 @@ class Volets extends eqLogic {
 					if(!$Volet->CheckOtherGestion('Day'))
 						return;
 					$Volet->checkAndUpdateCmd('gestion','Day');
-					if ($Volet->getConfiguration('Meteo')){
 					log::add('Volets','info',$Volet->getHumanName().'[Gestion Day] : Execution des actions');
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Day'))

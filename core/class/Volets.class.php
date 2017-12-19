@@ -250,7 +250,7 @@ class Volets extends eqLogic {
 			if( $Evenement!= false){
 				if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Present'){
 					log::add('Volets','info',$this->getHumanName().'[Gestion Presence] : Exécution des actions');
-					if($Evenement == 'open')	
+					if($Evenement == 'open'){	
 						$this->checkAndUpdateCmd('gestion','Day');
 						if(!$this->CheckOtherGestion('Present'))
 							return;				

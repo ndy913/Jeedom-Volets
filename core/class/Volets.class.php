@@ -326,7 +326,7 @@ class Volets extends eqLogic {
 		}else{
 			if($AngleCntDrt <= $Azimuth && $Azimuth <= 360)
 				$result= true;
-			if(0 <= $Azimut && $Azimuth <= $AngleCntGau)
+			if(0 <= $Azimuth && $Azimuth <= $AngleCntGau)
 				$result= true;
 		}		
 		log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : L\'azimuth ' . $Azimuth . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
@@ -376,9 +376,13 @@ class Volets extends eqLogic {
 		$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
 		if(is_object($Commande)){
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$TypeGestion.'] : Exécution de '.$Commande->getHumanName());
-			$key = array_search('#Hauteur#', $cmd['options']);
-			array_replace($cmd['options'], array($key => $Hauteur));
-			$Commande->event($cmd['options']);
+			$options=null;
+			if(isset($cmd['options'])){
+				$options=$cmd['options'];
+				$key = array_search('#Hauteur#', $options);
+				array_replace($options, array($key => $Hauteur));
+			}
+			$Commande->event($options);
 		}
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {

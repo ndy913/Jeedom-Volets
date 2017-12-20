@@ -167,9 +167,9 @@ class Volets extends eqLogic {
 			$Evenement=$Volet->checkCondition('open',$Saison,'Day');
 			if( $Evenement!= false){
 				if($Volet->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Day'){
+					$Volet->checkAndUpdateCmd('gestion','Day');
 					if(!$Volet->CheckOtherGestion('Day'))
 						return;
-					$Volet->checkAndUpdateCmd('gestion','Day');
 					log::add('Volets','info',$Volet->getHumanName().'[Gestion Day] : Execution des actions');
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Day'))

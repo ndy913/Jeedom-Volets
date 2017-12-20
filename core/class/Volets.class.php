@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
   	private $_inverseCondition=false;
-	//public static $_Gestions=['Jours','Nuit','Meteo','Presence','Azimute'];
+	public static $_Gestions=array('Jours','Nuit','Meteo','Absence','Azimute');
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'Volets';

@@ -254,8 +254,8 @@ class Volets extends eqLogic {
 						$this->checkAndUpdateCmd('gestion','Day');
 						if(!$this->CheckOtherGestion('Present'))
 							return;				
-					}
-					$this->checkAndUpdateCmd('gestion','Present');
+					}else
+						$this->checkAndUpdateCmd('gestion','Present');
 					foreach($this->getConfiguration('action') as $Cmd){	
 						if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
 							continue;

@@ -380,7 +380,8 @@ class Volets extends eqLogic {
 			if(isset($cmd['options'])){
 				$options=$cmd['options'];
 				$key = array_search('#Hauteur#', $options);
-				array_replace($options, array($key => $Hauteur));
+				if($key !== false)
+					array_replace($options, array($key => str_replace('#Hauteur#',$Hauteur,$options[$key])));
 			}
 			$Commande->event($options);
 		}

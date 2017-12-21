@@ -283,7 +283,7 @@ class Volets extends eqLogic {
 						continue;
 					if($this->getPosition() != $Evenement 
 					   || $this->getCmd(null,'gestion')->execCmd() != 'Azimuth' 
-					   || ($this->getCmd(null,'hauteur')->execCmd() != $Hauteur && array_search('#Hauteur#', $cmd['options'])!== false)){
+					   || ($this->getCmd(null,'hauteur')->execCmd() != $Hauteur && array_search('#Hauteur#', $Cmd['options'])!== false)){
 						$this->ExecuteAction($Cmd,'Azimuth',$Hauteur);
 						$this->setPosition($Evenement);
 					}else

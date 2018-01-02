@@ -175,8 +175,8 @@ class Volets extends eqLogic {
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Day'))
 							continue;
 						$Volet->ExecuteAction($Cmd, 'Day');
-						$Volet->setPosition($Evenement);
 					}
+					$Volet->setPosition($Evenement);
 				}
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Day] : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
@@ -199,8 +199,8 @@ class Volets extends eqLogic {
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Night'))
 							continue;
 						$Volet->ExecuteAction($Cmd, 'Night');
-     						$Volet->setPosition($Evenement);
 					}
+     					$Volet->setPosition($Evenement);
 				}
 				$Volet->checkAndUpdateCmd('gestion','Night');
 			}else{
@@ -230,8 +230,8 @@ class Volets extends eqLogic {
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Meteo'))
 							continue;
 						$Volet->ExecuteAction($Cmd, 'Meteo');
-						$Volet->setPosition($Evenement);
 					}
+					$Volet->setPosition($Evenement);
 				}
 				if($Evenement == "close")
 					$Volet->checkAndUpdateCmd('gestion','Meteo');
@@ -260,8 +260,8 @@ class Volets extends eqLogic {
 						if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
 							continue;
 						$this->ExecuteAction($Cmd,'Presence');
-						$this->setPosition($Evenement);
 					}
+					$this->setPosition($Evenement);
 				}
 			}
 		}
@@ -285,10 +285,10 @@ class Volets extends eqLogic {
 					   || $this->getCmd(null,'gestion')->execCmd() != 'Azimuth' 
 					   || ($this->getCmd(null,'hauteur')->execCmd() != $Hauteur && array_search('#Hauteur#', $Cmd['options'])!== false)){
 						$this->ExecuteAction($Cmd,'Azimuth',$Hauteur);
-						$this->setPosition($Evenement);
 					}else
 						log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
 				}
+				$this->setPosition($Evenement);
 			}
 		}
 		return $Evenement;

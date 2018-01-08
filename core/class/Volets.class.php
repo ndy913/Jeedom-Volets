@@ -58,7 +58,7 @@ class Volets extends eqLogic {
 				switch($Event->getlogicalId()){
 					case $Volet->getConfiguration('RealState'):
 						log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
-						if($_option['value'] != $Volet->getConfiguration('position')
+						if($_option['value'] != $Volet->execCmd('position'))
 							$Volet->checkAndUpdateCmd('isArmed',false);
 					break;
 					case 'azimuth360':

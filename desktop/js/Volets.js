@@ -334,7 +334,8 @@ function addAction(_action,  _el) {
 					.append($('<i class="fa fa-tasks">')))
 				.append($('<a class="btn btn-success btn-sm listCmdAction data-type="action"">')
 					.append($('<i class="fa fa-list-alt">')))))
-	       .append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options))));
+		.append($('<div class="actionOptions">')
+	       		.append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options)))));
 	tr.append(addParameters());
         _el.append(tr);
         _el.find('tr:last').setValues(_action, '.expressionAttr');

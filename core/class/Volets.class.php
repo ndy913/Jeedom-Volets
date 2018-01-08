@@ -58,7 +58,7 @@ class Volets extends eqLogic {
 				switch($Event->getlogicalId()){
 					case $Volet->getConfiguration('RealState'):
 						log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
-						if($_option['value'] != $Volet->execCmd('position'))
+						if(!$Volet->CheckRealState($_option['value']))
 							$Volet->checkAndUpdateCmd('isArmed',false);
 					break;
 					case 'azimuth360':
@@ -93,6 +93,15 @@ class Volets extends eqLogic {
 				}
 			}
 		}
+	}
+	public function CheckRealState($State) {  
+		if($State == 0)
+			$State='close';
+		else
+			$State='open';
+		if($State != $this->getCmd(null,'position')->execCmd())
+			return false;
+		return true;
 	}
 	public function AutorisationAction($Evenement) {   
 		if ($this->getIsEnable() && $this->getCmd(null,'isArmed')->execCmd()){

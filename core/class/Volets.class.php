@@ -56,6 +56,11 @@ class Volets extends eqLogic {
 			$Event = cmd::byId($_option['event_id']);
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
+					case $Volet->getConfiguration('RealState'):
+						log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
+						if($_option['value'] != $Volet->getConfiguration('position')
+						   $this->getCmd(null,'released')->execute();
+					break;
 					case 'azimuth360':
 						//log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la position du soleil');	
 						$Volet->ActionAzimute($_option['value']);
@@ -522,13 +527,13 @@ class Volets extends eqLogic {
 				$listener->setClass('Volets');
 				$listener->setFunction('pull');
 				$listener->setOption(array('Volets_id' => $this->getId()));
-				$listener->emptyEvent();
+				$listener->emptyEvent();				
+				if ($this->getConfiguration('RealState') != '')
+					$listener->addEvent(str_replace('#','',$this->getConfiguration('RealState')));	
 				if ($this->getConfiguration('Azimuth'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-				$listener->save();
 				if ($this->getConfiguration('Present'))
 					$listener->addEvent($this->getConfiguration('cmdPresent'));
-				$listener->save();
 				if ($this->getConfiguration('DayNight')){
 					$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDay'));
 					if(!is_object($sunrise))

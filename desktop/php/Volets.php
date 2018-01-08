@@ -91,7 +91,7 @@ $eqLogics = eqLogic::byType('Volets');
 								<div class="form-group ">
 									<label class="col-sm-2 control-label">{{Nom de la Zone}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Indiquer le nom de votre zone" style="font-size : 1em;color:grey;"></i>
+											<i class="fa fa-question-circle tooltips" title="{{Indiquer le nom de votre zone}}" style="font-size : 1em;color:grey;"></i>
 										</sup>
 									</label>
 									<div class="col-sm-5">
@@ -102,7 +102,7 @@ $eqLogics = eqLogic::byType('Volets');
 								<div class="form-group">
 									<label class="col-sm-2 control-label" >{{Objet parent}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Indiquer l'objet dans lequel le widget de cette zone apparaîtra sur le Dashboard" style="font-size : 1em;color:grey;"></i>
+											<i class="fa fa-question-circle tooltips" title="{{Indiquer l'objet dans lequel le widget de cette zone apparaîtra sur le Dashboard}}" style="font-size : 1em;color:grey;"></i>
 										</sup>
 									</label>
 									<div class="col-sm-5">
@@ -119,8 +119,7 @@ $eqLogics = eqLogic::byType('Volets');
 									<label class="col-md-2 control-label">
 										{{Catégorie}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Choisir une catégorie
-	Cette information n'est pas obigatoire mais peut être utile pour filtrer les widgets" style="font-size : 1em;color:grey;"></i>
+											<i class="fa fa-question-circle tooltips" title="{{Choisir une catégorie. Cette information n'est pas obigatoire mais peut être utile pour filtrer les widgets}}" style="font-size : 1em;color:grey;"></i>
 										</sup>
 									</label>
 									<div class="col-md-8">
@@ -138,9 +137,7 @@ $eqLogics = eqLogic::byType('Volets');
 									<label class="col-sm-2 control-label" >
 										{{Etat du widget}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Choisir les options de visibilité et d'activation
-	Si l'équipement n'est pas activé, il ne sera pas utilisable dans Jeedom ni visible sur le Dashboard
-	Si l'équipement n'est pas visible, il sera caché sur le Dashboard" style="font-size : 1em;color:grey;"></i>
+											<i class="fa fa-question-circle tooltips" title="{{Choisir les options de visibilité et d'activation. Si l'équipement n'est pas activé, il ne sera pas utilisable dans Jeedom ni visible sur le Dashboard. Si l'équipement n'est pas visible, il sera caché sur le Dashboard}}" style="font-size : 1em;color:grey;"></i>
 										</sup>
 									</label>
 									<div class="col-sm-5">
@@ -153,7 +150,7 @@ $eqLogics = eqLogic::byType('Volets');
 								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Héliotrope}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Sélectionner l'équipement source du plugin Héliotrope"></i>
+											<i class="fa fa-question-circle tooltips" title="{{Sélectionner l'équipement source du plugin Héliotrope}}"></i>
 										</sup>
 									</label>
 									<div class="col-sm-5">
@@ -170,7 +167,7 @@ $eqLogics = eqLogic::byType('Volets');
 									<label class="col-sm-2 control-label" >
 										{{Gestions}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Choisir les types de gestions souhaités pour cette zone" style="font-size : 1em;color:grey;"></i>
+											<i class="fa fa-question-circle tooltips" title="{{Choisir les types de gestions souhaités pour cette zone}}" style="font-size : 1em;color:grey;"></i>
 										</sup>
 									</label>
 									<div class="col-sm-8">
@@ -184,6 +181,23 @@ $eqLogics = eqLogic::byType('Volets');
 										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Météo}}" data-l1key="configuration" data-l2key="Meteo" checked/>
 									</div>
 								</div>	
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Objet etat réel}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="{{Cette objet, initialisera le plugin avec l'etat reel du volet. Lors d'une action manuel sur le volet, les gestions seront desactivé et il sera de votre action pour la reactivé.}}"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<div class="input-group">
+											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="RealState" placeholder="{{Commande déterminant l'etat du volet}}"/>
+											<span class="input-group-btn">
+												<a class="btn btn-success btn-sm listCmdAction data-type="info"">
+													<i class="fa fa-list-alt"></i>
+												</a>
+											</span>
+										</div>
+									</div>
+								</div>	
 							</fieldset>
 						</form>
 					</div>
@@ -194,7 +208,7 @@ $eqLogics = eqLogic::byType('Volets');
 								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Objet indiquant la présence}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Sélectionner la commande déterminant la présence"></i>
+											<i class="fa fa-question-circle tooltips" title="{{Sélectionner la commande déterminant la présence}}"></i>
 										</sup>
 									</label>
 									<div class="col-sm-5">
@@ -219,9 +233,29 @@ $eqLogics = eqLogic::byType('Volets');
 							<legend>Gestion Jours / Nuit</legend>
 							<fieldset>
 								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Heure d'ouverture minimum (HHMM)}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="{{Si le soleil se leve avant, l'heure d'ouverture sera ce parametre}}"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DayMin" placeholder="{{Heure d'ouverture minimum (HHMM)}}"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Heure de fermeture maximum (HHMM)}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="{{Si le soleil se couche apres, l'heure de fermetrue sera ce parametre}}"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="NightMax" placeholder="{{Heure de fermeture maximum (HHMM)}}"/>
+									</div>
+								</div>
+								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Type de lever du soleil}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Choisir le type de lever du jour "></i>
+											<i class="fa fa-question-circle tooltips" title="{{Choisir le type de lever du jour}}"></i>
 										</sup>
 									</label>
 									<div class="col-sm-5">
@@ -246,7 +280,7 @@ $eqLogics = eqLogic::byType('Volets');
 								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Type de coucher du soleil}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Choisir le type de coucher du soleil"></i>
+											<i class="fa fa-question-circle tooltips" title="{{Choisir le type de coucher du soleil}}"></i>
 										</sup>
 									</label>
 									<div class="col-sm-5">
@@ -261,7 +295,7 @@ $eqLogics = eqLogic::byType('Volets');
 								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Délai à la tombée de la nuit (min)}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (-) ou après (+)"></i>
+											<i class="fa fa-question-circle tooltips" title="{{Saisir le délai avant (-) ou après (+)}}"></i>
 										</sup>
 									</label>
 									<div class="col-sm-5">
@@ -271,7 +305,7 @@ $eqLogics = eqLogic::byType('Volets');
 								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Délai de réévaluation (min)}}
 										<sup>
-											<i class="fa fa-question-circle tooltips" title="Saisir le délai de réévaluation des conditions (min)"></i>
+											<i class="fa fa-question-circle tooltips" title="{{Saisir le délai de réévaluation des conditions (min)}}"></i>
 										</sup>
 									</label>
 									<div class="col-sm-5">
@@ -311,7 +345,7 @@ $eqLogics = eqLogic::byType('Volets');
 						<fieldset>
 							<legend>{{Les conditions d'exécution :}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="Saisir toutes les conditions d'exécution de la gestion"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Saisir toutes les conditions d'exécution de la gestion}}"></i>
 								</sup>
 								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>
@@ -324,10 +358,10 @@ $eqLogics = eqLogic::byType('Volets');
 						<thead>
 							<tr>
 								<th></th>
-								<th>Condition</th>
-								<th>Type de gestion</th>
-								<th>Mode</th>
-								<th>Action</th>
+								<th>{{Condition}}</th>
+								<th>{{Type de gestion}}</th>
+								<th>{{Mode}}</th>
+								<th>{{Action}}</th>
 							</tr>
 						</thead>
 						<tbody></tbody>
@@ -338,7 +372,7 @@ $eqLogics = eqLogic::byType('Volets');
 						<fieldset>
 							<legend>{{Les actions:}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="Saisir toutes les actions à mener à l'ouverture"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Saisir toutes les actions à mener à l'ouverture}}"></i>
 								</sup>
 								<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">
 									<i class="fa fa-plus-circle"></i>
@@ -351,10 +385,10 @@ $eqLogics = eqLogic::byType('Volets');
 						<thead>
 							<tr>
 								<th></th>
-								<th>Action</th>
-								<th>Type de gestion</th>
-								<th>Mode</th>
-								<th>Action</th>
+								<th>{{Action}}</th>
+								<th>{{Type de gestion}}</th>
+								<th>{{Mode}}</th>
+								<th>{{Action}}</th>
 							</tr>
 						</thead>
 						<tbody></tbody>
@@ -364,8 +398,8 @@ $eqLogics = eqLogic::byType('Volets');
 					<table id="table_cmd" class="table table-bordered table-condensed">
 					    <thead>
 						<tr>
-						    <th>Nom</th>
-						    <th>Paramètre</th>
+						    <th>{{Nom}}</th>
+						    <th>{{Paramètre}}</th>
 						</tr>
 					    </thead>
 					    <tbody></tbody>

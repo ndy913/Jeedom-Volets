@@ -68,6 +68,8 @@ class Volets extends eqLogic {
 					case $Volet->getConfiguration('TypeDay'):
 						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');
 						$DayStart=$_option['value'];
+						if($Volet->getConfiguration('DayMin') != '' && $DayStart < $Volet->getConfiguration('DayMin'))
+						   $DayStart=$Volet->getConfiguration('DayMin');
 						if($DayStart < $Volet->getConfiguration('DayMin'))
 						   $DayStart=$Volet->getConfiguration('DayMin');
 						$timstamp=$Volet->CalculHeureEvent($DayStart,'DelaisDay');
@@ -77,7 +79,7 @@ class Volets extends eqLogic {
 					case $Volet->getConfiguration('TypeNight'):
 						log::add('Volets','info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil');
 						$NightStart=$_option['value'];
-						if($NightStart > $Volet->getConfiguration('NightMax'))
+						if($Volet->getConfiguration('NightMax') != '' && $NightStart > $Volet->getConfiguration('NightMax'))
 						   $NightStart=$Volet->getConfiguration('NightMax');
 						$timstamp=$Volet->CalculHeureEvent($DayStart,'$NightStart');	
 						$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');
@@ -544,7 +546,7 @@ class Volets extends eqLogic {
 					$listener->addEvent($sunrise->getId());
 					$listener->addEvent($sunset->getId());
 					$DayStart=$sunrise->execCmd();
-					if($DayStart < $this->getConfiguration('DayMin'))
+					if($this->getConfiguration('DayMin') != '' && $DayStart < $this->getConfiguration('DayMin'))
 						   $DayStart=$this->getConfiguration('DayMin');
 					$DelaisDay=$this->CalculHeureEvent($DayStart,'DelaisDay');
 					if(mktime() > $DelaisDay)
@@ -552,7 +554,7 @@ class Volets extends eqLogic {
 					$Schedule=date("i",$DelaisDay) . ' ' . date("H",$DelaisDay) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
 					$NightStart=$sunset->execCmd();
-					if($NightStart > $this->getConfiguration('NightMax'))
+					if($this->getConfiguration('NightMax') != '' && $NightStart > $this->getConfiguration('NightMax'))
 						   $NightStart=$this->getConfiguration('NightMax');
 					$DelaisNight=$this->CalculHeureEvent($NightStart,'DelaisNight');
 					if(mktime() > $DelaisNight)

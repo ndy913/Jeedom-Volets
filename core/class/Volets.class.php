@@ -626,6 +626,9 @@ class Volets extends eqLogic {
 		$VoletState->setDisplay('title_disable', 1);
 		$VoletState->setValue($Position->getId());
 		$VoletState->save();
+		$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('RealState')));
+		if(is_object($Commande))
+			$this->checkAndUpdateCmd('position',$Commande->execCmd());
 		self::deamon_stop();
 	}	
 	public function postRemove() {

@@ -61,13 +61,20 @@ class Volets extends eqLogic {
 						$Volet->ActionAzimute($_option['value']);
 					break;
 					case $Volet->getConfiguration('TypeDay'):
-						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');	
-						$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisDay');
+						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');
+						$DayStart=$_option['value'];
+						if($DayStart < $Volet->getConfiguration('DayMin'))
+						   $DayStart=$Volet->getConfiguration('DayMin');
+						$timstamp=$Volet->CalculHeureEvent($DayStart,'DelaisDay');
 						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 						$cron = $Volet->CreateCron($Schedule, 'ActionJour');
 					break;
 					case $Volet->getConfiguration('TypeNight'):
-						log::add('Volets','info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil');	
+						log::add('Volets','info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil');
+						$NightStart=$_option['value'];
+						if($NightStart > $Volet->getConfiguration('NightMax'))
+						   $NightStart=$Volet->getConfiguration('NightMax');
+						$timstamp=$Volet->CalculHeureEvent($DayStart,'$NightStart');	
 						$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');
 						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 						$cron = $Volet->CreateCron($Schedule, 'ActionNuit');
@@ -531,12 +538,18 @@ class Volets extends eqLogic {
 						return false;
 					$listener->addEvent($sunrise->getId());
 					$listener->addEvent($sunset->getId());
-					$DelaisDay=$this->CalculHeureEvent($sunrise->execCmd(),'DelaisDay');
+					$DayStart=$sunrise->execCmd();
+					if($DayStart < $this->getConfiguration('DayMin'))
+						   $DayStart=$this->getConfiguration('DayMin');
+					$DelaisDay=$this->CalculHeureEvent($DayStart,'DelaisDay');
 					if(mktime() > $DelaisDay)
 						$this->checkAndUpdateCmd('gestion','Day');
 					$Schedule=date("i",$DelaisDay) . ' ' . date("H",$DelaisDay) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
-					$DelaisNight=$this->CalculHeureEvent($sunset->execCmd(),'DelaisNight');
+					$NightStart=$sunset->execCmd();
+					if($NightStart > $this->getConfiguration('NightMax'))
+						   $NightStart=$this->getConfiguration('NightMax');
+					$DelaisNight=$this->CalculHeureEvent($NightStart,'DelaisNight');
 					if(mktime() > $DelaisNight)
 						$this->checkAndUpdateCmd('gestion','Night');
 					$Schedule=date("i",$DelaisNight) . ' ' . date("H",$DelaisNight) . ' * * * *';

@@ -59,7 +59,7 @@ class Volets extends eqLogic {
 					case $Volet->getConfiguration('RealState'):
 						log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
 						if($_option['value'] != $Volet->getConfiguration('position')
-						   $this->getCmd(null,'released')->execute();
+							$Volet->checkAndUpdateCmd('isArmed',false);
 					break;
 					case 'azimuth360':
 						//log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la position du soleil');	

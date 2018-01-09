@@ -86,8 +86,8 @@ class Volets extends eqLogic {
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
 							if($Volet->_ChangeState)
 								$Volet->_ChangeState=false;
-							else
-								$Volet->checkAndUpdateCmd('isArmed',false);
+							/*else
+								$Volet->checkAndUpdateCmd('isArmed',false);*/
 						}
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('cmdPresent'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	

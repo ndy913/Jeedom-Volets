@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
-  	private $_inverseCondition=false;
+  	private $_ChangeState=false;
 	public static $_Gestions=array('Jours','Nuit','Meteo','Absence','Azimute');
 	public static function deamon_info() {
 		$return = array();
@@ -84,7 +84,9 @@ class Volets extends eqLogic {
 					default:
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
-							if(!$Volet->CheckRealState($_option['value']))
+							if($Volet->_ChangeState)
+								$Volet->_ChangeState=false;
+							else
 								$Volet->checkAndUpdateCmd('isArmed',false);
 						}
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('cmdPresent'))){
@@ -95,15 +97,6 @@ class Volets extends eqLogic {
 				}
 			}
 		}
-	}
-	public function CheckRealState($State) {  
-		if($State == 0)
-			$State='close';
-		else
-			$State='open';
-		if($State != $this->getCmd(null,'position')->execCmd())
-			return false;
-		return true;
 	}
 	public function AutorisationAction($Evenement) {   
 		if ($this->getIsEnable() && $this->getCmd(null,'isArmed')->execCmd()){
@@ -390,6 +383,7 @@ class Volets extends eqLogic {
 		return $Action;
 	}
 	public function ExecuteAction($cmd,$TypeGestion,$Hauteur=0){
+		$this->_ChangeState=true;
 		try {
 			$options = array();
 			if (isset($cmd['options'])) 

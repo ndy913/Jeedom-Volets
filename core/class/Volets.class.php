@@ -82,12 +82,12 @@ class Volets extends eqLogic {
 						$cron = $Volet->CreateCron($Schedule, 'ActionNuit');
 					break;
 					default:
-						if ($Event->getId() == $Volet->getConfiguration('RealState')){
+						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
 							if(!$Volet->CheckRealState($_option['value']))
 								$Volet->checkAndUpdateCmd('isArmed',false);
 						}
-						if ($Event->getId() == $Volet->getConfiguration('cmdPresent')){
+						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('cmdPresent'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	
 							$Volet->ActionPresent($_option['value']);
 						}

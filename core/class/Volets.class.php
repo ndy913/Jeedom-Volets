@@ -540,7 +540,7 @@ class Volets extends eqLogic {
 				$listener->setOption(array('Volets_id' => $this->getId()));
 				$listener->emptyEvent();				
 				if ($this->getConfiguration('RealState') != '')
-					$listener->addEvent(str_replace('#','',$this->getConfiguration('RealState')));	
+					$listener->addEvent($this->getConfiguration('RealState'));
 				if ($this->getConfiguration('Azimuth'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
 				if ($this->getConfiguration('Present'))

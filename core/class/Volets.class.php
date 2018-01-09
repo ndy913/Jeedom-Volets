@@ -56,13 +56,8 @@ class Volets extends eqLogic {
 			$Event = cmd::byId($_option['event_id']);
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
-					case $Volet->getConfiguration('RealState'):
-						log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
-						if(!$Volet->CheckRealState($_option['value']))
-							$Volet->checkAndUpdateCmd('isArmed',false);
-					break;
 					case 'azimuth360':
-						//log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la position du soleil');	
+						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la position du soleil');	
 						$Volet->ActionAzimute($_option['value']);
 					break;
 					case $Volet->getConfiguration('TypeDay'):
@@ -87,8 +82,15 @@ class Volets extends eqLogic {
 						$cron = $Volet->CreateCron($Schedule, 'ActionNuit');
 					break;
 					default:
-						//log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	
-						$Volet->ActionPresent($_option['value']);
+						if ($Event->getId() == $Volet->getConfiguration('RealState')){
+							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
+							if(!$Volet->CheckRealState($_option['value']))
+								$Volet->checkAndUpdateCmd('isArmed',false);
+						}
+						if ($Event->getId() == $Volet->getConfiguration('cmdPresent')){
+							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	
+							$Volet->ActionPresent($_option['value']);
+						}
 					break;
 				}
 			}

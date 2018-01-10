@@ -2,7 +2,6 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
   	protected $_ChangeState=false;
-  	protected $_State='close';
 	public static $_Gestions=array('Jours','Nuit','Meteo','Absence','Azimute');
 	public static function deamon_info() {
 		$return = array();
@@ -86,11 +85,12 @@ class Volets extends eqLogic {
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
 							if($Volet->_ChangeState){
+								log::add('Volets','info',$Volet->getHumanName().' : Le changement d\'état est autorisé');
 								//Determiner si le volet est ouvert ou fermer
-								if($_option['value'] > 0) //Remplacer 0 par un parametre de seuil
-									$Volet->_State='open';
+								if($_option['value'] < 20) //Remplacer 0 par un parametre de seuil
+									$State='open';
 								else
-									$Volet->_State='close';
+									$State='close';
 								$Volet->_ChangeState=false;
 							}/*else{
                               					message::add('danger','Un evenement manuel a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été désactivé');
@@ -150,8 +150,7 @@ class Volets extends eqLogic {
 							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
 								continue;
 							$this->ExecuteAction($Cmd,'Presence');
-							$this->_State=$Evenement;
-							//$this->setPosition($Evenement);
+							$this->setPosition($Evenement);
 						}
 						$this->checkAndUpdateCmd('gestion','Present');
 						return false;
@@ -161,14 +160,13 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('Meteo')){
 					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
 					if($Evenement != false && $Evenement == "close"){
-						if($this->_State/*$this->getPosition()*/ != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Meteo'){
+						if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Meteo'){
 							log::add('Volets','info',$this->getHumanName().'[Gestion Meteo] : Exécution des actions');
 							foreach($this->getConfiguration('action') as $Cmd){	
 								if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Meteo'))
 									continue;
 								$this->ExecuteAction($Cmd, 'Meteo');
-								$this->_State=$Evenement;
-								//$this->setPosition($Evenement);
+								$this->setPosition($Evenement);
 							}
 							$this->checkAndUpdateCmd('gestion','Meteo');
 							return false;
@@ -194,7 +192,7 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('open',$Saison,'Day');
 			if( $Evenement!= false){
-				if($Volet->_State/*$this->getPosition()*/ != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Day'){
+				if($Volet->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Day'){
 					$Volet->checkAndUpdateCmd('gestion','Day');
 					if(!$Volet->CheckOtherGestion('Day'))
 						return;
@@ -204,8 +202,7 @@ class Volets extends eqLogic {
 							continue;
 						$Volet->ExecuteAction($Cmd, 'Day');
 					}
-					$Volet->_State=$Evenement;
-					//$Volet->setPosition($Evenement);
+					$Volet->setPosition($Evenement);
 				}
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Day] : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
@@ -222,15 +219,14 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Night');
 			if( $Evenement!= false){
-				if($Volet->_State/*$Volet->getPosition()*/ != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Night'){
+				if($Volet->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Night'){
 					log::add('Volets','info',$Volet->getHumanName().'[Gestion Night] : Exécution des actions');
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Night'))
 							continue;
 						$Volet->ExecuteAction($Cmd, 'Night');
 					}
-					$Volet->_State=$Evenement;
-					//$Volet->setPosition($Evenement);
+					$Volet->setPosition($Evenement);
 				}
 				$Volet->checkAndUpdateCmd('gestion','Night');
 			}else{
@@ -254,15 +250,14 @@ class Volets extends eqLogic {
 				$Evenement=$Volet->checkCondition('open',$Saison,'Meteo');   	
 			} 
 			if($Evenement != false){
-				if($Volet->_State/*$Volet->getPosition()*/ != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Meteo'){
+				if($Volet->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Meteo'){
 					log::add('Volets','info',$Volet->getHumanName().'[Gestion Meteo] : Exécution des actions');
 					foreach($Volet->getConfiguration('action') as $Cmd){	
 						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Meteo'))
 							continue;
 						$Volet->ExecuteAction($Cmd, 'Meteo');
 					}
-					$Volet->_State=$Evenement;
-					//$Volet->setPosition($Evenement);
+					$Volet->setPosition($Evenement);
 				}
 				if($Evenement == "close")
 					$Volet->checkAndUpdateCmd('gestion','Meteo');
@@ -279,7 +274,7 @@ class Volets extends eqLogic {
 				$Evenement='close';
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
 			if( $Evenement!= false){
-				if($this->_State/*$this->getPosition()*/ != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Present'){
+				if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Present'){
 					log::add('Volets','info',$this->getHumanName().'[Gestion Presence] : Exécution des actions');
 					if($Evenement == 'open'){	
 						$this->checkAndUpdateCmd('gestion','Day');
@@ -292,8 +287,7 @@ class Volets extends eqLogic {
 							continue;
 						$this->ExecuteAction($Cmd,'Presence');
 					}
-					$this->_State=$Evenement;
-					//$this->setPosition($Evenement);
+					$this->setPosition($Evenement);
 				}
 			}
 		}
@@ -313,15 +307,14 @@ class Volets extends eqLogic {
 				foreach($this->getConfiguration('action') as $Cmd){	
 					if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Azimuth'))
 						continue;
-					if($this->_State/*$this->getPosition()*/ != $Evenement 
+					if($this->getPosition() != $Evenement 
 					   || $this->getCmd(null,'gestion')->execCmd() != 'Azimuth' 
 					   || ($this->getCmd(null,'hauteur')->execCmd() != $Hauteur && array_search('#Hauteur#', $Cmd['options'])!== false)){
 						$this->ExecuteAction($Cmd,'Azimuth',$Hauteur);
 					}else
 						log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
 				}
-				$this->_State=$Evenement;
-				//$this->setPosition($Evenement);
+				$this->setPosition($Evenement);
 			}
 		}
 		return $Evenement;
@@ -398,7 +391,6 @@ class Volets extends eqLogic {
 		return $Action;
 	}
 	public function ExecuteAction($cmd,$TypeGestion,$Hauteur=0){
-		$this->_ChangeState=true;
 		try {
 			$options = array();
 			if (isset($cmd['options'])) 
@@ -609,6 +601,7 @@ class Volets extends eqLogic {
 	}
 	public function setPosition($Evenement) {
 		$this->checkAndUpdateCmd('position',$Evenement);
+		$this->_ChangeState=true;
 	}
 	public function getPosition() {
 		return $this->getCmd(null,'position')->execCmd();
@@ -647,13 +640,13 @@ class Volets extends eqLogic {
 		$Released->save();
 		$Released->setConfiguration('state', '0');
 		$Released->setConfiguration('armed', '1');
-		/*$Position=$this->AddCommande("Etat du volet","position","info","string",false);
+		$Position=$this->AddCommande("Etat du volet","position","info","string",false);
 		$VoletState=$this->AddCommande("Position du volet","VoletState","action","select",true,'volet');
 		$VoletState->setConfiguration('listValue','open|Ouvert;close|Fermé');
 		$VoletState->setDisplay('title_disable', 1);
 		$VoletState->setValue($Position->getId());
 		$VoletState->save();
-		$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('RealState')));
+		/*$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('RealState')));
 		if(is_object($Commande))
 			$this->checkAndUpdateCmd('position',$Commande->execCmd());*/
 		self::deamon_stop();

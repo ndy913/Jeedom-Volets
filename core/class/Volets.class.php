@@ -92,10 +92,10 @@ class Volets extends eqLogic {
 								else
 									$Volet->_State='close';
 								$Volet->_ChangeState=false;
-							}else{
+							}/*else{
                               					message::add('danger','Un evenement manuel a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été désactivé');
 								$Volet->checkAndUpdateCmd('isArmed',false);
-                     				       }
+                     				       }*/
 						}
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('cmdPresent'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	

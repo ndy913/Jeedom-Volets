@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
-  	protected $_ChangeState=false;
 	public static $_Gestions=array('Jours','Nuit','Meteo','Absence','Azimute');
 	public static function deamon_info() {
 		$return = array();
@@ -84,18 +83,20 @@ class Volets extends eqLogic {
 					default:
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
-							if($Volet->_ChangeState){
+							$cache = cache::byKey('Volets::ChangeState::'.$Volet->getId());
+							if($cache->getValue(false)){
 								log::add('Volets','info',$Volet->getHumanName().' : Le changement d\'état est autorisé');
 								//Determiner si le volet est ouvert ou fermer
 								if($_option['value'] < 20) //Remplacer 0 par un parametre de seuil
 									$State='open';
 								else
 									$State='close';
-								$Volet->_ChangeState=false;
-							}/*else{
+								if($Volet->getCmd(null,'position')->execCmd() == $State)
+									cache::set('Volets::ChangeState::'.$Volet->getId(),false, 0);
+							}else{
                               					message::add('danger','Un evenement manuel a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été désactivé');
 								$Volet->checkAndUpdateCmd('isArmed',false);
-                     				       }*/
+                     				       }
 						}
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('cmdPresent'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	
@@ -390,7 +391,7 @@ class Volets extends eqLogic {
 		}
 		return $Action;
 	}
-	public function ExecuteAction($cmd,$TypeGestion,$Hauteur=0){
+	public function ExecuteAction($cmd,$TypeGestion,$Hauteur=0){		
 		try {
 			$options = array();
 			if (isset($cmd['options'])) 
@@ -601,7 +602,7 @@ class Volets extends eqLogic {
 	}
 	public function setPosition($Evenement) {
 		$this->checkAndUpdateCmd('position',$Evenement);
-		$this->_ChangeState=true;
+		cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 	}
 	public function getPosition() {
 		return $this->getCmd(null,'position')->execCmd();

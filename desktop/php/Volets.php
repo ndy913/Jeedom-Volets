@@ -175,7 +175,7 @@ $eqLogics = eqLogic::byType('Volets');
 											foreach (Volets::_Gestions as $Gestions) {
 												echo '<label>{{'.$Gestions.'}}</label>';
 												echo '<input type="checkbox" class="eqLogicAttr" data-label-text="{{'.$Gestions.'}}" data-l1key="configuration" data-l2key="'.$Gestions.'" checked/>';
-										
+											}
 										?>
 										<!--label>{{Jour / Nuit}}</label>
 										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Jour / Nuit}}" data-l1key="configuration" data-l2key="DayNight" checked/>

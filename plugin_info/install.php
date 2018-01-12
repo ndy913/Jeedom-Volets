@@ -5,6 +5,8 @@ function Volets_install(){
 function Volets_update(){
 	log::add('Volets','debug','Lancement du script de mise a jours'); 
 	foreach(eqLogic::byType('Volets') as $eqLogic){
+		if($eqLogic->getConfiguration('Azimuth'))
+			$eqLogic->setConfiguration('Azimut',true);
 		if($eqLogic->getConfiguration('Present'))
 			$eqLogic->setConfiguration('Absent',true);
 		if($eqLogic->getConfiguration('DayNight')){
@@ -20,6 +22,8 @@ function Volets_update(){
 					$Conditions[$CondiKey]["TypeGestion"][]="Nuit";
 				if($TypeGestion == "Presence")
 					$Conditions[$CondiKey]["TypeGestion"][]="Absent";
+				if($TypeGestion == "Azimuth")
+					$Conditions[$CondiKey]["TypeGestion"][]="Azimut";
 			}
 		}
 		$eqLogic->setConfiguration('condition',$Conditions);	
@@ -32,6 +36,8 @@ function Volets_update(){
 					$Actions[$ActionKey]["TypeGestion"][]="Nuit";
 				if($TypeGestion == "Presence")
 					$Actions[$ActionKey]["TypeGestion"][]="Absent";
+				if($TypeGestion == "Azimuth")
+					$Conditions[$CondiKey]["TypeGestion"][]="Azimut";
 			}
 		}
 		$eqLogic->setConfiguration('action',$Actions);	

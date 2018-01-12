@@ -212,7 +212,7 @@ $eqLogics = eqLogic::byType('Volets');
 							</fieldset>
 						</form>
 					</div>
-					<div class="col-sm-6 Present">
+					<div class="col-sm-6 Absent">
 						<form class="form-horizontal">
 							<legend>Gestion de la présence</legend>
 							<fieldset>
@@ -239,9 +239,9 @@ $eqLogics = eqLogic::byType('Volets');
 							</fieldset>
 						</form>
 					</div>
-					<div class="col-sm-6 DayNight">
+					<div class="col-sm-6 Jours">
 						<form class="form-horizontal">
-							<legend>Gestion Jours / Nuit</legend>
+							<legend>Gestion Jours</legend>
 							<fieldset>
 								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Heure d'ouverture minimum (HHMM)}}
@@ -251,16 +251,6 @@ $eqLogics = eqLogic::byType('Volets');
 									</label>
 									<div class="col-sm-5">
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DayMin" placeholder="{{Heure d'ouverture minimum (HHMM)}}"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Heure de fermeture maximum (HHMM)}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Si le soleil se couche apres, l'heure de fermetrue sera ce parametre}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="NightMax" placeholder="{{Heure de fermeture maximum (HHMM)}}"/>
 									</div>
 								</div>
 								<div class="form-group">
@@ -289,6 +279,36 @@ $eqLogics = eqLogic::byType('Volets');
 									</div>
 								</div>
 								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Délai de réévaluation (min)}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="{{Saisir le délai de réévaluation des conditions (min)}}"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation (min)}}"/>
+									</div>
+								</div>
+								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
+								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
+								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>	
+							</fieldset>
+						</form>
+					</div>
+					<div class="col-sm-6 Nuit">
+						<form class="form-horizontal">
+							<legend>Gestion Nuit</legend>
+							<fieldset>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Heure de fermeture maximum (HHMM)}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="{{Si le soleil se couche apres, l'heure de fermetrue sera ce parametre}}"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="NightMax" placeholder="{{Heure de fermeture maximum (HHMM)}}"/>
+									</div>
+								</div>
+								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Type de coucher du soleil}}
 										<sup>
 											<i class="fa fa-question-circle tooltips" title="{{Choisir le type de coucher du soleil}}"></i>
@@ -313,19 +333,6 @@ $eqLogics = eqLogic::byType('Volets');
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Délai à la tombée de la nuit (min)}}"/>
 									</div>
 								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Délai de réévaluation (min)}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Saisir le délai de réévaluation des conditions (min)}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation (min)}}"/>
-									</div>
-								</div>
-								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
-								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
-								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>	
 							</fieldset>
 						</form>
 					</div>	

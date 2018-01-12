@@ -23,20 +23,23 @@ jeedom.config.load({
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
-$('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=DayNight]',function(){
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=Jours]').on('change',function(){
 	if($(this).is(':checked'))
-		$('.DayNight').show();
+		$('.Jours').show();
 	else
-		$('.DayNight').hide();
+		$('.Jours').hide();
 });
-$('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=Present]',function(){	
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').on('change',function(){
+	if($(this).is(':checked'))
+		$('.Nuit').show();
+	else
+		$('.Nuit').hide();
+});
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=Absent]').on('change',function(){	
 	if($(this).is(':checked'))
 		$('.Present').show();
 	else
 		$('.Present').hide();
-});
-$('body').on('change','.eqLogicAttr[data-l1key=configuration][data-l2key=isRandom]',function(){
-
 });
 $('body').on('change','#layer-select',function(){
         var style = $(this).val();
@@ -546,19 +549,13 @@ function addCmdToTable(_cmd) {
 	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 }
 function addParameters() {
+	var gestions=$('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="TypeGestion" multiple>');
+	$('.Gestions').getValues('.eqLogicAttr[data-l1key=configuration]').each(function( index ) {
+		gestions.append($('<option value="index">').text(index));
+	});
 	var Parameter=$('<div>');
 	Parameter.append($('<td>')
-		 .append($('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="TypeGestion" multiple>')
-			.append($('<option value="Azimuth">')
-				.text('{{Position du soleil}}'))
-			.append($('<option value="Day">')
-				.text('{{Jour}}'))
-			.append($('<option value="Night">')
-				.text('{{Nuit}}'))
-			.append($('<option value="Presence">')
-				.text('{{Présence}}'))
-			.append($('<option value="Meteo">')
-				.text('{{Méteo}}'))));
+		 .append(gestions));
 	Parameter.append($('<td>')
 		 .append($('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="saison" multiple>')
 			.append($('<option value="été">')

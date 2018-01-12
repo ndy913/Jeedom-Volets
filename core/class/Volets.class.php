@@ -100,7 +100,7 @@ class Volets extends eqLogic {
 						}
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('cmdPresent'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	
-							$Volet->ActionPresent($_option['value']);
+							$Volet->ActionAbsence($_option['value']);
 						}
 					break;
 				}
@@ -116,21 +116,21 @@ class Volets extends eqLogic {
 					if ($this->getConfiguration('DayNight'))
 						return true;
 				break;
-				case 'Present':
-					if ($this->getConfiguration('Present')
+				case 'Absence':
+					if ($this->getConfiguration('Absence')
 					    && $Mode != "Night" )
 						return true;
 				break;
 				case 'Meteo':					
 					if ($this->getConfiguration('Meteo')
 					    && $Mode != "Night" 
-					    && $Mode != "Present")
+					    && $Mode != "Absence")
 						return true;
 				break;
 				case 'Azimuth':
 					if ($this->getConfiguration('Azimuth')
 					    && $Mode != "Night" 
-					    && $Mode != "Present" 
+					    && $Mode != "Absence" 
 					    && $Mode != "Meteo")
 						return true;
 				break;
@@ -142,7 +142,7 @@ class Volets extends eqLogic {
 		$Saison=$this->getSaison();
 		switch($Gestion){
 			case 'Day':
-				if ($this->getConfiguration('Present')){	
+				if ($this->getConfiguration('Absence')){	
 					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));
 					if(is_object($Commande) && $Commande->execCmd() == false){
 						log::add('Volets', 'info', $this->getHumanName().'[Gestion Day] : Il n\'y a personne nous exécutons la gestion de présence');
@@ -153,11 +153,11 @@ class Volets extends eqLogic {
 							$this->ExecuteAction($Cmd,'Presence');
 							$this->setPosition($Evenement);
 						}
-						$this->checkAndUpdateCmd('gestion','Present');
+						$this->checkAndUpdateCmd('gestion','Absence');
 						return false;
 					}
 				}
-			case 'Present':
+			case 'Absence':
 				if ($this->getConfiguration('Meteo')){
 					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
 					if($Evenement != false && $Evenement == "close"){
@@ -266,8 +266,8 @@ class Volets extends eqLogic {
 			return $Evenement;
 		}
 	}
-  	public function ActionPresent($Etat) {
-		if ($this->AutorisationAction('Present')){
+  	public function ActionAbsence($Etat) {
+		if ($this->AutorisationAction('Absence')){
 			$Saison=$this->getSaison();
 			if($Etat)
 				$Evenement='open';
@@ -275,14 +275,14 @@ class Volets extends eqLogic {
 				$Evenement='close';
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
 			if( $Evenement!= false){
-				if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Present'){
+				if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Absence'){
 					log::add('Volets','info',$this->getHumanName().'[Gestion Presence] : Exécution des actions');
 					if($Evenement == 'open'){	
 						$this->checkAndUpdateCmd('gestion','Day');
-						if(!$this->CheckOtherGestion('Present'))
+						if(!$this->CheckOtherGestion('Absence'))
 							return;				
 					}else
-						$this->checkAndUpdateCmd('gestion','Present');
+						$this->checkAndUpdateCmd('gestion','Absence');
 					foreach($this->getConfiguration('action') as $Cmd){	
 						if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
 							continue;
@@ -547,7 +547,7 @@ class Volets extends eqLogic {
 					$listener->addEvent($this->getConfiguration('RealState'));
 				if ($this->getConfiguration('Azimuth'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-				if ($this->getConfiguration('Present'))
+				if ($this->getConfiguration('Absence'))
 					$listener->addEvent($this->getConfiguration('cmdPresent'));
 				if ($this->getConfiguration('DayNight')){
 					$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDay'));
@@ -677,12 +677,12 @@ class VoletsCmd extends cmd {
 					$this->getEqLogic()->StartDemon();
 					$timstamp=$this->CalculHeureEvent($sunrise->execCmd(),'DelaisDay');
 					$timstamp=$this->CalculHeureEvent($sunset->execCmd(),'DelaisNight');
-					if ($this->getEqLogic()->getConfiguration('Present')){	
+					if ($this->getEqLogic()->getConfiguration('Absence')){	
 						log::add('Volets', 'info', $this->getEqLogic()->getHumanName().'[Gestion Day] : Vérification de la présence');
 						$Commande=cmd::byId(str_replace('#','',$this->getEqLogic()->getConfiguration('cmdPresent')));
 						if(is_object($Commande) && $Commande->execCmd() == false){
 							log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Day] : Il n\'y a personne nous exécutons la gestion de présence');
-							if($Evenement=$this->getEqLogic()->ActionPresent(false) !== false)
+							if($Evenement=$this->getEqLogic()->ActionAbsence(false) !== false)
 							return $Evenement;
 						}
 					}

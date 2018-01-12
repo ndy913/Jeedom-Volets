@@ -12,10 +12,12 @@ class Volets extends eqLogic {
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 				if (!is_object($listener))
 					return $return;
-				if ($Volet->getConfiguration('DayNight')){
+				if ($Volet->getConfiguration('Jours')){
 					$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
 					if (!is_object($cron)) 	
 						return $return;
+				}
+				if ($Volet->getConfiguration('Nuit')){
 					$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $Volet->getId()));
 					if (!is_object($cron)) 	
 						return $return;
@@ -112,8 +114,10 @@ class Volets extends eqLogic {
 			$Mode = $this->getCmd(null,'gestion')->execCmd();
 			switch($Evenement){
 				case 'Day':
+					if ($this->getConfiguration('Jours'))
+						return true;
 				case 'Night':
-					if ($this->getConfiguration('DayNight'))
+					if ($this->getConfiguration('Nuit'))
 						return true;
 				break;
 				case 'Absent':
@@ -127,8 +131,8 @@ class Volets extends eqLogic {
 					    && $Mode != "Absent")
 						return true;
 				break;
-				case 'Azimuth':
-					if ($this->getConfiguration('Azimuth')
+				case 'Azimut':
+					if ($this->getConfiguration('Azimut')
 					    && $Mode != "Night" 
 					    && $Mode != "Absent" 
 					    && $Mode != "Meteo")
@@ -175,11 +179,11 @@ class Volets extends eqLogic {
 					}
 				}
 			case 'Meteo':	
-				if ($this->getConfiguration('Azimuth')){
+				if ($this->getConfiguration('Azimut')){
 					$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 					if(is_object($heliotrope)){
-						$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
-						if($this->ActionAzimute($Azimuth) !== false)
+						$Azimut=$heliotrope->getCmd(null,'azimuth360')->execCmd();
+						if($this->ActionAzimute($Azimut) !== false)
 							return false;
 					}
 				}
@@ -293,34 +297,34 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public function ActionAzimute($Azimuth) {
+	public function ActionAzimute($Azimut) {
 		$Saison=$this->getSaison();
-		$Evenement=$this->SelectAction($Azimuth,$Saison);
-		if ($this->AutorisationAction('Azimuth') && $Evenement != false){
-			$Evenement=$this->checkCondition($Evenement,$Saison,'Azimuth');
+		$Evenement=$this->SelectAction($Azimut,$Saison);
+		if ($this->AutorisationAction('Azimut') && $Evenement != false){
+			$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
 			if( $Evenement!= false){
 				if($Evenement == 'open')
 					$Hauteur=100;
 				else		
 					$Hauteur=$this->checkAltitude();
 				$this->checkAndUpdateCmd('hauteur',$Hauteur);
-				$this->checkAndUpdateCmd('gestion','Azimuth');
+				$this->checkAndUpdateCmd('gestion','Azimut');
 				foreach($this->getConfiguration('action') as $Cmd){	
-					if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Azimuth'))
+					if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Azimut'))
 						continue;
 					if($this->getPosition() != $Evenement 
-					   || $this->getCmd(null,'gestion')->execCmd() != 'Azimuth' 
+					   || $this->getCmd(null,'gestion')->execCmd() != 'Azimut' 
 					   || ($this->getCmd(null,'hauteur')->execCmd() != $Hauteur && array_search('#Hauteur#', $Cmd['options'])!== false)){
-						$this->ExecuteAction($Cmd,'Azimuth',$Hauteur);
+						$this->ExecuteAction($Cmd,'Azimut',$Hauteur);
 					}else
-						log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
+						log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
 				}
 				$this->setPosition($Evenement);
 			}
 		}
 		return $Evenement;
 	}	
-	public function CheckAngle($Azimuth) {
+	public function CheckAngle($Azimut) {
 		$Droite=$this->getConfiguration('Droite');
 		$Gauche=$this->getConfiguration('Gauche');
 		$Centre=$this->getConfiguration('Centre');
@@ -342,21 +346,21 @@ class Volets extends eqLogic {
 				$this->setConfiguration('AngleGauche',$AngleCntGau);
 				$this->save();
 			}else{
-				log::add('Volets','debug',$this->getHumanName().'[Gestion Azimuth] : Les coordonnées GPS de l\'angle d\'exposition au soleil de votre fenêtre sont mal configurées');
+				log::add('Volets','debug',$this->getHumanName().'[Gestion Azimut] : Les coordonnées GPS de l\'angle d\'exposition au soleil de votre fenêtre sont mal configurées');
 				return false;	
 			}
 		}
 		$result=false;
 		if ($AngleCntDrt < $AngleCntGau){
-			if($AngleCntDrt <= $Azimuth && $Azimuth <= $AngleCntGau)
+			if($AngleCntDrt <= $Azimut && $Azimut <= $AngleCntGau)
 				$result= true;
 		}else{
-			if($AngleCntDrt <= $Azimuth && $Azimuth <= 360)
+			if($AngleCntDrt <= $Azimut && $Azimut <= 360)
 				$result= true;
-			if(0 <= $Azimuth && $Azimuth <= $AngleCntGau)
+			if(0 <= $Azimut && $Azimut <= $AngleCntGau)
 				$result= true;
 		}		
-		log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : L\'azimuth ' . $Azimuth . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
+		log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : L\'azimut ' . $Azimut . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
 		return $result;
 	}	
 	public function getSaison() {
@@ -372,18 +376,18 @@ class Volets extends eqLogic {
 		}
 		return false;
 	}	
-	public function SelectAction($Azimuth,$saison) {
+	public function SelectAction($Azimut,$saison) {
 		$Action=false;
-		if($this->CheckAngle($Azimuth)){
+		if($this->CheckAngle($Azimut)){
 			$this->checkAndUpdateCmd('state',true);
-			log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Le soleil est dans la fenêtre');
+			log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil est dans la fenêtre');
 			if($saison =='hiver')
 				$Action='open';
 			else
 				$Action='close';
 		}else{
 			$this->checkAndUpdateCmd('state',false);
-			log::add('Volets','info',$this->getHumanName().'[Gestion Azimuth] : Le soleil n\'est pas dans la fenêtre');
+			log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil n\'est pas dans la fenêtre');
 			if($saison == 'été')
 				$Action='open';
 			else
@@ -545,19 +549,15 @@ class Volets extends eqLogic {
 				$listener->emptyEvent();				
 				if ($this->getConfiguration('RealState') != '')
 					$listener->addEvent($this->getConfiguration('RealState'));
-				if ($this->getConfiguration('Azimuth'))
+				if ($this->getConfiguration('Azimut'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
 				if ($this->getConfiguration('Absent'))
 					$listener->addEvent($this->getConfiguration('cmdPresent'));
-				if ($this->getConfiguration('DayNight')){
+				if ($this->getConfiguration('Jours')){
 					$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDay'));
 					if(!is_object($sunrise))
 						return false;
-					$sunset=$heliotrope->getCmd(null,$this->getConfiguration('TypeNight'));
-					if(!is_object($sunset))
-						return false;
 					$listener->addEvent($sunrise->getId());
-					$listener->addEvent($sunset->getId());
 					$DayStart=$sunrise->execCmd();
 					if($this->getConfiguration('DayMin') != '' && $DayStart < $this->getConfiguration('DayMin'))
 						   $DayStart=$this->getConfiguration('DayMin');
@@ -566,6 +566,12 @@ class Volets extends eqLogic {
 						$this->checkAndUpdateCmd('gestion','Day');
 					$Schedule=date("i",$DelaisDay) . ' ' . date("H",$DelaisDay) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
+				}	
+				if ($this->getConfiguration('Nuit')){
+					$sunset=$heliotrope->getCmd(null,$this->getConfiguration('TypeNight'));
+					if(!is_object($sunset))
+						return false;
+					$listener->addEvent($sunset->getId());
 					$NightStart=$sunset->execCmd();
 					if($this->getConfiguration('NightMax') != '' && $NightStart > $this->getConfiguration('NightMax'))
 						   $NightStart=$this->getConfiguration('NightMax');
@@ -691,11 +697,11 @@ class VoletsCmd extends cmd {
 						if(Volets::ActionMeteo($_option) !== false)
 							return;
 					}
-					if ($this->getEqLogic()->getConfiguration('Azimuth')){
+					if ($this->getEqLogic()->getConfiguration('Azimut')){
 						$heliotrope=eqlogic::byId($this->getEqLogic()->getConfiguration('heliotrope'));
 						if(is_object($heliotrope)){
-							$Azimuth=$heliotrope->getCmd(null,'azimuth360')->execCmd();
-							if($this->getEqLogic()->ActionAzimute($Azimuth) !== false)
+							$Azimut=$heliotrope->getCmd(null,'azimuth360')->execCmd();
+							if($this->getEqLogic()->ActionAzimute($Azimut) !== false)
 								return;
 						}
 					}

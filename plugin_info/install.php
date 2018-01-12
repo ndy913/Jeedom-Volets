@@ -6,10 +6,10 @@ function Volets_update(){
 	log::add('Volets','debug','Lancement du script de mise a jours'); 
 	foreach(eqLogic::byType('Volets') as $eqLogic){
 		if($eqLogic->getConfiguration('Present'))
-			$eqLogic->setConfiguration('Absent',true)
+			$eqLogic->setConfiguration('Absent',true);
 		if($eqLogic->getConfiguration('DayNight')){
-			$eqLogic->setConfiguration('Jours',true)
-			$eqLogic->setConfiguration('Nuit',true)
+			$eqLogic->setConfiguration('Jours',true);
+			$eqLogic->setConfiguration('Nuit',true);
 		}
 		$eqLogic->save();
 	}

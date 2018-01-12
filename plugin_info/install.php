@@ -11,6 +11,16 @@ function Volets_update(){
 			$eqLogic->setConfiguration('Jours',true);
 			$eqLogic->setConfiguration('Nuit',true);
 		}
+		$Conditions=$eqLogic->getConfiguration('condition');
+		foreach($Conditions as $CondiKey => $Condition){	
+			foreach($Condition["TypeGestion"] as $TypeGestionKey => $TypeGestion){	
+				if($TypeGestion == "Day")
+					$Conditions[$CondiKey]["TypeGestion"][]="Jours";
+				if($TypeGestion == "Night")
+					$Conditions[$CondiKey]["TypeGestion"][]="Nuit";
+				if($TypeGestion == "Presence")
+					$Conditions[$CondiKey]["TypeGestion"][]="Absent";
+			}
 		$eqLogic->save();
 	}
 	log::add('Volets','debug','Fin du script de mise a jours');

@@ -3,6 +3,8 @@ if (!isConnect('admin')) {
 throw new Exception('{{401 - Accès non autorisé}}');
 }
 sendVarToJS('eqType', 'Volets');
+sendVarToJS('BingAPIKey', config::byKey('BingAPIKey'),'Volets');
+sendVarToJS('GestionsVolets', Volets::$_Gestions);
 $eqLogics = eqLogic::byType('Volets');
 ?>
 <div class="row row-overflow">

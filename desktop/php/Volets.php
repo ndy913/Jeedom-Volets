@@ -170,15 +170,21 @@ $eqLogics = eqLogic::byType('Volets');
 											<i class="fa fa-question-circle tooltips" title="{{Choisir les types de gestions souhaités pour cette zone}}" style="font-size : 1em;color:grey;"></i>
 										</sup>
 									</label>
-									<div class="col-sm-8">
-										<label>{{Jour / Nuit}}</label>
+									<div class="col-sm-8 Gestions">
+										<?php
+											foreach (Volets::_Gestions as $Gestions) {
+												echo '<label>{{'.$Gestions.'}}</label>';
+												echo '<input type="checkbox" class="eqLogicAttr" data-label-text="{{'.$Gestions.'}}" data-l1key="configuration" data-l2key="'.$Gestions.'" checked/>';
+										
+										?>
+										<!--label>{{Jour / Nuit}}</label>
 										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Jour / Nuit}}" data-l1key="configuration" data-l2key="DayNight" checked/>
 										<label>{{Position du soleil}}</label>
 										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Position du soleil}}" data-l1key="configuration" data-l2key="Azimuth" checked/>
 										<label>{{Présence}}</label>
 										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Présence}}" data-l1key="configuration" data-l2key="Present" checked/>
 										<label>{{Météo}}</label>
-										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Météo}}" data-l1key="configuration" data-l2key="Meteo" checked/>
+										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Météo}}" data-l1key="configuration" data-l2key="Meteo" checked/-->
 									</div>
 								</div>	
 								<div class="form-group">

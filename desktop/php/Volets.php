@@ -198,7 +198,7 @@ $eqLogics = eqLogic::byType('Volets');
 									</div>
 								</div>	
 								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Hauteur de l'etat, definissant la fermeture}}
+									<label class="col-sm-2 control-label">{{Hauteur de fermeture}}
 										<sup>
 											<i class="fa fa-question-circle tooltips" title="{{Ce parametre permet de déterminer si le volet est consider comme fermer (pour le retour d'etat proportionnel).}}"></i>
 										</sup>

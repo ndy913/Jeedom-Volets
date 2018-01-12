@@ -172,9 +172,9 @@ $eqLogics = eqLogic::byType('Volets');
 									</label>
 									<div class="col-sm-8 Gestions">
 										<?php
-											foreach (Volets::_Gestions as $Gestions) {
-												echo '<label>{{'.$Gestions.'}}</label>';
-												echo '<input type="checkbox" class="eqLogicAttr" data-label-text="{{'.$Gestions.'}}" data-l1key="configuration" data-l2key="'.$Gestions.'" checked/>';
+											foreach (Volets::$_Gestions as $Gestion) {
+												echo '<label>{{'.$Gestion.'}}</label>';
+												echo '<input type="checkbox" class="eqLogicAttr" data-label-text="{{'.$Gestion.'}}" data-l1key="configuration" data-l2key="'.$Gestion.'"/>';
 											}
 										?>
 										<!--label>{{Jour / Nuit}}</label>

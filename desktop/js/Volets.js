@@ -12,14 +12,6 @@ var styles = [
 var DroitLatLng=new Object();
 var CentreLatLng=new Object();
 var GaucheLatLng=new Object();
-var BingAPIKey;
-jeedom.config.load({
-	plugin: 'Volets',
-	configuration: 'BingAPIKey',
-	success: function (data) {
-		BingAPIKey=data;
-	}
-});
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
@@ -550,8 +542,8 @@ function addCmdToTable(_cmd) {
 }
 function addParameters() {
 	var gestions=$('<select class="expressionAttr form-control input-sm cmdAction" data-l1key="TypeGestion" multiple>');
-	$('.Gestions').getValues('.eqLogicAttr[data-l1key=configuration]').each(function( index ) {
-		gestions.append($('<option value="index">').text(index));
+	$.each(GestionsVolets,function( index, value ) {
+		gestions.append($('<option value="'+value+'">').text(value));
 	});
 	var Parameter=$('<div>');
 	Parameter.append($('<td>')

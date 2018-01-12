@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
-	public static $_Gestions=array('Jours','Nuit','Meteo','Absence','Azimute');
+	public static $_Gestions=array('Manuel','Jours','Nuit','Meteo','Absence','Azimute');
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'Volets';
@@ -87,7 +87,7 @@ class Volets extends eqLogic {
 							if($cache->getValue(false)){
 								log::add('Volets','info',$Volet->getHumanName().' : Le changement d\'état est autorisé');
 								//Determiner si le volet est ouvert ou fermer
-								if($_option['value'] < 20) //Remplacer 0 par un parametre de seuil
+								if($_option['value'] < $Volet->getConfiguration("SeuilRealState"))
 									$State='open';
 								else
 									$State='close';
@@ -95,7 +95,7 @@ class Volets extends eqLogic {
 									cache::set('Volets::ChangeState::'.$Volet->getId(),false, 0);
 							}else{
                               					message::add('danger','Un evenement manuel a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été désactivé');
-								$Volet->checkAndUpdateCmd('isArmed',false);
+								//$Volet->checkAndUpdateCmd('isArmed',false);
                      				       }
 						}
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('cmdPresent'))){

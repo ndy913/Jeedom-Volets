@@ -198,6 +198,18 @@ $eqLogics = eqLogic::byType('Volets');
 										</div>
 									</div>
 								</div>	
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Hauteur de l'etat, definissant la fermeture}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="{{Ce parametre permet de déterminer si le volet est consider comme fermer (pour le retour d'etat proportionnel).}}"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<div class="input-group">
+											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="SeuilRealState" placeholder="{{0 si binaire}}"/>
+										</div>
+									</div>
+								</div>	
 							</fieldset>
 						</form>
 					</div>

@@ -402,7 +402,7 @@ class Volets extends eqLogic {
 		return $Action;
 	}
 	public function ExecuteAction($cmd,$TypeGestion,$Hauteur=0){		
-		if($this->getCmd(null,'gestion')->execCmd() != "Manuel"){
+//		if($this->getCmd(null,'gestion')->execCmd() != "Manuel"){
 			try {
 				$options = array();
 				if (isset($cmd['options'])) 
@@ -423,7 +423,7 @@ class Volets extends eqLogic {
 				}
 				$Commande->event($options);
 			}
-		}
+		//}
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {
 		if(strlen($HeureStart)==3)

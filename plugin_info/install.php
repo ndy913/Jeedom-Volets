@@ -17,7 +17,9 @@ function Volets_update(){
 		foreach($Conditions as $CondiKey => $Condition){	
 			foreach($Condition["TypeGestion"] as $TypeGestionKey => $TypeGestion){	
 				if($TypeGestion == "Day")
-					$Conditions[$CondiKey]["TypeGestion"][]="Jours";
+					$Conditions[$CondiKey]["TypeGestion"][]="Jour";
+				if($TypeGestion == "Jours")
+					$Conditions[$CondiKey]["TypeGestion"][]="Jour";
 				if($TypeGestion == "Night")
 					$Conditions[$CondiKey]["TypeGestion"][]="Nuit";
 				if($TypeGestion == "Presence")
@@ -30,8 +32,10 @@ function Volets_update(){
 		$Actions=$eqLogic->getConfiguration('action');
 		foreach($Actions as $ActionKey => $Action){	
 			foreach($Action["TypeGestion"] as $TypeGestionKey => $TypeGestion){	
+				if($TypeGestion == "Jours")
+					$Actions[$ActionKey]["TypeGestion"][]="Jour";
 				if($TypeGestion == "Day")
-					$Actions[$ActionKey]["TypeGestion"][]="Jours";
+					$Actions[$ActionKey]["TypeGestion"][]="Jour";
 				if($TypeGestion == "Night")
 					$Actions[$ActionKey]["TypeGestion"][]="Nuit";
 				if($TypeGestion == "Presence")

@@ -15,11 +15,11 @@ var GaucheLatLng=new Object();
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
-$('.eqLogicAttr[data-l1key=configuration][data-l2key=Jours]').on('change',function(){
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').on('change',function(){
 	if($(this).is(':checked'))
-		$('.Jours').show();
+		$('.Jour').show();
 	else
-		$('.Jours').hide();
+		$('.Jour').hide();
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').on('change',function(){
 	if($(this).is(':checked'))

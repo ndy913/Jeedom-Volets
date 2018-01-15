@@ -241,9 +241,9 @@ $eqLogics = eqLogic::byType('Volets');
 							</fieldset>
 						</form>
 					</div>
-					<div class="col-sm-6 Jours">
+					<div class="col-sm-6 Jour">
 						<form class="form-horizontal">
-							<legend>Gestion Jours</legend>
+							<legend>Gestion Jour</legend>
 							<fieldset>
 								<div class="form-group">
 									<label class="col-sm-2 control-label">{{Heure d'ouverture minimum (HHMM)}}

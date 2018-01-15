@@ -155,34 +155,14 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('Absent')){	
 					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));
 					if(is_object($Commande) && $Commande->execCmd() == false){
-						log::add('Volets', 'info', $this->getHumanName().'[Gestion Jour] : Il n\'y a personne nous exécutons la gestion de présence');
-						$Evenement='close';
-						foreach($this->getConfiguration('action') as $Cmd){	
-							if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
-								continue;
-							$this->ExecuteAction($Cmd,'Presence');
-							$this->setPosition($Evenement);
-						}
-						$this->checkAndUpdateCmd('gestion','Absent');
-						return false;
+						return $this->CheckActions('Absent','close',$Saison);
 					}
 				}
 			case 'Absent':
 				if ($this->getConfiguration('Meteo')){
 					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
-					if($Evenement != false && $Evenement == "close"){
-						if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Meteo'){
-							log::add('Volets','info',$this->getHumanName().'[Gestion Meteo] : Exécution des actions');
-							foreach($this->getConfiguration('action') as $Cmd){	
-								if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Meteo'))
-									continue;
-								$this->ExecuteAction($Cmd, 'Meteo');
-								$this->setPosition($Evenement);
-							}
-							$this->checkAndUpdateCmd('gestion','Meteo');
-							return false;
-						}
-					}
+					if($Evenement != false && $Evenement == "close")
+						return $this->CheckActions('Meteo',$Evenement,$Saison);
 				}
 			case 'Meteo':	
 				if ($this->getConfiguration('Azimut')){
@@ -203,18 +183,9 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('open',$Saison,'Jour');
 			if( $Evenement!= false){
-				if($Volet->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Jour'){
-					$Volet->checkAndUpdateCmd('gestion','Jour');
-					if(!$Volet->CheckOtherGestion('Jour'))
-						return;
-					log::add('Volets','info',$Volet->getHumanName().'[Gestion Jour] : Execution des actions');
-					foreach($Volet->getConfiguration('action') as $Cmd){	
-						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Jour'))
-							continue;
-						$Volet->ExecuteAction($Cmd, 'Jour');
-					}
-					$Volet->setPosition($Evenement);
-				}
+				if(!$Volet->CheckOtherGestion('Jour'))
+					return;
+				$this->CheckActions('Jour',$Evenement,$Saison);
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Jour] : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
@@ -230,16 +201,7 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Nuit');
 			if( $Evenement!= false){
-				if($Volet->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Nuit'){
-					log::add('Volets','info',$Volet->getHumanName().'[Gestion Nuit] : Exécution des actions');
-					foreach($Volet->getConfiguration('action') as $Cmd){	
-						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Nuit'))
-							continue;
-						$Volet->ExecuteAction($Cmd, 'Nuit');
-					}
-					$Volet->setPosition($Evenement);
-				}
-				$Volet->checkAndUpdateCmd('gestion','Nuit');
+				$this->CheckActions('Nuit',$Evenement,$Saison);
 			}else{
 				log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Nuit] : Replanification de l\'évaluation des conditions de fermeture au coucher du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
@@ -260,19 +222,8 @@ class Volets extends eqLogic {
 					return;
 				$Evenement=$Volet->checkCondition('open',$Saison,'Meteo');   	
 			} 
-			if($Evenement != false){
-				if($Volet->getPosition() != $Evenement || $Volet->getCmd(null,'gestion')->execCmd() != 'Meteo'){
-					log::add('Volets','info',$Volet->getHumanName().'[Gestion Meteo] : Exécution des actions');
-					foreach($Volet->getConfiguration('action') as $Cmd){	
-						if (!$Volet->CheckValid($Cmd,$Evenement,$Saison,'Meteo'))
-							continue;
-						$Volet->ExecuteAction($Cmd, 'Meteo');
-					}
-					$Volet->setPosition($Evenement);
-				}
-				if($Evenement == "close")
-					$Volet->checkAndUpdateCmd('gestion','Meteo');
-			}
+			if($Evenement != false)
+				$this->CheckActions('Meteo',$Evenement,$Saison);
 			return $Evenement;
 		}
 	}
@@ -285,21 +236,9 @@ class Volets extends eqLogic {
 				$Evenement='close';
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
 			if( $Evenement!= false){
-				if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != 'Absent'){
-					log::add('Volets','info',$this->getHumanName().'[Gestion Presence] : Exécution des actions');
-					if($Evenement == 'open'){	
-						$this->checkAndUpdateCmd('gestion','Jour');
-						if(!$this->CheckOtherGestion('Absent'))
-							return;				
-					}else
-						$this->checkAndUpdateCmd('gestion','Absent');
-					foreach($this->getConfiguration('action') as $Cmd){	
-						if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Presence'))
-							continue;
-						$this->ExecuteAction($Cmd,'Presence');
-					}
-					$this->setPosition($Evenement);
-				}
+				if(!$this->CheckOtherGestion('Absent'))
+						return;				
+				$this->CheckActions('Absent',$Evenement,$Saison);
 			}
 		}
 	}
@@ -314,18 +253,7 @@ class Volets extends eqLogic {
 				else		
 					$Hauteur=$this->checkAltitude();
 				$this->checkAndUpdateCmd('hauteur',$Hauteur);
-				$this->checkAndUpdateCmd('gestion','Azimut');
-				foreach($this->getConfiguration('action') as $Cmd){	
-					if (!$this->CheckValid($Cmd,$Evenement,$Saison,'Azimut'))
-						continue;
-					if($this->getPosition() != $Evenement 
-					   || $this->getCmd(null,'gestion')->execCmd() != 'Azimut' 
-					   || ($this->getCmd(null,'hauteur')->execCmd() != $Hauteur && array_search('#Hauteur#', $Cmd['options'])!== false)){
-						$this->ExecuteAction($Cmd,'Azimut',$Hauteur);
-					}else
-						log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Position actuelle est '.$Evenement.' les volets sont déjà dans la bonne position, je ne fait rien');
-				}
-				$this->setPosition($Evenement);
+				$this->CheckActions('Azimut',$Evenement,$Saison);
 			}
 		}
 		return $Evenement;
@@ -401,29 +329,47 @@ class Volets extends eqLogic {
 		}
 		return $Action;
 	}
-	public function ExecuteAction($cmd,$TypeGestion,$Hauteur=0){		
-//		if($this->getCmd(null,'gestion')->execCmd() != "Manuel"){
-			try {
-				$options = array();
-				if (isset($cmd['options'])) 
-					$options = $cmd['options'];
-				scenarioExpression::createAndExec('action', $cmd['cmd'], $options);
-			} catch (Exception $e) {
-				log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$TypeGestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+	public function CheckActions($Gestion,$Evenement,$Saison,$Hauteur=0){
+		if($this->getCmd(null,'gestion')->execCmd() != "Manuel"){
+			if ($Evenement == 'close')
+				$this->checkAndUpdateCmd('gestion',$Gestion);
+			else
+				$this->checkAndUpdateCmd('gestion','Jour');
+			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution des actions');
+			foreach($this->getConfiguration('action') as $Cmd){	
+				if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
+					continue;
+				if($this->getPosition() != $Evenement 
+				   || $this->getCmd(null,'gestion')->execCmd() != $Gestion
+				   || ($this->getCmd(null,'gestion')->execCmd() == 'Azimut' 
+				      	&& $this->getCmd(null,'hauteur')->execCmd() != $Hauteur 
+					&& array_search('#Hauteur#', $Cmd['options'])!== false))
+					$this->ExecuteAction($Cmd,'Azimut',$Hauteur);
 			}
-			$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
-			if(is_object($Commande)){
-				log::add('Volets','debug',$this->getHumanName().'[Gestion '.$TypeGestion.'] : Exécution de '.$Commande->getHumanName());
-				$options=null;
-				if(isset($cmd['options'])){
-					$options=$cmd['options'];
-					$key = array_search('#Hauteur#', $options);
-					if($key !== false)
-						array_replace($options, array($key => str_replace('#Hauteur#',$Hauteur,$options[$key])));
-				}
-				$Commande->event($options);
+		}
+		$this->setPosition($Evenement);
+	}
+	public function ExecuteAction($cmd,$Gestion,$Hauteur=0){		
+		try {
+			$options = array();
+			if (isset($cmd['options'])) 
+				$options = $cmd['options'];
+			scenarioExpression::createAndExec('action', $cmd['cmd'], $options);
+		} catch (Exception $e) {
+			log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$Gestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+		}
+		$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
+		if(is_object($Commande)){
+			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.$Commande->getHumanName());
+			$options=null;
+			if(isset($cmd['options'])){
+				$options=$cmd['options'];
+				$key = array_search('#Hauteur#', $options);
+				if($key !== false)
+					array_replace($options, array($key => str_replace('#Hauteur#',$Hauteur,$options[$key])));
 			}
-		//}
+			$Commande->event($options);
+		}
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {
 		if(strlen($HeureStart)==3)
@@ -456,24 +402,24 @@ class Volets extends eqLogic {
 			}
 		return $cron;
 	}
-	public function CheckValid($Element,$Evenement,$Saison,$TypeGestion){
+	public function CheckValid($Element,$Evenement,$Saison,$Gestion){
 		if(array_search($Evenement, $Element['evaluation']) === false)
 			return false;
 		if(array_search($Saison, $Element['saison']) === false)
 			return false;
-		if(array_search($TypeGestion, $Element['TypeGestion']) === false)
+		if(array_search($Gestion, $Element['TypeGestion']) === false)
 			return false;		
 		if (isset($Element['enable']) && $Element['enable'] == 0)
 			return false;
 		return true;
 	}
-	public function checkCondition($Evenement,$Saison,$TypeGestion){		
+	public function checkCondition($Evenement,$Saison,$Gestion){		
 		foreach($this->getConfiguration('condition') as $Condition){
-			if (!$this->CheckValid($Condition,$Evenement,$Saison,$TypeGestion))
+			if (!$this->CheckValid($Condition,$Evenement,$Saison,$Gestion))
 				continue;
-			if (!$this->EvaluateCondition($Condition,$TypeGestion)){
+			if (!$this->EvaluateCondition($Condition,$Gestion)){
 				if($Condition['Inverse']){
-					log::add('Volets','info',$this->getHumanName().'[Gestion '.$TypeGestion.'] : La condition inverse l\'état du volet');
+					log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La condition inverse l\'état du volet');
 					if($Evenement == 'close')
 						$Evenement='open';
 					else
@@ -483,13 +429,13 @@ class Volets extends eqLogic {
 						return false;
 					}
 					$this->_inverseCondition=true;
-					return $this->checkCondition($Evenement,$Saison,$TypeGestion);
+					return $this->checkCondition($Evenement,$Saison,$Gestion);
 				}
-				log::add('Volets','info',$this->getHumanName().'[Gestion '.$TypeGestion.'] : Les conditions ne sont pas remplies');
+				log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Les conditions ne sont pas remplies');
 				return false;
 			}
 		}
-		log::add('Volets','info',$this->getHumanName().'[Gestion '.$TypeGestion.'] : Les conditions sont remplies pour '.$Evenement);
+		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Les conditions sont remplies pour '.$Evenement);
 		return $Evenement;
 	}
 	public function boolToText($value){
@@ -501,13 +447,13 @@ class Volets extends eqLogic {
 		} else 
 			return $value;
 	}
-	public function EvaluateCondition($Condition,$TypeGestion){
+	public function EvaluateCondition($Condition,$Gestion){
 		$_scenario = null;
 		$expression = scenarioExpression::setTags($Condition['expression'], $_scenario, true);
 		$message = __('Evaluation de la condition : [', __FILE__) . trim($expression) . '] = ';
 		$result = evaluate($expression);
 		$message .=$this->boolToText($result);
-		log::add('Volets','info',$this->getHumanName().'[Gestion '.$TypeGestion.'] : '.$message);
+		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : '.$message);
 		if(!$result)
 			return false;		
 		return true;

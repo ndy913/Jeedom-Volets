@@ -29,9 +29,9 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').on('change',functio
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Absent]').on('change',function(){	
 	if($(this).is(':checked'))
-		$('.Present').show();
+		$('.Absent').show();
 	else
-		$('.Present').hide();
+		$('.Absent').hide();
 });
 $('body').on('change','#layer-select',function(){
         var style = $(this).val();

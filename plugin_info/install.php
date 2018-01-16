@@ -16,32 +16,44 @@ function Volets_update(){
 		$Conditions=$eqLogic->getConfiguration('condition');
 		foreach($Conditions as $CondiKey => $Condition){	
 			foreach($Condition["TypeGestion"] as $TypeGestionKey => $TypeGestion){	
-				if($TypeGestion == "Day")
+				if($TypeGestion == "Day"){
 					$Conditions[$CondiKey]["TypeGestion"][]="Jour";
-				if($TypeGestion == "Jours")
-					$Conditions[$CondiKey]["TypeGestion"][]="Jour";
-				if($TypeGestion == "Night")
+					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
+				}
+				if($TypeGestion == "Night"){
 					$Conditions[$CondiKey]["TypeGestion"][]="Nuit";
-				if($TypeGestion == "Presence")
+					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
+				}
+				if($TypeGestion == "Presence"){
 					$Conditions[$CondiKey]["TypeGestion"][]="Absent";
-				if($TypeGestion == "Azimuth")
+					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
+				}
+				if($TypeGestion == "Azimuth"){
 					$Conditions[$CondiKey]["TypeGestion"][]="Azimut";
+					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
+				}
 			}
 		}
 		$eqLogic->setConfiguration('condition',$Conditions);	
 		$Actions=$eqLogic->getConfiguration('action');
 		foreach($Actions as $ActionKey => $Action){	
 			foreach($Action["TypeGestion"] as $TypeGestionKey => $TypeGestion){	
-				if($TypeGestion == "Jours")
+				if($TypeGestion == "Day"){
 					$Actions[$ActionKey]["TypeGestion"][]="Jour";
-				if($TypeGestion == "Day")
-					$Actions[$ActionKey]["TypeGestion"][]="Jour";
-				if($TypeGestion == "Night")
+					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
+				}
+				if($TypeGestion == "Night"){
 					$Actions[$ActionKey]["TypeGestion"][]="Nuit";
-				if($TypeGestion == "Presence")
+					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
+				}
+				if($TypeGestion == "Presence"){
 					$Actions[$ActionKey]["TypeGestion"][]="Absent";
-				if($TypeGestion == "Azimuth")
+					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
+				}
+				if($TypeGestion == "Azimuth"){
 					$Conditions[$CondiKey]["TypeGestion"][]="Azimut";
+					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
+				}
 			}
 		}
 		$eqLogic->setConfiguration('action',$Actions);	

@@ -155,22 +155,28 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('Absent')){	
 					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));
 					if(is_object($Commande) && $Commande->execCmd() == false){
-						return $this->CheckActions('Absent','close',$Saison);
+						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
+						$this->CheckActions('Absent','close',$Saison);
+						return false;
 					}
 				}
 			case 'Absent':
 				if ($this->getConfiguration('Meteo')){
 					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
 					if($Evenement != false && $Evenement == "close")
-						return $this->CheckActions('Meteo',$Evenement,$Saison);
+						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Meteo prend le relais');
+						$this->CheckActions('Meteo',$Evenement,$Saison);
+						return false;
 				}
 			case 'Meteo':	
 				if ($this->getConfiguration('Azimut')){
 					$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 					if(is_object($heliotrope)){
 						$Azimut=$heliotrope->getCmd(null,'azimuth360')->execCmd();
-						if($this->ActionAzimute($Azimut) !== false)
+						if($this->ActionAzimute($Azimut) !== false){
+							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Azimut prend le relais');
 							return false;
+						}
 					}
 				}
 		}
@@ -343,7 +349,7 @@ class Volets extends eqLogic {
 				   || $this->getCmd(null,'gestion')->execCmd() != $Gestion
 				   /*|| ($this->getCmd(null,'gestion')->execCmd() == 'Azimut' 
 				      	&& $this->getCmd(null,'hauteur')->execCmd() != $Hauteur 
-					&& array_search('#Hauteur#', $Cmd['options'])!== false)*/
+					&& array_search('#Hauteur#', $Cmd['options'])!== false)*/)
 					$this->ExecuteAction($Cmd,'Azimut',$Hauteur);
 			}
 		//}

@@ -304,8 +304,7 @@ class Volets extends eqLogic {
 		return $result;
 	}	
 	public function getSaison() {
-		$isInWindows=$this->getCmd(null,'isInWindows');
-		if(!is_object($isInWindows))
+		$isInWindows=$this->getCmd(null,'isInWindows');		if(!is_object($isInWindows))
 			return false;
 		if($isInWindows->execCmd()){
 			log::add('Volets','debug',$this->getHumanName().' : Le plugin est configuré en mode hiver');
@@ -336,7 +335,7 @@ class Volets extends eqLogic {
 		return $Action;
 	}
 	public function CheckActions($Gestion,$Evenement,$Saison,$Hauteur=0){
-      		$ActualGestion=$this->getCmd(null,'gestion')->execCmd()
+      		$ActualGestion=$this->getCmd(null,'gestion')->execCmd();
 		if($ActualGestion != "Manuel"){
 			if ($Evenement == 'open' && $ActualGestion != 'Azimut')
           			$Gestion = 'Jour';

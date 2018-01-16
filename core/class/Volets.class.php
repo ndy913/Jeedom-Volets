@@ -330,7 +330,7 @@ class Volets extends eqLogic {
 		return $Action;
 	}
 	public function CheckActions($Gestion,$Evenement,$Saison,$Hauteur=0){
-		if($this->getCmd(null,'gestion')->execCmd() != "Manuel"){
+		//if($this->getCmd(null,'gestion')->execCmd() != "Manuel"){
 			if ($Evenement == 'close')
 				$this->checkAndUpdateCmd('gestion',$Gestion);
 			else
@@ -341,12 +341,12 @@ class Volets extends eqLogic {
 					continue;
 				if($this->getPosition() != $Evenement 
 				   || $this->getCmd(null,'gestion')->execCmd() != $Gestion
-				   || ($this->getCmd(null,'gestion')->execCmd() == 'Azimut' 
+				   /*|| ($this->getCmd(null,'gestion')->execCmd() == 'Azimut' 
 				      	&& $this->getCmd(null,'hauteur')->execCmd() != $Hauteur 
-					&& array_search('#Hauteur#', $Cmd['options'])!== false))
+					&& array_search('#Hauteur#', $Cmd['options'])!== false)*/
 					$this->ExecuteAction($Cmd,'Azimut',$Hauteur);
 			}
-		}
+		//}
 		$this->setPosition($Evenement);
 	}
 	public function ExecuteAction($cmd,$Gestion,$Hauteur=0){		

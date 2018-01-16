@@ -257,7 +257,7 @@ class Volets extends eqLogic {
 				else		
 					$Hauteur=$this->checkAltitude();
 				$this->checkAndUpdateCmd('hauteur',$Hauteur);
-				$this->CheckActions('Azimut',$Evenement,$Saison);
+				$this->CheckActions('Azimut',$Evenement,$Saison,$Hauteur);
 			}
 		}
 		return $Evenement;
@@ -369,7 +369,7 @@ class Volets extends eqLogic {
 				$options=$cmd['options'];
 				$key = array_search('#Hauteur#', $options);
 				if($key !== false)
-					array_replace($options, array($key => str_replace('#Hauteur#',$Hauteur,$options[$key])));
+                			$options[$key]=str_replace('#Hauteur#',$Hauteur,$options[$key]);
 			}
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.$Commande->getHumanName().' ('.json_encode($options).')');
 			$Commande->event($options);

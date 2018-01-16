@@ -93,14 +93,16 @@ class Volets extends eqLogic {
 								if($Volet->getCmd(null,'position')->execCmd() == $State)
 									cache::set('Volets::ChangeState::'.$Volet->getId(),false, 0);
 							}else{
-								if($Volet->getCmd(null,'position')->execCmd() == $State){
-									message::add('succes','Un evenement manuel identique a ce qu\'attend le plugin a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été activé');
-									$Volet->checkAndUpdateCmd('gestion','Jour');
-									//$Volet->checkAndUpdateCmd('isArmed',true);									
-								}else{
-									message::add('danger','Un evenement manuel a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été désactivé');
-									$Volet->checkAndUpdateCmd('gestion','Manuel');
-									//$Volet->checkAndUpdateCmd('isArmed',false);
+								if($Volet->getConfiguration('Manuel')){
+									if($Volet->getCmd(null,'position')->execCmd() == $State){
+										message::add('succes','Un evenement manuel identique a ce qu\'attend le plugin a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été activé');
+										$Volet->checkAndUpdateCmd('gestion','Jour');
+										//$Volet->checkAndUpdateCmd('isArmed',true);									
+									}else{
+										message::add('danger','Un evenement manuel a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été désactivé');
+										$Volet->checkAndUpdateCmd('gestion','Manuel');
+										//$Volet->checkAndUpdateCmd('isArmed',false);
+									}
 								}
                      				       }
 						}
@@ -334,12 +336,12 @@ class Volets extends eqLogic {
 		return $Action;
 	}
 	public function CheckActions($Gestion,$Evenement,$Saison,$Hauteur=0){
-		//if($this->getCmd(null,'gestion')->execCmd() != "Manuel"){
-			if ($Evenement == 'close')
-				$this->checkAndUpdateCmd('gestion',$Gestion);
-			else
-				$this->checkAndUpdateCmd('gestion','Jour');
-			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution des actions');
+      		$ActualGestion=$this->getCmd(null,'gestion')->execCmd()
+		if($ActualGestion != "Manuel"){
+			if ($Evenement == 'open' && $ActualGestion != 'Azimut')
+          			$Gestion = 'Jour';
+			$this->checkAndUpdateCmd('gestion',$Gestion);
+			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
 			foreach($this->getConfiguration('action') as $Cmd){	
 				if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
 					continue;
@@ -350,7 +352,7 @@ class Volets extends eqLogic {
 					&& array_search('#Hauteur#', $Cmd['options'])!== false)*/)
 					$this->ExecuteAction($Cmd,'Azimut',$Hauteur);
 			}
-		//}
+		}
 		$this->setPosition($Evenement);
 	}
 	public function ExecuteAction($cmd,$Gestion,$Hauteur=0){		

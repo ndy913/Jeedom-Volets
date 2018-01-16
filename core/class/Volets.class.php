@@ -639,10 +639,21 @@ class VoletsCmd extends cmd {
 				case 'armed':
 					$Listener->event(true);
 					$this->getEqLogic()->StartDemon();
-					$this->getEqLogic()->CheckOtherGestion('Jour');
 				break;
 				case 'released':
 					$Listener->event(false);
+					$PullListener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getEqLogic()->getId()));
+					if (is_object($PullListener))
+						$PullListener->remove();
+					$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $this->getEqLogic()->getId()));
+					if (is_object($cron)) 	
+						$cron->remove();
+					$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $this->getEqLogic()->getId()));
+					if (is_object($cron)) 	
+						$cron->remove();
+					$cron = cron::byClassAndFunction('Volets', 'ActionMeteo', array('Volets_id' => $this->getEqLogic()->getId()));
+					if (is_object($cron)) 	
+						$cron->remove();
 				break;
 				case 'VoletState':
 				case 'inWindows':

@@ -66,8 +66,6 @@ class Volets extends eqLogic {
 						$DayStart=$_option['value'];
 						if($Volet->getConfiguration('DayMin') != '' && $DayStart < $Volet->getConfiguration('DayMin'))
 						   $DayStart=$Volet->getConfiguration('DayMin');
-						if($DayStart < $Volet->getConfiguration('DayMin'))
-						   $DayStart=$Volet->getConfiguration('DayMin');
 						$timstamp=$Volet->CalculHeureEvent($DayStart,'DelaisDay');
 						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 						$cron = $Volet->CreateCron($Schedule, 'ActionJour');

@@ -364,7 +364,6 @@ class Volets extends eqLogic {
 		}
 		$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
 		if(is_object($Commande)){
-			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.$Commande->getHumanName());
 			$options=null;
 			if(isset($cmd['options'])){
 				$options=$cmd['options'];
@@ -372,6 +371,7 @@ class Volets extends eqLogic {
 				if($key !== false)
 					array_replace($options, array($key => str_replace('#Hauteur#',$Hauteur,$options[$key])));
 			}
+			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.$Commande->getHumanName().' ('.json_encode($options).')');
 			$Commande->event($options);
 		}
 	}

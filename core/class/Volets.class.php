@@ -90,6 +90,7 @@ class Volets extends eqLogic {
 							$cache = cache::byKey('Volets::ChangeState::'.$Volet->getId());
 							if($cache->getValue(false)){
 								log::add('Volets','info',$Volet->getHumanName().' : Le changement d\'état est autorisé');
+								$Volet->checkAndUpdateCmd('hauteur',$_option['value']);
 								if($Volet->getCmd(null,'position')->execCmd() == $State)
 									cache::set('Volets::ChangeState::'.$Volet->getId(),false, 0);
 							}else{
@@ -254,12 +255,7 @@ class Volets extends eqLogic {
 		if ($this->AutorisationAction('Azimut') && $Evenement != false){
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
 			if( $Evenement!= false){
-				if($Evenement == 'open')
-					$Hauteur=100;
-				else		
-					$Hauteur=$this->checkAltitude();
-				$this->checkAndUpdateCmd('hauteur',$Hauteur);
-				$this->CheckActions('Azimut',$Evenement,$Saison,$Hauteur);
+				$this->CheckActions('Azimut',$Evenement,$Saison);
 			}
 		}
 		return $Evenement;
@@ -320,7 +316,7 @@ class Volets extends eqLogic {
 		if($this->CheckAngle($Azimut)){
 			$this->checkAndUpdateCmd('state',true);
 			log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil est dans la fenêtre');
-			if($saison =='hiver')
+			if($saison =='$saison == 'été'')
 				$Action='open';
 			else
 				$Action='close';
@@ -334,7 +330,14 @@ class Volets extends eqLogic {
 		}
 		return $Action;
 	}
-	public function CheckActions($Gestion,$Evenement,$Saison,$Hauteur=0){
+	public function CheckActions($Gestion,$Evenement,$Saison){
+		if($Evenement == 'open')
+			$Hauteur=100;
+		elseif($Evenement == 'close' && $saison == 'hiver')
+			$Hauteur=0;
+		else		
+			$Hauteur=$this->checkAltitude();
+		$this->checkAndUpdateCmd('hauteur',$Hauteur);
       		$ActualGestion=$this->getCmd(null,'gestion')->execCmd();
 		if($ActualGestion != "Manuel"){
 			if ($Evenement == 'open' && $ActualGestion != 'Azimut')

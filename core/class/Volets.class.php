@@ -316,7 +316,7 @@ class Volets extends eqLogic {
 		if($this->CheckAngle($Azimut)){
 			$this->checkAndUpdateCmd('state',true);
 			log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil est dans la fenêtre');
-			if($saison =='$saison == 'été'')
+			if($saison =='hiver')
 				$Action='open';
 			else
 				$Action='close';

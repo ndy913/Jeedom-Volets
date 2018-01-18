@@ -526,7 +526,7 @@ class Volets extends eqLogic {
 						   $DayStart=$this->getConfiguration('DayMin');
 					$DelaisDay=$this->CalculHeureEvent($DayStart,'DelaisDay');
 					if(mktime() > $DelaisDay)
-						$this->checkAndUpdateCmd('gestion','Day');
+						$this->checkAndUpdateCmd('gestion','Jour');
 					$Schedule=date("i",$DelaisDay) . ' ' . date("H",$DelaisDay) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
 				}	

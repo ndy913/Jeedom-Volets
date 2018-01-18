@@ -190,6 +190,7 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('open',$Saison,'Jour');
 			if( $Evenement!= false){
+				$Volet->checkAndUpdateCmd('gestion','Jour');
 				if(!$Volet->CheckOtherGestion('Jour'))
 					return;
 				$Volet->CheckActions('Jour',$Evenement,$Saison);

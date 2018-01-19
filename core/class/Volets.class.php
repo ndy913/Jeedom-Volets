@@ -91,7 +91,7 @@ class Volets extends eqLogic {
 							if($cache->getValue(false)){
 								log::add('Volets','info',$Volet->getHumanName().' : Le changement d\'état est autorisé');
 								$Volet->checkAndUpdateCmd('hauteur',$_option['value']);
-								if($Volet->getCmd(null,'position')->execCmd() == $State)
+								//if($Volet->getCmd(null,'position')->execCmd() == $State)
 									cache::set('Volets::ChangeState::'.$Volet->getId(),false, 0);
 							}else{
 								if($Volet->getConfiguration('Manuel')){
@@ -350,7 +350,7 @@ class Volets extends eqLogic {
 					&& array_search('#Hauteur#', $Cmd['options'])!== false))
 					$this->ExecuteAction($Cmd,'Azimut',$Hauteur);
 			}
-			if ($Evenement == 'open' && $ActualGestion != 'Azimut')
+			if ($Evenement == 'open' && $Gestion != 'Azimut')
 				$Gestion = 'Jour';
 			$this->checkAndUpdateCmd('gestion',$Gestion);
 			$this->checkAndUpdateCmd('hauteur',$Hauteur);

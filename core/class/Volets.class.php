@@ -225,7 +225,6 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');   		
 			if($Evenement== false && $Volet->getCmd(null,'gestion')->execCmd()=='Meteo'){
-				$Volet->checkAndUpdateCmd('gestion','Jour');
 				if(!$Volet->CheckOtherGestion('Meteo'))
 					return;
 				$Evenement=$Volet->checkCondition('open',$Saison,'Meteo');   	
@@ -242,10 +241,10 @@ class Volets extends eqLogic {
 				$Evenement='open';
 			else
 				$Evenement='close';
-			$Evenement=$this->checkCondition($Evenement,$Saison,'Presence');
+			$Evenement=$this->checkCondition($Evenement,$Saison,'Absent');
 			if( $Evenement!= false){
 				if(!$this->CheckOtherGestion('Absent'))
-						return;				
+					return;				
 				$this->CheckActions('Absent',$Evenement,$Saison);
 			}
 		}

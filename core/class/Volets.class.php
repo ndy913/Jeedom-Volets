@@ -354,6 +354,7 @@ class Volets extends eqLogic {
 				$Gestion = 'Jour';
 			$this->checkAndUpdateCmd('gestion',$Gestion);
 			$this->checkAndUpdateCmd('hauteur',$Hauteur);
+			cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 		}
 		$this->setPosition($Evenement);
 	}
@@ -570,7 +571,6 @@ class Volets extends eqLogic {
 	}
 	public function setPosition($Evenement) {
 		$this->checkAndUpdateCmd('position',$Evenement);
-		cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 	}
 	public function getPosition() {
 		return $this->getCmd(null,'position')->execCmd();

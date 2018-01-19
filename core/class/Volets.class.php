@@ -376,7 +376,7 @@ class Volets extends eqLogic {
                 			$options[$key]=str_replace('#Hauteur#',$Hauteur,$options[$key]);
 			}
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.$Commande->getHumanName().' ('.json_encode($options).')');
-			$Commande->event($options);
+			$Commande->execute($options);
 		}
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {

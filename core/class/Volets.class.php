@@ -338,23 +338,23 @@ class Volets extends eqLogic {
 			$Hauteur=0;
 		else		
 			$Hauteur=$this->checkAltitude();
-		$this->checkAndUpdateCmd('hauteur',$Hauteur);
       		$ActualGestion=$this->getCmd(null,'gestion')->execCmd();
 		if($ActualGestion != "Manuel"){
-			if ($Evenement == 'open' && $ActualGestion != 'Azimut')
-          			$Gestion = 'Jour';
-			$this->checkAndUpdateCmd('gestion',$Gestion);
 			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
 			foreach($this->getConfiguration('action') as $Cmd){	
 				if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
 					continue;
 				if($this->getPosition() != $Evenement 
 				   || $this->getCmd(null,'gestion')->execCmd() != $Gestion
-				   /*|| ($this->getCmd(null,'gestion')->execCmd() == 'Azimut' 
+				   || ($this->getCmd(null,'gestion')->execCmd() == 'Azimut' 
 				      	&& $this->getCmd(null,'hauteur')->execCmd() != $Hauteur 
-					&& array_search('#Hauteur#', $Cmd['options'])!== false)*/)
+					&& array_search('#Hauteur#', $Cmd['options'])!== false))
 					$this->ExecuteAction($Cmd,'Azimut',$Hauteur);
 			}
+			if ($Evenement == 'open' && $ActualGestion != 'Azimut')
+				$Gestion = 'Jour';
+			$this->checkAndUpdateCmd('gestion',$Gestion);
+			$this->checkAndUpdateCmd('hauteur',$Hauteur);
 		}
 		$this->setPosition($Evenement);
 	}

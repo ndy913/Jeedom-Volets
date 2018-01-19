@@ -242,9 +242,11 @@ class Volets extends eqLogic {
 			else
 				$Evenement='close';
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Absent');
-			if( $Evenement!= false){
-				if(!$this->CheckOtherGestion('Absent'))
-					return;				
+			if( $Evenement!= false ){
+				if($Evenement!= 'close' ){
+					if(!$this->CheckOtherGestion('Absent'))
+						return;	
+				}
 				$this->CheckActions('Absent',$Evenement,$Saison);
 			}
 		}

@@ -334,7 +334,7 @@ class Volets extends eqLogic {
 	public function CheckActions($Gestion,$Evenement,$Saison){
 		if($Evenement == 'open')
 			$Hauteur=100;
-		elseif($Evenement == 'close' && $saison == 'hiver')
+		elseif($Evenement == 'close' && $Saison == 'hiver')
 			$Hauteur=0;
 		else		
 			$Hauteur=$this->checkAltitude();

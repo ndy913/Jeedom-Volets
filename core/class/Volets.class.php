@@ -190,8 +190,8 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('open',$Saison,'Jour');
 			if( $Evenement!= false){
-				if(!$Volet->CheckOtherGestion('Jour'))
-					return;
+				/*if(!$Volet->CheckOtherGestion('Jour'))
+					return;*/
 				$Volet->CheckActions('Jour',$Evenement,$Saison);
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Jour] : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
@@ -242,10 +242,10 @@ class Volets extends eqLogic {
 				$Evenement='close';
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Absent');
 			if( $Evenement!= false ){
-				if($Evenement!= 'close' ){
+				/*if($Evenement!= 'close' ){
 					if(!$this->CheckOtherGestion('Absent'))
 						return;	
-				}
+				}*/
 				$this->CheckActions('Absent',$Evenement,$Saison);
 			}
 		}
@@ -255,9 +255,8 @@ class Volets extends eqLogic {
 		$Evenement=$this->SelectAction($Azimut,$Saison);
 		if ($this->AutorisationAction('Azimut') && $Evenement != false){
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
-			if( $Evenement!= false){
+			if( $Evenement!= false)
 				$this->CheckActions('Azimut',$Evenement,$Saison);
-			}
 		}
 		return $Evenement;
 	}	

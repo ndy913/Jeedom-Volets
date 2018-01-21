@@ -174,10 +174,6 @@ class Volets extends eqLogic {
 					$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 					if(is_object($heliotrope)){
 						$Azimut=$heliotrope->getCmd(null,'azimuth360')->execCmd();
-						/*if($this->ActionAzimute($Azimut) !== false){
-							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Azimut prend le relais');
-							return false;
-						}*/
 						$Evenement=$this->SelectAction($Azimut,$Saison);
 						if($Evenement != false && $Evenement == 'close'){
 							$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
@@ -185,6 +181,7 @@ class Volets extends eqLogic {
 								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion par Azimut prend le relais');
 								$this->CheckActions('Azimut',$Evenement,$Saison);
 								return false;
+							}
 						}
 					}
 				}

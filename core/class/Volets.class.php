@@ -165,7 +165,7 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('Meteo')){
 					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
 					if($Evenement != false && $Evenement == "close")
-						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Meteo prend le relais');
+						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion Meteo prend le relais');
 						$this->CheckActions('Meteo',$Evenement,$Saison);
 						return false;
 				}
@@ -174,9 +174,17 @@ class Volets extends eqLogic {
 					$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 					if(is_object($heliotrope)){
 						$Azimut=$heliotrope->getCmd(null,'azimuth360')->execCmd();
-						if($this->ActionAzimute($Azimut) !== false){
+						/*if($this->ActionAzimute($Azimut) !== false){
 							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Azimut prend le relais');
 							return false;
+						}*/
+						$Evenement=$this->SelectAction($Azimut,$Saison);
+						if($Evenement != false && $Evenement == 'close'){
+							$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
+							if( $Evenement!= false){
+								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion par Azimut prend le relais');
+								$this->CheckActions('Azimut',$Evenement,$Saison);
+								return false;
 						}
 					}
 				}
@@ -190,8 +198,8 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('open',$Saison,'Jour');
 			if( $Evenement!= false){
-				/*if(!$Volet->CheckOtherGestion('Jour'))
-					return;*/
+				if(!$Volet->CheckOtherGestion('Jour'))
+					return;
 				$Volet->CheckActions('Jour',$Evenement,$Saison);
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Jour] : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
@@ -242,10 +250,10 @@ class Volets extends eqLogic {
 				$Evenement='close';
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Absent');
 			if( $Evenement!= false ){
-				/*if($Evenement!= 'close' ){
+				if($Evenement!= 'close' ){
 					if(!$this->CheckOtherGestion('Absent'))
 						return;	
-				}*/
+				}
 				$this->CheckActions('Absent',$Evenement,$Saison);
 			}
 		}

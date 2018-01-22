@@ -10,27 +10,43 @@ image::../images/ConfigurationGeneral.jpg[]
 * `Activer` : permet d'activer l'équipement
 * `Visible` : permet de rendre l'équipement visible dans le Dashboard
 * `Héliotrope` : choisir l'équipement Héliotrope à prendre en compte pour ce groupe de zone
-* `Jour / Nuit` : activation de la gestion en jour / nuit
-* `Position du soleil` : activation de la gestion en fonction de la position du soleil (dépend de l'équipement Héliotrope)
-* `Présence` : activation de la gestion en fonction de la présence
+
+* `Manuel` : activation de la gestion manuel, autorise les changement manuel de volet
+* `Jour` : activation de la gestion en jour 
+* `Nuit` : activation de la gestion en nuit
+* `Azimut` : activation de la gestion en fonction de la position du soleil (dépend de l'équipement Héliotrope)
+* `Absent` : activation de la gestion en fonction de la présence
 * `Météo` : active la gestion météo. 
+
+* `Objet etat réel` : Commande Jeedom permetant de définir l'etat réel du volet
+* `Hauteur de fermeture` : Seuil de la hauteur de l'etat reel séparant l'ouverture de la fermeture
 
 ==== Gestion du lever et coucher du soleil
 
 Cette gestion permet d'ouvrir ou de fermer le volets en fonction du lever et du coucher du soleil.
 Il faut activer la gestion pour faire apparaitre les champs de configuration spécifique.
 
+* `Heure d'ouverture minimum` : Permet d'imposer au plugin un heure minimum a partir de laquel le plugin ne tiendra plus compte de l'heure du lever du soleil 
 * `Type de lever du soleil` : permet de choisir quel type d'horaire vous voulez pour le lever du jour
 * `Délai au lever du jour (min)` : délai avant (-) ou après (+) l'heure du lever du jour
+
+* `Heure de fermeture maximum` :  Permet d'imposer au plugin un heure maximum a partir de laquel le plugin ne tiendra plus compte de l'heure du coucher du soleil 
 * `Type de coucher du soleil` : permet de choisir quel type d'horaire vous voulez pour la tombée de la nuit
 * `Délai à la tombée de la nuit (min)` : délai avant (-) ou après (+) l'heure de la tombée de la nuit
-* `Délais de réévaluation (min)` : délai d'attente avant réévaluation si les conditions ne sont pas respectées
+
+Il est important que ses 2 gestions fonctionne ensemble.
+Si la gestion de Jour n'est pas activé le plugin restera en gestion de Nuit.
 
 Pour compléter cette gestion, il est possible d'ajouter des conditions.
 Par exemple, dans les chambres, je ne veux pas que les volets s'ouvrent avant 8h.
 J'ajouterai donc une condition de ce type
 
 image::../images/ConditionTime.jpg[]
+==== Gestion de Manuel
+
+La gestion manuel est détécté si votre été réel du volet change et qui n'est pas autorisé par le plugin.
+Elle vas vous permetre de pouvoir autorisé des changement manuel est bloquant les actions des autres gestions
+Lorsque l'etat réel sera cohérant avec l'etat du plugin, la gestion automatique sera reactivé
 
 ==== Gestion de présence
 
@@ -45,7 +61,7 @@ Lorsque la gestion de presence détecte une absence, toutes les autres gestions 
 La gestion météo verifie toutes les minutes les conditions enregistrées.
 Si toutes les conditions que vous avez complétées sont valides, alors l'ordre de fermeture sera donné et toutes les autres gestions hormis la gestion de la nuit sont inactives.
 
-==== Gestion par Azimuth
+==== Gestion par Azimut
 
 Ce mode de fonctionement permet de fermer les volets lorsque le soleil est entre les angles d'exposition au soleil de la fenêtre.
 Pour compléter cette gestion, il est possible d'ajouter des conditions.
@@ -77,7 +93,7 @@ image::../images/ConfigurationConditionEditeur2.jpg[]
 
 Paramètres complémentaires :
 
-* `Inverser l'état si faux` : permet de relancer une évaluation des conditions avec l'action inverse
+* `Inverser l'état si faux` : permet de relancer une évaluation des conditions avec un position inverse du volet
 * `Type de gestion` : sélectionner toutes les gestions où la condition doit être vérifiée (avec la touche `Ctrl`)
 * `Mode` : sélectionner tous les modes où la condition doit être vérifiée (avec la touche `Ctrl`)
 * `Action` : sélectionner toutes les actions où la condition doit être vérifiée (avec la touche `Ctrl`)
@@ -94,3 +110,6 @@ Paramètres complémentaires:
 * `Type de gestion` : sélectionner toutes les gestions où l'action doit être exécutée (avec la touche `Ctrl`)
 * `Mode` : sélectionner tous les modes où l'action doit être exécutée (avec la touche `Ctrl`)
 * `Action` : Sélectionner toutes les actions où l'action doit être exécutée (avec la touche `Ctrl`)
+
+Pour la gestion azimut en été, le plugin calcul la hauteur du volet pour que le rayonnement du soleil soit masqué.
+Pour utiliser la commande hauteur dans une action du plugin, il suffit de mettre en valeur le tag #Hauteur#

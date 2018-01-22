@@ -38,7 +38,7 @@ $eqLogics = eqLogic::byType('Volets');
 			    	<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#767676"><center>Configuration</center></span>
 			</div>
 		</div>
-		<legend>{{Mes Zones de gestion de volets}}</legend>
+		<legend>{{Mes zones}}</legend>
 		<div class="eqLogicThumbnailContainer">
 			<?php
 				foreach ($eqLogics as $eqLogic) {
@@ -65,7 +65,7 @@ $eqLogics = eqLogic::byType('Volets');
 		<a class="btn btn-success btn-sm eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle"></i> Sauvegarder</a>
 		<a class="btn btn-danger btn-sm eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle"></i> Supprimer</a>
 		<a class="btn btn-default btn-sm eqLogicAction pull-right" data-action="configure"><i class="fa fa-cogs"></i></a>
-		<a class="btn btn-default btn-sm eqLogicAction pull-right expertModeVisible " data-action="copy"><i class="fa fa-copy"></i></a>
+		<a class="btn btn-default btn-sm eqLogicAction pull-right" data-action="copy"><i class="fa fa-copy"></i></a>
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation">
 				<a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab" data-action="returnToThumbnailDisplay">

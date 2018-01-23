@@ -124,7 +124,8 @@ class Volets extends eqLogic {
 					if ($this->getConfiguration('Jour'))
 						return true;
 				case 'Nuit':
-					if ($this->getConfiguration('Nuit'))
+					if ($this->getConfiguration('Nuit')
+					    && $Mode != "Manuel" )
 						return true;
 				break;
 				case 'Absent':

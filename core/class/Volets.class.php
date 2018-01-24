@@ -91,16 +91,16 @@ class Volets extends eqLogic {
 							if($cache->getValue(false)){
 								log::add('Volets','info',$Volet->getHumanName().' : Le changement d\'état est autorisé');
 								$Volet->checkAndUpdateCmd('hauteur',$_option['value']);
-								//if($Volet->getCmd(null,'position')->execCmd() == $State)
+								if($Volet->getCmd(null,'position')->execCmd() == $State)
 									cache::set('Volets::ChangeState::'.$Volet->getId(),false, 0);
 							}else{
 								if($Volet->getConfiguration('Manuel')){
 									if($Volet->getCmd(null,'position')->execCmd() == $State){
-										message::add('succes','Un evenement manuel identique a ce qu\'attend le plugin a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été activé');
+										log::add('Volets','info','Un evenement manuel identique a ce qu\'attend le plugin a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été activé');
 										$Volet->checkAndUpdateCmd('gestion','Jour');
 										//$Volet->checkAndUpdateCmd('isArmed',true);									
 									}else{
-										message::add('danger','Un evenement manuel a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été désactivé');
+										log::add('Volets','info','Un evenement manuel a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été désactivé');
 										$Volet->checkAndUpdateCmd('gestion','Manuel');
 										//$Volet->checkAndUpdateCmd('isArmed',false);
 									}

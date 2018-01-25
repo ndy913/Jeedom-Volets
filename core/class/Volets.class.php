@@ -98,15 +98,18 @@ class Volets extends eqLogic {
 									$Volet->checkAndUpdateCmd('position',$State);
 							}else{
 								if($Volet->getConfiguration('Manuel')){
-									if($Volet->getCmd(null,'position')->execCmd() == $State){
+									/*if($Volet->getCmd(null,'position')->execCmd() == $State){
 										log::add('Volets','info','Un evenement manuel identique a ce qu\'attend le plugin a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été activé');
 										$Volet->checkAndUpdateCmd('gestion','Jour');
 										//$Volet->checkAndUpdateCmd('isArmed',true);									
-									}else{
+									}else{*/
 										log::add('Volets','info','Un evenement manuel a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été désactivé');
 										$Volet->checkAndUpdateCmd('gestion','Manuel');
-										//$Volet->checkAndUpdateCmd('isArmed',false);
-									}
+										$Evenement=$Volet->checkCondition($State,$Saison,'Manuel');   		
+										if($Evenement != false)
+											$Volet->CheckActions('Manuel',$Evenement,$Saison);
+										$Volet->checkAndUpdateCmd('isArmed',false);
+									//}
 								}
                      				       }						
 						}
@@ -127,8 +130,7 @@ class Volets extends eqLogic {
 					if ($this->getConfiguration('Jour'))
 						return true;
 				case 'Nuit':
-					if ($this->getConfiguration('Nuit')
-					    && $Mode != "Manuel" )
+					if ($this->getConfiguration('Nuit'))
 						return true;
 				break;
 				case 'Absent':
@@ -347,24 +349,22 @@ class Volets extends eqLogic {
 		else		
 			$Hauteur=$this->checkAltitude();
       		$ActualGestion=$this->getCmd(null,'gestion')->execCmd();
-		if($ActualGestion != "Manuel"){
-			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
-			foreach($this->getConfiguration('action') as $Cmd){	
-				if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
-					continue;
-				if($this->getPosition() != $Evenement 
-				   || $this->getCmd(null,'gestion')->execCmd() != $Gestion
-				   || ($this->getCmd(null,'gestion')->execCmd() == 'Azimut' 
-				      	&& $this->getCmd(null,'hauteur')->execCmd() != $Hauteur 
-					&& array_search('#Hauteur#', $Cmd['options'])!== false))
-					$this->ExecuteAction($Cmd,'Azimut',$Hauteur);
-			}
-			if ($Evenement == 'open' && $Gestion != 'Azimut')
-				$Gestion = 'Jour';
-			$this->checkAndUpdateCmd('gestion',$Gestion);
-			$this->checkAndUpdateCmd('hauteur',$Hauteur);
-			cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
+		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
+		foreach($this->getConfiguration('action') as $Cmd){	
+			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
+				continue;
+			if($this->getPosition() != $Evenement 
+			   || $this->getCmd(null,'gestion')->execCmd() != $Gestion
+			   || ($this->getCmd(null,'gestion')->execCmd() == 'Azimut' 
+				&& $this->getCmd(null,'hauteur')->execCmd() != $Hauteur 
+				&& array_search('#Hauteur#', $Cmd['options'])!== false))
+				$this->ExecuteAction($Cmd,'Azimut',$Hauteur);
 		}
+		if ($Evenement == 'open' && $Gestion != 'Azimut')
+			$Gestion = 'Jour';
+		$this->checkAndUpdateCmd('gestion',$Gestion);
+		$this->checkAndUpdateCmd('hauteur',$Hauteur);
+		cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 		$this->setPosition($Evenement);
 	}
 	public function ExecuteAction($cmd,$Gestion,$Hauteur=0){		

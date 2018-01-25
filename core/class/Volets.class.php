@@ -83,10 +83,11 @@ class Volets extends eqLogic {
 					default:
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
-							if($_option['value'] < $Volet->getConfiguration("SeuilRealState"))
+							if($_option['value'] >= $Volet->getConfiguration("SeuilRealState"))
 								$State='open';
 							else
 								$State='close';
+							log::add('Volets','debug',$Volet->getHumanName().' : '.$_option['value'].' >= '.$Volet->getConfiguration("SeuilRealState").' => '.$State);
 							$cache = cache::byKey('Volets::ChangeState::'.$Volet->getId());
 							if($cache->getValue(false)){
 								log::add('Volets','info',$Volet->getHumanName().' : Le changement d\'état est autorisé');

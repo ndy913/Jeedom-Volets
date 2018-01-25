@@ -83,18 +83,19 @@ class Volets extends eqLogic {
 					default:
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
+							$Volet->checkAndUpdateCmd('hauteur',$_option['value']);
 							if($_option['value'] >= $Volet->getConfiguration("SeuilRealState"))
 								$State='open';
 							else
 								$State='close';
 							log::add('Volets','debug',$Volet->getHumanName().' : '.$_option['value'].' >= '.$Volet->getConfiguration("SeuilRealState").' => '.$State);
-							$cache = cache::byKey('Volets::ChangeState::'.$Volet->getId());								
-							$Volet->checkAndUpdateCmd('hauteur',$_option['value']);
-							$Volet->checkAndUpdateCmd('position',$State);
+							$cache = cache::byKey('Volets::ChangeState::'.$Volet->getId());		
 							if($cache->getValue(false)){
 								log::add('Volets','info',$Volet->getHumanName().' : Le changement d\'état est autorisé');
 								if($Volet->getCmd(null,'position')->execCmd() == $State)
 									cache::set('Volets::ChangeState::'.$Volet->getId(),false, 0);
+								else
+									$Volet->checkAndUpdateCmd('position',$State);
 							}else{
 								if($Volet->getConfiguration('Manuel')){
 									if($Volet->getCmd(null,'position')->execCmd() == $State){
@@ -107,7 +108,7 @@ class Volets extends eqLogic {
 										//$Volet->checkAndUpdateCmd('isArmed',false);
 									}
 								}
-                     				       }
+                     				       }						
 						}
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('cmdPresent'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	

@@ -81,10 +81,6 @@ $eqLogics = eqLogic::byType('Volets');
 					<i class="fa fa-list-alt"></i> Commandes</a>
 			</li>
 			<li role="presentation" class="">
-				<a href="#maptab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
-					<i class="fa fa-map"></i> {{Afficher la carte}}</a>
-			</li>
-			<li role="presentation" class="">
 				<a href="#conditiontab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
 					<i class="fa fa-cube"></i> {{Conditions d'exécution}}</a>
 			</li>
@@ -298,10 +294,7 @@ $eqLogics = eqLogic::byType('Volets');
 									<div class="col-sm-5">
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation (min)}}"/>
 									</div>
-								</div>
-								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
-								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
-								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>	
+								</div>	
 							</fieldset>
 						</form>
 					</div>
@@ -347,28 +340,28 @@ $eqLogics = eqLogic::byType('Volets');
 							</fieldset>
 						</form>
 					</div>	
-				</div>	
-				<div role="tabpanel" class="tab-pane active" id="maptab">	
-					<div class="form-group">
-						<label class="col-sm-2 control-label">{{L'exposition au soleil est comprise entre}}</label>
-						<div class="col-sm-3">
-							<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleDroite" disabled />
-						</div>
-						<label class="col-sm-2 control-label">{{ Et }}</label>
-						<div class="col-sm-3">
-							<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleGauche" disabled />
-						</div>
-					</div>     
-					<select id="layer-select">
-						<option value="Aerial">Aerial</option>
-						<option value="AerialWithLabels" selected>Aerial with labels</option>
-						<option value="Road">Road (static)</option>
-						<option value="RoadOnDemand">Road (dynamic)</option>
-						<option value="collinsBart">Collins Bart</option>
-						<option value="ordnanceSurvey">Ordnance Survey</option>
-					</select>
-					<div id="MyMap" style="width:800px;height:600px;margin:auto;"></div>
-				</div>			
+					<div class="col-sm-6 Jour">
+						<form class="form-horizontal">
+							<legend>Gestion Azimut</legend>
+							<fieldset>
+								<div class="form-group">
+									<a class="btn btn-default btn-sm MapsAngles pull-right"><i class="fa fa-map"></i>{{Afficher la carte}}</a>
+									<label class="col-sm-2 control-label">{{L'exposition au soleil est comprise entre}}</label>
+									<div class="col-sm-3">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleDroite" disabled />
+									</div>
+									<label class="col-sm-2 control-label">{{ Et }}</label>
+									<div class="col-sm-3">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleGauche" disabled />
+									</div>
+								</div>   
+								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
+								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
+								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>
+							</fieldset>
+						</form>
+					</div>	
+				</div>				
 				<div role="tabpanel" class="tab-pane" id="conditiontab">
 					<form class="form-horizontal">
 						<fieldset>

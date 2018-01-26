@@ -50,6 +50,12 @@ $('#MyMap').html('');
 					var center=data.result.geoloc.split(",");
 					CentreLatLng.lat=parseFloat(center[0]);
 					CentreLatLng.lng=parseFloat(center[1]);
+					if ($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val()== '') 
+						$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(CentreLatLng))
+					if ($('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val()== '') 
+						$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(CentreLatLng))
+					if ($('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val()== '') 
+						$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(CentreLatLng))
 					var view = new ol.View({
 						center: ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]),
 						zoom: 10
@@ -97,7 +103,7 @@ $('body').on('change','#layer-select',function(){
         }
 });
 
-function TraceMapZone(_zone){
+function TraceMapZone(){
 	DroitLatLng=$.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val());
 	DroitLatLng.lat=parseFloat(DroitLatLng.lat);
 	DroitLatLng.lng=parseFloat(DroitLatLng.lng);
@@ -131,7 +137,6 @@ function TraceMapZone(_zone){
 				}),
       			}),
 			text: new ol.style.Text({
-				//text: _zone.name + " - Droite vue extérieure",
 				text: $('.eqLogicAttr[data-l1key=name]').val() + " - Droite vue extérieure",
 				offsetY: -25,
 				fill: new ol.style.Fill({

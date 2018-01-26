@@ -21,7 +21,7 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Absent]').on('change',funct
 });
 $('.MapsAngles').on('click',function(){	
 	$('#md_modal').dialog({
-		title: "{{Configurer l'angle d'ouverture de votre feunetre}}",
+		title: "{{Configurer l'angle d'ouverture de votre fenêtre}}",
 		resizable: true,
 		height: 700,
 		width: 850});

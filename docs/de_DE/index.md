@@ -1,0 +1,19 @@
+= Fensterläden Verwaltung
+
+== Beschreibung
+Ce plugin a pour objet de gérer facilement et automatiquement vos volets.
+Celui-ci est entièrement basé sur le plugin Héliotrope qui est un prérequis pour son utilisation.
+
+Une fois configuré :
+
+* le plugin gérera automatiquement l'ouverture et la fermeture de vos volets au lever du soleil et à la tombée de la nuit,
+* le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de la position du soleil,
+ * en mode été, il fermera les volets lorsque le soleil sera dans la fenêtre afin de préserver une température idéale dans la maison,
+ * en mode hiver, il ouvrira les volets pour permettre au soleil de chauffer la pièce et faire des économies d'énergie,
+* le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de votre présence.
+
+== Commandes et widgets
+include::Commandes.asciidoc[]
+
+== Einrichtung
+include::Parametrage.asciidoc[]

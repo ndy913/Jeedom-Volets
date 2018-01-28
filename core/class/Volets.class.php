@@ -358,7 +358,7 @@ class Volets extends eqLogic {
 			   || ($this->getCmd(null,'gestion')->execCmd() == 'Azimut' 
 				&& $this->getCmd(null,'hauteur')->execCmd() != $Hauteur 
 				&& array_search('#Hauteur#', $Cmd['options'])!== false))
-				$this->ExecuteAction($Cmd,'Azimut',$Hauteur);
+				$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
 		}
 		if ($Evenement == 'open' && $Gestion != 'Azimut')
 			$Gestion = 'Jour';

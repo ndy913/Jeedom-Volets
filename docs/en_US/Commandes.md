@@ -10,7 +10,7 @@ Cette commande permet de déterminer quelle gestion est en cours actuellement.
 - `Night` : il fait nuit, toutes les autres gestions sont désactivées.
 - `Present` : il n'y a personne à la maison, on ferme les volets. La gestion de présence interdit toutes autres actions hormis la nuit.
 - `Meteo` : si toutes les conditions météo sont vérifiées, on ferme les volets. La gestion météo interdit toutes autres gestions hormis la gestion `Night`.
-- `Azimuth` : si le soleil est dans lé fenêtre, on ferme les volets. La gestion par azimuth autorise toutes autres gestions.	
+- `Azimuth` : si le soleil est dans lé fenêtre, on ferme les volets. La gestion par azimuth autorise toutes autres gestions.    
 
 === La position du volet et son état
 
@@ -26,14 +26,14 @@ C'est à vous de déterminer à quel moment il faut gérer ce changement.
 image::../images/ModeClose.png[]
 L'icône ci-dessus montre le mode "été", le volet est fermé lorsque le soleil est dans la fenêtre.
 
-image::../images/ModeOpen.png[]	
+image::../images/ModeOpen.png[] 
 L'icône ci-dessus montre le mode "hiver", le volet est ouvert lorsque le soleil est dans la fenêtre.
 
 === la position du soleil
 Cette commande nous informe si le soleil est dans la fenêtre ou pas.
- 
-image::../images/SunInWindows.png[]	
+
+image::../images/SunInWindows.png[] 
 Dans la fenêtre.
 
-image::../images/SunOutWindows.png[]	
+image::../images/SunOutWindows.png[]    
 Hors fenêtre.

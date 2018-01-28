@@ -1,7 +1,7 @@
 Comme pour tous les plugins, nous allons commencer par créer un groupe de zone avec le bouton `Ajouter`.
-After naming this group , we can begin to put in place our areas.
+Après avoir nommé ce groupe, nous allons pouvoir commencer à mettre en place nos zones.
 
-==== General configuration
+==== Configuration générale Jeedom
 
 image::../images/ConfigurationGeneral.jpg[]
 * `Nom` : le nom a déjà été paramétré mais vous avez la possibilité de le changer

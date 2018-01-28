@@ -1,4 +1,4 @@
-= Management of the shutters
+= Gestion de volets
 
 == Description
 Ce plugin a pour objet de gérer facilement et automatiquement vos volets.

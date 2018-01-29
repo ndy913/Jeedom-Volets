@@ -158,6 +158,33 @@ class Volets extends eqLogic {
 	public function CheckOtherGestion($Gestion) {   
 		$Saison=$this->getSaison();
 		switch($Gestion){
+			case 'Manuel':
+				$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
+				if(is_object($heliotrope)){
+					if ($this->getConfiguration('Jour') && $this->getConfiguration('Nuit')){
+						$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDay'));
+						if(!is_object($sunrise))
+							return false;
+						$DayStart=$sunrise->execCmd();
+						if($this->getConfiguration('DayMin') != '' && $DayStart < $this->getConfiguration('DayMin'))
+							   $DayStart=$this->getConfiguration('DayMin');
+						$DelaisDay=$this->CalculHeureEvent($DayStart,'DelaisDay');
+						$sunset=$heliotrope->getCmd(null,$this->getConfiguration('TypeNight'));
+						if(!is_object($sunset))
+							return false;
+						$NightStart=$sunset->execCmd();
+						if($this->getConfiguration('NightMax') != '' && $NightStart > $this->getConfiguration('NightMax'))
+							   $NightStart=$this->getConfiguration('NightMax');
+						$DelaisNight=$this->CalculHeureEvent($NightStart,'DelaisNight');
+						if($DelaisDay > mktime() && mktime() > $DelaisNight){
+							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il fait nuit la gestion Nuit prend le relais');
+							$this->CheckActions('Nuit','close',$Saison);
+							return false;
+						}
+					}
+					if ($this->getConfiguration('Meteo'))
+						$cron = $this->CreateCron('* * * * * *', 'ActionMeteo', array('Volets_id' => intval($this->getId())));
+				}
 			case 'Jour':
 				if ($this->getConfiguration('Absent')){	
 					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));
@@ -534,8 +561,6 @@ class Volets extends eqLogic {
 					if($this->getConfiguration('DayMin') != '' && $DayStart < $this->getConfiguration('DayMin'))
 						   $DayStart=$this->getConfiguration('DayMin');
 					$DelaisDay=$this->CalculHeureEvent($DayStart,'DelaisDay');
-					if(mktime() > $DelaisDay)
-						$this->checkAndUpdateCmd('gestion','Jour');
 					$Schedule=date("i",$DelaisDay) . ' ' . date("H",$DelaisDay) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionJour', array('Volets_id' => intval($this->getId())));
 				}	
@@ -548,15 +573,13 @@ class Volets extends eqLogic {
 					if($this->getConfiguration('NightMax') != '' && $NightStart > $this->getConfiguration('NightMax'))
 						   $NightStart=$this->getConfiguration('NightMax');
 					$DelaisNight=$this->CalculHeureEvent($NightStart,'DelaisNight');
-					if(mktime() > $DelaisNight)
-						$this->checkAndUpdateCmd('gestion','Nuit');
 					$Schedule=date("i",$DelaisNight) . ' ' . date("H",$DelaisNight) . ' * * * *';
 					$cron = $this->CreateCron($Schedule, 'ActionNuit', array('Volets_id' => intval($this->getId())));
 				}
 				if ($this->getConfiguration('Meteo'))
 					$cron = $this->CreateCron('* * * * * *', 'ActionMeteo', array('Volets_id' => intval($this->getId())));
 				$listener->save();	
-				$this->CheckOtherGestion('Jour');
+				$this->CheckOtherGestion('Manuel');
 			}
 		}
 	}
@@ -650,23 +673,11 @@ class VoletsCmd extends cmd {
 		if (is_object($Listener)) {	
 			switch($this->getLogicalId()){
 				case 'armed':
-					$Listener->event(true);
-				//	$this->getEqLogic()->StartDemon();
+					$Listener->event(true);	
+					$this->getEqLogic()->CheckOtherGestion('Manuel');
 				break;
 				case 'released':
 					$Listener->event(false);
-				/*	$PullListener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getEqLogic()->getId()));
-					if (is_object($PullListener))
-						$PullListener->remove();
-					$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $this->getEqLogic()->getId()));
-					if (is_object($cron)) 	
-						$cron->remove();
-					$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $this->getEqLogic()->getId()));
-					if (is_object($cron)) 	
-						$cron->remove();
-					$cron = cron::byClassAndFunction('Volets', 'ActionMeteo', array('Volets_id' => $this->getEqLogic()->getId()));
-					if (is_object($cron)) 	
-						$cron->remove();*/
 				break;
 				case 'VoletState':
 				case 'inWindows':

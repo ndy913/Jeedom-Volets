@@ -96,6 +96,8 @@ function addAction(_action,  _el) {
 			.append($('<span class="input-group-btn">')
 				.append($('<a class="btn btn-default ActionAttr btn-sm" data-action="remove">')
 					.append($('<i class="fa fa-minus-circle">'))))
+			.append($('<span class="input-group-btn">')
+				.append($('<input type="checkbox" class="expressionAttr" data-l1key="isVoletMove" title="Activer si l\'action execute un mouvement du volet"/>')))
 			.append($('<input class="expressionAttr form-control input-sm cmdAction" data-l1key="cmd"/>'))
 			.append($('<span class="input-group-btn">')
 				.append($('<a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">')

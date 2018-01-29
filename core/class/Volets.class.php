@@ -368,7 +368,7 @@ class Volets extends eqLogic {
 		}
 		return $Action;
 	}
-	public function CheckActions($Gestion,$Evenement,$Saison){
+	public function CheckActions($Gestion,$Evenement,$Saison,$OtherGestion=false){
 		if($Evenement == 'open')
 			$Hauteur=100;
 		elseif($Evenement == 'close' && $Saison == 'hiver')
@@ -380,40 +380,41 @@ class Volets extends eqLogic {
 		foreach($this->getConfiguration('action') as $Cmd){	
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
 				continue;
-			if($this->getPosition() != $Evenement 
-			   || $this->getCmd(null,'gestion')->execCmd() != $Gestion
-			   || ($this->getCmd(null,'gestion')->execCmd() == 'Azimut' 
-				&& $this->getCmd(null,'hauteur')->execCmd() != $Hauteur 
-				&& array_search('#Hauteur#', $Cmd['options'])!== false))
+			if($OtherGestion && $Cmd['isVoletMove'])
+				continue;
+			if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != $Gestion)
+			   	$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
+			elseif($this->getCmd(null,'hauteur')->execCmd() != $Hauteur && array_search('#Hauteur#', $Cmd['options'])!== false)
 				$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
 		}
 		if ($Evenement == 'open' && $Gestion != 'Azimut')
 			$Gestion = 'Jour';
 		$this->checkAndUpdateCmd('gestion',$Gestion);
 		$this->checkAndUpdateCmd('hauteur',$Hauteur);
-		cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 		$this->setPosition($Evenement);
 	}
-	public function ExecuteAction($cmd,$Gestion,$Hauteur=0){		
+	public function ExecuteAction($Cmd,$Gestion,$Hauteur=0){		
 		try {
 			$options = array();
-			if (isset($cmd['options'])) 
-				$options = $cmd['options'];
-			scenarioExpression::createAndExec('action', $cmd['cmd'], $options);
+			if (isset($Cmd['options'])) 
+				$options = $Cmd['options'];
+			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
 		} catch (Exception $e) {
 			log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$Gestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
 		}
-		$Commande=cmd::byId(str_replace('#','',$cmd['cmd']));
+		$Commande=cmd::byId(str_replace('#','',$Cmd['cmd']));
 		if(is_object($Commande)){
 			$options=null;
-			if(isset($cmd['options'])){
-				$options=$cmd['options'];
+			if(isset($Cmd['options'])){
+				$options=$Cmd['options'];
 				$key = array_search('#Hauteur#', $options);
 				if($key !== false)
                 			$options[$key]=str_replace('#Hauteur#',$Hauteur,$options[$key]);
 			}
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.$Commande->getHumanName().' ('.json_encode($options).')');
 			$Commande->execute($options);
+			if($Cmd['isVoletMove'])
+				cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 		}
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {

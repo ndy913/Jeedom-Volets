@@ -538,6 +538,7 @@ class Volets extends eqLogic {
 	}
 	public function StartDemon() {
 		if($this->getIsEnable()){
+			$this->checkAndUpdateCmd('gestion','Manuel');
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
@@ -679,7 +680,9 @@ class VoletsCmd extends cmd {
 					$this->getEqLogic()->CheckOtherGestion('Manuel');
 				break;
 				case 'released':
+					$this->getEqLogic()->checkAndUpdateCmd('gestion','Manuel');
 					$Listener->event(false);
+										
 				break;
 				case 'VoletState':
 				case 'inWindows':

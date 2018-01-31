@@ -39,17 +39,8 @@ class Volets extends eqLogic {
 			$Volet->StartDemon();
 	}
 	public static function deamon_stop() {	
-		foreach(eqLogic::byType('Volets') as $Volet){
-			$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
-			if (is_object($listener))
-				$listener->remove();
-			$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
-			if (is_object($cron)) 	
-				$cron->remove();
-			$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $Volet->getId()));
-			if (is_object($cron)) 	
-				$cron->remove();
-		}
+		foreach(eqLogic::byType('Volets') as $Volet)
+			$Volet->StopDemon();
 	}
 	public static function pull($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
@@ -534,6 +525,17 @@ class Volets extends eqLogic {
 		}
 		return false;
 	}
+	public function StopDemon(){
+		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
+		if (is_object($listener))
+			$listener->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $this->getId()));
+		if (is_object($cron)) 	
+			$cron->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $this->getId()));
+		if (is_object($cron)) 	
+			$cron->remove();
+	}
 	public function StartDemon() {
 		if($this->getIsEnable()){
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
@@ -649,7 +651,8 @@ class Volets extends eqLogic {
 		/*$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('RealState')));
 		if(is_object($Commande))
 			$this->checkAndUpdateCmd('position',$Commande->execCmd());*/
-		self::deamon_stop();
+		$this->StopDemon();
+		$this->StartDemon();
 	}	
 	public function postRemove() {
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));

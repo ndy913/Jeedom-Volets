@@ -167,7 +167,7 @@ class Volets extends eqLogic {
 						if($this->getConfiguration('NightMax') != '' && $NightStart > $this->getConfiguration('NightMax'))
 							   $NightStart=$this->getConfiguration('NightMax');
 						$DelaisNight=$this->CalculHeureEvent($NightStart,'DelaisNight');
-						if($DelaisDay > mktime() || mktime() > $DelaisNight){
+						if(mktime() < $DelaisDay || mktime() > $DelaisNight){
 							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il fait nuit la gestion Nuit prend le relais');
 							$this->CheckActions('Nuit','close',$Saison);
 							return false;
@@ -538,7 +538,6 @@ class Volets extends eqLogic {
 	}
 	public function StartDemon() {
 		if($this->getIsEnable()){
-			$this->checkAndUpdateCmd('gestion','Manuel');
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
@@ -581,7 +580,10 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('Meteo'))
 					$cron = $this->CreateCron('* * * * * *', 'ActionMeteo', array('Volets_id' => intval($this->getId())));
 				$listener->save();	
-				$this->CheckOtherGestion('Manuel');
+				if($this->CheckOtherGestion('Manuel')){
+					$_option['Volets_id']=$this->getId();
+					Volets::ActionJour($_option);
+				}
 			}
 		}
 	}
@@ -677,10 +679,12 @@ class VoletsCmd extends cmd {
 			switch($this->getLogicalId()){
 				case 'armed':
 					$Listener->event(true);	
-					$this->getEqLogic()->CheckOtherGestion('Manuel');
+					if($this->getEqLogic()->CheckOtherGestion('Manuel')){
+						$_option['Volets_id']=$this->getEqLogic()->getId();
+						Volets::ActionJour($_option);
+					}
 				break;
 				case 'released':
-					$this->getEqLogic()->checkAndUpdateCmd('gestion','Manuel');
 					$Listener->event(false);
 										
 				break;

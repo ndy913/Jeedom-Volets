@@ -365,9 +365,9 @@ class Volets extends eqLogic {
 	public function CheckActions($Gestion,$Evenement,$Saison,$OtherGestion=false){
 		if($Evenement == 'open')
 			$Hauteur=100;
-		elseif($Evenement == 'close' && $Saison == 'hiver')
+		elseif($Evenement == 'close')
 			$Hauteur=0;
-		else		
+		if ($Gestion == 'Azimut' && $Saison != 'hiver')
 			$Hauteur=$this->checkAltitude();
       		$ActualGestion=$this->getCmd(null,'gestion')->execCmd();
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');

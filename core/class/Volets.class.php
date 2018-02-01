@@ -22,6 +22,11 @@ class Volets extends eqLogic {
 					if (!is_object($cron)) 	
 						return $return;
 				}
+				if ($this->getConfiguration('Meteo')){
+					$cron = cron::byClassAndFunction('Volets', 'ActionMeteo', array('Volets_id' => $Volet->getId()));
+					if (!is_object($cron)) 	
+						return $return;
+				}			
 			}
 		}
 		$return['state'] = 'ok';
@@ -533,6 +538,9 @@ class Volets extends eqLogic {
 		if (is_object($cron)) 	
 			$cron->remove();
 		$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $this->getId()));
+		if (is_object($cron)) 	
+			$cron->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionMeteo', array('Volets_id' => $this->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
 	}

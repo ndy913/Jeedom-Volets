@@ -222,9 +222,8 @@ $eqLogics = eqLogic::byType('Volets');
 										</sup>
 									</label>
 									<div class="col-sm-5">
-										<div class="input-group">
-											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="InverseHauteur" />
-										</div>
+										<label>{{Inverser}}</label>
+										<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="InverseHauteur"/>
 									</div>
 								</div>	
 							</fieldset>

@@ -369,6 +369,8 @@ class Volets extends eqLogic {
 			$Hauteur=0;
 		if ($Gestion == 'Azimut' && $Saison != 'hiver')
 			$Hauteur=$this->checkAltitude();
+		if($this->getConfiguration('InverseHauteur'))
+			$Hauteur=100-$Hauteur;
       		$ActualGestion=$this->getCmd(null,'gestion')->execCmd();
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
 		foreach($this->getConfiguration('action') as $Cmd){	

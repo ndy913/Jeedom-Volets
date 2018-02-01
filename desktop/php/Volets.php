@@ -215,6 +215,18 @@ $eqLogics = eqLogic::byType('Volets');
 										</div>
 									</div>
 								</div>	
+								<div class="form-group">
+									<label class="col-sm-2 control-label">{{Hauteur calulée}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="{{Ce parametre permet d'inverser la hauteur calulé par le plugin).}}"></i>
+										</sup>
+									</label>
+									<div class="col-sm-5">
+										<div class="input-group">
+											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="InverseHauteur" />
+										</div>
+									</div>
+								</div>	
 							</fieldset>
 						</form>
 					</div>

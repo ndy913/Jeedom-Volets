@@ -2,20 +2,24 @@ $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder:
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').on('change',function(){
-	if($(this).is(':checked')){
-		if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').is(':checked'))
-			$('.JourNuit').show();
+	if($(this).is(':checked'))
 		$('.Jour').show();
-	}else
-		$('.Jour').hide();
+	else
+		$('.Jour').hide();	
+	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').is(':checked') || $(this).is(':checked'))
+		$('.JourNuit').show();
+	else
+		$('.JourNuit').hide();
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').on('change',function(){
-	if($(this).is(':checked')){
-		if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').is(':checked'))
-			$('.JourNuit').show();
+	if($(this).is(':checked'))
 		$('.Nuit').show();
-	}else
+	else
 		$('.Nuit').hide();
+	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').is(':checked') || $(this).is(':checked'))
+		$('.JourNuit').show();
+	else
+		$('.JourNuit').hide();
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Absent]').on('change',function(){	
 	if($(this).is(':checked'))

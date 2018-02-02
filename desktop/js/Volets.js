@@ -6,7 +6,7 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').on('change',functio
 		$('.Jour').show();
 	else
 		$('.Jour').hide();	
-	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').is(':checked') || $(this).is(':checked'))
+	if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').is(':checked') || $(this).is(':checked'))
 		$('.JourNuit').show();
 	else
 		$('.JourNuit').hide();
@@ -16,7 +16,7 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').on('change',functio
 		$('.Nuit').show();
 	else
 		$('.Nuit').hide();
-	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').is(':checked') || $(this).is(':checked'))
+	if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').is(':checked') || $(this).is(':checked'))
 		$('.JourNuit').show();
 	else
 		$('.JourNuit').hide();

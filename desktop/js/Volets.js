@@ -2,15 +2,19 @@ $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder:
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').on('change',function(){
-	if($(this).is(':checked'))
+	if($(this).is(':checked')){
+		if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').is(':checked'))
+			$('.JourNuit').show();
 		$('.Jour').show();
-	else
+	}else
 		$('.Jour').hide();
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').on('change',function(){
-	if($(this).is(':checked'))
+	if($(this).is(':checked')){
+		if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').is(':checked'))
+			$('.JourNuit').show();
 		$('.Nuit').show();
-	else
+	}else
 		$('.Nuit').hide();
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Absent]').on('change',function(){	
@@ -18,6 +22,12 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Absent]').on('change',funct
 		$('.Absent').show();
 	else
 		$('.Absent').hide();
+});
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=Azimut]').on('change',function(){	
+	if($(this).is(':checked'))
+		$('.Azimut').show();
+	else
+		$('.Azimut').hide();
 });
 $('.MapsAngles').on('click',function(){	
 	$('#md_modal').dialog({

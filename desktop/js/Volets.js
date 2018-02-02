@@ -34,18 +34,11 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Meteo]').on('change',functi
 		$('.Meteo').hide();
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Azimut]').on('change',function(){	
-	if($(this).is(':checked'))
+	if($(this).is(':checked')){
+		$('.AzimutMap').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets');
 		$('.Azimut').show();
-	else
+	}else
 		$('.Azimut').hide();
-});
-$('.MapsAngles').on('click',function(){	
-	$('#md_modal').dialog({
-		title: "{{Configurer l'angle d'ouverture de votre fenêtre}}",
-		resizable: true,
-		height: 700,
-		width: 850});
-	$('#md_modal').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets').dialog('open');
 });
 function saveEqLogic(_eqLogic) {
 	_eqLogic.configuration.condition=new Object();

@@ -75,19 +75,19 @@ $eqLogics = eqLogic::byType('Volets');
 				<a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
 					<i class="fa fa-tachometer"></i> Equipement</a>
 			</li>
-			<li role="presentation JourNuit">
+			<li role="presentation" class="JourNuit">
 				<a href="#journuitab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
 					<i class="fa fa-tachometer"></i> Gestion Jour / Nuit</a>
 			</li>
-			<li role="presentation Absent">
+			<li role="presentation" class="Absent">
 				<a href="#presentab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
 					<i class="fa fa-tachometer"></i> Gestion de l'absent</a>
 			</li>
-			<li role="presentation Meteo">
+			<li role="presentation" class="Meteo">
 				<a href="#meteotab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
 					<i class="fa fa-tachometer"></i> Gestion Météo</a>
 			</li>
-			<li role="presentation Azimut">
+			<li role="presentation" class="Azimut">
 				<a href="#azimutab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
 					<i class="fa fa-tachometer"></i> Gestion Azimut</a>
 			</li>

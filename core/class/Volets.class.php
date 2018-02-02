@@ -183,18 +183,22 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('Absent')){	
 					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));
 					if(is_object($Commande) && $Commande->execCmd() == false){
-						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
-						$this->CheckActions('Absent','close',$Saison);
-						return false;
+						$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
+						if($Evenement != false && $Evenement == "close"){
+							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
+							$this->CheckActions('Absent',$Evenement,$Saison);
+							return false;
+						}
 					}
 				}
 			case 'Absent':
 				if ($this->getConfiguration('Meteo')){
 					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
-					if($Evenement != false && $Evenement == "close")
+					if($Evenement != false && $Evenement == "close"){
 						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion Meteo prend le relais');
 						$this->CheckActions('Meteo',$Evenement,$Saison);
 						return false;
+					}
 				}
 			case 'Meteo':	
 				if ($this->getConfiguration('Azimut')){
@@ -262,7 +266,6 @@ class Volets extends eqLogic {
 			} 
 			if($Evenement != false)
 				$Volet->CheckActions('Meteo',$Evenement,$Saison);
-			return $Evenement;
 		}
 	}
   	public function ActionAbsent($Etat) {
@@ -290,7 +293,6 @@ class Volets extends eqLogic {
 			if( $Evenement!= false)
 				$this->CheckActions('Azimut',$Evenement,$Saison);
 		}
-		return $Evenement;
 	}	
 	public function CheckAngle($Azimut) {
 		$Droite=$this->getConfiguration('Droite');

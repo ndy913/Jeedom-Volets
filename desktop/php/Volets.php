@@ -75,370 +75,402 @@ $eqLogics = eqLogic::byType('Volets');
 				<a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
 					<i class="fa fa-tachometer"></i> Equipement</a>
 			</li>
-			<li role="presentation" class="">
+			<li role="presentation JourNuit">
+				<a href="#journuitab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
+					<i class="fa fa-tachometer"></i> Gestion Jour / Nuit</a>
+			</li>
+			<li role="presentation Absent">
+				<a href="#presentab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
+					<i class="fa fa-tachometer"></i> Gestion de l'absent</a>
+			</li>
+			<li role="presentation Meteo">
+				<a href="#meteotab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
+					<i class="fa fa-tachometer"></i> Gestion Météo</a>
+			</li>
+			<li role="presentation Azimut">
+				<a href="#azimutab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
+					<i class="fa fa-tachometer"></i> Gestion Azimut</a>
+			</li>
+			<li role="presentation">
 				<a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
 					<i class="fa fa-list-alt"></i> Commandes</a>
 			</li>
-			<li role="presentation" class="">
+			<li role="presentation">
 				<a href="#conditiontab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
 					<i class="fa fa-cube"></i> {{Conditions d'exécution}}</a>
 			</li>
-			<li role="presentation" class="">
+			<li role="presentation">
 				<a href="#actiontab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
 					<i class="icon divers-viral"></i> {{Actions}}</a>
 			</li>
 		</ul>
-			<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
-				<div role="tabpanel" class="tab-pane active" id="eqlogictab">
-					<div class="col-sm-6">
-						<form class="form-horizontal">
-							<legend>Général</legend>
-							<fieldset>
-								<div class="form-group ">
-									<label class="col-sm-2 control-label">{{Nom de la Zone}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Indiquer le nom de votre zone}}" style="font-size : 1em;color:grey;"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-										<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du groupe de zones}}"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label" >{{Objet parent}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Indiquer l'objet dans lequel le widget de cette zone apparaîtra sur le Dashboard}}" style="font-size : 1em;color:grey;"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
-											<option value="">{{Aucun}}</option>
-											<?php
-												foreach (object::all() as $object) 
-													echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
-											?>
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-2 control-label">
-										{{Catégorie}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Choisir une catégorie. Cette information n'est pas obigatoire mais peut être utile pour filtrer les widgets}}" style="font-size : 1em;color:grey;"></i>
-										</sup>
-									</label>
-									<div class="col-md-8">
-										<?php
-										foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
-											echo '<label class="checkbox-inline">';
-											echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
-											echo '</label>';
-										}
-										?>
+		<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
+			<div role="tabpanel" class="tab-pane active" id="eqlogictab">
+				<form class="form-horizontal">
+					<legend>Général</legend>
+					<fieldset>
+						<div class="form-group ">
+							<label class="col-sm-2 control-label">{{Nom de la Zone}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Indiquer le nom de votre zone}}" style="font-size : 1em;color:grey;"></i>
+								</sup>
+							</label>
+							<div class="col-sm-5">
+								<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
+								<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du groupe de zones}}"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" >{{Objet parent}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Indiquer l'objet dans lequel le widget de cette zone apparaîtra sur le Dashboard}}" style="font-size : 1em;color:grey;"></i>
+								</sup>
+							</label>
+							<div class="col-sm-5">
+								<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
+									<option value="">{{Aucun}}</option>
+									<?php
+										foreach (object::all() as $object) 
+											echo '<option value="' . $object->getId() . '">' . $object->getName() . '</option>';
+									?>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">
+								{{Catégorie}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Choisir une catégorie. Cette information n'est pas obigatoire mais peut être utile pour filtrer les widgets}}" style="font-size : 1em;color:grey;"></i>
+								</sup>
+							</label>
+							<div class="col-md-8">
+								<?php
+								foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
+									echo '<label class="checkbox-inline">';
+									echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
+									echo '</label>';
+								}
+								?>
 
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label" >
-										{{Etat du widget}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Choisir les options de visibilité et d'activation. Si l'équipement n'est pas activé, il ne sera pas utilisable dans Jeedom ni visible sur le Dashboard. Si l'équipement n'est pas visible, il sera caché sur le Dashboard}}" style="font-size : 1em;color:grey;"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<label>{{Activer}}</label>
-										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
-										<label>{{Visible}}</label>
-										<input type="checkbox" class="eqLogicAttr" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Héliotrope}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Sélectionner l'équipement source du plugin Héliotrope}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<select class="eqLogicAttr" data-l1key="configuration" data-l2key="heliotrope">
-											<option>Aucun</option>
-											<?php
-												foreach(eqLogic::byType('heliotrope') as $heliotrope)
-													echo '<option value="'.$heliotrope->getId().'">'.$heliotrope->getName().'</option>';
-											?>
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label" >
-										{{Gestions}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Choisir les types de gestions souhaités pour cette zone}}" style="font-size : 1em;color:grey;"></i>
-										</sup>
-									</label>
-									<div class="col-sm-8 Gestions">
-										<?php
-											foreach (Volets::$_Gestions as $Gestion) {
-												echo '<label class="checkbox-inline">';
-												echo '<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="' . $Gestion . '" />' . $Gestion;
-												echo '</label>';
-											}
-										?>
-									</div>
-								</div>	
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Objet etat réel}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Cette objet, initialisera le plugin avec l'etat reel du volet. Lors d'une action manuel sur le volet, les gestions seront desactivé et il sera de votre action pour la reactivé.}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<div class="input-group">
-											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="RealState" placeholder="{{Commande déterminant l'etat du volet}}"/>
-											<span class="input-group-btn">
-												<a class="btn btn-success btn-sm listCmdAction data-type="info"">
-													<i class="fa fa-list-alt"></i>
-												</a>
-											</span>
-										</div>
-									</div>
-								</div>	
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Hauteur de fermeture}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Ce parametre permet de déterminer si le volet est consider comme fermer (pour le retour d'etat proportionnel).}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<div class="input-group">
-											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="SeuilRealState" placeholder="{{0 si binaire}}"/>
-										</div>
-									</div>
-								</div>	
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Hauteur calulée}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Ce parametre permet d'inverser la hauteur calulé par le plugin).}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<label>{{Inverser}}</label>
-										<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="InverseHauteur"/>
-									</div>
-								</div>	
-							</fieldset>
-						</form>
-					</div>
-					<div class="col-sm-6 Absent">
-						<form class="form-horizontal">
-							<legend>Gestion de la présence</legend>
-							<fieldset>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Objet indiquant la présence}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Sélectionner la commande déterminant la présence}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<div class="input-group">
-											<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdPresent" placeholder="{{Commande déterminant la présence}}"/>
-											<span class="input-group-btn">
-												<!--a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">
-													<i class="fa fa-tasks"></i>
-												</a-->
-												<a class="btn btn-success btn-sm listCmdAction data-type="info"">
-													<i class="fa fa-list-alt"></i>
-												</a>
-											</span>
-										</div>
-									</div>
-								</div>	
-							</fieldset>
-						</form>
-					</div>
-					<div class="col-sm-6 Jour">
-						<form class="form-horizontal">
-							<legend>Gestion Jour</legend>
-							<fieldset>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Heure d'ouverture minimum (HHMM)}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Si le soleil se leve avant, l'heure d'ouverture sera ce parametre}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DayMin" placeholder="{{Heure d'ouverture minimum (HHMM)}}"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Type de lever du soleil}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Choisir le type de lever du jour}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="TypeDay">
-											<option value="sunrise">Lever du Soleil</option>
-											<option value="aubenau">Aube Nautique</option>
-											<option value="aubeciv">Aube Civile</option>
-											<option value="aubeast">Aube Astronomique</option>
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Délai au lever du jour (min)}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (-) ou après (+)"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Délai au lever du jour (min)}}"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Délai de réévaluation (min)}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Saisir le délai de réévaluation des conditions (min)}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation (min)}}"/>
-									</div>
-								</div>	
-							</fieldset>
-						</form>
-					</div>
-					<div class="col-sm-6 Nuit">
-						<form class="form-horizontal">
-							<legend>Gestion Nuit</legend>
-							<fieldset>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Heure de fermeture maximum (HHMM)}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Si le soleil se couche apres, l'heure de fermetrue sera ce parametre}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="NightMax" placeholder="{{Heure de fermeture maximum (HHMM)}}"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Type de coucher du soleil}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Choisir le type de coucher du soleil}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="TypeNight">
-											<option value="sunset">Coucher du Soleil</option>
-											<option value="crepnau">Crépuscule Nautique</option>
-											<option value="crepciv">Crépuscule Civile</option>
-											<option value="crepast">Crépuscule Astronomique</option>
-										</select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">{{Délai à la tombée de la nuit (min)}}
-										<sup>
-											<i class="fa fa-question-circle tooltips" title="{{Saisir le délai avant (-) ou après (+)}}"></i>
-										</sup>
-									</label>
-									<div class="col-sm-5">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Délai à la tombée de la nuit (min)}}"/>
-									</div>
-								</div>
-							</fieldset>
-						</form>
-					</div>	
-					<div class="col-sm-6 Jour">
-						<form class="form-horizontal">
-							<legend>Gestion Azimut</legend>
-							<fieldset>
-								<div class="form-group">
-									<a class="btn btn-default btn-sm MapsAngles pull-right"><i class="fa fa-map"></i>{{Afficher la carte}}</a>
-									<label class="col-sm-2 control-label">{{L'exposition au soleil est comprise entre}}</label>
-									<div class="col-sm-3">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleDroite" disabled />
-									</div>
-									<label class="col-sm-2 control-label">{{ Et }}</label>
-									<div class="col-sm-3">
-										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleGauche" disabled />
-									</div>
-								</div>   
-								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
-								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
-								<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>
-							</fieldset>
-						</form>
-					</div>	
-				</div>				
-				<div role="tabpanel" class="tab-pane" id="conditiontab">
-					<form class="form-horizontal">
-						<fieldset>
-							<legend>{{Les conditions d'exécution :}}
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" >
+								{{Etat du widget}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Saisir toutes les conditions d'exécution de la gestion}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Choisir les options de visibilité et d'activation. Si l'équipement n'est pas activé, il ne sera pas utilisable dans Jeedom ni visible sur le Dashboard. Si l'équipement n'est pas visible, il sera caché sur le Dashboard}}" style="font-size : 1em;color:grey;"></i>
 								</sup>
-								<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">
-									<i class="fa fa-plus-circle"></i>
-									{{Ajouter une Condition}}
-								</a>
-							</legend>
-						</fieldset>
-					</form>			
-					<table id="table_condition" class="table table-bordered table-condensed">
-						<thead>
-							<tr>
-								<th></th>
-								<th>{{Condition}}</th>
-								<th>{{Type de gestion}}</th>
-								<th>{{Mode}}</th>
-								<th>{{Action}}</th>
-							</tr>
-						</thead>
-						<tbody></tbody>
-					</table>
-				</div>				
-				<div role="tabpanel" class="tab-pane" id="actiontab">
-					<form class="form-horizontal">
-						<fieldset>
-							<legend>{{Les actions:}}
+							</label>
+							<div class="col-sm-5">
+								<label>{{Activer}}</label>
+								<input type="checkbox" class="eqLogicAttr" data-label-text="{{Activer}}" data-l1key="isEnable" checked/>
+								<label>{{Visible}}</label>
+								<input type="checkbox" class="eqLogicAttr" data-label-text="{{Visible}}" data-l1key="isVisible" checked/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{Héliotrope}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Saisir toutes les actions à mener à l'ouverture}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner l'équipement source du plugin Héliotrope}}"></i>
 								</sup>
-								<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">
-									<i class="fa fa-plus-circle"></i>
-									{{Ajouter une Action}}
-								</a>
-							</legend>
-						</fieldset>
-					</form>					
-					<table id="table_action" class="table table-bordered table-condensed">
-						<thead>
-							<tr>
-								<th></th>
-								<th>{{Action}}</th>
-								<th>{{Type de gestion}}</th>
-								<th>{{Mode}}</th>
-								<th>{{Action}}</th>
-							</tr>
-						</thead>
-						<tbody></tbody>
-					</table>
-				</div>		
-				<div role="tabpanel" class="tab-pane" id="commandtab">	
-					<table id="table_cmd" class="table table-bordered table-condensed">
-					    <thead>
-						<tr>
-						    <th>{{Nom}}</th>
-						    <th>{{Paramètre}}</th>
-						</tr>
-					    </thead>
-					    <tbody></tbody>
-					</table>
-				</div>	
+							</label>
+							<div class="col-sm-5">
+								<select class="eqLogicAttr" data-l1key="configuration" data-l2key="heliotrope">
+									<option>Aucun</option>
+									<?php
+										foreach(eqLogic::byType('heliotrope') as $heliotrope)
+											echo '<option value="'.$heliotrope->getId().'">'.$heliotrope->getName().'</option>';
+									?>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" >
+								{{Gestions}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Choisir les types de gestions souhaités pour cette zone}}" style="font-size : 1em;color:grey;"></i>
+								</sup>
+							</label>
+							<div class="col-sm-8 Gestions">
+								<?php
+									foreach (Volets::$_Gestions as $Gestion) {
+										echo '<label class="checkbox-inline">';
+										echo '<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="' . $Gestion . '" />' . $Gestion;
+										echo '</label>';
+									}
+								?>
+							</div>
+						</div>	
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{Objet etat réel}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Cette objet, initialisera le plugin avec l'etat reel du volet. Lors d'une action manuel sur le volet, les gestions seront desactivé et il sera de votre action pour la reactivé.}}"></i>
+								</sup>
+							</label>
+							<div class="col-sm-5">
+								<div class="input-group">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="RealState" placeholder="{{Commande déterminant l'etat du volet}}"/>
+									<span class="input-group-btn">
+										<a class="btn btn-success btn-sm listCmdAction data-type="info">
+											<i class="fa fa-list-alt"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+						</div>	
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{Hauteur de fermeture}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Ce parametre permet de déterminer si le volet est consider comme fermer (pour le retour d'etat proportionnel).}}"></i>
+								</sup>
+							</label>
+							<div class="col-sm-5">
+								<div class="input-group">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="SeuilRealState" placeholder="{{0 si binaire}}"/>
+								</div>
+							</div>
+						</div>	
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{Hauteur calulée}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Ce parametre permet d'inverser la hauteur calulé par le plugin).}}"></i>
+								</sup>
+							</label>
+							<div class="col-sm-5">
+								<label>{{Inverser}}</label>
+								<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="InverseHauteur"/>
+							</div>
+						</div>	
+					</fieldset>
+				</form>
 			</div>
+			<div role="tabpanel" class="tab-pane" id="presentab">
+				<form class="form-horizontal">
+					<fieldset>
+						{{La gestion d'absence vas fermer le volet lorsque l'objet de présence surveiller passe a false.}}	
+						{{Seul la gestion de Nuit autorisé a s'executer}}	
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{Objet indiquant la présence}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner la commande déterminant la présence}}"></i>
+								</sup>
+							</label>
+							<div class="col-sm-5">
+								<div class="input-group">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdPresent" placeholder="{{Commande déterminant la présence}}"/>
+									<span class="input-group-btn">
+										<!--a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">
+											<i class="fa fa-tasks"></i>
+										</a-->
+										<a class="btn btn-success btn-sm listCmdAction data-type="info">
+											<i class="fa fa-list-alt"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+						</div>	
+					</fieldset>
+				</form>
+			</div>
+		<div role="tabpanel" class="tab-pane" id="meteotab">
+				<form class="form-horizontal">
+					<fieldset>
+						{{La gestion par météo est une tache executé toutes les minutes qui vas verifier les condition météo que vous avez spécifé dans l'onget Condition}}	
+						{{Lorsque toutes les conditions sont vérifier le plugin passe en mode Météo, elle ferme le volet}}
+						{{Seul la gestion de Nuit autorisé a s'executer}}		
+					</fieldset>
+				</form>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="journuitab">
+				<div>
+					<form class="form-horizontal">
+						<legend>Genéral</legend>
+						<fieldset>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Délai de réévaluation (min)}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Saisir le délai de réévaluation des conditions (min)}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation (min)}}"/>
+								</div>
+							</div>	
+						</fieldset>
+					</form>
+				</div>
+				<div class="col-sm-6 Jour">
+					<form class="form-horizontal">
+						<legend>Gestion Jour</legend>
+						<fieldset>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Heure d'ouverture minimum (HHMM)}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Si le soleil se leve avant, l'heure d'ouverture sera ce parametre}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DayMin" placeholder="{{Heure d'ouverture minimum (HHMM)}}"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Type de lever du soleil}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Choisir le type de lever du jour}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="TypeDay">
+										<option value="sunrise">Lever du Soleil</option>
+										<option value="aubenau">Aube Nautique</option>
+										<option value="aubeciv">Aube Civile</option>
+										<option value="aubeast">Aube Astronomique</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Délai au lever du jour (min)}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="Saisir le délai avant (-) ou après (+)"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisDay" placeholder="{{Délai au lever du jour (min)}}"/>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+				<div class="col-sm-6 Nuit">
+					<form class="form-horizontal">
+						<legend>Gestion Nuit</legend>
+						<fieldset>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Heure de fermeture maximum (HHMM)}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Si le soleil se couche apres, l'heure de fermetrue sera ce parametre}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="NightMax" placeholder="{{Heure de fermeture maximum (HHMM)}}"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Type de coucher du soleil}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Choisir le type de coucher du soleil}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="TypeNight">
+										<option value="sunset">Coucher du Soleil</option>
+										<option value="crepnau">Crépuscule Nautique</option>
+										<option value="crepciv">Crépuscule Civile</option>
+										<option value="crepast">Crépuscule Astronomique</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Délai à la tombée de la nuit (min)}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Saisir le délai avant (-) ou après (+)}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisNight" placeholder="{{Délai à la tombée de la nuit (min)}}"/>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>	
+			</div>	
+			<div role="tabpanel" class="tab-pane" id="azimutab">
+				<form class="form-horizontal">
+					<fieldset>
+						<div class="form-group">
+							<a class="btn btn-default btn-sm MapsAngles pull-right"><i class="fa fa-map"></i>{{Afficher la carte}}</a>
+							<label class="col-sm-2 control-label">{{L'exposition au soleil est comprise entre}}</label>
+							<div class="col-sm-3">
+								<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleDroite" disabled />
+							</div>
+							<label class="col-sm-2 control-label">{{ Et }}</label>
+							<div class="col-sm-3">
+								<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleGauche" disabled />
+							</div>
+						</div>   
+						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
+						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
+						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>
+					</fieldset>
+				</form>
+			</div>				
+			<div role="tabpanel" class="tab-pane" id="conditiontab">
+				<form class="form-horizontal">
+					<fieldset>
+						<legend>{{Les conditions d'exécution :}}
+							<sup>
+								<i class="fa fa-question-circle tooltips" title="{{Saisir toutes les conditions d'exécution de la gestion}}"></i>
+							</sup>
+							<a class="btn btn-success btn-xs conditionAttr" data-action="add" style="margin-left: 5px;">
+								<i class="fa fa-plus-circle"></i>
+								{{Ajouter une Condition}}
+							</a>
+						</legend>
+					</fieldset>
+				</form>			
+				<table id="table_condition" class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th></th>
+							<th>{{Condition}}</th>
+							<th>{{Type de gestion}}</th>
+							<th>{{Mode}}</th>
+							<th>{{Action}}</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>				
+			<div role="tabpanel" class="tab-pane" id="actiontab">
+				<form class="form-horizontal">
+					<fieldset>
+						<legend>{{Les actions:}}
+							<sup>
+								<i class="fa fa-question-circle tooltips" title="{{Saisir toutes les actions à mener à l'ouverture}}"></i>
+							</sup>
+							<a class="btn btn-success btn-xs ActionAttr" data-action="add" style="margin-left: 5px;">
+								<i class="fa fa-plus-circle"></i>
+								{{Ajouter une Action}}
+							</a>
+						</legend>
+					</fieldset>
+				</form>					
+				<table id="table_action" class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th></th>
+							<th>{{Action}}</th>
+							<th>{{Type de gestion}}</th>
+							<th>{{Mode}}</th>
+							<th>{{Action}}</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>		
+			<div role="tabpanel" class="tab-pane" id="commandtab">	
+				<table id="table_cmd" class="table table-bordered table-condensed">
+					<thead>
+					<tr>
+						<th>{{Nom}}</th>
+						<th>{{Paramètre}}</th>
+					</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>	
 		</div>
+	</div>
 </div>
 
 <?php include_file('desktop', 'Volets', 'js', 'Volets'); ?>

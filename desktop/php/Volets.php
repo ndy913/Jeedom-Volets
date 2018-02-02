@@ -388,7 +388,6 @@ $eqLogics = eqLogic::byType('Volets');
 				<form class="form-horizontal">
 					<fieldset>
 						<div class="form-group">
-							<a class="btn btn-default btn-sm MapsAngles pull-right"><i class="fa fa-map"></i>{{Afficher la carte}}</a>
 							<label class="col-sm-2 control-label">{{L'exposition au soleil est comprise entre}}</label>
 							<div class="col-sm-3">
 								<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleDroite" disabled />
@@ -397,7 +396,8 @@ $eqLogics = eqLogic::byType('Volets');
 							<div class="col-sm-3">
 								<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleGauche" disabled />
 							</div>
-						</div>   
+						</div>  
+						<div class="form-group AzimutMap"></div>  
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>

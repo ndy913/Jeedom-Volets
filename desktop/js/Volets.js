@@ -23,6 +23,12 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Absent]').on('change',funct
 	else
 		$('.Absent').hide();
 });
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=Meteo]').on('change',function(){	
+	if($(this).is(':checked'))
+		$('.Meteo').show();
+	else
+		$('.Meteo').hide();
+});
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Azimut]').on('change',function(){	
 	if($(this).is(':checked'))
 		$('.Azimut').show();

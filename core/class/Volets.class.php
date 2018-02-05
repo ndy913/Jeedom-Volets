@@ -79,7 +79,7 @@ class Volets extends eqLogic {
 					default:
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
-							$Volet->CheckRealState($_option['value'],$Event->getId());
+							$Volet->CheckRealState($_option['value']);
 						}
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('cmdPresent'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	
@@ -123,7 +123,7 @@ class Volets extends eqLogic {
 		}
 		return false;
 	}		
-	public function CheckRealState($Value,$Cmd) {   
+	public function CheckRealState($Value) {   
 		$this->checkAndUpdateCmd('hauteur',$Value);
 		if($Value >= $this->getConfiguration("SeuilRealState"))
 			$State='open';
@@ -143,10 +143,9 @@ class Volets extends eqLogic {
 					cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 				else
 					$this->checkAndUpdateCmd('position',$State);
-				}
-		}else{
+			}
+		}else
 			$this->GestionManuel($State);
-	       }
 	}
 	public function CheckOtherGestion($Gestion) {   
 		$Saison=$this->getSaison();
@@ -393,7 +392,7 @@ class Volets extends eqLogic {
 		$Hauteur=$this->getHauteur($Gestion,$Evenement,$Saison);
 		if($this->getPosition() == $Evenement 
 		   && $this->getCmd(null,'gestion')->execCmd() == $Gestion
-		   && ($this->getCmd(null,'hauteur')->execCmd() == $Hauteur)
+		   && $this->getCmd(null,'hauteur')->execCmd() == $Hauteur)
 		   return;
 		if ($Evenement == 'open' && $Gestion != 'Azimut')
 			$this->checkAndUpdateCmd('gestion', 'Jour');

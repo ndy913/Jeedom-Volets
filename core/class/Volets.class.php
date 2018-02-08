@@ -253,6 +253,8 @@ class Volets extends eqLogic {
 	public static function GestionNuit($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->AutorisationAction('Nuit')){
+			if($Volet->getCmd(null,'gestion')->execCmd() =='Nuit')
+				$cron = $this->CreateCron('0 8 * * * *', 'GestionJour', array('Volets_id' => intval($Volet->getId())));
 			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Nuit] : Exécution de la gestion du coucher du soleil ');
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Nuit');

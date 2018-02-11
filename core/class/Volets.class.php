@@ -71,7 +71,7 @@ class Volets extends eqLogic {
 						$NightStart=$_option['value'];
 						if($Volet->getConfiguration('NightMax') != '' && $NightStart > $Volet->getConfiguration('NightMax'))
 						   $NightStart=$Volet->getConfiguration('NightMax');
-						$timstamp=$Volet->CalculHeureEvent($DayStart,'$NightStart');	
+						$timstamp=$Volet->CalculHeureEvent($NightStart,'DelaisNight');	
 						$Schedule=date("i",$timstamp) . ' ' . date("H",$timstamp) . ' * * * *';
 						$cron = $Volet->CreateCron($Schedule, 'GestionNuit');
 					break;

@@ -178,7 +178,7 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('Absent')){	
 					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));
 					if(is_object($Commande) && $Commande->execCmd() == false){
-						$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
+						$Evenement=$this->checkCondition('close',$Saison,'Absent');   		
 						if($Evenement != false && $Evenement == "close"){
 							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
 							$this->CheckActions('Absent',$Evenement,$Saison);

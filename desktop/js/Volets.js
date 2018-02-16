@@ -5,13 +5,21 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').on('change',functio
 	if($(this).is(':checked'))
 		$('.Jour').show();
 	else
-		$('.Jour').hide();
+		$('.Jour').hide();	
+	if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').is(':checked') || $(this).is(':checked'))
+		$('.JourNuit').show();
+	else
+		$('.JourNuit').hide();
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').on('change',function(){
 	if($(this).is(':checked'))
 		$('.Nuit').show();
 	else
 		$('.Nuit').hide();
+	if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').is(':checked') || $(this).is(':checked'))
+		$('.JourNuit').show();
+	else
+		$('.JourNuit').hide();
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Absent]').on('change',function(){	
 	if($(this).is(':checked'))
@@ -19,13 +27,18 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Absent]').on('change',funct
 	else
 		$('.Absent').hide();
 });
-$('.MapsAngles').on('click',function(){	
-	$('#md_modal').dialog({
-		title: "{{Configurer l'angle d'ouverture de votre fenêtre}}",
-		resizable: true,
-		height: 700,
-		width: 850});
-	$('#md_modal').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets').dialog('open');
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=Meteo]').on('change',function(){	
+	if($(this).is(':checked'))
+		$('.Meteo').show();
+	else
+		$('.Meteo').hide();
+});
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=Azimut]').on('change',function(){	
+	if($(this).is(':checked')){
+		$('.AzimutMap').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets');
+		$('.Azimut').show();
+	}else
+		$('.Azimut').hide();
 });
 function saveEqLogic(_eqLogic) {
 	_eqLogic.configuration.condition=new Object();

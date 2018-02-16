@@ -671,29 +671,29 @@ class Volets extends eqLogic {
 		}*/
 	}
 	public function postSave() {
-		$this->AddCommande("Hauteur du volet","hauteur","info", 'numeric',true);
-		$this->AddCommande("Gestion Active","gestion","info", 'string',true);
-		$state=$this->AddCommande("Position du soleil","state","info", 'binary',true,'sunInWindows');
+		$this->AddCommande("Hauteur du volet","hauteur","info", 'numeric',1);
+		$this->AddCommande("Gestion Active","gestion","info", 'string',1);
+		$state=$this->AddCommande("Position du soleil","state","info", 'binary',1,'sunInWindows');
 		$this->checkAndUpdateCmd('state',false);
-		$isInWindows=$this->AddCommande("Etat mode","isInWindows","info","binary",false,'isInWindows');
-		$inWindows=$this->AddCommande("Mode","inWindows","action","select",true,'inWindows');
+		$isInWindows=$this->AddCommande("Etat mode","isInWindows","info","binary",0,'isInWindows');
+		$inWindows=$this->AddCommande("Mode","inWindows","action","select",1,'inWindows');
 		$inWindows->setConfiguration('listValue','1|Hivers;0|Eté');
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
-		$isArmed=$this->AddCommande("Etat activation","isArmed","info","binary",false,'lock');
+		$isArmed=$this->AddCommande("Etat activation","isArmed","info","binary",0,'lock');
 		$this->checkAndUpdateCmd('isArmed',true);
-		$Armed=$this->AddCommande("Activer","armed","action","other",true,'lock');
+		$Armed=$this->AddCommande("Activer","armed","action","other",1,'lock');
 		$Armed->setValue($isArmed->getId());
 		$Armed->setConfiguration('state', '1');
 		$Armed->setConfiguration('armed', '1');
 		$Armed->save();
-		$Released=$this->AddCommande("Désactiver","released","action","other",true,'lock');
+		$Released=$this->AddCommande("Désactiver","released","action","other",1,'lock');
 		$Released->setValue($isArmed->getId());
 		$Released->save();
 		$Released->setConfiguration('state', '0');
 		$Released->setConfiguration('armed', '1');
-		$Position=$this->AddCommande("Etat du volet","position","info","string",false);
-		$VoletState=$this->AddCommande("Position du volet","VoletState","action","select",true,'volet');
+		$Position=$this->AddCommande("Etat du volet","position","info","string",0);
+		$VoletState=$this->AddCommande("Position du volet","VoletState","action","select",1,'volet');
 		$VoletState->setConfiguration('listValue','open|Ouvert;close|Fermé');
 		$VoletState->setDisplay('title_disable', 1);
 		$VoletState->setValue($Position->getId());

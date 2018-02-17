@@ -256,15 +256,15 @@ class Volets extends eqLogic {
 				$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
 				if(is_object($heliotrope)){
 					if ($Volet->getConfiguration('Jour')){
-						$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDay'));
+						$sunrise=$heliotrope->getCmd(null,$Volet->getConfiguration('TypeDay'));
 						if(!is_object($sunrise))
 							return false;
 						$DayStart=$sunrise->execCmd();
 						if($Volet->getConfiguration('DayMin') != '' && $DayStart < $Volet->getConfiguration('DayMin'))
-							   $DayStart=$this->getConfiguration('DayMin');
-						$DelaisDay=$this->CalculHeureEvent($DayStart,'DelaisDay');
+							   $DayStart=$Volet->getConfiguration('DayMin');
+						$DelaisDay=$Volet->CalculHeureEvent($DayStart,'DelaisDay');
 						$Schedule=date("i",$DelaisDay) . ' ' . date("H",$DelaisDay) . ' * * * *';
-						$cron = $this->CreateCron($Schedule, 'GestionJour', array('Volets_id' => intval($this->getId())));
+						$cron = $Volet->CreateCron($Schedule, 'GestionJour', array('Volets_id' => intval($Volet->getId())));
 					}
 				}
 			}

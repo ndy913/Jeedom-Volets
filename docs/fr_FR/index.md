@@ -22,11 +22,12 @@ Gestion Active
 ---
 Cette commande permet de déterminer quelle gestion est en cours actuellement.
 
-- `Day` : il fait jour, on active toutes les autres gestions. On vérife les autres gestions avant d'exécuter les actions.
-- `Night` : il fait nuit, toutes les autres gestions sont désactivées.
-- `Present` : il n'y a personne à la maison, on ferme les volets. La gestion de présence interdit toutes autres actions hormis la nuit.
-- `Meteo` : si toutes les conditions météo sont vérifiées, on ferme les volets. La gestion météo interdit toutes autres gestions hormis la gestion `Night`.
-- `Azimuth` : si le soleil est dans lé fenêtre, on ferme les volets. La gestion par azimuth autorise toutes autres gestions.	
+- `Manuel` : Le plugin est en mode manuel et n'intervient plus
+- `Jour` : il fait jour, on active toutes les autres gestions. On vérife les autres gestions avant d'exécuter les actions.
+- `Nuit` : il fait nuit, toutes les autres gestions sont désactivées.
+- `Abscent` : il n'y a personne à la maison, on ferme les volets. La gestion de présence interdit toutes autres actions hormis la `Nuit`.
+- `Meteo` : si toutes les conditions météo sont vérifiées, on ferme les volets. La gestion météo interdit toutes autres gestions hormis la gestion `Nuit`.
+- `Azimut` : si le soleil est dans lé fenêtre, on ferme les volets. La gestion par azimuth autorise toutes autres gestions.	
 
 La position du volet et son état
 ---

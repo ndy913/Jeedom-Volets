@@ -1,15 +1,15 @@
 Description
 ===
-Ce plugin a pour objet de gérer facilement et automatiquement vos volets.
-Celui-ci est entièrement basé sur le plugin Héliotrope qui est un prérequis pour son utilisation.
+Ce plugin a pour objectif de gérer facilement et automatiquement vos volets.
+Celui-ci est basé sur le plugin Héliotrope qui est un prérequis pour son utilisation.
+> Avant l'utilisation de se plugin bien verifier le fonctionnement du plugin Heliotrope.
 
-Une fois configuré :
-===
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets au lever du soleil et à la tombée de la nuit,
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de la position du soleil,
- * en mode été, il fermera les volets lorsque le soleil sera dans la fenêtre afin de préserver une température idéale dans la maison,
- * en mode hiver, il ouvrira les volets pour permettre au soleil de chauffer la pièce et faire des économies d'énergie,
+    * en mode été, il fermera les volets lorsque le soleil sera dans la fenêtre afin de préserver une température idéale dans la maison,
+    * en mode hiver, il ouvrira les volets pour permettre au soleil de chauffer la pièce et faire des économies d'énergie,
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de votre présence.
+* le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de la météo.
 
 Commandes et widgets
 ===
@@ -22,12 +22,12 @@ Gestion Active
 ---
 Cette commande permet de déterminer quelle gestion est en cours actuellement.
 
-- `Manuel` : Le plugin est en mode manuel et n'intervient plus
-- `Jour` : il fait jour, on active toutes les autres gestions. On vérife les autres gestions avant d'exécuter les actions.
-- `Nuit` : il fait nuit, toutes les autres gestions sont désactivées.
-- `Abscent` : il n'y a personne à la maison, on ferme les volets. La gestion de présence interdit toutes autres actions hormis la `Nuit`.
-- `Meteo` : si toutes les conditions météo sont vérifiées, on ferme les volets. La gestion météo interdit toutes autres gestions hormis la gestion `Nuit`.
-- `Azimut` : si le soleil est dans lé fenêtre, on ferme les volets. La gestion par azimuth autorise toutes autres gestions.	
+* `Manuel` : Le plugin est en mode manuel et n'intervient plus
+* `Jour` : il fait jour, on active toutes les autres gestions. On vérife les autres gestions avant d'exécuter les actions.
+* `Nuit` : il fait nuit, toutes les autres gestions sont désactivées.
+* `Abscent` : il n'y a personne à la maison, on ferme les volets. La gestion de présence interdit toutes autres actions hormis la `Nuit`.
+* `Meteo` : si toutes les conditions météo sont vérifiées, on ferme les volets. La gestion météo interdit toutes autres gestions hormis la gestion `Nuit`.
+* `Azimut` : si le soleil est dans lé fenêtre, on ferme les volets. La gestion par azimuth autorise toutes autres gestions.	
 
 La position du volet et son état
 ---
@@ -145,10 +145,8 @@ J'ajouterai donc une condition de ce type.
 ![introduction01](../images/ConditionTemps.jpg)
 
 
-Définition de l'angle d'exposition au soleil 
----
+###Définition de l'angle d'exposition au soleil 
 
-Nous allons maintenant déterminer l'angle d'exposition au soleil.
 Cette étape est importante pour le fonctionnement de la gestion en fonction de la position du soleil.
 
 ![introduction01](../images/ConfigurationMap.jpg)

@@ -17,19 +17,19 @@ function Volets_update(){
 		foreach($Conditions as $CondiKey => $Condition){	
 			foreach($Condition["TypeGestion"] as $TypeGestionKey => $TypeGestion){	
 				if($TypeGestion == "Day"){
-					$Conditions[$CondiKey]["TypeGestion"][]="Jour";
+					$Conditions[$CondiKey]["TypeGestion"]["Jour"]=true;
 					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 				if($TypeGestion == "Night"){
-					$Conditions[$CondiKey]["TypeGestion"][]="Nuit";
+					$Conditions[$CondiKey]["TypeGestion"]["Nuit"]=true;
 					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 				if($TypeGestion == "Presence"){
-					$Conditions[$CondiKey]["TypeGestion"][]="Absent";
+					$Conditions[$CondiKey]["TypeGestion"]["Absent"]=true;
 					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 				if($TypeGestion == "Azimuth"){
-					$Conditions[$CondiKey]["TypeGestion"][]="Azimut";
+					$Conditions[$CondiKey]["TypeGestion"]["Azimut"]=true;
 					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 			}

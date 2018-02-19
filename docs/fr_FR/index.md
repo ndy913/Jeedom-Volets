@@ -15,7 +15,8 @@ Commandes et widgets
 ===
 Pour chaque équipement, le plugin va créer des commandes.
 
-image::../images/Volets_screenshot_Widget.jpg[]
+![introduction01](../images/Volets_screenshot_Widget.jpg)
+
 
 Gestion Active
 ---
@@ -40,20 +41,24 @@ Le mode et son état
 Ces 2 commandes vont permettre de basculer le plugin en mode "été" ou "hiver".
 C'est à vous de déterminer à quel moment il faut gérer ce changement.
 
-image::../images/ModeClose.png[]
+![introduction01](../images/ModeClose.jpg)
+
 L'icône ci-dessus montre le mode "été", le volet est fermé lorsque le soleil est dans la fenêtre.
 
-image::../images/ModeOpen.png[]	
+![introduction01](../images/ModeOpen.jpg)
+
 L'icône ci-dessus montre le mode "hiver", le volet est ouvert lorsque le soleil est dans la fenêtre.
 
 la position du soleil
 ---
 Cette commande nous informe si le soleil est dans la fenêtre ou pas.
  
-image::../images/SunInWindows.png[]	
+![introduction01](../images/SunInWindows.jpg)
+
 Dans la fenêtre.
 
-image::../images/SunOutWindows.png[]	
+![introduction01](../images/SunOutWindows.jpg)
+
 Hors fenêtre.
 
 
@@ -65,7 +70,8 @@ Après avoir nommé ce groupe, nous allons pouvoir commencer à mettre en place 
 Configuration générale Jeedom
 ---
 
-image::../images/ConfigurationGeneral.jpg[]
+![introduction01](../images/ConfigurationGeneral.jpg)
+
 * `Nom` : le nom a déjà été paramétré mais vous avez la possibilité de le changer
 * `Objet parent` : ce paramètre permet d'ajouter l'équipement dans un objet Jeedom
 * `Catégorie` : déclare l'équipement dans une catégorie
@@ -103,7 +109,8 @@ Pour compléter cette gestion, il est possible d'ajouter des conditions.
 Par exemple, dans les chambres, je ne veux pas que les volets s'ouvrent avant 8h.
 J'ajouterai donc une condition de ce type
 
-image::../images/ConditionTime.jpg[]
+![introduction01](../images/ConditionTime.jpg)
+
 Gestion de Manuel
 ---
 
@@ -134,7 +141,8 @@ Pour compléter cette gestion, il est possible d'ajouter des conditions.
 Par exemple, je veux que les volets ne se ferment que si j'ai une température ambiante en été supérieure à 23.
 J'ajouterai donc une condition de ce type.
 
-image::../images/ConditionTemps.jpg[]
+![introduction01](../images/ConditionTemps.jpg)
+
 
 Définition de l'angle d'exposition au soleil 
 ---
@@ -142,7 +150,8 @@ Définition de l'angle d'exposition au soleil
 Nous allons maintenant déterminer l'angle d'exposition au soleil.
 Cette étape est importante pour le fonctionnement de la gestion en fonction de la position du soleil.
 
-image::../images/ConfigurationMap.jpg[]
+![introduction01](../images/ConfigurationMap.jpg)
+
 Sur votre fenêtre doit apparaitre 3 curseurs. 
 Ces 3 curseurs vont donc former notre angle.
 Le point central doit être obligatoirement placé au dessus de notre fenêtre. 
@@ -153,12 +162,15 @@ Conditions d'exécution
 ---
 Afin d'affiner tous les cas d'utilisation de gestion de nos volets, nous pouvons ajouter des conditions.
 
-image::../images/Volets_screenshot_ConfigurationCondition.jpg[]
+![introduction01](../images/Volets_screenshot_ConfigurationCondition.jpg)
+
 
 Pour vous aider à la configuration des conditions, un éditeur est ajouté.
 
-image::../images/ConfigurationConditionEditeur.jpg[]
-image::../images/ConfigurationConditionEditeur2.jpg[]
+![introduction01](../images/ConfigurationConditionEditeur.jpg)
+
+![introduction01](../images/ConfigurationConditionEditeur2.jpg)
+
 
 Paramètres complémentaires :
 
@@ -172,7 +184,8 @@ Pour que chaque condition soit validée et les actions éxécutées, ces paramè
 Actions d'ouverture et de fermeture
 ---
 
-image::../images/Volets_screenshot_ConfigurationAction.jpg[]
+![introduction01](../images/Volets_screenshot_ConfigurationAction.jpg)
+
 Choisissez les actions à mener sans oublier de configurer leurs valeurs.
 
 Paramètres complémentaires:

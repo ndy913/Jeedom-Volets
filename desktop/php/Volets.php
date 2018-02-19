@@ -287,6 +287,16 @@ $eqLogics = eqLogic::byType('Volets');
 						<legend>Genéral</legend>
 						<fieldset>
 							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Réarmer automatiquement les gestion automatiques}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Réarmer automatiquement les gestion au lever du jour ou au couché du soleil}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoArm" />
+								</div>
+							</div>	
+							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Délai de réévaluation (min)}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="{{Saisir le délai de réévaluation des conditions (min)}}"></i>

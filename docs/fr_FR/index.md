@@ -73,6 +73,8 @@ Configuration générale Jeedom
 
 ![introduction01](../images/ConfigurationGeneral.jpg)
 
+### Parametre Géneral
+
 * `Nom` : le nom a déjà été paramétré mais vous avez la possibilité de le changer
 * `Objet parent` : ce paramètre permet d'ajouter l'équipement dans un objet Jeedom
 * `Catégorie` : déclare l'équipement dans une catégorie
@@ -80,12 +82,16 @@ Configuration générale Jeedom
 * `Visible` : permet de rendre l'équipement visible dans le Dashboard
 * `Héliotrope` : choisir l'équipement Héliotrope à prendre en compte pour ce groupe de zone
 
+### Choix des gestions actives
+
 * `Manuel` : activation de la gestion manuel, autorise les changement manuel de volet
 * `Jour` : activation de la gestion en jour 
 * `Nuit` : activation de la gestion en nuit
 * `Azimut` : activation de la gestion en fonction de la position du soleil (dépend de l'équipement Héliotrope)
 * `Absent` : activation de la gestion en fonction de la présence
 * `Météo` : active la gestion météo. 
+
+### Gestion de l'etat reel
 
 * `Objet etat réel` : Commande Jeedom permetant de définir l'etat réel du volet
 * `Hauteur de fermeture` : Seuil de la hauteur de l'etat reel séparant l'ouverture de la fermeture
@@ -95,10 +101,19 @@ Gestion du lever et coucher du soleil
 Cette gestion permet d'ouvrir ou de fermer le volets en fonction du lever et du coucher du soleil.
 Il faut activer la gestion pour faire apparaitre les champs de configuration spécifique.
 
+![introduction01](../images/ConfigurationJourNuit.jpg)
+
+### Général
+
+* `Délai de réévaluation (min` : En cas d'echec de condition sur les gestion jours et nuit, le plugin reverifie selon se delais les condition
+
+### Gestion du jour
+
 * `Heure d'ouverture minimum` : Permet d'imposer au plugin un heure minimum a partir de laquel le plugin ne tiendra plus compte de l'heure du lever du soleil 
 * `Type de lever du soleil` : permet de choisir quel type d'horaire vous voulez pour le lever du jour
 * `Délai au lever du jour (min)` : délai avant (-) ou après (+) l'heure du lever du jour
 
+### Gestion de la nuit
 * `Heure de fermeture maximum` :  Permet d'imposer au plugin un heure maximum a partir de laquel le plugin ne tiendra plus compte de l'heure du coucher du soleil 
 * `Type de coucher du soleil` : permet de choisir quel type d'horaire vous voulez pour la tombée de la nuit
 * `Délai à la tombée de la nuit (min)` : délai avant (-) ou après (+) l'heure de la tombée de la nuit
@@ -116,11 +131,14 @@ Gestion de Manuel
 ---
 
 La gestion manuel est détécté si votre été réel du volet change et qui n'est pas autorisé par le plugin.
-Elle vas vous permetre de pouvoir autorisé des changement manuel est bloquant les actions des autres gestions
-Lorsque l'etat réel sera cohérant avec l'etat du plugin, la gestion automatique sera reactivé
+Elle vas vous permetre de pouvoir autoriser des changement manuel en desarmant le plugin.
+
+Se sera donc a vous de gerer le réarmement pour retrouver un fonctionnement automatique de vos volets
 
 Gestion de présence
 ---
+
+![introduction01](../images/ConfigurationPresence.jpg)
 
 La gestion de présence permet de fermer les volets lorsque nous ne sommes pas là.
 Il faut activer la gestion pour faire apparaitre les champs de configuration spécifique.
@@ -187,10 +205,10 @@ Actions d'ouverture et de fermeture
 
 Tout a droit, il est posible d'activer ou non la commande.
 Choisissez les actions à mener sans oublier de configurer leurs valeurs.
-A droite de l'action, une case a coché est présente pour déterminé si l'action vas nos générer une mise a jours de l'etat du volet
 
 Paramètres complémentaires:
 
+* `Activer si l'action execute un mouvement du voletn` : Permet de determiné quel action execute une commande de volet
 * `Type de gestion` : sélectionner toutes les gestions où l'action doit être exécutée (avec la touche `Ctrl`)
 * `Mode` : sélectionner tous les modes où l'action doit être exécutée (avec la touche `Ctrl`)
 * `Action` : Sélectionner toutes les actions où l'action doit être exécutée (avec la touche `Ctrl`)
@@ -212,3 +230,6 @@ FAQ
 
 **Mes Volets ne se bouge plus**
 > Verifier que la gestion manuel ne soit pas active
+
+**Le cadenas est ouvert, mais le plugin contiue a analysé les inforamtion d'héliotrope**
+> Le plugin est désarmé, mais le plugin continue a mettre a jours ses parametres 

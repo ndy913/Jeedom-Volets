@@ -104,7 +104,7 @@ Il faut activer la gestion pour faire apparaitre les champs de configuration sp�
 ![introduction01](../images/ConfigurationJourNuit.jpg)
 
 ### Général
-
+* `Réarmer automatiquement les gestion automatiques` : Ce parametre autorise le plugin a se rearmer automatiquement au levée du jour et a la tombée de la nuit
 * `Délai de réévaluation (min` : En cas d'echec de condition sur les gestion jours et nuit, le plugin reverifie selon se delais les condition
 
 ### Gestion du jour

@@ -90,35 +90,40 @@ class Volets extends eqLogic {
 		}
 	}
 	public function AutorisationAction($Evenement) {   
-		if ($this->getIsEnable() && $this->getCmd(null,'isArmed')->execCmd()){
-			$Mode = $this->getCmd(null,'gestion')->execCmd();
-			switch($Evenement){
-				case 'Jour':
-					if ($this->getConfiguration('Jour'))
-						return true;
-				case 'Nuit':
-					if ($this->getConfiguration('Nuit'))
-						return true;
-				break;
-				case 'Absent':
-					if ($this->getConfiguration('Absent')
-					    && $Mode != "Nuit" )
-						return true;
-				break;
-				case 'Meteo':					
-					if ($this->getConfiguration('Meteo')
-					    && $Mode != "Nuit" 
-					    && $Mode != "Absent")
-						return true;
-				break;
-				case 'Azimut':
-					if ($this->getConfiguration('Azimut')
-					    && $Mode != "Nuit" 
-					    && $Mode != "Absent" 
-					    && $Mode != "Meteo")
-						return true;
-				break;
-			}
+		if ($this->getIsEnable())
+			return false;
+		if (($Evenement == 'Jour' || $Evenement == 'Nuit') && $this->getConfiguration('autoArm'))
+			$this->checkAndUpdateCmd('isArmed',true);
+		if($this->getCmd(null,'isArmed')->execCmd())
+			return false;
+		$Mode = $this->getCmd(null,'gestion')->execCmd();
+		switch($Evenement){
+			case 'Jour':
+				if ($this->getConfiguration('Jour'))
+					return true;
+			case 'Nuit':
+				if ($this->getConfiguration('Nuit'))
+					return true;
+			break;
+			case 'Absent':
+				if ($this->getConfiguration('Absent')
+				    && $Mode != "Nuit" )
+					return true;
+			break;
+			case 'Meteo':					
+				if ($this->getConfiguration('Meteo')
+				    && $Mode != "Nuit" 
+				    && $Mode != "Absent")
+					return true;
+			break;
+			case 'Azimut':
+				if ($this->getConfiguration('Azimut')
+				    && $Mode != "Nuit" 
+				    && $Mode != "Absent" 
+				    && $Mode != "Meteo")
+					return true;
+			break;
+			
 		}
 		return false;
 	}		

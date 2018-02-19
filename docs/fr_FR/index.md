@@ -41,11 +41,11 @@ Le mode et son état
 Ces 2 commandes vont permettre de basculer le plugin en mode "été" ou "hiver".
 C'est à vous de déterminer à quel moment il faut gérer ce changement.
 
-![introduction01](../images/ModeClose.jpg)
+![introduction01](../images/ModeClose.png)
 
 L'icône ci-dessus montre le mode "été", le volet est fermé lorsque le soleil est dans la fenêtre.
 
-![introduction01](../images/ModeOpen.jpg)
+![introduction01](../images/ModeOpen.png)
 
 L'icône ci-dessus montre le mode "hiver", le volet est ouvert lorsque le soleil est dans la fenêtre.
 
@@ -53,11 +53,11 @@ la position du soleil
 ---
 Cette commande nous informe si le soleil est dans la fenêtre ou pas.
  
-![introduction01](../images/SunInWindows.jpg)
+![introduction01](../images/SunInWindows.png)
 
 Dans la fenêtre.
 
-![introduction01](../images/SunOutWindows.jpg)
+![introduction01](../images/SunOutWindows.png)
 
 Hors fenêtre.
 

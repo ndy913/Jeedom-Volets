@@ -200,3 +200,17 @@ Paramètres complémentaires:
 Pour la gestion azimut en été, le plugin calcul la hauteur du volet pour que le rayonnement du soleil soit masqué.
 Pour utiliser la commande hauteur dans une action du plugin, il suffit de mettre en valeur le tag #Hauteur#
 
+FAQ
+===
+
+**Le plugin reste en gestion Nuit**
+> Verifier que la gestion de jours est activé
+
+**Le plugin reste en mode manuel**
+> Pour sortir du mode manuel il faut rearmer **Manuellement ou par scénario** le plugin.
+
+**Je ne veux pas que mes volets s'ouvre le matin avant 10h**
+> Pour cela il faut ajouté une condition sur la gestion jour
+
+**Mes Volets ne se bouge plus**
+> Verifier que la gestion manuel ne soit pas active

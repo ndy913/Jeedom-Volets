@@ -187,7 +187,9 @@ Actions d'ouverture et de fermeture
 
 ![introduction01](../images/Volets_screenshot_ConfigurationAction.jpg)
 
+Tout a droit, il est posible d'activer ou non la commande.
 Choisissez les actions à mener sans oublier de configurer leurs valeurs.
+A droite de l'action, une case a coché est présente pour déterminé si l'action vas nos générer une mise a jours de l'etat du volet
 
 Paramètres complémentaires:
 

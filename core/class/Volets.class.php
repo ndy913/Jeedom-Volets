@@ -439,7 +439,7 @@ class Volets extends eqLogic {
 		$ActionMove=array_filter($this->getConfiguration('action'), function($value, $key) {
 			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Test filtre ');
 			return $key == 'isVoletMove' && $value == true;
-		}, ARRAY_FILTER_USE_BOTH));
+		}, ARRAY_FILTER_USE_BOTH);
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Test filtre actionMove'.json_encode($ActionMove));
 		foreach($this->getConfiguration('action') as $Cmd){	
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))

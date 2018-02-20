@@ -5,6 +5,18 @@ function Volets_install(){
 function Volets_update(){
 	log::add('Volets','debug','Lancement du script de mise a jours'); 
 	foreach(eqLogic::byType('Volets') as $eqLogic){
+		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
+		if (is_object($listener))
+			$listener->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
+		if (is_object($cron)) 	
+			$cron->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $Volet->getId()));
+		if (is_object($cron)) 	
+			$cron->remove();
+		$cron = cron::byClassAndFunction('Volets', 'ActionMeteo', array('Volets_id' => $Volet->getId()));
+		if (is_object($cron)) 	
+			$cron->remove();
 		if($eqLogic->getConfiguration('Azimuth'))
 			$eqLogic->setConfiguration('Azimut',true);
 		if($eqLogic->getConfiguration('Present'))
@@ -18,19 +30,19 @@ function Volets_update(){
 			foreach($Condition["TypeGestion"] as $TypeGestionKey => $TypeGestion){	
 				if($TypeGestion == "Day"){
 					$Conditions[$CondiKey]["TypeGestion"]["Jour"]=true;
-					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
+					 unset($Conditions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 				if($TypeGestion == "Night"){
 					$Conditions[$CondiKey]["TypeGestion"]["Nuit"]=true;
-					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
+					 unset($Conditions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 				if($TypeGestion == "Presence"){
 					$Conditions[$CondiKey]["TypeGestion"]["Absent"]=true;
-					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
+					 unset($Conditions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 				if($TypeGestion == "Azimuth"){
 					$Conditions[$CondiKey]["TypeGestion"]["Azimut"]=true;
-					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
+					 unset($Conditions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 			}
 		}
@@ -39,19 +51,19 @@ function Volets_update(){
 		foreach($Actions as $ActionKey => $Action){	
 			foreach($Action["TypeGestion"] as $TypeGestionKey => $TypeGestion){	
 				if($TypeGestion == "Day"){
-					$Actions[$ActionKey]["TypeGestion"][]="Jour";
+					$Actions[$ActionKey]["TypeGestion"]["Jour"]=true;
 					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 				if($TypeGestion == "Night"){
-					$Actions[$ActionKey]["TypeGestion"][]="Nuit";
+					$Actions[$ActionKey]["TypeGestion"]["Nuit"]=true;
 					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 				if($TypeGestion == "Presence"){
-					$Actions[$ActionKey]["TypeGestion"][]="Absent";
+					$Actions[$ActionKey]["TypeGestion"]["Absent"]=true;
 					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 				if($TypeGestion == "Azimuth"){
-					$Conditions[$CondiKey]["TypeGestion"][]="Azimut";
+					$Conditions[$CondiKey]["TypeGestion"]["Azimut"]=true;
 					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 			}
@@ -66,13 +78,13 @@ function Volets_remove(){
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 		if (is_object($listener))
 			$listener->remove();
-		$cron = cron::byClassAndFunction('Volets', 'ActionJour', array('Volets_id' => $Volet->getId()));
+		$cron = cron::byClassAndFunction('Volets', 'GestionJour', array('Volets_id' => $Volet->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
-		$cron = cron::byClassAndFunction('Volets', 'ActionNuit', array('Volets_id' => $Volet->getId()));
+		$cron = cron::byClassAndFunction('Volets', 'GestionNuit', array('Volets_id' => $Volet->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
-		$cron = cron::byClassAndFunction('Volets', 'ActionMeteo', array('Volets_id' => $Volet->getId()));
+		$cron = cron::byClassAndFunction('Volets', 'GestionMeteo', array('Volets_id' => $Volet->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
 		

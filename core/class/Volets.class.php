@@ -411,7 +411,7 @@ class Volets extends eqLogic {
 		return $Hauteur;
 	}
 	public function AleatoireActions($Gestion,$ActionMove,$Hauteur){
-		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Lancement aléatoire de volet);
+		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Lancement aléatoire de volet');
 		$isActionMove=null;
 		for($loop=0;$loop<count($ActionMove);$loop++){
 			$execute=rand(0,count($ActionMove));

@@ -129,7 +129,7 @@ class Volets extends eqLogic {
 	}		
 	public function CheckRealState($Value) {   
 		$this->checkAndUpdateCmd('hauteur',$Value);
-		if($Value >= $this->getConfiguration("SeuilRealState"))
+		if($Value > $this->getConfiguration("SeuilRealState"))
 			$State='open';
 		else
 			$State='close';

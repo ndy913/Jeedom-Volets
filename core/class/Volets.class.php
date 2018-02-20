@@ -90,11 +90,11 @@ class Volets extends eqLogic {
 		}
 	}
 	public function AutorisationAction($Evenement) {   
-		if ($this->getIsEnable())
+		if (!$this->getIsEnable())
 			return false;
 		if (($Evenement == 'Jour' || $Evenement == 'Nuit') && $this->getConfiguration('autoArm'))
 			$this->checkAndUpdateCmd('isArmed',true);
-		if($this->getCmd(null,'isArmed')->execCmd())
+		if(!$this->getCmd(null,'isArmed')->execCmd())
 			return false;
 		$Mode = $this->getCmd(null,'gestion')->execCmd();
 		switch($Evenement){

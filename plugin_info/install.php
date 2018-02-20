@@ -4,7 +4,7 @@ function Volets_install(){
 }
 function Volets_update(){
 	log::add('Volets','debug','Lancement du script de mise a jours'); 
-	foreach(eqLogic::byType('Volets') as $eqLogic){
+	foreach(eqLogic::byType('Volets') as $Volet){
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 		if (is_object($listener))
 			$listener->remove();
@@ -17,15 +17,15 @@ function Volets_update(){
 		$cron = cron::byClassAndFunction('Volets', 'ActionMeteo', array('Volets_id' => $Volet->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
-		if($eqLogic->getConfiguration('Azimuth'))
-			$eqLogic->setConfiguration('Azimut',true);
-		if($eqLogic->getConfiguration('Present'))
-			$eqLogic->setConfiguration('Absent',true);
-		if($eqLogic->getConfiguration('DayNight')){
-			$eqLogic->setConfiguration('Jours',true);
-			$eqLogic->setConfiguration('Nuit',true);
+		if($Volet->getConfiguration('Azimuth'))
+			$Volet->setConfiguration('Azimut',true);
+		if($Volet->getConfiguration('Present'))
+			$Volet->setConfiguration('Absent',true);
+		if($Volet->getConfiguration('DayNight')){
+			$Volet->setConfiguration('Jours',true);
+			$Volet->setConfiguration('Nuit',true);
 		}
-		$Conditions=$eqLogic->getConfiguration('condition');
+		$Conditions=$Volet->getConfiguration('condition');
 		foreach($Conditions as $CondiKey => $Condition){	
 			foreach($Condition["TypeGestion"] as $TypeGestionKey => $TypeGestion){	
 				if($TypeGestion == "Day"){
@@ -46,8 +46,8 @@ function Volets_update(){
 				}
 			}
 		}
-		$eqLogic->setConfiguration('condition',$Conditions);	
-		$Actions=$eqLogic->getConfiguration('action');
+		$Volet->setConfiguration('condition',$Conditions);	
+		$Actions=$Volet->getConfiguration('action');
 		foreach($Actions as $ActionKey => $Action){	
 			foreach($Action["TypeGestion"] as $TypeGestionKey => $TypeGestion){	
 				if($TypeGestion == "Day"){
@@ -63,13 +63,13 @@ function Volets_update(){
 					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 				if($TypeGestion == "Azimuth"){
-					$Conditions[$CondiKey]["TypeGestion"]["Azimut"]=true;
+					$Actions[$ActionKey]["TypeGestion"]["Azimut"]=true;
 					 unset($Actions[$ActionKey]["TypeGestion"][$TypeGestionKey]);
 				}
 			}
 		}
-		$eqLogic->setConfiguration('action',$Actions);	
-		$eqLogic->save();
+		$Volet->setConfiguration('action',$Actions);	
+		$Volet->save();
 	}
 	log::add('Volets','debug','Fin du script de mise a jours');
 }

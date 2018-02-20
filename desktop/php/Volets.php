@@ -296,6 +296,26 @@ $eqLogics = eqLogic::byType('Volets');
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation (min)}}"/>
 								</div>
 							</div>	
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Ouverture et femeture aléatoire}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Les volets d'une meme zone s'ouvriron ou se fermeron de facon aléatoire avec un delais entre chaque execution}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="RandExecution"/>
+								</div>
+							</div>	
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Délai maximal du mode aléatoire (s)}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Temps d'attente aléatoire entre 2 commande de volet (s)}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="maxDelaiRand" placeholder="{{Temps d'attente aléatoire entre 2 commande de volet (s)}}"/>
+								</div>
+							</div>	
 						</fieldset>
 					</form>
 				</div>

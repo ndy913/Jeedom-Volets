@@ -410,7 +410,20 @@ class Volets extends eqLogic {
 			$Hauteur=100-$Hauteur;
 		return $Hauteur;
 	}
-	public function CheckActions($Gestion,$Evenement,$Saison,$OtherGestion=false){
+	public function AleatoireActions($Gestion,$ActionMove,$Hauteur){
+		$isActionMove=null;
+		for($loop=0;$loop<count($ActionMove);$loop++){
+			$execute=rand(0,count($ActionMove));
+			while(array_search($execute, $isActionMove) !== false)
+				$execute=rand(0,count($ActionMove));
+			$isActionMove[]=$execute;
+			$this->ExecuteAction($ActionMove[$execute],$Gestion,$Hauteur);
+			if(array_search('#Hauteur#', $Cmd['options'])!== false)
+				cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
+		}
+	}
+	public function CheckActions($Gestion,$Evenement,$Saison){
 		$Hauteur=$this->getHauteur($Gestion,$Evenement,$Saison);
 		if($this->getPosition() == $Evenement 
 		   && $this->getCmd(null,'gestion')->execCmd() == $Gestion
@@ -423,10 +436,13 @@ class Volets extends eqLogic {
 		$this->checkAndUpdateCmd('hauteur',$Hauteur);
 		$this->setPosition($Evenement);
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
+		$ActionMove=array_filter($this->getConfiguration('action'), function($value, $key) {
+			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Test filtre ');
+			return $key == 'isVoletMove' && $value == true;
+		}, ARRAY_FILTER_USE_BOTH));
+		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Test filtre actionMove'.json_encode($ActionMove));
 		foreach($this->getConfiguration('action') as $Cmd){	
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
-				continue;
-			if($OtherGestion && $Cmd['isVoletMove'])
 				continue;
 			if(array_search('#Hauteur#', $Cmd['options'])!== false)
 				cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);

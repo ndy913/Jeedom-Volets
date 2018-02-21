@@ -418,9 +418,11 @@ class Volets extends eqLogic {
 			while(array_search($execute, $isActionMove) !== false)
 				$execute=rand(0,count($ActionMove));
 			$isActionMove[]=$execute;
+			if(isset($ActionMove['options'])){
+				if(array_search('#Hauteur#', $ActionMove['options'])!== false)
+					cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+			}
 			$this->ExecuteAction($ActionMove[$execute],$Gestion,$Hauteur);
-			if(array_search('#Hauteur#', $Cmd['options'])!== false)
-				cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
 			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
 		}
 	}
@@ -445,8 +447,10 @@ class Volets extends eqLogic {
 				$ActionMove[]=$Cmd;
 				continue;
 			}
-			if(array_search('#Hauteur#', $Cmd['options'])!== false)
-				cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+			if(isset($Cmd['options'])){
+				if(array_search('#Hauteur#', $Cmd['options'])!== false)
+					cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+			}
 			$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
 		}
 		if($this->getConfiguration('RandExecution') && $ActionMove != null)

@@ -35,7 +35,9 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Meteo]').on('change',functi
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Azimut]').on('change',function(){	
 	if($(this).is(':checked')){
-		$('.AzimutMap').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets');
+		$(function() {
+			$('.AzimutMap').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets');
+		});
 		$('.Azimut').show();
 	}else
 		$('.Azimut').hide();

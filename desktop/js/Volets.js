@@ -35,12 +35,17 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Meteo]').on('change',functi
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Azimut]').on('change',function(){	
 	if($(this).is(':checked')){
-		$(function() {
-			$('.AzimutMap').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets');
-		});
 		$('.Azimut').show();
 	}else
 		$('.Azimut').hide();
+});
+$('#bt_openMap').on('click',function(){
+	$('#md_modal').dialog({
+		title: "{{Séléctionner vos angles}}",
+		resizable: true,
+		height: 800,
+		width: 1024});
+	$('#md_modal').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets').dialog('open');
 });
 function saveEqLogic(_eqLogic) {
 	_eqLogic.configuration.condition=new Object();

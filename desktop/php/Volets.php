@@ -429,6 +429,9 @@ $eqLogics = eqLogic::byType('Volets');
 					<fieldset>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">{{L'exposition au soleil est comprise entre}}</label>
+							<a class="btn btn-info pull-right" id="bt_openMap" style="margin-top:5px;">
+								<i class="icon nature-planet5"></i> Déterminer les angles
+							</a>
 							<div class="col-sm-3">
 								<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleDroite" disabled />
 							</div>
@@ -437,7 +440,6 @@ $eqLogics = eqLogic::byType('Volets');
 								<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleGauche" disabled />
 							</div>
 						</div>  
-						<div class="form-group AzimutMap"></div>  
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>

@@ -104,16 +104,21 @@ Il faut activer la gestion pour faire apparaitre les champs de configuration sp�
 ![introduction01](../images/ConfigurationJourNuit.jpg)
 
 ### Général
-* `Réarmer automatiquement les gestion automatiques` : Ce parametre autorise le plugin a se rearmer automatiquement au levée du jour et a la tombée de la nuit
+
 * `Délai de réévaluation (min` : En cas d'echec de condition sur les gestion jours et nuit, le plugin reverifie selon se delais les condition
+* `Ouverture et fermeture aléatoire` : Si vous avez plusieurs volet sur la zone et que vous souhaitez un ouverture aléatoire (Attention il est impératif que les action de mouvement soit renseigné dans les action)
+* `Délai maximal du mode aléatoire (s)` : Delais maximal qui sera appliqué entre chaque execution de mouvement aléatoire
 
 ### Gestion du jour
 
+* `Réarmement automatique ` : Ce parametre autorise le plugin a se rearmer automatiquement lors de la gestion de jour
 * `Heure d'ouverture minimum` : Permet d'imposer au plugin un heure minimum a partir de laquel le plugin ne tiendra plus compte de l'heure du lever du soleil 
 * `Type de lever du soleil` : permet de choisir quel type d'horaire vous voulez pour le lever du jour
 * `Délai au lever du jour (min)` : délai avant (-) ou après (+) l'heure du lever du jour
 
 ### Gestion de la nuit
+
+* `Réarmement automatique ` : Ce parametre autorise le plugin a se rearmer automatiquement lors de la gestion de nuit
 * `Heure de fermeture maximum` :  Permet d'imposer au plugin un heure maximum a partir de laquel le plugin ne tiendra plus compte de l'heure du coucher du soleil 
 * `Type de coucher du soleil` : permet de choisir quel type d'horaire vous voulez pour la tombée de la nuit
 * `Délai à la tombée de la nuit (min)` : délai avant (-) ou après (+) l'heure de la tombée de la nuit
@@ -156,14 +161,8 @@ Gestion par Azimut
 ---
 
 Ce mode de fonctionement permet de fermer les volets lorsque le soleil est entre les angles d'exposition au soleil de la fenêtre.
-Pour compléter cette gestion, il est possible d'ajouter des conditions.
-Par exemple, je veux que les volets ne se ferment que si j'ai une température ambiante en été supérieure à 23.
-J'ajouterai donc une condition de ce type.
 
-![introduction01](../images/ConditionTemps.jpg)
-
-
-###Définition de l'angle d'exposition au soleil 
+### Définition de l'angle d'exposition au soleil 
 
 Cette étape est importante pour le fonctionnement de la gestion en fonction de la position du soleil.
 
@@ -175,6 +174,13 @@ Le point central doit être obligatoirement placé au dessus de notre fenêtre.
 Les 2 autres vont former l'angle et peuvent être placés n'importe où à l'extérieur de la maison. 
 Attention toutefois à bien respecter la droite et la gauche de votre fenêtre vue de l'extérieur (indiqué sur les points de la carte).
 
+### Conditionner
+
+Pour compléter cette gestion, il est possible d'ajouter des conditions.
+Par exemple, je veux que les volets ne se ferment que si j'ai une température ambiante en été supérieure à 23.
+J'ajouterai donc une condition de ce type.
+
+![introduction01](../images/ConditionTemps.jpg)
 Conditions d'exécution
 ---
 Afin d'affiner tous les cas d'utilisation de gestion de nos volets, nous pouvons ajouter des conditions.

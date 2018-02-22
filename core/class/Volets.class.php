@@ -258,7 +258,7 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public static function GestionNuit($_option) {
+	public static function GestionNuit($_option=null) {
 		if($_option==null)
 			return;
 		$Volet = Volets::byId($_option['Volets_id']);

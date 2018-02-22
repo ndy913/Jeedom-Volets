@@ -238,7 +238,9 @@ class Volets extends eqLogic {
 			//}
 		}
 	}
-	public static function GestionJour($_option) {    
+	public static function GestionJour($_option=null) {    
+		if($_option==null)
+			return;
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->AutorisationAction('Jour')){	
 			log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Jour] : Exécution de la gestion du lever du soleil');
@@ -257,6 +259,8 @@ class Volets extends eqLogic {
 		}
 	}
 	public static function GestionNuit($_option) {
+		if($_option==null)
+			return;
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->AutorisationAction('Nuit')){
 			if($Volet->getCmd(null,'gestion')->execCmd() =='Nuit'){

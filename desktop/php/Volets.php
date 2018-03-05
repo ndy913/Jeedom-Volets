@@ -117,7 +117,7 @@ $eqLogics = eqLogic::byType('Volets');
 							</label>
 							<div class="col-sm-5">
 								<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-								<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du groupe de zones}}"/>
+								<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du groupe de zone}}"/>
 							</div>
 						</div>
 						<div class="form-group">
@@ -140,7 +140,7 @@ $eqLogics = eqLogic::byType('Volets');
 							<label class="col-md-2 control-label">
 								{{Catégorie}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Choisir une catégorie. Cette information n'est pas obigatoire mais peut être utile pour filtrer les widgets}}" style="font-size : 1em;color:grey;"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Choisir une catégorie. Cette information n'est pas obligatoire mais peut être utile pour filtrer les widgets}}" style="font-size : 1em;color:grey;"></i>
 								</sup>
 							</label>
 							<div class="col-md-8">
@@ -202,14 +202,14 @@ $eqLogics = eqLogic::byType('Volets');
 							</div>
 						</div>	
 						<div class="form-group">
-							<label class="col-sm-2 control-label">{{Objet etat réel}}
+							<label class="col-sm-2 control-label">{{Objet état réel}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Cette objet, initialisera le plugin avec l'etat reel du volet. Lors d'une action manuel sur le volet, les gestions seront desactivé et il sera de votre action pour la reactivé.}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Cet objet, initialisera le plugin avec l'état réel du volet. Lors d'une action manuelle sur le volet, les gestions seront désactivées et il sera de votre action pour la réactiver.}}"></i>
 								</sup>
 							</label>
 							<div class="col-sm-5">
 								<div class="input-group">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="RealState" placeholder="{{Commande déterminant l'etat du volet}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="RealState" placeholder="{{Commande déterminant l'état du volet}}"/>
 									<span class="input-group-btn">
 										<a class="btn btn-success btn-sm listCmdAction data-type="info">
 											<i class="fa fa-list-alt"></i>
@@ -221,7 +221,7 @@ $eqLogics = eqLogic::byType('Volets');
 						<div class="form-group">
 							<label class="col-sm-2 control-label">{{Hauteur de fermeture}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Ce parametre permet de déterminer si le volet est consider comme fermer (pour le retour d'etat proportionnel).}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Ce paramètre permet de déterminer si le volet est considéré comme fermé (pour le retour d'état proportionnel).}}"></i>
 								</sup>
 							</label>
 							<div class="col-sm-5">
@@ -231,9 +231,9 @@ $eqLogics = eqLogic::byType('Volets');
 							</div>
 						</div>	
 						<div class="form-group">
-							<label class="col-sm-2 control-label">{{Hauteur calulée}}
+							<label class="col-sm-2 control-label">{{Hauteur calculée}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Ce parametre permet d'inverser la hauteur calulé par le plugin).}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Ce paramètre permet d'inverser la hauteur calculée par le plugin).}}"></i>
 								</sup>
 							</label>
 							<div class="col-sm-5">
@@ -247,8 +247,8 @@ $eqLogics = eqLogic::byType('Volets');
 			<div role="tabpanel" class="tab-pane" id="presentab">
 				<form class="form-horizontal">
 					<fieldset>
-						{{La gestion d'absence vas fermer le volet lorsque l'objet de présence surveiller passe a false.}}	
-						{{Seul la gestion de Nuit autorisé a s'executer}}	
+						{{La gestion d'absence va fermer le volet lorsque l'objet de présence surveillé passe à False.}}	
+						{{Seule la gestion de Nuit est autorisée à s'exécuter}}	
 						<div class="form-group">
 							<label class="col-sm-2 control-label">{{Objet indiquant la présence}}
 								<sup>
@@ -275,27 +275,17 @@ $eqLogics = eqLogic::byType('Volets');
 		<div role="tabpanel" class="tab-pane" id="meteotab">
 				<form class="form-horizontal">
 					<fieldset>
-						{{La gestion par météo est une tache executé toutes les minutes qui vas verifier les condition météo que vous avez spécifé dans l'onget Condition}}	
-						{{Lorsque toutes les conditions sont vérifier le plugin passe en mode Météo, elle ferme le volet}}
-						{{Seul la gestion de Nuit autorisé a s'executer}}		
+						{{La gestion par météo est une tâche executée toutes les minutes qui va verifier les conditions météorologique que vous avez spécifées dans l'onget Condition}}	
+						{{Lorsque toutes les conditions sont vérifiées le plugin passe en mode Météo, les volets se ferment}}
+						{{Seule la gestion de Nuit est autorisée à s'exécuter}}		
 					</fieldset>
 				</form>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="journuitab">
 				<div>
 					<form class="form-horizontal">
-						<legend>Genéral</legend>
+						<legend>Général</legend>
 						<fieldset>
-							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Réarmer automatiquement les gestion automatiques}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="{{Réarmer automatiquement les gestion au lever du jour ou au couché du soleil}}"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoArm" />
-								</div>
-							</div>	
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Délai de réévaluation (min)}}
 									<sup>
@@ -306,6 +296,26 @@ $eqLogics = eqLogic::byType('Volets');
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation (min)}}"/>
 								</div>
 							</div>	
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Ouverture et fermeture aléatoire}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Les volets d'une même zone s'ouvriront ou se fermeront de façon aléatoire avec un delai entre chaque exécution}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="RandExecution"/>
+								</div>
+							</div>	
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Délai maximal du mode aléatoire (s)}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Temps d'attente aléatoire entre deux commandes de volet (s)}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="maxDelaiRand" placeholder="{{Temps d'attente aléatoire entre deux commandes de volet (s)}}"/>
+								</div>
+							</div>	
 						</fieldset>
 					</form>
 				</div>
@@ -314,9 +324,19 @@ $eqLogics = eqLogic::byType('Volets');
 						<legend>Gestion Jour</legend>
 						<fieldset>
 							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Réarmement automatique}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Réarmer automatiquement les gestions au lever du jour}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoArmDay" />
+								</div>
+							</div>	
+							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Heure d'ouverture minimum (HHMM)}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="{{Si le soleil se leve avant, l'heure d'ouverture sera ce parametre}}"></i>
+										<i class="fa fa-question-circle tooltips" title="{{Si le soleil se lève avant, l'heure d'ouverture sera ce paramètre}}"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -356,9 +376,19 @@ $eqLogics = eqLogic::byType('Volets');
 						<legend>Gestion Nuit</legend>
 						<fieldset>
 							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Réarmement automatique}}
+									<sup>
+										<i class="fa fa-question-circle tooltips" title="{{Réarmer automatiquement les gestions au coucher du soleil}}"></i>
+									</sup>
+								</label>
+								<div class="col-sm-5">
+									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoArmNight" />
+								</div>
+							</div>	
+							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Heure de fermeture maximum (HHMM)}}
 									<sup>
-										<i class="fa fa-question-circle tooltips" title="{{Si le soleil se couche apres, l'heure de fermetrue sera ce parametre}}"></i>
+										<i class="fa fa-question-circle tooltips" title="{{Si le soleil se couche après, l'heure de fermeture sera ce paramètre}}"></i>
 									</sup>
 								</label>
 								<div class="col-sm-5">
@@ -399,6 +429,9 @@ $eqLogics = eqLogic::byType('Volets');
 					<fieldset>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">{{L'exposition au soleil est comprise entre}}</label>
+							<a class="btn btn-info pull-right" id="bt_openMap" style="margin-top:5px;">
+								<i class="icon nature-planet5"></i> Déterminer les angles
+							</a>
 							<div class="col-sm-3">
 								<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleDroite" disabled />
 							</div>
@@ -407,7 +440,6 @@ $eqLogics = eqLogic::byType('Volets');
 								<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleGauche" disabled />
 							</div>
 						</div>  
-						<div class="form-group AzimutMap"></div>  
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>
@@ -417,7 +449,7 @@ $eqLogics = eqLogic::byType('Volets');
 			<div role="tabpanel" class="tab-pane" id="conditiontab">
 				<form class="form-horizontal">
 					<fieldset>
-						<legend>{{Les conditions d'exécution :}}
+						<legend>{{Les conditions d'exécutions :}}
 							<sup>
 								<i class="fa fa-question-circle tooltips" title="{{Saisir toutes les conditions d'exécution de la gestion}}"></i>
 							</sup>

@@ -92,7 +92,9 @@ class Volets extends eqLogic {
 	public function AutorisationAction($Evenement) {   
 		if (!$this->getIsEnable())
 			return false;
-		if (($Evenement == 'Jour' || $Evenement == 'Nuit') && $this->getConfiguration('autoArm'))
+		if ($Evenement == 'Jour' && $this->getConfiguration('autoArmDay'))
+			$this->checkAndUpdateCmd('isArmed',true);
+		if ($Evenement == 'Nuit' && $this->getConfiguration('autoArmNight'))
 			$this->checkAndUpdateCmd('isArmed',true);
 		if(!$this->getCmd(null,'isArmed')->execCmd())
 			return false;
@@ -236,7 +238,9 @@ class Volets extends eqLogic {
 			//}
 		}
 	}
-	public static function GestionJour($_option) {    
+	public static function GestionJour($_option=null) {    
+		if($_option==null)
+			return;
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->AutorisationAction('Jour')){	
 			log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Jour] : Exécution de la gestion du lever du soleil');
@@ -254,7 +258,9 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public static function GestionNuit($_option) {
+	public static function GestionNuit($_option=null) {
+		if($_option==null)
+			return;
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->AutorisationAction('Nuit')){
 			if($Volet->getCmd(null,'gestion')->execCmd() =='Nuit'){
@@ -408,7 +414,23 @@ class Volets extends eqLogic {
 			$Hauteur=100-$Hauteur;
 		return $Hauteur;
 	}
-	public function CheckActions($Gestion,$Evenement,$Saison,$OtherGestion=false){
+	public function AleatoireActions($Gestion,$ActionMove,$Hauteur){
+		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Lancement aléatoire de volet');
+		$isActionMove=null;
+		for($loop=0;$loop<count($ActionMove);$loop++){
+			$execute=rand(0,count($ActionMove));
+			while(array_search($execute, $isActionMove) !== false)
+				$execute=rand(0,count($ActionMove));
+			$isActionMove[]=$execute;
+			if(isset($ActionMove['options'])){
+				if(array_search('#Hauteur#', $ActionMove['options'])!== false)
+					cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+			}
+			$this->ExecuteAction($ActionMove[$execute],$Gestion,$Hauteur);
+			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
+		}
+	}
+	public function CheckActions($Gestion,$Evenement,$Saison){
 		$Hauteur=$this->getHauteur($Gestion,$Evenement,$Saison);
 		if($this->getPosition() == $Evenement 
 		   && $this->getCmd(null,'gestion')->execCmd() == $Gestion
@@ -421,15 +443,22 @@ class Volets extends eqLogic {
 		$this->checkAndUpdateCmd('hauteur',$Hauteur);
 		$this->setPosition($Evenement);
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
+		$ActionMove=null;
 		foreach($this->getConfiguration('action') as $Cmd){	
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
 				continue;
-			if($OtherGestion && $Cmd['isVoletMove'])
+			if($this->getConfiguration('RandExecution') && $Cmd['isVoletMove']){
+				$ActionMove[]=$Cmd;
 				continue;
-			if(array_search('#Hauteur#', $Cmd['options'])!== false)
-				cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+			}
+			if(isset($Cmd['options'])){
+				if(array_search('#Hauteur#', $Cmd['options'])!== false)
+					cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+			}
 			$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
 		}
+		if($this->getConfiguration('RandExecution') && $ActionMove != null)
+			$this->AleatoireActions($Gestion,$ActionMove,$Hauteur);
 	}
 	public function ExecuteAction($Cmd,$Gestion,$Hauteur=0){		
 		try {

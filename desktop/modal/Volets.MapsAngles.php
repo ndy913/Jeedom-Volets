@@ -50,11 +50,13 @@ $('#MyMap').html('');
 					var center=data.result.geoloc.split(",");
 					CentreLatLng.lat=parseFloat(center[0]);
 					CentreLatLng.lng=parseFloat(center[1]);
-					if ($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val()== '') 
+                  	DroitLatLng=jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val());
+					if(typeof DroitLatLng !='object')
 						$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(CentreLatLng))
-					if ($('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val()== '') 
+                  	GaucheLatLng=jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val());
+					if(typeof DroitLatLng !='object')
 						$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(CentreLatLng))
-					if ($('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val()== '') 
+					if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val()) !='object')
 						$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(CentreLatLng))
 					var view = new ol.View({
 						center: ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]),

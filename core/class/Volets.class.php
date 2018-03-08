@@ -662,6 +662,7 @@ class Volets extends eqLogic {
 					$cron = $this->CreateCron('* * * * * *', 'GestionMeteo', array('Volets_id' => intval($this->getId())));
 				$listener->save();	
 				if($this->CheckOtherGestion('Manuel')){
+					$this->checkAndUpdateCmd('gestion', 'Jour');
 					$_option['Volets_id']=$this->getId();
 					Volets::GestionJour($_option);
 				}
@@ -761,6 +762,7 @@ class VoletsCmd extends cmd {
 				case 'armed':
 					$Listener->event(true);	
 					if($this->getEqLogic()->CheckOtherGestion('Manuel')){
+						$this->getEqLogic()->checkAndUpdateCmd('gestion', 'Jour');
 						$_option['Volets_id']=$this->getEqLogic()->getId();
 						Volets::GestionJour($_option);
 					}

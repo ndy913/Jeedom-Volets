@@ -436,7 +436,7 @@ class Volets extends eqLogic {
 		   && $this->getCmd(null,'gestion')->execCmd() == $Gestion
 		   /*&& $this->getCmd(null,'hauteur')->execCmd() == $Hauteur*/)
 		   return;
-		if ($Evenement == 'open' && $Gestion != 'Azimut')
+		if ($Evenement == 'open' && $Gestion != 'Azimut '&& $Gestion != 'Manuel')
 			$this->checkAndUpdateCmd('gestion', 'Jour');
 		else
 			$this->checkAndUpdateCmd('gestion',$Gestion);

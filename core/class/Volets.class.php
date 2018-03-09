@@ -175,9 +175,12 @@ class Volets extends eqLogic {
 							   $NightStart=$this->getConfiguration('NightMax');
 						$DelaisNight=$this->CalculHeureEvent($NightStart,'DelaisNight');
 						if(mktime() < $DelaisDay || mktime() > $DelaisNight){
-							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il fait nuit la gestion Nuit prend le relais');
-							$this->CheckActions('Nuit','close',$Saison);
-							return false;
+							$Evenement=$this->checkCondition('close',$Saison,'Nuit');   		
+							if($Evenement != false && $Evenement == "close"){
+								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il fait nuit la gestion Nuit prend le relais');
+								$this->CheckActions('Nuit',$Evenement,$Saison);
+								return false;
+							}
 						}
 					}
 				}

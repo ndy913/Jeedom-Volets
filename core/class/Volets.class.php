@@ -234,11 +234,12 @@ class Volets extends eqLogic {
 				//$Volet->checkAndUpdateCmd('isArmed',true);									
 			}else{*/
 				log::add('Volets','info','Un evenement manuel a été détécté sur le volet '.$this->getHumanName().' La gestion a été désactivé');
-				$this->checkAndUpdateCmd('gestion','Manuel');
+				//$this->checkAndUpdateCmd('gestion','Manuel');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
-				if($Evenement != false)
+				if($Evenement != false){
 					$this->CheckActions('Manuel',$Evenement,$Saison);
-				$this->checkAndUpdateCmd('isArmed',false);
+					$this->checkAndUpdateCmd('isArmed',false);
+				}
 			//}
 		}
 	}
@@ -440,9 +441,9 @@ class Volets extends eqLogic {
 		   && $this->getCmd(null,'gestion')->execCmd() == $Gestion
 		   && $this->getCmd(null,'hauteur')->execCmd() == $Hauteur)
 		   return;
-		if ($Evenement == 'open' && $Gestion != 'Azimut '&& $Gestion != 'Manuel')
+		/*if ($Evenement == 'open' && $Gestion != 'Azimut '&& $Gestion != 'Manuel')
 			$this->checkAndUpdateCmd('gestion', 'Jour');
-		else
+		else*/
 			$this->checkAndUpdateCmd('gestion',$Gestion);
 		$this->checkAndUpdateCmd('hauteur',$Hauteur);
 		$this->setPosition($Evenement);

@@ -29,74 +29,45 @@ var DroitLatLng=new Object();
 var CentreLatLng=new Object();
 var GaucheLatLng=new Object();
 $(function() {
-$('#MyMap').html('');
+	$('#MyMap').html('');
 	if($('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').val() !=''){
-		$.ajax({
-			type: 'POST',            
-			async: false,
-			url: 'plugins/Volets/core/ajax/Volets.ajax.php',
-			data:{
-				action: 'getInformation',
-				heliotrope:$('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').val()
-			},
-			dataType: 'json',
-			global: false,
-			error: function(request, status, error) {},
-			success: function(data) {
-				if (!data.result)
-					$('#div_alert').showAlert({message: 'Aucun message reçu', level: 'error'});
-				if (typeof(data.result.geoloc) !== 'undefined') {
-					//var center=data.result.geoloc.configuration.coordinate.split(",");
-					var center=data.result.geoloc.split(",");
-					CentreLatLng.lat=parseFloat(center[0]);
-					CentreLatLng.lng=parseFloat(center[1]);
-                  	DroitLatLng=jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val());
-					if(typeof DroitLatLng !='object')
-						$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(CentreLatLng))
-                  	GaucheLatLng=jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val());
-					if(typeof DroitLatLng !='object')
-						$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(CentreLatLng))
-					if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val()) !='object')
-						$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(CentreLatLng))
-					var view = new ol.View({
-						center: ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]),
-						zoom: 10
-						});
-					if(BingAPIKey != ""){
-							for (i = 0, ii = styles.length; i < ii; ++i) {
-							layers.push(new ol.layer.Tile({
-								visible: false,
-								preload: Infinity,
-								source: new ol.source.BingMaps({
-									key: BingAPIKey,
-									imagerySet: styles[i]
-								})
-							}));
-						}
-						map = new ol.Map({
-							layers: layers,
-							loadTilesWhileInteracting: true,
-							target: 'MyMap',
-							view: view
-						});
-						layers[3].setVisible(styles[3]);
-					}else{
-						$('#layer-select').hide();
-						map =new ol.Map({
-							view: view,
-							layers: [
-								new ol.layer.Tile({
-									source: new ol.source.OSM()
-								})
-							],
-							target: 'MyMap'
-						});
-					}
-					TraceMapZone()
-				}
+		CentreLatLng=jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val());			
+		var view = new ol.View({
+			center: ol.proj.fromLonLat([CentreLatLng.lng,CentreLatLng.lat]),
+			zoom: 10
+			});
+		if(BingAPIKey != ""){
+				for (i = 0, ii = styles.length; i < ii; ++i) {
+				layers.push(new ol.layer.Tile({
+					visible: false,
+					preload: Infinity,
+					source: new ol.source.BingMaps({
+						key: BingAPIKey,
+						imagerySet: styles[i]
+					})
+				}));
 			}
-		});
-	} 
+			map = new ol.Map({
+				layers: layers,
+				loadTilesWhileInteracting: true,
+				target: 'MyMap',
+				view: view
+			});
+			layers[3].setVisible(styles[3]);
+		}else{
+			$('#layer-select').hide();
+			map =new ol.Map({
+				view: view,
+				layers: [
+					new ol.layer.Tile({
+						source: new ol.source.OSM()
+					})
+				],
+				target: 'MyMap'
+			});
+		}
+		TraceMapZone()
+	}
 });
 $('body').on('change','#layer-select',function(){
         var style = $(this).val();

@@ -421,15 +421,13 @@ class Volets extends eqLogic {
 	}
 	public function AleatoireActions($Gestion,$ActionMove,$Hauteur){
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Lancement aléatoire de volet');
+		shuffle($ActionMove);
 		for($loop=0;$loop<count($ActionMove);$loop++){
-			$execute=rand(0,count($ActionMove));
-			if(isset($ActionMove['options'])){
-				if(array_search('#Hauteur#', $ActionMove['options'])!== false)
+			if(isset($ActionMove[$loop]['options'])){
+				if(array_search('#Hauteur#', $ActionMove[$loop]['options'])!== false)
 					cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
 			}
-			$this->ExecuteAction($ActionMove[$execute],$Gestion,$Hauteur);
-			unset($ActionMove[$execute]);
-			$ActionMove = array_merge($ActionMove);
+			$this->ExecuteAction($ActionMove[$loop],$Gestion,$Hauteur);
 			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
 		}
 	}

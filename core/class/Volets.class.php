@@ -2,6 +2,7 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
 	public static $_Gestions=array('Manuel','Jour','Nuit','Meteo','Absent','Azimut');
+	public $_inverseCondition;
 	public static function deamon_info() {
 		$return = array();
 		$return['log'] = 'Volets';
@@ -175,9 +176,12 @@ class Volets extends eqLogic {
 							   $NightStart=$this->getConfiguration('NightMax');
 						$DelaisNight=$this->CalculHeureEvent($NightStart,'DelaisNight');
 						if(mktime() < $DelaisDay || mktime() > $DelaisNight){
-							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il fait nuit la gestion Nuit prend le relais');
-							$this->CheckActions('Nuit','close',$Saison);
-							return false;
+							$Evenement=$this->checkCondition('close',$Saison,'Nuit');   		
+							if($Evenement != false && $Evenement == "close"){
+								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il fait nuit la gestion Nuit prend le relais');
+								$this->CheckActions('Nuit',$Evenement,$Saison);
+								return false;
+							}
 						}
 					}
 				}
@@ -230,11 +234,12 @@ class Volets extends eqLogic {
 				//$Volet->checkAndUpdateCmd('isArmed',true);									
 			}else{*/
 				log::add('Volets','info','Un evenement manuel a été détécté sur le volet '.$this->getHumanName().' La gestion a été désactivé');
-				$this->checkAndUpdateCmd('gestion','Manuel');
+				//$this->checkAndUpdateCmd('gestion','Manuel');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
-				if($Evenement != false)
+				if($Evenement != false){
 					$this->CheckActions('Manuel',$Evenement,$Saison);
-				$this->checkAndUpdateCmd('isArmed',false);
+					$this->checkAndUpdateCmd('isArmed',false);
+				}
 			//}
 		}
 	}
@@ -416,17 +421,15 @@ class Volets extends eqLogic {
 	}
 	public function AleatoireActions($Gestion,$ActionMove,$Hauteur){
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Lancement aléatoire de volet');
-		$isActionMove=null;
 		for($loop=0;$loop<count($ActionMove);$loop++){
 			$execute=rand(0,count($ActionMove));
-			while(array_search($execute, $isActionMove) !== false)
-				$execute=rand(0,count($ActionMove));
-			$isActionMove[]=$execute;
 			if(isset($ActionMove['options'])){
 				if(array_search('#Hauteur#', $ActionMove['options'])!== false)
 					cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
 			}
 			$this->ExecuteAction($ActionMove[$execute],$Gestion,$Hauteur);
+			unset($ActionMove[$execute]);
+			$ActionMove = array_merge($ActionMove);
 			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
 		}
 	}
@@ -434,11 +437,11 @@ class Volets extends eqLogic {
 		$Hauteur=$this->getHauteur($Gestion,$Evenement,$Saison);
 		if($this->getPosition() == $Evenement 
 		   && $this->getCmd(null,'gestion')->execCmd() == $Gestion
-		   /*&& $this->getCmd(null,'hauteur')->execCmd() == $Hauteur*/)
+		   && $this->getCmd(null,'hauteur')->execCmd() == $Hauteur)
 		   return;
-		if ($Evenement == 'open' && $Gestion != 'Azimut '&& $Gestion != 'Manuel')
+		/*if ($Evenement == 'open' && $Gestion != 'Azimut '&& $Gestion != 'Manuel')
 			$this->checkAndUpdateCmd('gestion', 'Jour');
-		else
+		else*/
 			$this->checkAndUpdateCmd('gestion',$Gestion);
 		$this->checkAndUpdateCmd('hauteur',$Hauteur);
 		$this->setPosition($Evenement);

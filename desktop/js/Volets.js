@@ -18,7 +18,7 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').on('change',f
 				if (!data.result)
 					$('#div_alert').showAlert({message: 'Aucun message reçu', level: 'error'});
 				if (typeof(data.result.geoloc) !== 'undefined')
-					break;
+					return;
 				var center=data.result.geoloc.split(",");
 				var CentreLatLng=new Object();
 				CentreLatLng.lat=parseFloat(center[0]);

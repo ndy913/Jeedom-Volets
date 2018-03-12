@@ -20,7 +20,8 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').on('change',f
 				if (typeof(data.result.geoloc) !== 'undefined')
 					break;
 				var center=data.result.geoloc.split(",");
-				var CentreLatLng.lat=parseFloat(center[0]);
+				var CentreLatLng=new Object();
+				CentreLatLng.lat=parseFloat(center[0]);
 				CentreLatLng.lng=parseFloat(center[1]);
 				if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val()) !='object')
 					$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(CentreLatLng))

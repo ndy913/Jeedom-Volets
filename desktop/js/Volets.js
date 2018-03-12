@@ -1,6 +1,38 @@
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').on('change',function(){
+	if($(this).val() !=''){
+		$.ajax({
+			type: 'POST',            
+			async: false,
+			url: 'plugins/Volets/core/ajax/Volets.ajax.php',
+			data:{
+				action: 'getInformation',
+				heliotrope:$(this).val()
+			},
+			dataType: 'json',
+			global: false,
+			error: function(request, status, error) {},
+			success: function(data) {
+				if (!data.result)
+					$('#div_alert').showAlert({message: 'Aucun message reçu', level: 'error'});
+				if (typeof(data.result.geoloc) !== 'undefined')
+					break;
+				var center=data.result.geoloc.split(",");
+				var CentreLatLng.lat=parseFloat(center[0]);
+				CentreLatLng.lng=parseFloat(center[1]);
+				if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val()) !='object')
+					$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(CentreLatLng))
+				if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val()) !='object')
+					$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(CentreLatLng))
+				if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val()) !='object')
+					$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(CentreLatLng))
+
+			}
+		});
+	}
+});
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').on('change',function(){
 	if($(this).is(':checked'))
 		$('.Jour').show();

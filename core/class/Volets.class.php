@@ -179,7 +179,7 @@ class Volets extends eqLogic {
 							$Evenement=$this->checkCondition('close',$Saison,'Nuit');   		
 							if($Evenement != false && $Evenement == "close"){
 								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il fait nuit la gestion Nuit prend le relais');
-								$this->CheckActions('Nuit',$Evenement,$Saison);
+								$this->CheckRepetivite('Nuit',$Evenement,$Saison);
 								return false;
 							}
 						}
@@ -192,7 +192,7 @@ class Volets extends eqLogic {
 						$Evenement=$this->checkCondition('close',$Saison,'Absent');   		
 						if($Evenement != false && $Evenement == "close"){
 							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
-							$this->CheckActions('Absent',$Evenement,$Saison);
+							$this->CheckRepetivite('Absent',$Evenement,$Saison);
 							return false;
 						}
 					}
@@ -202,7 +202,7 @@ class Volets extends eqLogic {
 					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
 					if($Evenement != false && $Evenement == "close"){
 						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion Meteo prend le relais');
-						$this->CheckActions('Meteo',$Evenement,$Saison);
+						$this->CheckRepetivite('Meteo',$Evenement,$Saison);
 						return false;
 					}
 				}
@@ -216,7 +216,7 @@ class Volets extends eqLogic {
 							$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
 							if( $Evenement!= false){
 								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion par Azimut prend le relais');
-								$this->CheckActions('Azimut',$Evenement,$Saison);
+								$this->CheckRepetivite('Azimut',$Evenement,$Saison);
 								return false;
 							}
 						}
@@ -237,7 +237,7 @@ class Volets extends eqLogic {
 				//$this->checkAndUpdateCmd('gestion','Manuel');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
 				if($Evenement != false){
-					$this->CheckActions('Manuel',$Evenement,$Saison);
+					$this->CheckRepetivite('Manuel',$Evenement,$Saison);
 					$this->checkAndUpdateCmd('isArmed',false);
 				}
 			//}
@@ -254,7 +254,7 @@ class Volets extends eqLogic {
 			if( $Evenement!= false){
 				if(!$Volet->CheckOtherGestion('Jour'))
 					return;
-				$Volet->CheckActions('Jour',$Evenement,$Saison);
+				$Volet->CheckRepetivite('Jour',$Evenement,$Saison);
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Jour] : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
@@ -288,7 +288,7 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Nuit');
 			if( $Evenement!= false){
-				$Volet->CheckActions('Nuit',$Evenement,$Saison);
+				$Volet->CheckRepetivite('Nuit',$Evenement,$Saison);
 			}else{
 				log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Nuit] : Replanification de l\'évaluation des conditions de fermeture au coucher du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
@@ -309,7 +309,7 @@ class Volets extends eqLogic {
 				$Evenement=$Volet->checkCondition('open',$Saison,'Meteo');   	
 			} 
 			if($Evenement != false)
-				$Volet->CheckActions('Meteo',$Evenement,$Saison);
+				$Volet->CheckRepetivite('Meteo',$Evenement,$Saison);
 		}
 	}
   	public function ActionAbsent($Etat) {
@@ -325,7 +325,7 @@ class Volets extends eqLogic {
 					if(!$this->CheckOtherGestion('Absent'))
 						return;	
 				}
-				$this->CheckActions('Absent',$Evenement,$Saison);
+				$this->CheckRepetivite('Absent',$Evenement,$Saison);
 			}
 		}
 	}
@@ -335,7 +335,7 @@ class Volets extends eqLogic {
 		if ($this->AutorisationAction('Azimut') && $Evenement != false){
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
 			if( $Evenement!= false)
-				$this->CheckActions('Azimut',$Evenement,$Saison);
+				$this->CheckRepetivite('Azimut',$Evenement,$Saison);
 		}
 	}	
 	public function CheckAngle($Azimut) {
@@ -431,18 +431,33 @@ class Volets extends eqLogic {
 			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
 		}
 	}
-	public function CheckActions($Gestion,$Evenement,$Saison){
+	public function CheckRepetivite($Gestion,$Evenement,$Saison){
 		$Hauteur=$this->getHauteur($Gestion,$Evenement,$Saison);
-		if($this->getPosition() == $Evenement 
-		   && $this->getCmd(null,'gestion')->execCmd() == $Gestion
-		   && $this->getCmd(null,'hauteur')->execCmd() == $Hauteur)
-		   return;
+		if($this->getCmd(null,'hauteur')->execCmd() != $Hauteur)
+			$this->ActionsHauteur($Gestion,$Evenement,$Saison);
+		$this->checkAndUpdateCmd('hauteur',$Hauteur);
+		if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != $Gestion)
+			$this->ActionµOther($Gestion,$Evenement,$Saison);
 		/*if ($Evenement == 'open' && $Gestion != 'Azimut '&& $Gestion != 'Manuel')
 			$this->checkAndUpdateCmd('gestion', 'Jour');
 		else*/
 			$this->checkAndUpdateCmd('gestion',$Gestion);
-		$this->checkAndUpdateCmd('hauteur',$Hauteur);
 		$this->setPosition($Evenement);
+	}
+	public function ActionsHauteur($Gestion,$Evenement,$Saison){
+		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Mise a jours des actions Hauteur');
+		foreach($this->getConfiguration('action') as $Cmd){	
+			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
+				continue;
+			if(isset($Cmd['options'])){
+				if(array_search('#Hauteur#', $Cmd['options'])!== false){
+					cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+					$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
+				}
+			}
+		}
+	}
+	public function ActionµOther($Gestion,$Evenement,$Saison){
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
 		$ActionMove=null;
 		foreach($this->getConfiguration('action') as $Cmd){	
@@ -454,7 +469,8 @@ class Volets extends eqLogic {
 			}
 			if(isset($Cmd['options'])){
 				if(array_search('#Hauteur#', $Cmd['options'])!== false)
-					cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+					continue;
+					//cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
 			}
 			$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
 		}

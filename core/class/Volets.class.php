@@ -433,46 +433,46 @@ class Volets extends eqLogic {
 	}
 	public function CheckRepetivite($Gestion,$Evenement,$Saison){
 		$Hauteur=$this->getHauteur($Gestion,$Evenement,$Saison);
+		if($this->getPosition() == $Evenement && $this->getCmd(null,'gestion')->execCmd() == $Gestion && $this->getCmd(null,'hauteur')->execCmd() == $Hauteur)
+			return;
+		$Change['Hauteur']=false;
+		$Change['Position']=false;
+		$Change['Gestion']=false;
 		if($this->getCmd(null,'hauteur')->execCmd() != $Hauteur)
-			$this->ActionsHauteur($Gestion,$Evenement,$Saison);
+			$Change['Hauteur']=true;
 		$this->checkAndUpdateCmd('hauteur',$Hauteur);
-		if($this->getPosition() != $Evenement || $this->getCmd(null,'gestion')->execCmd() != $Gestion)
-			$this->ActionµOther($Gestion,$Evenement,$Saison);
-		/*if ($Evenement == 'open' && $Gestion != 'Azimut '&& $Gestion != 'Manuel')
-			$this->checkAndUpdateCmd('gestion', 'Jour');
-		else*/
-			$this->checkAndUpdateCmd('gestion',$Gestion);
+		if($this->getPosition() != $Evenement)
+			$Change['Position']=true;
 		$this->setPosition($Evenement);
+		if($this->getCmd(null,'gestion')->execCmd() != $Gestion)
+			$Change['Gestion']=true;
+		$this->checkAndUpdateCmd('gestion',$Gestion);
+		$this->CheckActions($Gestion,$Evenement,$Saison,$Change,$Hauteur);
 	}
-	public function ActionsHauteur($Gestion,$Evenement,$Saison){
-		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Mise a jours des actions Hauteur');
-		foreach($this->getConfiguration('action') as $Cmd){	
-			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
-				continue;
-			if(isset($Cmd['options'])){
-				if(array_search('#Hauteur#', $Cmd['options'])!== false){
-					cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
-					$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
-				}
-			}
-		}
-	}
-	public function ActionµOther($Gestion,$Evenement,$Saison){
+	public function CheckActions($Gestion,$Evenement,$Saison,$Change,$Hauteur){
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
 		$ActionMove=null;
 		foreach($this->getConfiguration('action') as $Cmd){	
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
 				continue;
-			if($this->getConfiguration('RandExecution') && $Cmd['isVoletMove']){
-				$ActionMove[]=$Cmd;
-				continue;
-			}
-			if(isset($Cmd['options'])){
-				if(array_search('#Hauteur#', $Cmd['options'])!== false)
+			if($Cmd['isVoletMove']){
+				if($this->getConfiguration('RandExecution')){
+					$ActionMove[]=$Cmd;
 					continue;
-					//cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+				}
+				if(isset($Cmd['options'])){
+					if(array_search('#Hauteur#', $Cmd['options'])!== false && $Change['Hauteur']){
+						cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+						$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
+						continue;
+					}
+				}
+				if($Change['Position'])
+					$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
+			} else {
+				if($Change['Gestion'])
+					$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
 			}
-			$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
 		}
 		if($this->getConfiguration('RandExecution') && $ActionMove != null)
 			$this->AleatoireActions($Gestion,$ActionMove,$Hauteur);

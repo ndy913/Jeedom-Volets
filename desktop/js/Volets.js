@@ -2,7 +2,7 @@ $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder:
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').on('change',function(){
-	if($(this).val() !=''){
+	if($(this).val() != 'Aucun'){
 		$.ajax({
 			type: 'POST',            
 			async: false,
@@ -23,21 +23,36 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').on('change',f
 				var CentreLatLng=new Object();
 				CentreLatLng.lat=parseFloat(center[0]);
 				CentreLatLng.lng=parseFloat(center[1]);
-              	if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val() != ''){
-                  if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val()) !== 'object')
-                      $('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(CentreLatLng))
-                }
-              	if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val() != ''){
-                  if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val()) !== 'object')
-                      $('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(CentreLatLng))
-                }
-              	if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val() != ''){
-                  if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val()) !== 'object')
-                      $('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(CentreLatLng))
-                }
-
+				if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val() != ''){
+				  if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val()) !== 'object')
+				      $('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(CentreLatLng))
+				}
+				if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val() != ''){
+				  if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val()) !== 'object')
+				      $('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(CentreLatLng))
+				}
+				if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val() != ''){
+				  if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val()) !== 'object')
+				      $('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(CentreLatLng))
+				}
 			}
 		});
+	}else{
+		var CentreLatLng=new Object();
+		CentreLatLng.lat=0;
+		CentreLatLng.lng=0;
+		if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val() != ''){
+		  if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val()) !== 'object')
+		      $('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(CentreLatLng))
+		}
+		if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val() != ''){
+		  if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val()) !== 'object')
+		      $('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(CentreLatLng))
+		}
+		if($('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val() != ''){
+		  if(typeof jQuery.parseJSON($('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val()) !== 'object')
+		      $('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(CentreLatLng))
+		}
 	}
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').on('change',function(){

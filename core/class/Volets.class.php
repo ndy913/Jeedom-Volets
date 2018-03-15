@@ -179,7 +179,7 @@ class Volets extends eqLogic {
 							$Evenement=$this->checkCondition('close',$Saison,'Nuit');   		
 							if($Evenement != false && $Evenement == "close"){
 								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il fait nuit la gestion Nuit prend le relais');
-								$this->CheckActions('Nuit',$Evenement,$Saison);
+								$this->CheckRepetivite('Nuit',$Evenement,$Saison);
 								return false;
 							}
 						}
@@ -192,7 +192,7 @@ class Volets extends eqLogic {
 						$Evenement=$this->checkCondition('close',$Saison,'Absent');   		
 						if($Evenement != false && $Evenement == "close"){
 							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
-							$this->CheckActions('Absent',$Evenement,$Saison);
+							$this->CheckRepetivite('Absent',$Evenement,$Saison);
 							return false;
 						}
 					}
@@ -202,7 +202,7 @@ class Volets extends eqLogic {
 					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
 					if($Evenement != false && $Evenement == "close"){
 						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion Meteo prend le relais');
-						$this->CheckActions('Meteo',$Evenement,$Saison);
+						$this->CheckRepetivite('Meteo',$Evenement,$Saison);
 						return false;
 					}
 				}
@@ -216,7 +216,7 @@ class Volets extends eqLogic {
 							$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
 							if( $Evenement!= false){
 								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion par Azimut prend le relais');
-								$this->CheckActions('Azimut',$Evenement,$Saison);
+								$this->CheckRepetivite('Azimut',$Evenement,$Saison);
 								return false;
 							}
 						}
@@ -237,7 +237,7 @@ class Volets extends eqLogic {
 				//$this->checkAndUpdateCmd('gestion','Manuel');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
 				if($Evenement != false){
-					$this->CheckActions('Manuel',$Evenement,$Saison);
+					$this->CheckRepetivite('Manuel',$Evenement,$Saison);
 					$this->checkAndUpdateCmd('isArmed',false);
 				}
 			//}
@@ -254,7 +254,7 @@ class Volets extends eqLogic {
 			if( $Evenement!= false){
 				if(!$Volet->CheckOtherGestion('Jour'))
 					return;
-				$Volet->CheckActions('Jour',$Evenement,$Saison);
+				$Volet->CheckRepetivite('Jour',$Evenement,$Saison);
 			}else{
 				log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Jour] : Replanification de l\'évaluation des conditions d\'ouverture au lever du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
@@ -288,7 +288,7 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Nuit');
 			if( $Evenement!= false){
-				$Volet->CheckActions('Nuit',$Evenement,$Saison);
+				$Volet->CheckRepetivite('Nuit',$Evenement,$Saison);
 			}else{
 				log::add('Volets', 'info', $Volet->getHumanName().'[Gestion Nuit] : Replanification de l\'évaluation des conditions de fermeture au coucher du soleil');
 				$timstamp=$Volet->CalculHeureEvent(date('Hi'),'DelaisEval');
@@ -309,7 +309,7 @@ class Volets extends eqLogic {
 				$Evenement=$Volet->checkCondition('open',$Saison,'Meteo');   	
 			} 
 			if($Evenement != false)
-				$Volet->CheckActions('Meteo',$Evenement,$Saison);
+				$Volet->CheckRepetivite('Meteo',$Evenement,$Saison);
 		}
 	}
   	public function ActionAbsent($Etat) {
@@ -325,7 +325,7 @@ class Volets extends eqLogic {
 					if(!$this->CheckOtherGestion('Absent'))
 						return;	
 				}
-				$this->CheckActions('Absent',$Evenement,$Saison);
+				$this->CheckRepetivite('Absent',$Evenement,$Saison);
 			}
 		}
 	}
@@ -335,7 +335,7 @@ class Volets extends eqLogic {
 		if ($this->AutorisationAction('Azimut') && $Evenement != false){
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
 			if( $Evenement!= false)
-				$this->CheckActions('Azimut',$Evenement,$Saison);
+				$this->CheckRepetivite('Azimut',$Evenement,$Saison);
 		}
 	}	
 	public function CheckAngle($Azimut) {
@@ -431,32 +431,48 @@ class Volets extends eqLogic {
 			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
 		}
 	}
-	public function CheckActions($Gestion,$Evenement,$Saison){
+	public function CheckRepetivite($Gestion,$Evenement,$Saison){
 		$Hauteur=$this->getHauteur($Gestion,$Evenement,$Saison);
-		if($this->getPosition() == $Evenement 
-		   && $this->getCmd(null,'gestion')->execCmd() == $Gestion
-		   && $this->getCmd(null,'hauteur')->execCmd() == $Hauteur)
-		   return;
-		/*if ($Evenement == 'open' && $Gestion != 'Azimut '&& $Gestion != 'Manuel')
-			$this->checkAndUpdateCmd('gestion', 'Jour');
-		else*/
-			$this->checkAndUpdateCmd('gestion',$Gestion);
+		if($this->getPosition() == $Evenement && $this->getCmd(null,'gestion')->execCmd() == $Gestion && $this->getCmd(null,'hauteur')->execCmd() == $Hauteur)
+			return;
+		$Change['Hauteur']=false;
+		$Change['Position']=false;
+		$Change['Gestion']=false;
+		if($this->getCmd(null,'hauteur')->execCmd() != $Hauteur)
+			$Change['Hauteur']=true;
 		$this->checkAndUpdateCmd('hauteur',$Hauteur);
+		if($this->getPosition() != $Evenement)
+			$Change['Position']=true;
 		$this->setPosition($Evenement);
+		if($this->getCmd(null,'gestion')->execCmd() != $Gestion)
+			$Change['Gestion']=true;
+		$this->checkAndUpdateCmd('gestion',$Gestion);
+		$this->CheckActions($Gestion,$Evenement,$Saison,$Change,$Hauteur);
+	}
+	public function CheckActions($Gestion,$Evenement,$Saison,$Change,$Hauteur){
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
 		$ActionMove=null;
 		foreach($this->getConfiguration('action') as $Cmd){	
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
 				continue;
-			if($this->getConfiguration('RandExecution') && $Cmd['isVoletMove']){
-				$ActionMove[]=$Cmd;
-				continue;
+			if($Cmd['isVoletMove']){
+				if($this->getConfiguration('RandExecution')){
+					$ActionMove[]=$Cmd;
+					continue;
+				}
+				if(isset($Cmd['options'])){
+					if(array_search('#Hauteur#', $Cmd['options'])!== false && $Change['Hauteur']){
+						cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+						$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
+						continue;
+					}
+				}
+				if($Change['Position'])
+					$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
+			} else {
+				if($Change['Gestion'])
+					$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
 			}
-			if(isset($Cmd['options'])){
-				if(array_search('#Hauteur#', $Cmd['options'])!== false)
-					cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
-			}
-			$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
 		}
 		if($this->getConfiguration('RandExecution') && $ActionMove != null)
 			$this->AleatoireActions($Gestion,$ActionMove,$Hauteur);
@@ -695,16 +711,33 @@ class Volets extends eqLogic {
 		return $this->getCmd(null,'position')->execCmd();
 	}
 	public function preSave() {
-		/*if($this->getConfiguration('heliotrope') == "")
+		if($this->getConfiguration('heliotrope') == "Aucun")
 			throw new Exception(__('Impossible d\'enregister, la configuration de l\'equipement heliotrope n\'existe pas', __FILE__));
-		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
-		if(is_object($heliotrope)){	
-			if($heliotrope->getConfiguration('geoloc') == "")
-				throw new Exception(__('Impossible d\'enregister, la configuration  heliotrope n\'est pas correcte', __FILE__));
-			$geoloc = geotravCmd::byEqLogicIdAndLogicalId($heliotrope->getConfiguration('geoloc'),'location:coordinate');
-			if(is_object($geoloc) && $geoloc->execCmd()='')	
-				throw new Exception(__('Impossible d\'enregister, la configuration de  "Localisation et trajet" (geotrav) n\'est pas correcte', __FILE__));
-		}*/
+		else{
+			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
+			if(is_object($heliotrope)){	
+				if($heliotrope->getConfiguration('geoloc') == "")
+					throw new Exception(__('Impossible d\'enregister, la configuration  heliotrope n\'est pas correcte', __FILE__));
+				$geoloc = geotravCmd::byEqLogicIdAndLogicalId($heliotrope->getConfiguration('geoloc'),'location:coordinate');
+				if(is_object($geoloc) && $geoloc->execCmd() == '')	
+					throw new Exception(__('Impossible d\'enregister, la configuration de  "Localisation et trajet" (geotrav) n\'est pas correcte', __FILE__));
+				$center=explode(",",$geoloc->execCmd());
+				$GeoLoc['lat']=$center[0];
+				$GeoLoc['lng']=$center[1];
+				if($this->getConfiguration('Droite') != ''){
+					if(!is_array($this->getConfiguration('Droite')))
+						$this->setConfiguration('Droite',$GeoLoc);
+				}
+				if($this->getConfiguration('Gauche') != ''){
+					if(!is_array($this->getConfiguration('Gauche')))
+						$this->setConfiguration('Gauche',$GeoLoc);
+				}
+				if($this->getConfiguration('Centre') != ''){
+					if(!is_array($this->getConfiguration('Centre')))
+						$this->setConfiguration('Centre',$GeoLoc);
+				}
+			}
+		}
 	}
 	public function postSave() {
 		$this->AddCommande("Hauteur du volet","hauteur","info", 'numeric',1);

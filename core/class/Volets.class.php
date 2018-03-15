@@ -711,9 +711,9 @@ class Volets extends eqLogic {
 		return $this->getCmd(null,'position')->execCmd();
 	}
 	public function preSave() {
-		/*if($this->getConfiguration('heliotrope') == "")
+		if($this->getConfiguration('heliotrope') == "")
 			throw new Exception(__('Impossible d\'enregister, la configuration de l\'equipement heliotrope n\'existe pas', __FILE__));
-		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
+		/*$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 		if(is_object($heliotrope)){	
 			if($heliotrope->getConfiguration('geoloc') == "")
 				throw new Exception(__('Impossible d\'enregister, la configuration  heliotrope n\'est pas correcte', __FILE__));

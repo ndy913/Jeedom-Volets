@@ -104,6 +104,7 @@ class Volets extends eqLogic {
 			case 'Jour':
 				if ($this->getConfiguration('Jour'))
 					return true;
+			break;
 			case 'Nuit':
 				if ($this->getConfiguration('Nuit'))
 					return true;

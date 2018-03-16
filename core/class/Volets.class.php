@@ -56,7 +56,7 @@ class Volets extends eqLogic {
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
 						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la position du soleil');	
-						$Volet->ActionAzimute($_option['value']);
+						$Volet->GestionAzimute($_option['value']);
 					break;
 					case $Volet->getConfiguration('TypeDay'):
 						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');
@@ -83,7 +83,7 @@ class Volets extends eqLogic {
 						}
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('cmdPresent'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	
-							$Volet->ActionAbsent($_option['value']);
+							$Volet->GestionAbsent($_option['value']);
 						}
 					break;
 				}
@@ -312,7 +312,7 @@ class Volets extends eqLogic {
 				$Volet->CheckRepetivite('Meteo',$Evenement,$Saison);
 		}
 	}
-  	public function ActionAbsent($Etat) {
+  	public function GestionAbsent($Etat) {
 		if ($this->AutorisationAction('Absent')){
 			$Saison=$this->getSaison();
 			if($Etat)
@@ -329,7 +329,7 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public function ActionAzimute($Azimut) {
+	public function GestionAzimute($Azimut) {
 		$Saison=$this->getSaison();
 		$Evenement=$this->SelectAction($Azimut,$Saison);
 		if ($this->AutorisationAction('Azimut') && $Evenement != false){

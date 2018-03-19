@@ -55,6 +55,10 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').on('change',f
 		}
 	}
 });
+$('.bt_showExpressionTest').off('click').on('click', function () {
+  $('#md_modal').dialog({title: "{{Testeur d'expression}}"});
+  $("#md_modal").load('index.php?v=d&modal=expression.test').dialog('open');
+});
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Jour]').on('change',function(){
 	if($(this).is(':checked'))
 		$('.Jour').show();

@@ -227,6 +227,7 @@ class Volets extends eqLogic {
 		return true;
 	}
 	public function GestionManuel($State){
+		$this->checkAndUpdateCmd('position',$State);
 		if($this->getConfiguration('Manuel')){
 			$Saison=$this->getSaison();
 			/*if($Volet->getCmd(null,'position')->execCmd() == $State){

@@ -497,6 +497,7 @@ $eqLogics = eqLogic::byType('Volets');
 					<thead>
 						<tr>
 							<th></th>
+							<th>{{Mouvement}}</th>
 							<th>{{Action}}</th>
 							<th>{{Type de gestion}}</th>
 							<th>{{Mode}}</th>

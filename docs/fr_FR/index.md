@@ -181,8 +181,10 @@ Par exemple, je veux que les volets ne se ferment que si j'ai une température a
 J'ajouterai donc une condition de ce type.
 
 ![introduction01](../images/ConditionTemps.jpg)
+
 Conditions d'exécution
 ---
+
 Afin d'affiner tous les cas d'utilisation de gestion de nos volets, nous pouvons ajouter des conditions.
 
 ![introduction01](../images/Volets_screenshot_ConfigurationCondition.jpg)
@@ -214,7 +216,7 @@ Choisissez les actions à mener sans oublier de configurer leurs valeurs.
 
 Paramètres complémentaires:
 
-* `Activer si l'action execute un mouvement du voletn` : Permet de determiné quel action execute une commande de volet
+* `Activer si l'action execute un mouvement du volet` : Permet de determiner quel action execute une commande de volet
 * `Type de gestion` : sélectionner toutes les gestions où l'action doit être exécutée (avec la touche `Ctrl`)
 * `Mode` : sélectionner tous les modes où l'action doit être exécutée (avec la touche `Ctrl`)
 * `Action` : Sélectionner toutes les actions où l'action doit être exécutée (avec la touche `Ctrl`)

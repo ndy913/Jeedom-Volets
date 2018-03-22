@@ -463,16 +463,18 @@ class Volets extends eqLogic {
 					continue;
 				}
 				if(isset($Cmd['options'])){
-					if(array_search('#Hauteur#', $Cmd['options'])!== false && $Change['Hauteur']){
-						cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
-						$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
+					if(array_search('#Hauteur#', $Cmd['options'])!== false){
+						if($Change['Hauteur']){
+							cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
+							$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
+						}
 						continue;
 					}
 				}
 				if($Change['Position'])
 					$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
 			} else {
-				if($Change['Gestion'])
+				if($Change['Gestion'] || $Change['Position'])
 					$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
 			}
 		}

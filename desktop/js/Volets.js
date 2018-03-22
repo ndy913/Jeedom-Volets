@@ -169,10 +169,10 @@ function addAction(_action,  _el) {
 	var tr = $('<tr class="ActionGroup">');
 	tr.append($('<td>')
 		.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable" checked/>')));		
+	tr.append($('<td>')	
+		  .append($('<input type="checkbox" class="expressionAttr" data-l1key="isVoletMove" title="Activer si l\'action execute un mouvement du volet"/>')))
 	tr.append($('<td>')
 		.append($('<div class="input-group">')
-			.append($('<span class="input-group-btn">')
-				.append($('<input type="checkbox" class="expressionAttr" data-l1key="isVoletMove" title="Activer si l\'action execute un mouvement du volet"/>')))
 			.append($('<span class="input-group-btn">')
 				.append($('<a class="btn btn-default ActionAttr btn-sm" data-action="remove">')
 					.append($('<i class="fa fa-minus-circle">'))))

@@ -417,7 +417,7 @@ class Volets extends eqLogic {
 			$Hauteur=0;
 		if ($Gestion == 'Azimut' && $Saison != 'hiver')
 			$Hauteur=$this->checkAltitude();
-		if($this->getConfiguration('InverseHauteur') || $this->_inverseCondition)
+		if($this->getConfiguration('InverseHauteur'))
 			$Hauteur=100-$Hauteur;
 		$this->_inverseCondition=false;
 		return $Hauteur;

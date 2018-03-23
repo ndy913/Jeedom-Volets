@@ -415,10 +415,11 @@ class Volets extends eqLogic {
 			$Hauteur=100;
 		elseif($Evenement == 'close')
 			$Hauteur=0;
-		if ($Gestion == 'Azimut' && $Saison != 'hiver')
+		if ($Gestion == 'Azimut' && $Saison != 'hiver' && !$this->_inverseCondition)
 			$Hauteur=$this->checkAltitude();
 		if($this->getConfiguration('InverseHauteur'))
 			$Hauteur=100-$Hauteur;
+		$this->_inverseCondition=false;
 		return $Hauteur;
 	}
 	public function AleatoireActions($Gestion,$ActionMove,$Hauteur){

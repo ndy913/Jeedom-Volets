@@ -485,14 +485,18 @@ class Volets extends eqLogic {
 	public function ExecuteAction($Cmd,$Gestion,$Hauteur=0){		
 		try {
 			$options = array();
-			if (isset($Cmd['options'])) 
-				$options = $Cmd['options'];
+			if(isset($Cmd['options'])){
+				$options=$Cmd['options'];
+				$key = array_search('#Hauteur#', $options);
+				if($key !== false)
+                			$options[$key]=str_replace('#Hauteur#',$Hauteur,$options[$key]);
+			}
 			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.$Cmd['cmd'].' ('.json_encode($options).')');
 		} catch (Exception $e) {
 			log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$Gestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
 		}
-		$Commande=cmd::byId(str_replace('#','',$Cmd['cmd']));
+		/*$Commande=cmd::byId(str_replace('#','',$Cmd['cmd']));
 		if(is_object($Commande)){
 			$options=null;
 			if(isset($Cmd['options'])){
@@ -503,7 +507,7 @@ class Volets extends eqLogic {
 			}
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.$Commande->getHumanName().' ('.json_encode($options).')');
 			$Commande->execute($options);
-		}
+		}*/
 		if($Cmd['isVoletMove'])
 			cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 	}

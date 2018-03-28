@@ -488,6 +488,7 @@ class Volets extends eqLogic {
 			if (isset($Cmd['options'])) 
 				$options = $Cmd['options'];
 			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
+			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.$Cmd['cmd'].' ('.json_encode($options).')');
 		} catch (Exception $e) {
 			log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$Gestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
 		}
@@ -502,9 +503,9 @@ class Volets extends eqLogic {
 			}
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.$Commande->getHumanName().' ('.json_encode($options).')');
 			$Commande->execute($options);
-			if($Cmd['isVoletMove'])
-				cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 		}
+		if($Cmd['isVoletMove'])
+			cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {
 		if(strlen($HeureStart)==3)

@@ -100,9 +100,8 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Azimut]').on('change',funct
 $('#bt_openMap').on('click',function(){
 	$('#md_modal').dialog({
 		title: "{{Séléctionner vos angles}}",
-		resizable: true,
-		height: 800,
-		width: 1024});
+		resizable: true
+	});
 	$('#md_modal').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets').dialog('open');
 });
 function saveEqLogic(_eqLogic) {

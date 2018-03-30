@@ -496,8 +496,8 @@ $eqLogics = eqLogic::byType('Volets');
 				<table id="table_action" class="table table-bordered table-condensed">
 					<thead>
 						<tr>
-							<th></th>
-							<th>{{Mouvement}}</th>
+							<th style="width: 10px;"></th>
+							<th style="width: 100px;">{{Mouvement}}</th>
 							<th>{{Action}}</th>
 							<th>{{Type de gestion}}</th>
 							<th>{{Mode}}</th>

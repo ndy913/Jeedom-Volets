@@ -133,11 +133,14 @@ class Volets extends eqLogic {
 	}		
 	public function CheckRealState($Value) {   
 		$this->checkAndUpdateCmd('hauteur',$Value);
-		if($Value > $this->getConfiguration("SeuilRealState"))
+		$SeuilRealState=$this->getConfiguration("SeuilRealState");
+		if($SeuilRealState == '')
+			$SeuilRealState=0;
+		if($Value > $SeuilRealState)
 			$State='open';
 		else
 			$State='close';
-		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$this->getConfiguration("SeuilRealState").' => '.$State);
+		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
 		$cache = cache::byKey('Volets::ChangeState::'.$this->getId());		
 		if($cache->getValue(false)){
 			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');
@@ -492,9 +495,9 @@ class Volets extends eqLogic {
                 			$options[$key]=str_replace('#Hauteur#',$Hauteur,$options[$key]);
 			}
 			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
-			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.$Cmd['cmd'].' ('.json_encode($options).')');
+			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.jeedom::toHumanReadable($Cmd['cmd']).' ('.json_encode($options).')');
 		} catch (Exception $e) {
-			log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$Gestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . $action['cmd'] . __('. Détails : ', __FILE__) . $e->getMessage());
+			log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$Gestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . jeedom::toHumanReadable($Cmd['cmd']) . __('. Détails : ', __FILE__) . $e->getMessage());
 		}
 		/*$Commande=cmd::byId(str_replace('#','',$Cmd['cmd']));
 		if(is_object($Commande)){

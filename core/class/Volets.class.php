@@ -133,11 +133,14 @@ class Volets extends eqLogic {
 	}		
 	public function CheckRealState($Value) {   
 		$this->checkAndUpdateCmd('hauteur',$Value);
-		if($Value > $this->getConfiguration("SeuilRealState"))
+		$SeuilRealState=$this->getConfiguration("SeuilRealState");
+		if($SeuilRealState == '')
+			$SeuilRealState=0;
+		if($Value > $SeuilRealState)
 			$State='open';
 		else
 			$State='close';
-		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$this->getConfiguration("SeuilRealState").' => '.$State);
+		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
 		$cache = cache::byKey('Volets::ChangeState::'.$this->getId());		
 		if($cache->getValue(false)){
 			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');

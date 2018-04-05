@@ -343,12 +343,14 @@ class Volets extends eqLogic {
 		}
 	}
 	public function GestionAzimute($Azimut) {
-		$Saison=$this->getSaison();
-		$Evenement=$this->SelectAction($Azimut,$Saison);
-		if ($this->AutorisationAction('Azimut') && $Evenement != false){
-			$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
-			if( $Evenement!= false)
-				$this->CheckRepetivite('Azimut',$Evenement,$Saison);
+		if ($this->AutorisationAction('Azimut')){
+			$Saison=$this->getSaison();
+			$Evenement=$this->SelectAction($Azimut,$Saison);
+			if ($Evenement != false){
+				$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
+				if( $Evenement!= false)
+					$this->CheckRepetivite('Azimut',$Evenement,$Saison);
+			}
 		}
 	}	
 	public function CheckAngle($Azimut) {

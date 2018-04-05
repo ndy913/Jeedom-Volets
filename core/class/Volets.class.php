@@ -136,10 +136,17 @@ class Volets extends eqLogic {
 		$SeuilRealState=$this->getConfiguration("SeuilRealState");
 		if($SeuilRealState == '')
 			$SeuilRealState=0;
-		if($Value > $SeuilRealState)
-			$State='open';
-		else
-			$State='close';
+		if($this->getConfiguration('InverseHauteur')){	
+			if($Value < $SeuilRealState)
+				$State='open';
+			else
+				$State='close';
+		}else{
+			if($Value > $SeuilRealState)
+				$State='open';
+			else
+				$State='close';
+		}
 		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
 		$cache = cache::byKey('Volets::ChangeState::'.$this->getId());		
 		if($cache->getValue(false)){
@@ -155,8 +162,10 @@ class Volets extends eqLogic {
 				else
 					$this->checkAndUpdateCmd('position',$State);
 			}
-		}else
+		}else{
 			$this->GestionManuel($State);
+			$this->checkAndUpdateCmd('position',$State);
+		}
 	}
 	public function CheckOtherGestion($Gestion) {   
 		$Saison=$this->getSaison();
@@ -230,7 +239,6 @@ class Volets extends eqLogic {
 		return true;
 	}
 	public function GestionManuel($State){
-		$this->checkAndUpdateCmd('position',$State);
 		if($this->getConfiguration('Manuel')){
 			$Saison=$this->getSaison();
 			/*if($Volet->getCmd(null,'position')->execCmd() == $State){

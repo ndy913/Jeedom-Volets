@@ -756,8 +756,8 @@ class Volets extends eqLogic {
 				$listener->save();	
 				if($this->CheckOtherGestion('Manuel')){
 					$this->checkAndUpdateCmd('gestion', 'Jour');
-					$_option['Volets_id']=$this->getId();
-					Volets::GestionJour($_option);
+					/*$_option['Volets_id']=$this->getId();
+					Volets::GestionJour($_option);*/
 				}
 			}
 		}
@@ -853,12 +853,12 @@ class Volets extends eqLogic {
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
 		if (is_object($listener))
 			$listener->remove();
-		$cron = cron::byClassAndFunction('Volets', 'GestionJour', array('Volets_id' => $this->getId()));
+		/*$cron = cron::byClassAndFunction('Volets', 'GestionJour', array('Volets_id' => $this->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
 		$cron = cron::byClassAndFunction('Volets', 'GestionNuit', array('Volets_id' => $this->getId()));
 		if (is_object($cron)) 	
-			$cron->remove();
+			$cron->remove();*/
 		$cron = cron::byClassAndFunction('Volets', 'GestionMeteo', array('Volets_id' => $this->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();

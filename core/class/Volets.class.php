@@ -25,7 +25,7 @@ class Volets extends eqLogic {
 				$sunset=$heliotrope->getCmd(null,$Volet->getConfiguration('TypeNight'));
 				if(is_object($sunset)){
 					$NightStart=$sunset->execCmd();
-					if($Volet->getConfiguration('NightMax') != '' && $NightStart > $t$Volethis->getConfiguration('NightMax'))
+					if($Volet->getConfiguration('NightMax') != '' && $NightStart > $Volet->getConfiguration('NightMax'))
 						   $NightStart=$Volet->getConfiguration('NightMax');
 				}else
 					$NightStart=$Volet->getConfiguration('NightMax');

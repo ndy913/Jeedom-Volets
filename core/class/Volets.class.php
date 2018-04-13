@@ -12,21 +12,24 @@ class Volets extends eqLogic {
 			$DelaisNight=mktime();
 			if ($Volet->getConfiguration('Jour')){
 				$sunrise=$heliotrope->getCmd(null,$Volet->getConfiguration('TypeDay'));
-				if(!is_object($sunrise))
-					return false;
-				$DayStart=$sunrise->execCmd();
-				if($Volet->getConfiguration('DayMin') != '' && $DayStart < $Volet->getConfiguration('DayMin'))
-					   $DayStart=$Volet->getConfiguration('DayMin');
+				if(is_object($sunrise)){
+					$DayStart=$sunrise->execCmd();
+					if($Volet->getConfiguration('DayMin') != '' && $DayStart < $Volet->getConfiguration('DayMin'))
+						   $DayStart=$Volet->getConfiguration('DayMin');
+				}else
+					$DayStart=$Volet->getConfiguration('DayMin');
 				$DelaisDay=$Volet->CalculHeureEvent($DayStart,'DelaisDay');
+					
 			}	
 			if ($Volet->getConfiguration('Nuit')){
 				$sunset=$heliotrope->getCmd(null,$Volet->getConfiguration('TypeNight'));
-				if(!is_object($sunset))
-					return false;
-				$NightStart=$sunset->execCmd();
-				if($Volet->getConfiguration('NightMax') != '' && $NightStart > $t$Volethis->getConfiguration('NightMax'))
-					   $NightStart=$Volet->getConfiguration('NightMax');
-				$DelaisNight=$this->CalculHeureEvent($NightStart,'DelaisNight');
+				if(is_object($sunset)){
+					$NightStart=$sunset->execCmd();
+					if($Volet->getConfiguration('NightMax') != '' && $NightStart > $t$Volethis->getConfiguration('NightMax'))
+						   $NightStart=$Volet->getConfiguration('NightMax');
+				}else
+					$NightStart=$Volet->getConfiguration('NightMax');
+				$DelaisNight=$Volet->CalculHeureEvent($NightStart,'DelaisNight');
 			}
 			if(mktime() < $DelaisDay || mktime() > $DelaisNight){
 				if ($Volet->AutorisationAction('Nuit')){

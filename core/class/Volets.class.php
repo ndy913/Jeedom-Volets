@@ -510,8 +510,10 @@ class Volets extends eqLogic {
 		if($this->getCmd(null,'hauteur')->execCmd() != $Hauteur)
 			$Change['Hauteur']=true;
 		$this->checkAndUpdateCmd('hauteur',$Hauteur);
-		if($this->getPosition() != $Evenement)
+		if($this->getPosition() != $Evenement){
 			$Change['Position']=true;
+			$Change['Hauteur']=true;
+		}
 		$this->setPosition($Evenement);
 		if($this->getCmd(null,'gestion')->execCmd() != $Gestion)
 			$Change['Gestion']=true;

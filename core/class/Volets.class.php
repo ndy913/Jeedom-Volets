@@ -65,7 +65,7 @@ class Volets extends eqLogic {
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 				if (!is_object($listener))
 					return $return;
-				if ($Volet->getConfiguration('Jour')){
+				/*if ($Volet->getConfiguration('Jour')){
 					$cron = cron::byClassAndFunction('Volets', 'GestionJour', array('Volets_id' => $Volet->getId()));
 					if (!is_object($cron)) 	
 						return $return;
@@ -74,7 +74,7 @@ class Volets extends eqLogic {
 					$cron = cron::byClassAndFunction('Volets', 'GestionNuit', array('Volets_id' => $Volet->getId()));
 					if (!is_object($cron)) 	
 						return $return;
-				}
+				}*/
 				if ($Volet->getConfiguration('Meteo')){
 					$cron = cron::byClassAndFunction('Volets', 'GestionMeteo', array('Volets_id' => $Volet->getId()));
 					if (!is_object($cron)) 	
@@ -700,12 +700,12 @@ class Volets extends eqLogic {
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
 		if (is_object($listener))
 			$listener->remove();
-		$cron = cron::byClassAndFunction('Volets', 'GestionJour', array('Volets_id' => $this->getId()));
+		/*$cron = cron::byClassAndFunction('Volets', 'GestionJour', array('Volets_id' => $this->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
 		$cron = cron::byClassAndFunction('Volets', 'GestionNuit', array('Volets_id' => $this->getId()));
 		if (is_object($cron)) 	
-			$cron->remove();
+			$cron->remove();*/
 		$cron = cron::byClassAndFunction('Volets', 'GestionMeteo', array('Volets_id' => $this->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
@@ -873,8 +873,6 @@ class VoletsCmd extends cmd {
 					$Listener->event(true);	
 					if($this->getEqLogic()->CheckOtherGestion('Manuel')){
 						$this->getEqLogic()->checkAndUpdateCmd('gestion', 'Jour');
-						$_option['Volets_id']=$this->getEqLogic()->getId();
-						Volets::GestionJour($_option);
 					}
 				break;
 				case 'released':

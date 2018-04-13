@@ -6,7 +6,7 @@ class Volets extends eqLogic {
 	public static function cron() {
 		foreach(eqLogic::byType('Volets') as $Volet){
 			$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
-			if(is_object($heliotrope))
+			if(!is_object($heliotrope))
 				break;
 			$DelaisDay=mktime();
 			$DelaisNight=mktime();

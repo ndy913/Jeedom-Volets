@@ -31,8 +31,7 @@ class Volets extends eqLogic {
 					$NightStart=$Volet->getConfiguration('NightMax');
 				$DelaisNight=$Volet->CalculHeureEvent($NightStart,'DelaisNight');
 			}
-			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Jour] : '.$DelaisDay.' [Gestion Nuit] : '.$DelaisNight);
-					if(mktime() < $DelaisDay || mktime() > $DelaisNight){
+			if(mktime() < $DelaisDay || mktime() > $DelaisNight){
 				if ($Volet->AutorisationAction('Nuit')){
 					log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Nuit] : Exécution de la gestion du coucher du soleil ');
 					$Saison=$Volet->getSaison();

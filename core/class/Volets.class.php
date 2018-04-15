@@ -754,7 +754,7 @@ class VoletsCmd extends cmd {
 					$Listener->event(true);	
 					if($this->getEqLogic()->CheckOtherGestion('Manuel')){
 						$this->getEqLogic()->checkAndUpdateCmd('gestion', 'Jour');
-					$this-getEqLogic()->>GestionJour();
+					$this->getEqLogic()->GestionJour();
 					}
 				break;
 				case 'released':

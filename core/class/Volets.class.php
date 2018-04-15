@@ -10,8 +10,8 @@ class Volets extends eqLogic {
 			$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
 			if(!is_object($heliotrope))
 				break;
-			$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(time()+100))
-			$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(time()-100))
+			$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(time()+100);
+			$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(time()-100);
 			if(mktime() < $Jour || mktime() > $Nuit)
 				$Volet->GestionNuit();
 			else

@@ -105,7 +105,6 @@ Il faut activer la gestion pour faire apparaitre les champs de configuration sp�
 
 ### Général
 
-* `Délai de réévaluation (min` : En cas d'echec de condition sur les gestion jours et nuit, le plugin reverifie selon se delais les condition
 * `Ouverture et fermeture aléatoire` : Si vous avez plusieurs volet sur la zone et que vous souhaitez un ouverture aléatoire (Attention il est impératif que les action de mouvement soit renseigné dans les action)
 * `Délai maximal du mode aléatoire (s)` : Delais maximal qui sera appliqué entre chaque execution de mouvement aléatoire
 

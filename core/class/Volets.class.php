@@ -634,13 +634,23 @@ class Volets extends eqLogic {
 					$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDay'));
 					if(!is_object($sunrise))
 						return false;
-					$listener->addEvent($sunrise->getId());
+					$listener->addEvent($sunrise->getId());	
+					$DayStart=$sunrise->execCmd();
+					if($this->getConfiguration('DayMin') != '' && $DayStart < $this->getConfiguration('DayMin'))
+					   $DayStart=$this->getConfiguration('DayMin');
+					$timstamp=$this->CalculHeureEvent($DayStart,'DelaisDay');					
+					cache::set('Volets::Jour::'.$this->getId(),$timstamp, 0);
 				}	
 				if ($this->getConfiguration('Nuit')){
 					$sunset=$heliotrope->getCmd(null,$this->getConfiguration('TypeNight'));
 					if(!is_object($sunset))
 						return false;
 					$listener->addEvent($sunset->getId());
+					$NightStart=$sunset->execCmd();
+					if($this->getConfiguration('NightMax') != '' && $NightStart > $this->getConfiguration('NightMax'))
+					   $NightStart=$this->getConfiguration('NightMax');
+					$timstamp=$this->CalculHeureEvent($NightStart,'DelaisNight');	
+					cache::set('Volets::Nuit::'.$this->getId(),$timstamp, 0);
 				}
 				if ($this->getConfiguration('Meteo'))
 					$cron = $this->CreateCron('* * * * * *', 'GestionMeteo', array('Volets_id' => intval($this->getId())));

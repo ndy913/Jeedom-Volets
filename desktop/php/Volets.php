@@ -293,16 +293,6 @@ $eqLogics = eqLogic::byType('Volets');
 						<legend>Général</legend>
 						<fieldset>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Délai de réévaluation (min)}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="{{Saisir le délai de réévaluation des conditions (min)}}"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DelaisEval" placeholder="{{Délai de réévaluation (min)}}"/>
-								</div>
-							</div>	
-							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Ouverture et fermeture aléatoire}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="{{Les volets d'une même zone s'ouvriront ou se fermeront de façon aléatoire avec un delai entre chaque exécution}}"></i>

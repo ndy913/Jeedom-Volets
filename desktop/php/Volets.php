@@ -44,6 +44,7 @@ $eqLogics = eqLogic::byType('Volets');
 			</div>
 		</div>
 		<legend>{{Mes zones}}</legend>
+		<input class="form-control" placeholder="{{Rechercher}}" style="margin-bottom:4px;" id="in_searchEqlogic" />
 		<div class="eqLogicThumbnailContainer">
 			<?php
 				foreach ($eqLogics as $eqLogic) {

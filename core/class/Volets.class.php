@@ -142,7 +142,6 @@ class Volets extends eqLogic {
 		return false;
 	}		
 	public function CheckRealState($Value) {   
-		$this->checkAndUpdateCmd('hauteur',$Value);
 		$SeuilRealState=$this->getConfiguration("SeuilRealState");
 		if($SeuilRealState == '')
 			$SeuilRealState=0;
@@ -169,13 +168,12 @@ class Volets extends eqLogic {
 			}else{
 				if($this->getCmd(null,'position')->execCmd() == $State)
 					cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
-				else
-					$this->checkAndUpdateCmd('position',$State);
 			}
 		}else{
 			$this->GestionManuel($State);
-			$this->checkAndUpdateCmd('position',$State);
 		}
+		$this->setPosition($State);
+		$this->checkAndUpdateCmd('hauteur',$Value);
 	}
 	public function CheckOtherGestion($Gestion) {   
 		$Saison=$this->getSaison();
@@ -439,7 +437,8 @@ class Volets extends eqLogic {
 			$Change['Position']=true;
 			$Change['Hauteur']=true;
 		}
-		$this->setPosition($Evenement);
+		if ($this->getConfiguration('RealState') != '')
+			$this->setPosition($Evenement);
 		if($this->getCmd(null,'gestion')->execCmd() != $Gestion)
 			$Change['Gestion']=true;
 		$this->checkAndUpdateCmd('gestion',$Gestion);

@@ -4,6 +4,12 @@ class Volets extends eqLogic {
 	public static $_Gestions=array('Manuel','Jour','Nuit','Meteo','Absent','Azimut');
 	public $_inverseCondition;
 	public static function cron() {
+		self::deamon_stop();
+		$deamon_info = self::deamon_info();
+		if ($deamon_info['launchable'] != 'ok') 
+			return;
+		if ($deamon_info['state'] != 'ok') 
+			return;
 		foreach(eqLogic::byType('Volets') as $Volet){
 			if (!$Volet->getConfiguration('Jour') && !$Volet->getConfiguration('Nuit'))
 				break;

@@ -274,7 +274,8 @@ class Volets extends eqLogic {
 					return;
 				$this->CheckRepetivite('Jour',$Evenement,$Saison);
 			}
-		}else
+		}
+		if (!$this->getConfiguration('Jour'))
 			$this->GestionManuel('close');
 	}
 	public function GestionNuit() {
@@ -285,7 +286,8 @@ class Volets extends eqLogic {
 			if( $Evenement!= false){
 				$this->CheckRepetivite('Nuit',$Evenement,$Saison);
 			}
-		}else
+		}
+		if (!$this->getConfiguration('Nuit'))
 			$this->GestionManuel('open');
 	}
 	public static function GestionMeteo($_option) {

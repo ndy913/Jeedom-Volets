@@ -16,8 +16,8 @@ class Volets extends eqLogic {
 			$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
 			if(!is_object($heliotrope))
 				break;
-			$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(time()+100);
-			$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(time()-100);
+			$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(0);
+			$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(0);
 			if(mktime() < $Jour || mktime() > $Nuit)
 				$Volet->GestionNuit();
 			else
@@ -274,7 +274,8 @@ class Volets extends eqLogic {
 					return;
 				$this->CheckRepetivite('Jour',$Evenement,$Saison);
 			}
-		}
+		}else
+			$this->GestionManuel('close');
 	}
 	public function GestionNuit() {
 		if ($this->AutorisationAction('Nuit')){
@@ -284,7 +285,8 @@ class Volets extends eqLogic {
 			if( $Evenement!= false){
 				$this->CheckRepetivite('Nuit',$Evenement,$Saison);
 			}
-		}
+		}else
+			$this->GestionManuel('open');
 	}
 	public static function GestionMeteo($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
@@ -664,9 +666,12 @@ class Volets extends eqLogic {
 					$DayStart=$sunrise->execCmd();
 					if($this->getConfiguration('DayMin') != '' && $DayStart < $this->getConfiguration('DayMin'))
 					   $DayStart=$this->getConfiguration('DayMin');
-					$timstamp=$this->CalculHeureEvent($DayStart,'DelaisDay');					
-					cache::set('Volets::Jour::'.$this->getId(),$timstamp, 0);
-				}	
+				}else{
+					$sunrise=$heliotrope->getCmd(null,'sunrise');
+					$DayStart=$sunrise->execCmd();
+				}
+				$timstamp=$this->CalculHeureEvent($DayStart,'DelaisDay');					
+				cache::set('Volets::Jour::'.$this->getId(),$timstamp, 0);
 				if ($this->getConfiguration('Nuit')){
 					$sunset=$heliotrope->getCmd(null,$this->getConfiguration('TypeNight'));
 					if(!is_object($sunset))
@@ -675,9 +680,12 @@ class Volets extends eqLogic {
 					$NightStart=$sunset->execCmd();
 					if($this->getConfiguration('NightMax') != '' && $NightStart > $this->getConfiguration('NightMax'))
 					   $NightStart=$this->getConfiguration('NightMax');
-					$timstamp=$this->CalculHeureEvent($NightStart,'DelaisNight');	
-					cache::set('Volets::Nuit::'.$this->getId(),$timstamp, 0);
+				}else{
+					$sunset=$heliotrope->getCmd(null,'sunset');
+					$NightStart=$sunset->execCmd();
 				}
+				$timstamp=$this->CalculHeureEvent($NightStart,'DelaisNight');	
+				cache::set('Volets::Nuit::'.$this->getId(),$timstamp, 0);
 				if ($this->getConfiguration('Meteo'))
 					$cron = $this->CreateCron('* * * * * *', 'GestionMeteo', array('Volets_id' => intval($this->getId())));
 				$listener->save();	

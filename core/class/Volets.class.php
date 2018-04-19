@@ -98,16 +98,19 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public function AutorisationAction($Evenement) {   
-		if (!$this->getIsEnable())
-			return false;
-		if ($Evenement == 'Jour' && $this->getConfiguration('autoArmDay'))
+	public function RearmementAutomatique($Evenement,$Mode) {   
+		if ($Evenement == 'Jour' && $this->getConfiguration('autoArmDay') && $Mode == "Nuit")
 			$this->checkAndUpdateCmd('isArmed',true);
 		if ($Evenement == 'Nuit' && $this->getConfiguration('autoArmNight'))
 			$this->checkAndUpdateCmd('isArmed',true);
-		if(!$this->getCmd(null,'isArmed')->execCmd())
+	}
+	public function AutorisationAction($Evenement) {   
+		if (!$this->getIsEnable())
 			return false;
 		$Mode = $this->getCmd(null,'gestion')->execCmd();
+		$this->RearmementAutomatique($Evenement,$Mode);
+		if(!$this->getCmd(null,'isArmed')->execCmd())
+			return false;
 		switch($Evenement){
 			case 'Jour':
 				if ($this->getConfiguration('Jour')

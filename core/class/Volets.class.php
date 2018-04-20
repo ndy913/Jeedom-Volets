@@ -476,9 +476,8 @@ class Volets extends eqLogic {
 				}
 				if(isset($Cmd['options'])){
 					$IdRatioVertical='#'.$this->getCmd(null,"RatioVertical")->getId().'#';
-					log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : '.$Cmd['options'].' == '.$IdRatioVertical);
-
 					if(array_search($IdRatioVertical, $Cmd['options'])!== false){
+						log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : CheckActions '.$Cmd['options'].' == '.$IdRatioVertical);
 						if($Change['Hauteur']){
 							cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
 							$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
@@ -505,6 +504,8 @@ class Volets extends eqLogic {
 				$key = array_search($IdRatioVertical, $options);
 				if($key !== false)
                 			$options[$key]=str_replace($IdRatioVertical,$Hauteur,$options[$key]);
+				log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : CheckActions '.$options[$key].' == '.$IdRatioVertical);
+						
 			}
 			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.jeedom::toHumanReadable($Cmd['cmd']).' ('.json_encode($options).')');

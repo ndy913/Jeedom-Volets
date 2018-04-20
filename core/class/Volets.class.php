@@ -434,7 +434,8 @@ class Volets extends eqLogic {
 		shuffle($ActionMove);
 		for($loop=0;$loop<count($ActionMove);$loop++){
 			if(isset($ActionMove[$loop]['options'])){
-				if(array_search('#Hauteur#', $ActionMove[$loop]['options'])!== false)
+				$IdRatioVertical='#'.$this->getCmd(null,"RatioVertical")->getId().'#';
+				if(array_search($IdRatioVertical, $ActionMove[$loop]['options'])!== false)
 					cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
 			}
 			$this->ExecuteAction($ActionMove[$loop],$Gestion,$Hauteur);
@@ -474,7 +475,8 @@ class Volets extends eqLogic {
 					continue;
 				}
 				if(isset($Cmd['options'])){
-					if(array_search('#Hauteur#', $Cmd['options'])!== false){
+					$IdRatioVertical='#'.$this->getCmd(null,"RatioVertical")->getId().'#';
+					if(array_search($IdRatioVertical, $Cmd['options'])!== false){
 						if($Change['Hauteur']){
 							cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
 							$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
@@ -497,9 +499,10 @@ class Volets extends eqLogic {
 			$options = array();
 			if(isset($Cmd['options'])){
 				$options=$Cmd['options'];
-				$key = array_search('#Hauteur#', $options);
+				$IdRatioVertical='#'.$this->getCmd(null,"RatioVertical")->getId().'#';
+				$key = array_search($IdRatioVertical, $options);
 				if($key !== false)
-                			$options[$key]=str_replace('#Hauteur#',$Hauteur,$options[$key]);
+                			$options[$key]=str_replace($IdRatioVertical,$Hauteur,$options[$key]);
 			}
 			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.jeedom::toHumanReadable($Cmd['cmd']).' ('.json_encode($options).')');

@@ -382,7 +382,7 @@ class Volets extends eqLogic {
 		}
 		if(!$result)
 			$Ratio=100;
-		$this->checkAndUpdateCmd('RatioHorizontal',$Ratio);	
+		$this->checkAndUpdateCmd('RatioHorizontal',round($Ratio));	
 		log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : L\'azimut ' . $Azimut . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
 		return $result;
 	}	

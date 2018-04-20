@@ -365,15 +365,22 @@ class Volets extends eqLogic {
 			}
 		}
 		$result=false;
+		$Ratio=0;
 		if ($AngleCntDrt < $AngleCntGau){
 			if($AngleCntDrt <= $Azimut && $Azimut <= $AngleCntGau)
 				$result= true;
+			$Ratio=($Azimut-$AngleCntDrt)*(100/($AngleCntGau-$AngleCntDrt));
 		}else{
-			if($AngleCntDrt <= $Azimut && $Azimut <= 360)
+			if($AngleCntDrt <= $Azimut && $Azimut <= 360){
 				$result= true;
-			if(0 <= $Azimut && $Azimut <= $AngleCntGau)
+				$Ratio=($Azimut-$AngleCntDrt+360)*(100/($AngleCntGau-$AngleCntDrt+360));
+			}
+			if(0 <= $Azimut && $Azimut <= $AngleCntGau){
 				$result= true;
-		}		
+				$Ratio=($Azimut-($AngleCntDrt-360)+360)*(100/($AngleCntGau-($AngleCntDrt-360)+360));
+			}
+		}	
+		$this->checkAndUpdateCmd('RatioHorizontal',$Ratio);	
 		log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : L\'azimut ' . $Azimut . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
 		return $result;
 	}	
@@ -759,8 +766,8 @@ class Volets extends eqLogic {
 		}
 	}
 	public function postSave() {
-		//$this->AddCommande("Ratio Vertical","RatioVertical","info", 'numeric',1);
-		//$this->AddCommande("Ratio Horizontal","RatioHorizontal","info", 'numeric',1);
+		$this->AddCommande("Ratio Vertical","RatioVertical","info", 'numeric',1);
+		$this->AddCommande("Ratio Horizontal","RatioHorizontal","info", 'numeric',1);
 		$this->AddCommande("Gestion Active","gestion","info", 'string',1);
 		$state=$this->AddCommande("Position du soleil","state","info", 'binary',1,'sunInWindows');
 		$this->checkAndUpdateCmd('state',false);

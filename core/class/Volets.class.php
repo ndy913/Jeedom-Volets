@@ -98,20 +98,23 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public function RearmementAutomatique($Evenement,$Mode) {   
-		if ($Evenement == 'Jour' && $this->getConfiguration('autoArmDay') && $Mode == "Nuit")
-			$this->checkAndUpdateCmd('isArmed',true);
-		if ($Evenement == 'Nuit' && $this->getConfiguration('autoArmNight'))
-			$this->checkAndUpdateCmd('isArmed',true);
+	public function RearmementAutomatique($Evenement,$Gestion,$Mode) {   
+		$Saison=$this->getSaison();
+		if($this->checkCondition($Evenement,$Saison,$Gestion,true);
+		   $this->checkAndUpdateCmd('isArmed',true);
+		if ($Gestion == 'Jour' && $this->getConfiguration('autoArmDay') && $Mode == "Nuit")
+		   $this->checkAndUpdateCmd('isArmed',true);
+		if ($Gestion == 'Nuit' && $this->getConfiguration('autoArmNight'))
+		   $this->checkAndUpdateCmd('isArmed',true);
 	}
-	public function AutorisationAction($Evenement) {   
+	public function AutorisationAction($Evenement,$Gestion) {   
 		if (!$this->getIsEnable())
 			return false;
 		$Mode = $this->getCmd(null,'gestion')->execCmd();
-		$this->RearmementAutomatique($Evenement,$Mode);
+		$this->RearmementAutomatique($Evenement,$Gestion,$Mode);
 		if(!$this->getCmd(null,'isArmed')->execCmd())
 			return false;
-		switch($Evenement){
+		switch($Gestion){
 			case 'Jour':
 				if ($this->getConfiguration('Jour')
 				    && $Mode == "Nuit")
@@ -267,7 +270,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public function GestionJour() {    
-		if ($this->AutorisationAction('Jour')){	
+		if ($this->AutorisationAction('open','Jour')){	
 			log::add('Volets', 'info', $this->getHumanName().'[Gestion Jour] : Exécution de la gestion du lever du soleil');
 			$Saison=$this->getSaison();
 			$Evenement=$this->checkCondition('open',$Saison,'Jour');
@@ -281,7 +284,7 @@ class Volets extends eqLogic {
 			$this->GestionManuel('close');
 	}
 	public function GestionNuit() {
-		if ($this->AutorisationAction('Nuit')){
+		if ($this->AutorisationAction('close','Nuit')){
 			log::add('Volets', 'info',$this->getHumanName().'[Gestion Nuit] : Exécution de la gestion du coucher du soleil ');
 			$Saison=$this->getSaison();
 			$Evenement=$this->checkCondition('close',$Saison,'Nuit');
@@ -294,7 +297,7 @@ class Volets extends eqLogic {
 	}
 	public static function GestionMeteo($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
-		if (is_object($Volet) && $Volet->AutorisationAction('Meteo')){
+		if (is_object($Volet) && $Volet->AutorisationAction('close','Meteo')){
 			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Meteo] : Exécution de la gestion météo');
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');   		
@@ -308,12 +311,12 @@ class Volets extends eqLogic {
 		}
 	}
   	public function GestionAbsent($Etat) {
-		if ($this->AutorisationAction('Absent')){
+		if($Etat)
+			$Evenement='open';
+		else
+			$Evenement='close';
+		if ($this->AutorisationAction($Evenement,'Absent')){
 			$Saison=$this->getSaison();
-			if($Etat)
-				$Evenement='open';
-			else
-				$Evenement='close';
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Absent');
 			if( $Evenement!= false ){
 				if($Evenement!= 'close' ){
@@ -325,9 +328,9 @@ class Volets extends eqLogic {
 		}
 	}
 	public function GestionAzimute($Azimut) {
-		if ($this->AutorisationAction('Azimut')){
-			$Saison=$this->getSaison();
-			$Evenement=$this->SelectAction($Azimut,$Saison);
+		$Saison=$this->getSaison();
+		$Evenement=$this->SelectAction($Azimut,$Saison);
+		if ($this->AutorisationAction($Evenement,'Azimut')){
 			if ($Evenement != false){
 				$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
 				if( $Evenement!= false)
@@ -528,18 +531,20 @@ class Volets extends eqLogic {
 			}
 		return $cron;
 	}
-	public function CheckValid($Element,$Evenement,$Saison,$Gestion){
+	public function CheckValid($Element,$Evenement,$Saison,$Gestion,$autoArm=false){
 		if(array_search($Evenement, $Element['evaluation']) === false)
 			return false;
 		if(array_search($Saison, $Element['saison']) === false)
 			return false;
 		if(array_search($Gestion, $Element['TypeGestion']) === false)
 			return false;		
-		if (isset($Element['enable']) && $Element['enable'] == 0)
+		if (isset($Element['enable']) && $Element['enable'] == 0 && !$autoArm)
+			return false;	
+		if (isset($Element['autoArm']) && $Element['autoArm'] == 0 && $autoArm)
 			return false;
 		return true;
 	}
-	public function checkCondition($Evenement,$Saison,$Gestion){		
+	public function checkCondition($Evenement,$Saison,$Gestion,$autoArm=false){		
 		foreach($this->getConfiguration('condition') as $Condition){
 			if (!$this->CheckValid($Condition,$Evenement,$Saison,$Gestion))
 				continue;

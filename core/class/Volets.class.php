@@ -476,6 +476,8 @@ class Volets extends eqLogic {
 				}
 				if(isset($Cmd['options'])){
 					$IdRatioVertical='#'.$this->getCmd(null,"RatioVertical")->getId().'#';
+					log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : '.$Cmd['options'].' == '.$IdRatioVertical);
+
 					if(array_search($IdRatioVertical, $Cmd['options'])!== false){
 						if($Change['Hauteur']){
 							cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);

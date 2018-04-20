@@ -551,10 +551,12 @@ class Volets extends eqLogic {
 			return false;
 		return true;
 	}
-	public function checkCondition($Evenement,$Saison,$Gestion,$autoArm=false){		
+	public function checkCondition($Evenement,$Saison,$Gestion,$autoArm=false){	
+		$isAutoArm=false;
 		foreach($this->getConfiguration('condition') as $Condition){
 			if (!$this->CheckValid($Condition,$Evenement,$Saison,$Gestion,$autoArm))
 				continue;
+			$isAutoArm=true;
 			if (!$this->EvaluateCondition($Condition,$Gestion)){
 				if($Condition['Inverse']){
 					log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La condition inverse l\'état du volet');
@@ -574,7 +576,10 @@ class Volets extends eqLogic {
 			}
 		}
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Les conditions sont remplies pour '.$Evenement);
-		return $Evenement;
+		if($autoArm)
+			return $isAutoArm;
+		else
+			return $Evenement;
 	}
 	public function boolToText($value){
 		if (is_bool($value)) {

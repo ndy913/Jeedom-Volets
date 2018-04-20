@@ -498,15 +498,8 @@ class Volets extends eqLogic {
 	public function ExecuteAction($Cmd,$Gestion,$Hauteur=0){		
 		try {
 			$options = array();
-			if(isset($Cmd['options'])){
-				$options=$Cmd['options'];
-				$IdRatioVertical='#'.$this->getCmd(null,"RatioVertical")->getId().'#';
-				$key = array_search($IdRatioVertical, $options);
-				if($key !== false)
-                			$options[$key]=str_replace($IdRatioVertical,$Hauteur,$options[$key]);
-				log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : CheckActions '.$options[$key].' == '.$IdRatioVertical);
-						
-			}
+			if(isset($Cmd['options']))
+				$options=jeedom::evaluateExpression($Cmd['options']);
 			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.jeedom::toHumanReadable($Cmd['cmd']).' ('.json_encode($options).')');
 		} catch (Exception $e) {

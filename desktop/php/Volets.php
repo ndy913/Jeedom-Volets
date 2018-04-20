@@ -456,17 +456,17 @@ $eqLogics = eqLogic::byType('Volets');
 				<table id="table_condition" class="table table-bordered table-condensed">
 					<thead>
 						<tr>
-							<th>{{Sur Action}}
+							<th style="width: 100px;">{{Sur Action}}
 								<sup>
 									<i class="fa fa-question-circle tooltips" title="{{Si cochée, alors la condition sera tester avant l'execution d'action}}"></i>
 								</sup>
 							</th>
-							<th>{{Sur Réactivation (BETA)}}
+							<th style="width: 100px;">{{Sur Réactivation (BETA)}}
 								<sup>
 									<i class="fa fa-question-circle tooltips" title="{{Si cochée, alors la condition sera tester pour un réarmement automatique}}"></i>
 								</sup>
 							</th>
-							<th>{{Inverser l'action}}
+							<th style="width: 100px;">{{Inverser l'action}}
 								<sup>
 									<i class="fa fa-question-circle tooltips" title="{{Si cochée, et si la condition est fausse alors le plugin tester l'action inverse}}"></i>
 								</sup>
@@ -476,17 +476,17 @@ $eqLogics = eqLogic::byType('Volets');
 									<i class="fa fa-question-circle tooltips" title="{{Saisir la condition a tester}}"></i>
 								</sup>
 							</th>
-							<th>{{Type de gestion}}
+							<th style="width: 150px;">{{Type de gestion}}
 								<sup>
 									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les gestions ou la condition s'applique}}"></i>
 								</sup>
 							</th>
-							<th>{{Saison}}
+							<th style="width: 150px;">{{Saison}}
 								<sup>
 									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les saisons ou la condition s'applique}}"></i>
 								</sup>
 							</th>
-							<th>{{Action}}
+							<th style="width: 150px;">{{Action}}
 								<sup>
 									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les actiohs ou la condition s'applique}}"></i>
 								</sup>

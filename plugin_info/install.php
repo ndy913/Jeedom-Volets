@@ -23,6 +23,18 @@ function Volets_update(){
 			$Commande->setLogicalId("RatioVertical");
 			$Commande->save();
 		}
+		$Commande=$Volet->getCmd(null,"RatioVertical");
+		if (is_object($Commande)){
+			$Cmds=$Volet->getConfiguration('action');
+			for($loop=0;$loop<count($Cmds);$loop++){	
+				if(isset($Cmds[$loop]['options'])){
+					if(array_search('#Hauteur#', $Cmds[$loop]['options'])!== false){
+						str_replace('#Hauteur#','#'.$Commande->getId().'#',$Cmds[$loop]['options']);
+					}
+				}
+			}
+		}
+		$Volet->setConfiguration('action',$Cmds);
 		$Volet->save();
 	}
 	log::add('Volets','debug','Fin du script de mise a jours');

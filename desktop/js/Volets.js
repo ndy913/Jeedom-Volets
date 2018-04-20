@@ -141,7 +141,17 @@ function printEqLogic(_eqLogic) {
 function addCondition(_condition,_el) {
 	var tr = $('<tr class="ConditionGroup">')
 		.append($('<td>')
-			.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable" checked/>')))
+			.append($('<label class="checkbox-inline">')
+				.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable">'))
+				.append('{{Activer}}')))
+		.append($('<td>')
+			.append($('<label class="checkbox-inline">')
+				.append($('<input type="checkbox" class="expressionAttr" data-l1key="autoArm">'))
+				.append('{{Activer}}')))
+		.append($('<td>')
+			.append($('<label class="checkbox-inline">')
+				.append($('<input type="checkbox" class="expressionAttr" data-l1key="Inverse">'))
+				.append('{{Tester}}')))
 		.append($('<td>')
 			.append($('<div class="input-group">')
 				.append($('<span class="input-group-btn">')
@@ -150,11 +160,7 @@ function addCondition(_condition,_el) {
 				.append($('<input class="expressionAttr form-control input-sm cmdCondition" data-l1key="expression"/>'))
 				.append($('<span class="input-group-btn">')
 					.append($('<a class="btn btn-warning btn-sm listCmdCondition">')
-						.append($('<i class="fa fa-list-alt">')))))
-			.append($('<div class="col-sm-5">')
-		       		.append($('<label>')
-			       		.text('{{Inverser l\'etat si faux}}'))
-				.append($('<input type="checkbox" class="expressionAttr" data-l1key="Inverse">'))))
+						.append($('<i class="fa fa-list-alt">'))))))
 		.append(addParameters());
 
         _el.append(tr);
@@ -162,14 +168,17 @@ function addCondition(_condition,_el) {
 	$('.conditionAttr[data-action=remove]').off().on('click',function(){
 		$(this).closest('tr').remove();
 	});
-  
 }
 function addAction(_action,  _el) {
 	var tr = $('<tr class="ActionGroup">');
 	tr.append($('<td>')
-		.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable" checked/>')));		
+		.append($('<label class="checkbox-inline">')
+			.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable">'))
+			.append('{{Activer}}')));		
 	tr.append($('<td>')	
-		  .append($('<input type="checkbox" class="expressionAttr" data-l1key="isVoletMove" title="Activer si l\'action execute un mouvement du volet"/>')))
+		.append($('<label class="checkbox-inline">')
+			.append($('<input type="checkbox" class="expressionAttr" data-l1key="isVoletMove">'))
+			.append('{{Activer}}')));	
 	tr.append($('<td>')
 		.append($('<div class="input-group">')
 			.append($('<span class="input-group-btn">')
@@ -351,8 +360,8 @@ $("body").on('click', ".listCmdAction", function() {
 	var type=$(this).attr('data-type');
 	jeedom.cmd.getSelectModal({cmd: {type: type}}, function (result) {
 		el.value(result.human);
-		jeedom.cmd.displayActionOption(el.value(), '', function (html) {
-			el.closest('.form-group').find('.actionOptions').html(html);
+		jeedom.cmd.displayActionOption(result.human, '', function (html) {
+			el.closest('td').find('.actionOptions').html(html);
 		});
 	});
 });

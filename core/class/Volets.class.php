@@ -100,7 +100,7 @@ class Volets extends eqLogic {
 	}
 	public function RearmementAutomatique($Evenement,$Gestion,$Mode) {   
 		$Saison=$this->getSaison();
-		if($this->checkCondition($Evenement,$Saison,$Gestion,true);
+		if($this->checkCondition($Evenement,$Saison,$Gestion,true))
 		   $this->checkAndUpdateCmd('isArmed',true);
 		if ($Gestion == 'Jour' && $this->getConfiguration('autoArmDay') && $Mode == "Nuit")
 		   $this->checkAndUpdateCmd('isArmed',true);
@@ -546,7 +546,7 @@ class Volets extends eqLogic {
 	}
 	public function checkCondition($Evenement,$Saison,$Gestion,$autoArm=false){		
 		foreach($this->getConfiguration('condition') as $Condition){
-			if (!$this->CheckValid($Condition,$Evenement,$Saison,$Gestion))
+			if (!$this->CheckValid($Condition,$Evenement,$Saison,$Gestion,$autoArm))
 				continue;
 			if (!$this->EvaluateCondition($Condition,$Gestion)){
 				if($Condition['Inverse']){

@@ -5,7 +5,7 @@ function Volets_install(){
 function Volets_update(){
 	log::add('Volets','debug','Lancement du script de mise a jours'); 
 	foreach(eqLogic::byType('Volets') as $Volet){
-		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
+		/*$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 		if (is_object($listener))
 			$listener->remove();
 		$cron = cron::byClassAndFunction('Volets', 'GestionJour', array('Volets_id' => $Volet->getId()));
@@ -16,7 +16,7 @@ function Volets_update(){
 			$cron->remove();
 		$cron = cron::byClassAndFunction('Volets', 'GestionMeteo', array('Volets_id' => $Volet->getId()));
 		if (is_object($cron)) 	
-			$cron->remove();
+			$cron->remove();*/
 		$Commande=$Volet->getCmd(null,"hauteur");
 		if (is_object($Commande)){
 			$Commande->setName("Ratio Vertical");

@@ -443,12 +443,12 @@ class Volets extends eqLogic {
 	}
 	public function CheckRepetivite($Gestion,$Evenement,$Saison){
 		$Hauteur=$this->getHauteur($Gestion,$Evenement,$Saison);
-		if($this->getPosition() == $Evenement && $this->getCmd(null,'gestion')->execCmd() == $Gestion && $this->getCmd(null,'hauteur')->execCmd() == $Hauteur)
+		if($this->getPosition() == $Evenement && $this->getCmd(null,'gestion')->execCmd() == $Gestion && $this->getCmd(null,'RatioVertical')->execCmd() == $Hauteur)
 			return;
 		$Change['Hauteur']=false;
 		$Change['Position']=false;
 		$Change['Gestion']=false;
-		if($this->getCmd(null,'hauteur')->execCmd() != $Hauteur)
+		if($this->getCmd(null,'RatioVertical')->execCmd() != $Hauteur)
 			$Change['Hauteur']=true;
 		$this->checkAndUpdateCmd('RatioVertical',$Hauteur);
 		if($this->getPosition() != $Evenement){

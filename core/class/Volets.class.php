@@ -178,7 +178,7 @@ class Volets extends eqLogic {
 			$this->GestionManuel($State);
 		}
 		$this->setPosition($State);
-		$this->checkAndUpdateCmd('hauteur',$Value);
+		$this->checkAndUpdateCmd('RatioVertical',$Value);
 	}
 	public function CheckOtherGestion($Gestion) {   
 		$Saison=$this->getSaison();
@@ -441,7 +441,7 @@ class Volets extends eqLogic {
 		$Change['Gestion']=false;
 		if($this->getCmd(null,'hauteur')->execCmd() != $Hauteur)
 			$Change['Hauteur']=true;
-		$this->checkAndUpdateCmd('hauteur',$Hauteur);
+		$this->checkAndUpdateCmd('RatioVertical',$Hauteur);
 		if($this->getPosition() != $Evenement){
 			$Change['Position']=true;
 			$Change['Hauteur']=true;
@@ -645,7 +645,7 @@ class Volets extends eqLogic {
 					$RealState=cmd::byId($this->getConfiguration('RealState'));
 					if(is_object($RealState)){
 						$Value=$RealState->execCmd();
-						$this->checkAndUpdateCmd('hauteur',$Value);
+						$this->checkAndUpdateCmd('RatioVertical',$Value);
 						$SeuilRealState=$this->getConfiguration("SeuilRealState");
 						if($SeuilRealState == '')
 							$SeuilRealState=0;
@@ -759,7 +759,8 @@ class Volets extends eqLogic {
 		}
 	}
 	public function postSave() {
-		$this->AddCommande("Hauteur du volet","hauteur","info", 'numeric',1);
+		//$this->AddCommande("Ratio Vertical","RatioVertical","info", 'numeric',1);
+		//$this->AddCommande("Ratio Horizontal","RatioHorizontal","info", 'numeric',1);
 		$this->AddCommande("Gestion Active","gestion","info", 'string',1);
 		$state=$this->AddCommande("Position du soleil","state","info", 'binary',1,'sunInWindows');
 		$this->checkAndUpdateCmd('state',false);

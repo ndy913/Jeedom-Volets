@@ -4,14 +4,19 @@ class Volets extends eqLogic {
 	public static $_Gestions=array('Manuel','Jour','Nuit','Meteo','Absent','Azimut');
 	public $_inverseCondition;
 	public static function cron() {
+		$deamon_info = self::deamon_info();
+		if ($deamon_info['launchable'] != 'ok') 
+			return;
+		if ($deamon_info['state'] != 'ok') 
+			return;
 		foreach(eqLogic::byType('Volets') as $Volet){
 			if (!$Volet->getConfiguration('Jour') && !$Volet->getConfiguration('Nuit'))
 				break;
 			$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
 			if(!is_object($heliotrope))
 				break;
-			$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(time()+100);
-			$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(time()-100);
+			$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(0);
+			$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(0);
 			if(mktime() < $Jour || mktime() > $Nuit)
 				$Volet->GestionNuit();
 			else
@@ -93,16 +98,19 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public function AutorisationAction($Evenement) {   
-		if (!$this->getIsEnable())
-			return false;
-		if ($Evenement == 'Jour' && $this->getConfiguration('autoArmDay'))
+	public function RearmementAutomatique($Evenement,$Mode) {   
+		if ($Evenement == 'Jour' && $this->getConfiguration('autoArmDay') && $Mode == "Nuit")
 			$this->checkAndUpdateCmd('isArmed',true);
 		if ($Evenement == 'Nuit' && $this->getConfiguration('autoArmNight'))
 			$this->checkAndUpdateCmd('isArmed',true);
-		if(!$this->getCmd(null,'isArmed')->execCmd())
+	}
+	public function AutorisationAction($Evenement) {   
+		if (!$this->getIsEnable())
 			return false;
 		$Mode = $this->getCmd(null,'gestion')->execCmd();
+		$this->RearmementAutomatique($Evenement,$Mode);
+		if(!$this->getCmd(null,'isArmed')->execCmd())
+			return false;
 		switch($Evenement){
 			case 'Jour':
 				if ($this->getConfiguration('Jour')
@@ -136,7 +144,6 @@ class Volets extends eqLogic {
 		return false;
 	}		
 	public function CheckRealState($Value) {   
-		$this->checkAndUpdateCmd('hauteur',$Value);
 		$SeuilRealState=$this->getConfiguration("SeuilRealState");
 		if($SeuilRealState == '')
 			$SeuilRealState=0;
@@ -163,13 +170,12 @@ class Volets extends eqLogic {
 			}else{
 				if($this->getCmd(null,'position')->execCmd() == $State)
 					cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
-				else
-					$this->checkAndUpdateCmd('position',$State);
 			}
 		}else{
 			$this->GestionManuel($State);
-			$this->checkAndUpdateCmd('position',$State);
 		}
+		$this->setPosition($State);
+		$this->checkAndUpdateCmd('hauteur',$Value);
 	}
 	public function CheckOtherGestion($Gestion) {   
 		$Saison=$this->getSaison();
@@ -271,6 +277,8 @@ class Volets extends eqLogic {
 				$this->CheckRepetivite('Jour',$Evenement,$Saison);
 			}
 		}
+		if (!$this->getConfiguration('Jour'))
+			$this->GestionManuel('close');
 	}
 	public function GestionNuit() {
 		if ($this->AutorisationAction('Nuit')){
@@ -281,6 +289,8 @@ class Volets extends eqLogic {
 				$this->CheckRepetivite('Nuit',$Evenement,$Saison);
 			}
 		}
+		if (!$this->getConfiguration('Nuit'))
+			$this->GestionManuel('open');
 	}
 	public static function GestionMeteo($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
@@ -400,7 +410,7 @@ class Volets extends eqLogic {
 			$Hauteur=100;
 		elseif($Evenement == 'close')
 			$Hauteur=0;
-		if ($Gestion == 'Azimut' && $Saison != 'hiver' && !$this->_inverseCondition)
+		if ($Gestion == 'Azimut' && $Saison != 'hiver' && $this->getCmd(null,'state')->execCmd() && !$this->_inverseCondition)
 			$Hauteur=$this->checkAltitude();
 		if($this->getConfiguration('InverseHauteur'))
 			$Hauteur=100-$Hauteur;
@@ -433,7 +443,8 @@ class Volets extends eqLogic {
 			$Change['Position']=true;
 			$Change['Hauteur']=true;
 		}
-		$this->setPosition($Evenement);
+		if ($this->getConfiguration('RealState') != '')
+			$this->setPosition($Evenement);
 		if($this->getCmd(null,'gestion')->execCmd() != $Gestion)
 			$Change['Gestion']=true;
 		$this->checkAndUpdateCmd('gestion',$Gestion);
@@ -624,8 +635,29 @@ class Volets extends eqLogic {
 				$listener->setFunction('pull');
 				$listener->setOption(array('Volets_id' => $this->getId()));
 				$listener->emptyEvent();				
-				if ($this->getConfiguration('RealState') != '')
+				if ($this->getConfiguration('RealState') != ''){
 					$listener->addEvent($this->getConfiguration('RealState'));
+					$RealState=cmd::byId($this->getConfiguration('RealState'));
+					if(is_object($RealState)){
+						$Value=$RealState->execCmd();
+						$this->checkAndUpdateCmd('hauteur',$Value);
+						$SeuilRealState=$this->getConfiguration("SeuilRealState");
+						if($SeuilRealState == '')
+							$SeuilRealState=0;
+						if($this->getConfiguration('InverseHauteur')){	
+							if($Value < $SeuilRealState)
+								$State='open';
+							else
+								$State='close';
+						}else{
+							if($Value > $SeuilRealState)
+								$State='open';
+							else
+								$State='close';
+						}
+						$this->setPosition($State);
+					}
+				}
 				if ($this->getConfiguration('Azimut'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
 				if ($this->getConfiguration('Absent'))
@@ -638,9 +670,12 @@ class Volets extends eqLogic {
 					$DayStart=$sunrise->execCmd();
 					if($this->getConfiguration('DayMin') != '' && $DayStart < $this->getConfiguration('DayMin'))
 					   $DayStart=$this->getConfiguration('DayMin');
-					$timstamp=$this->CalculHeureEvent($DayStart,'DelaisDay');					
-					cache::set('Volets::Jour::'.$this->getId(),$timstamp, 0);
-				}	
+				}else{
+					$sunrise=$heliotrope->getCmd(null,'sunrise');
+					$DayStart=$sunrise->execCmd();
+				}
+				$timstamp=$this->CalculHeureEvent($DayStart,'DelaisDay');					
+				cache::set('Volets::Jour::'.$this->getId(),$timstamp, 0);
 				if ($this->getConfiguration('Nuit')){
 					$sunset=$heliotrope->getCmd(null,$this->getConfiguration('TypeNight'));
 					if(!is_object($sunset))
@@ -649,9 +684,12 @@ class Volets extends eqLogic {
 					$NightStart=$sunset->execCmd();
 					if($this->getConfiguration('NightMax') != '' && $NightStart > $this->getConfiguration('NightMax'))
 					   $NightStart=$this->getConfiguration('NightMax');
-					$timstamp=$this->CalculHeureEvent($NightStart,'DelaisNight');	
-					cache::set('Volets::Nuit::'.$this->getId(),$timstamp, 0);
+				}else{
+					$sunset=$heliotrope->getCmd(null,'sunset');
+					$NightStart=$sunset->execCmd();
 				}
+				$timstamp=$this->CalculHeureEvent($NightStart,'DelaisNight');	
+				cache::set('Volets::Nuit::'.$this->getId(),$timstamp, 0);
 				if ($this->getConfiguration('Meteo'))
 					$cron = $this->CreateCron('* * * * * *', 'GestionMeteo', array('Volets_id' => intval($this->getId())));
 				$listener->save();	

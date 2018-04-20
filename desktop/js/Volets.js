@@ -172,9 +172,13 @@ function addCondition(_condition,_el) {
 function addAction(_action,  _el) {
 	var tr = $('<tr class="ActionGroup">');
 	tr.append($('<td>')
-		.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable" checked/>')));		
+		.append($('<label class="checkbox-inline">')
+			.append($('<input type="checkbox" class="expressionAttr" data-l1key="enable">'))
+			.append('{{Activer}}')));		
 	tr.append($('<td>')	
-		  .append($('<input type="checkbox" class="expressionAttr" data-l1key="isVoletMove" title="Activer si l\'action execute un mouvement du volet"/>')))
+		.append($('<label class="checkbox-inline">')
+			.append($('<input type="checkbox" class="expressionAttr" data-l1key="isVoletMove">'))
+			.append('{{Activer}}')));	
 	tr.append($('<td>')
 		.append($('<div class="input-group">')
 			.append($('<span class="input-group-btn">')
@@ -356,8 +360,8 @@ $("body").on('click', ".listCmdAction", function() {
 	var type=$(this).attr('data-type');
 	jeedom.cmd.getSelectModal({cmd: {type: type}}, function (result) {
 		el.value(result.human);
-		jeedom.cmd.displayActionOption(el.value(), '', function (html) {
-			el.closest('.form-group').find('.actionOptions').html(html);
+		jeedom.cmd.displayActionOption(result.human, '', function (html) {
+			el.closest('td').find('.actionOptions').html(html);
 		});
 	});
 });

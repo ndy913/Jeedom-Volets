@@ -513,12 +513,36 @@ $eqLogics = eqLogic::byType('Volets');
 				<table id="table_action" class="table table-bordered table-condensed">
 					<thead>
 						<tr>
-							<th style="width: 10px;"></th>
-							<th style="width: 100px;">{{Mouvement}}</th>
-							<th>{{Action}}</th>
-							<th>{{Type de gestion}}</th>
-							<th>{{Mode}}</th>
-							<th>{{Action}}</th>
+							<th style="width: 100px;">{{Activation}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Cocher pour activer l'action}}"></i>
+								</sup>
+							</th>
+							<th style="width: 100px;">{{Mouvement}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Cocher si l'action déclanche un mouvement}}"></i>
+								</sup>
+							</th>
+							<th>{{Action}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Saisir l'action et ses parametres}}"></i>
+								</sup>
+							</th>
+							<th style="width: 150px;">{{Type de gestion}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les gestions ou l'action s'applique}}"></i>
+								</sup>
+							</th>
+							<th style="width: 150px;">{{Saison}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les saisons ou l'action s'applique}}"></i>
+								</sup>
+							</th>
+							<th style="width: 150px;">{{Action}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les actiohs ou l'action s'applique}}"></i>
+								</sup>
+							</th>
 						</tr>
 					</thead>
 					<tbody></tbody>

@@ -29,7 +29,7 @@ function Volets_update(){
 			for($loop=0;$loop<count($Cmds);$loop++){	
 				if(isset($Cmds[$loop]['options'])){
 					if(array_search('#Hauteur#', $Cmds[$loop]['options'])!== false){
-						str_replace('#Hauteur#','#'.$Commande->getId().'#',$Cmds[$loop]['options']);
+						$Cmds[$loop]['options']=str_replace('#Hauteur#','#'.$Commande->getId().'#',$Cmds[$loop]['options']);
 					}
 				}
 			}

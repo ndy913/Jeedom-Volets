@@ -17,6 +17,16 @@ Pour chaque équipement, le plugin va créer des commandes.
 
 ![introduction01](../images/Volets_screenshot_Widget.jpg)
 
+* `Activer` / `Désactiver` => `Etat activation` : Permet de gere l'armement du plugin par une voie externe (scénario, plugins, ...)
+* `Etat du volet`: Etat determinant si le volet doit etre ouvert ou fermer
+* `Position du volet`: Mise a jousr de l'etat
+* `Position du soleil` : Determine si le soleil est dans la fenetre ou non
+* `Ratio Horizontal` : Estimation par le plugin du ratio d'ouverture Horizontal
+* `Ratio Vertical` : Estimation par le plugin du ratio d'ouverture Vertical
+* `Mode` : Determine dans quel Mode (Saison) fonctionne le plugin 
+* `Etat mode` : Representation du mode actif
+* `Gestion Active` : Indicateur de gestion en cours d'utilisation
+
 
 Gestion Active
 ---
@@ -45,10 +55,12 @@ C'est à vous de déterminer à quel moment il faut gérer ce changement.
 ![introduction01](../images/ModeClose.png)
 
 L'icône ci-dessus montre le mode "été", le volet est fermé lorsque le soleil est dans la fenêtre.
+Le volet se fermera pour garder la fraicheur.
 
 ![introduction01](../images/ModeOpen.png)
 
 L'icône ci-dessus montre le mode "hiver", le volet est ouvert lorsque le soleil est dans la fenêtre.
+Le volet s'ouvrira pour accumuler la chaleur
 
 la position du soleil
 ---
@@ -188,20 +200,20 @@ Afin d'affiner tous les cas d'utilisation de gestion de nos volets, nous pouvons
 
 ![introduction01](../images/Volets_screenshot_ConfigurationCondition.jpg)
 
+Paramètres complémentaires :
+* `Sur Action` : Permet d'identifier les conditions a tester pour executer une action   
+* `Sur Réactivation` :  Permet d'identifier les conditions a tester pour rearmer le plugin automatiquement
+* `Inverser l'action` : Permet de relancer une évaluation des conditions avec un position inverse du volet  
+* `Condition` : Saisir votre contions. L'ensemble de condion forme un ET logique
+* `Type de gestion` : sélectionner toutes les gestions où la condition doit être vérifiée (avec la touche `Ctrl`)
+* `Mode` : sélectionner tous les modes où la condition doit être vérifiée (avec la touche `Ctrl`)
+* `Action` : sélectionner toutes les actions où la condition doit être vérifiée (avec la touche `Ctrl`)
 
 Pour vous aider à la configuration des conditions, un éditeur est ajouté.
 
 ![introduction01](../images/ConfigurationConditionEditeur.jpg)
 
 ![introduction01](../images/ConfigurationConditionEditeur2.jpg)
-
-
-Paramètres complémentaires :
-
-* `Inverser l'état si faux` : permet de relancer une évaluation des conditions avec un position inverse du volet
-* `Type de gestion` : sélectionner toutes les gestions où la condition doit être vérifiée (avec la touche `Ctrl`)
-* `Mode` : sélectionner tous les modes où la condition doit être vérifiée (avec la touche `Ctrl`)
-* `Action` : sélectionner toutes les actions où la condition doit être vérifiée (avec la touche `Ctrl`)
 
 Pour que chaque condition soit validée et les actions éxécutées, ces paramètres doivent être validés.
 
@@ -215,13 +227,16 @@ Choisissez les actions à mener sans oublier de configurer leurs valeurs.
 
 Paramètres complémentaires:
 
-* `Activer si l'action execute un mouvement du volet` : Permet de determiner quel action execute une commande de volet
-* `Type de gestion` : sélectionner toutes les gestions où l'action doit être exécutée (avec la touche `Ctrl`)
-* `Mode` : sélectionner tous les modes où l'action doit être exécutée (avec la touche `Ctrl`)
-* `Action` : Sélectionner toutes les actions où l'action doit être exécutée (avec la touche `Ctrl`)
+* `Activation` : Permet d'activer ou non l'action
+* `Mouvement` : Permet de determiner si l'action est une action de mouvement et donnera un retour d'etat.
+* `Type de gestion` : sélectionner toutes les gestions où l'action doit être exécutée (avec la touche `Ctrl`).
+* `Action` : Saisir / choisir votre commande. Il est possible de saisir des operation arithmetique dans les options.
+* `Mode` : sélectionner tous les modes où l'action doit être exécutée (avec la touche `Ctrl`).
+* `Action` : Sélectionner toutes les actions où l'action doit être exécutée (avec la touche `Ctrl`).
 
 Pour la gestion azimut en été, le plugin calcul la hauteur du volet pour que le rayonnement du soleil soit masqué.
-Pour utiliser la commande hauteur dans une action du plugin, il suffit de mettre en valeur le tag #Hauteur#
+Si vous souhaitez utiliser les commandes de ration il suffis de les selectionner en action.
+Mettrera a jours sa veleur
 
 FAQ
 ===

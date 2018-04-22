@@ -100,12 +100,10 @@ class Volets extends eqLogic {
 	}
 	public function RearmementAutomatique($Evenement,$Gestion,$Mode) {   
 		$Saison=$this->getSaison();
-		if($this->checkCondition($Evenement,$Saison,$Gestion,true))
-		   $this->checkAndUpdateCmd('isArmed',true);
-		if ($Gestion == 'Jour' && $this->getConfiguration('autoArmDay') && $Mode == "Nuit")
-		   $this->checkAndUpdateCmd('isArmed',true);
-		if ($Gestion == 'Nuit' && $this->getConfiguration('autoArmNight'))
-		   $this->checkAndUpdateCmd('isArmed',true);
+		if($this->checkCondition($Evenement,$Saison,$Gestion,true)){
+		 	log::add('Volets','info',$this->getHumanName().' : Réarmement automatique');	
+			$this->checkAndUpdateCmd('isArmed',true);
+		}
 	}
 	public function AutorisationAction($Evenement,$Gestion) {   
 		if (!$this->getIsEnable())

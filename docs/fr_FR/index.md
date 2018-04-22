@@ -122,14 +122,12 @@ Il faut activer la gestion pour faire apparaitre les champs de configuration sp�
 
 ### Gestion du jour
 
-* `Réarmement automatique ` : Ce parametre autorise le plugin a se rearmer automatiquement lors de la gestion de jour
 * `Heure d'ouverture minimum` : Permet d'imposer au plugin un heure minimum a partir de laquel le plugin ne tiendra plus compte de l'heure du lever du soleil 
 * `Type de lever du soleil` : permet de choisir quel type d'horaire vous voulez pour le lever du jour
 * `Délai au lever du jour (min)` : délai avant (-) ou après (+) l'heure du lever du jour
 
 ### Gestion de la nuit
 
-* `Réarmement automatique ` : Ce parametre autorise le plugin a se rearmer automatiquement lors de la gestion de nuit
 * `Heure de fermeture maximum` :  Permet d'imposer au plugin un heure maximum a partir de laquel le plugin ne tiendra plus compte de l'heure du coucher du soleil 
 * `Type de coucher du soleil` : permet de choisir quel type d'horaire vous voulez pour la tombée de la nuit
 * `Délai à la tombée de la nuit (min)` : délai avant (-) ou après (+) l'heure de la tombée de la nuit
@@ -193,7 +191,8 @@ J'ajouterai donc une condition de ce type.
 
 ![introduction01](../images/ConditionTemps.jpg)
 
-Conditions d'exécution
+
+Conditions d'exécution et de réarmeent
 ---
 
 Afin d'affiner tous les cas d'utilisation de gestion de nos volets, nous pouvons ajouter des conditions.
@@ -255,3 +254,7 @@ FAQ
 
 **Le cadenas est ouvert, mais le plugin contiue a analysé les inforamtion d'héliotrope**
 > Le plugin est désarmé, mais le plugin continue a mettre a jours ses parametres 
+
+**Je suis passée en mode manuel dans la journée, comment réarmer automatiquement le plugin**
+> Pour le réarmement automatique il est necessaire d'ajouter une condition de réarment sur la gestion et le mouvement profuit.
+Par exemple pour le rearmement en gestion de nuit je vais ajouter une condtition du style #time# ++ 2000 en gestion de nuit et sur la fermeture

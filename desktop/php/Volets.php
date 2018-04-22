@@ -317,16 +317,6 @@ $eqLogics = eqLogic::byType('Volets');
 						<legend>Gestion Jour</legend>
 						<fieldset>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Réarmement automatique}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="{{Réarmer automatiquement les gestions au lever du jour}}"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoArmDay" />
-								</div>
-							</div>	
-							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Heure d'ouverture minimum (HHMM)}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="{{Si le soleil se lève avant, l'heure d'ouverture sera ce paramètre}}"></i>
@@ -368,16 +358,6 @@ $eqLogics = eqLogic::byType('Volets');
 					<form class="form-horizontal">
 						<legend>Gestion Nuit</legend>
 						<fieldset>
-							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Réarmement automatique}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="{{Réarmer automatiquement les gestions au coucher du soleil}}"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoArmNight" />
-								</div>
-							</div>	
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Heure de fermeture maximum (HHMM)}}
 									<sup>

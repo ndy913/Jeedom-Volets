@@ -3,6 +3,7 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
 	public static $_Gestions=array('Manuel','Jour','Nuit','Meteo','Absent','Azimut');
 	public $_inverseCondition;
+	public $_RatioHorizontal;
 	public static function cron() {
 		$deamon_info = self::deamon_info();
 		if ($deamon_info['launchable'] != 'ok') 
@@ -380,7 +381,7 @@ class Volets extends eqLogic {
 		}
 		if(!$result)
 			$Ratio=100;
-		$this->checkAndUpdateCmd('RatioHorizontal',round($Ratio));	
+		$this->_RatioHorizontal=round($Ratio);
 		log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : L\'azimut ' . $Azimut . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
 		return $result;
 	}	
@@ -441,27 +442,27 @@ class Volets extends eqLogic {
 		}
 	}
 	public function CheckRepetivite($Gestion,$Evenement,$Saison){
-		$Hauteur=$this->getHauteur($Gestion,$Evenement,$Saison);
+		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
 		if($this->getPosition() == $Evenement && $this->getCmd(null,'gestion')->execCmd() == $Gestion && $this->getCmd(null,'RatioVertical')->execCmd() == $Hauteur)
 			return;
-		$Change['Hauteur']=false;
 		$Change['Position']=false;
 		$Change['Gestion']=false;
-		if($this->getCmd(null,'RatioVertical')->execCmd() != $Hauteur)
-			$Change['Hauteur']=true;
-		$this->checkAndUpdateCmd('RatioVertical',$Hauteur);
-		if($this->getPosition() != $Evenement){
+		if($this->getCmd(null,'RatioVertical')->execCmd() != $RatioVertical)
 			$Change['Position']=true;
-			$Change['Hauteur']=true;
-		}
+		if($this->getCmd(null,'RatioHorizontal')->execCmd() != $this->_RatioHorizontal)
+			$Change['Position']=true;
+		$this->checkAndUpdateCmd('RatioVertical',$RatioVertical);
+		$this->checkAndUpdateCmd('RatioHorizontal',$this->_RatioHorizontal);	
+		if($this->getPosition() != $Evenement)
+			$Change['Position']=true;
 		if ($this->getConfiguration('RealState') == '')
 			$this->setPosition($Evenement);
 		if($this->getCmd(null,'gestion')->execCmd() != $Gestion)
 			$Change['Gestion']=true;
 		$this->checkAndUpdateCmd('gestion',$Gestion);
-		$this->CheckActions($Gestion,$Evenement,$Saison,$Change,$Hauteur);
+		$this->CheckActions($Gestion,$Evenement,$Saison,$Change);
 	}
-	public function CheckActions($Gestion,$Evenement,$Saison,$Change,$Hauteur){
+	public function CheckActions($Gestion,$Evenement,$Saison,$Change){
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
 		$ActionMove=null;
 		foreach($this->getConfiguration('action') as $Cmd){	
@@ -472,31 +473,23 @@ class Volets extends eqLogic {
 					$ActionMove[]=$Cmd;
 					continue;
 				}
-				if(isset($Cmd['options'])){
-					$IdRatioVertical='#'.$this->getCmd(null,"RatioVertical")->getId().'#';
-					if(array_search($IdRatioVertical, $Cmd['options'])!== false){
-						if($Change['Hauteur']){
-							cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
-							$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
-						}
-						continue;
-					}
-				}
 				if($Change['Position'])
-					$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
+					$this->ExecuteAction($Cmd,$Gestion);
 			} else {
 				if($Change['Gestion'] || $Change['Position'])
-					$this->ExecuteAction($Cmd,$Gestion,$Hauteur);
+					$this->ExecuteAction($Cmd,$Gestion);
 			}
 		}
 		if($this->getConfiguration('RandExecution') && $ActionMove != null)
-			$this->AleatoireActions($Gestion,$ActionMove,$Hauteur);
+			$this->AleatoireActions($Gestion,$ActionMove);
 	}
-	public function ExecuteAction($Cmd,$Gestion,$Hauteur=0){		
+	public function ExecuteAction($Cmd,$Gestion){		
 		try {
 			$options = array();
-			if(isset($Cmd['options']))
-				$options=jeedom::evaluateExpression($Cmd['options']);
+			if(isset($Cmd['options'])){
+				foreach($Cmd['options'] as $key => $option)
+					$options[$key]=jeedom::evaluateExpression($option);
+			}
 			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.jeedom::toHumanReadable($Cmd['cmd']).' ('.json_encode($options).')');
 		} catch (Exception $e) {

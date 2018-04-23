@@ -454,7 +454,7 @@ class Volets extends eqLogic {
 			$Change['Position']=true;
 			$Change['Hauteur']=true;
 		}
-		if ($this->getConfiguration('RealState') != '')
+		if ($this->getConfiguration('RealState') == '')
 			$this->setPosition($Evenement);
 		if($this->getCmd(null,'gestion')->execCmd() != $Gestion)
 			$Change['Gestion']=true;

@@ -99,7 +99,7 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public function RearmementAutomatique($Evenement,$Gestion,$Mode) {   
+	public function RearmementAutomatique($Evenement,$Gestion) {   
 		$Saison=$this->getSaison();
 		if($this->checkCondition($Evenement,$Saison,$Gestion,true)){
 		 	log::add('Volets','info',$this->getHumanName().' : Réarmement automatique');	
@@ -110,40 +110,40 @@ class Volets extends eqLogic {
 		if (!$this->getIsEnable())
 			return false;
 		$Mode = $this->getCmd(null,'gestion')->execCmd();
-		$this->RearmementAutomatique($Evenement,$Gestion,$Mode);
-		if(!$this->getCmd(null,'isArmed')->execCmd())
-			return false;
 		switch($Gestion){
 			case 'Jour':
-				if ($this->getConfiguration('Jour')
-				    && $Mode == "Nuit")
-					return true;
+				if (!$this->getConfiguration('Jour')
+				    && $Mode != "Nuit")
+					return false;
 			break;
 			case 'Nuit':
-				if ($this->getConfiguration('Nuit'))
-					return true;
+				if (!$this->getConfiguration('Nuit'))
+					return false;
 			break;
 			case 'Absent':
-				if ($this->getConfiguration('Absent')
-				    && $Mode != "Nuit" )
-					return true;
+				if (!$this->getConfiguration('Absent')
+				    || $Mode == "Nuit" )
+					return false;
 			break;
 			case 'Meteo':					
-				if ($this->getConfiguration('Meteo')
-				    && $Mode != "Nuit" 
-				    && $Mode != "Absent")
-					return true;
+				if (!$this->getConfiguration('Meteo')
+				    || $Mode == "Nuit" 
+				    || $Mode == "Absent")
+					return false;
 			break;
 			case 'Azimut':
-				if ($this->getConfiguration('Azimut')
-				    && $Mode != "Nuit" 
-				    && $Mode != "Absent" 
-				    && $Mode != "Meteo")
-					return true;
+				if (!$this->getConfiguration('Azimut')
+				    || $Mode == "Nuit" 
+				    || $Mode == "Absent" 
+				    || $Mode == "Meteo")
+					return false;
 			break;
 			
 		}
-		return false;
+		$this->RearmementAutomatique($Evenement,$Gestion);
+		if(!$this->getCmd(null,'isArmed')->execCmd())
+			return false;
+		return true;
 	}		
 	public function CheckRealState($Value) {   
 		$SeuilRealState=$this->getConfiguration("SeuilRealState");

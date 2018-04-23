@@ -258,3 +258,7 @@ FAQ
 **Je suis passée en mode manuel dans la journée, comment réarmer automatiquement le plugin**
 > Pour le réarmement automatique il est necessaire d'ajouter une condition de réarment sur la gestion et le mouvement profuit.
 Par exemple pour le rearmement en gestion de nuit je vais ajouter une condtition du style #time# ++ 2000 en gestion de nuit et sur la fermeture
+
+**J'ai configuré ma gestion Azimut avec le ratio mais il fait tros de mouvement**
+> Il est possible de limiter les mouvement avec une formule dans les options.
+![introduction01](../images/ActionRatioLimite.png)

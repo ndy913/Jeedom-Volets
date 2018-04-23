@@ -73,7 +73,7 @@ class Volets extends eqLogic {
 						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');
 						$DayStart=$_option['value'];
 						if($Volet->getConfiguration('DayMin') != '' && $DayStart < $Volet->getConfiguration('DayMin'))
-						   $DayStart=$Volet->getConfiguration('DayMin');
+						  	$DayStart = jeedom::evaluateExpression($Volet->getConfiguration('DayMin'));
 						$timstamp=$Volet->CalculHeureEvent($DayStart,'DelaisDay');
 						cache::set('Volets::Jour::'.$Volet->getId(),$timstamp, 0);
 						break;
@@ -81,7 +81,7 @@ class Volets extends eqLogic {
 						log::add('Volets','info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil');
 						$NightStart=$_option['value'];
 						if($Volet->getConfiguration('NightMax') != '' && $NightStart > $Volet->getConfiguration('NightMax'))
-						   $NightStart=$Volet->getConfiguration('NightMax');
+							$NightStart = jeedom::evaluateExpression($Volet->getConfiguration('NightMax'));
 						$timstamp=$Volet->CalculHeureEvent($NightStart,'DelaisNight');						
 						cache::set('Volets::Nuit::'.$Volet->getId(),$timstamp, 0);
 					break;
@@ -678,7 +678,7 @@ class Volets extends eqLogic {
 					$listener->addEvent($sunrise->getId());	
 					$DayStart=$sunrise->execCmd();
 					if($this->getConfiguration('DayMin') != '' && $DayStart < $this->getConfiguration('DayMin'))
-					   $DayStart=$this->getConfiguration('DayMin');
+						$DayStart = jeedom::evaluateExpression($Volet->getConfiguration('DayMin'));
 				}else{
 					$sunrise=$heliotrope->getCmd(null,'sunrise');
 					$DayStart=$sunrise->execCmd();
@@ -692,7 +692,7 @@ class Volets extends eqLogic {
 					$listener->addEvent($sunset->getId());
 					$NightStart=$sunset->execCmd();
 					if($this->getConfiguration('NightMax') != '' && $NightStart > $this->getConfiguration('NightMax'))
-					   $NightStart=$this->getConfiguration('NightMax');
+						$NightStart = jeedom::evaluateExpression($Volet->getConfiguration('NightMax'));
 				}else{
 					$sunset=$heliotrope->getCmd(null,'sunset');
 					$NightStart=$sunset->execCmd();

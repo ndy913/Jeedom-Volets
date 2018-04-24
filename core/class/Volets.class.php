@@ -71,18 +71,18 @@ class Volets extends eqLogic {
 					break;
 					case $Volet->getConfiguration('TypeDay'):
 						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');
-						$DayStart=$_option['value'];
-						if($Volet->getConfiguration('DayMin') != '' && $DayStart < $Volet->getConfiguration('DayMin'))
-						  	$DayStart = jeedom::evaluateExpression($Volet->getConfiguration('DayMin'));
-						$timstamp=$Volet->CalculHeureEvent($DayStart,'DelaisDay');
+						if($Volet->getConfiguration('DayMin') != '' && $_option['value'] < $Volet->getConfiguration('DayMin'))
+						  	$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($Volet->getConfiguration('DayMin')),false);
+						else
+							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisDay');
 						cache::set('Volets::Jour::'.$Volet->getId(),$timstamp, 0);
 						break;
 					case $Volet->getConfiguration('TypeNight'):
 						log::add('Volets','info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil');
-						$NightStart=$_option['value'];
-						if($Volet->getConfiguration('NightMax') != '' && $NightStart > $Volet->getConfiguration('NightMax'))
-							$NightStart = jeedom::evaluateExpression($Volet->getConfiguration('NightMax'));
-						$timstamp=$Volet->CalculHeureEvent($NightStart,'DelaisNight');						
+						if($Volet->getConfiguration('NightMax') != '' && $_option['value'] > $Volet->getConfiguration('NightMax'))
+							$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($Volet->getConfiguration('NightMax')),false);
+						else
+							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');						
 						cache::set('Volets::Nuit::'.$Volet->getId(),$timstamp, 0);
 					break;
 					default:
@@ -190,17 +190,17 @@ class Volets extends eqLogic {
 						$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDay'));
 						if(!is_object($sunrise))
 							return false;
-						$DayStart=$sunrise->execCmd();
-						if($this->getConfiguration('DayMin') != '' && $DayStart < $this->getConfiguration('DayMin'))
-							   $DayStart=$this->getConfiguration('DayMin');
-						$DelaisDay=$this->CalculHeureEvent($DayStart,'DelaisDay');
+						if($this->getConfiguration('DayMin') != '' && $sunrise->execCmd() < $this->getConfiguration('DayMin'))
+							   $DelaisDay=$this->CalculHeureEvent($this->getConfiguration('DayMin'),false);
+						else
+							$DelaisDay=$this->CalculHeureEvent($sunrise->execCmd(),'DelaisDay');
 						$sunset=$heliotrope->getCmd(null,$this->getConfiguration('TypeNight'));
 						if(!is_object($sunset))
 							return false;
-						$NightStart=$sunset->execCmd();
-						if($this->getConfiguration('NightMax') != '' && $NightStart > $this->getConfiguration('NightMax'))
-							   $NightStart=$this->getConfiguration('NightMax');
-						$DelaisNight=$this->CalculHeureEvent($NightStart,'DelaisNight');
+						if($this->getConfiguration('NightMax') != '' && $sunset->execCmd() > $this->getConfiguration('NightMax'))
+							   $DelaisNight=$this->CalculHeureEvent($this->getConfiguration('NightMax'),false);
+						else
+							$DelaisNight=$this->CalculHeureEvent($sunset->execCmd(),'DelaisNight');
 						if(mktime() < $DelaisDay || mktime() > $DelaisNight){
 							$Evenement=$this->checkCondition('close',$Saison,'Nuit');   		
 							if($Evenement != false && $Evenement == "close"){
@@ -254,19 +254,12 @@ class Volets extends eqLogic {
 	public function GestionManuel($State){
 		if($this->getConfiguration('Manuel')){
 			$Saison=$this->getSaison();
-			/*if($this->getCmd(null,'position')->execCmd() == $State){
-				log::add('Volets','info','Un evenement manuel identique a ce qu\'attend le plugin a été détécté sur le volet '.$Volet->getHumanName().' La gestion a été activé');
-				$this->checkAndUpdateCmd('gestion','Jour');
-				//$this->checkAndUpdateCmd('isArmed',true);									
-			}else{*/
-				log::add('Volets','info','Un evenement manuel a été détécté sur le volet '.$this->getHumanName().' La gestion a été désactivé');
-				//$this->checkAndUpdateCmd('gestion','Manuel');
-				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
-				if($Evenement != false){
-					$this->CheckRepetivite('Manuel',$Evenement,$Saison);
-					$this->checkAndUpdateCmd('isArmed',false);
-				}
-			//}
+			log::add('Volets','info','Un evenement manuel a été détécté sur le volet '.$this->getHumanName().' La gestion a été désactivé');
+			$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
+			if($Evenement != false){
+				$this->CheckRepetivite('Manuel',$Evenement,$Saison);
+				$this->checkAndUpdateCmd('isArmed',false);
+			}
 		}
 	}
 	public function GestionJour() {    
@@ -505,11 +498,13 @@ class Volets extends eqLogic {
 		else
 			$Heure=substr($HeureStart,0,2);
 		$Minute=floatval(substr($HeureStart,-2));
-		if($this->getConfiguration($delais)!='')
-			$Minute+=floatval($this->getConfiguration($delais));
-		while($Minute>=60){
-			$Minute-=60;
-			$Heure+=1;
+		if($delais != false){
+			if($this->getConfiguration($delais)!='')
+				$Minute+=floatval($this->getConfiguration($delais));
+			while($Minute>=60){
+				$Minute-=60;
+				$Heure+=1;
+			}
 		}
 		return mktime($Heure,$Minute);
 	}
@@ -676,28 +671,28 @@ class Volets extends eqLogic {
 					if(!is_object($sunrise))
 						return false;
 					$listener->addEvent($sunrise->getId());	
-					$DayStart=$sunrise->execCmd();
-					if($this->getConfiguration('DayMin') != '' && $DayStart < $this->getConfiguration('DayMin'))
-						$DayStart = jeedom::evaluateExpression($Volet->getConfiguration('DayMin'));
+					if($this->getConfiguration('DayMin') != '' && $sunrise->execCmd() < $this->getConfiguration('DayMin'))
+						$timstamp=$this->CalculHeureEvent(jeedom::evaluateExpression($this->getConfiguration('DayMin')),false);
+					else					  
+						$timstamp=$this->CalculHeureEvent($sunrise->execCmd(),'DelaisDay');
 				}else{
 					$sunrise=$heliotrope->getCmd(null,'sunrise');
-					$DayStart=$sunrise->execCmd();
-				}
-				$timstamp=$this->CalculHeureEvent($DayStart,'DelaisDay');					
+					$timstamp=$this->CalculHeureEvent($sunrise->execCmd(),false);
+				}				
 				cache::set('Volets::Jour::'.$this->getId(),$timstamp, 0);
 				if ($this->getConfiguration('Nuit')){
 					$sunset=$heliotrope->getCmd(null,$this->getConfiguration('TypeNight'));
 					if(!is_object($sunset))
 						return false;
 					$listener->addEvent($sunset->getId());
-					$NightStart=$sunset->execCmd();
-					if($this->getConfiguration('NightMax') != '' && $NightStart > $this->getConfiguration('NightMax'))
-						$NightStart = jeedom::evaluateExpression($Volet->getConfiguration('NightMax'));
+					if($this->getConfiguration('NightMax') != '' && $sunset->execCmd() > $this->getConfiguration('NightMax'))
+						$timstamp=$this->CalculHeureEvent(jeedom::evaluateExpression($this->getConfiguration('NightMax')),false);
+					else					  
+						$timstamp=$this->CalculHeureEvent($sunset->execCmd(),'DelaisNight');	
 				}else{
 					$sunset=$heliotrope->getCmd(null,'sunset');
-					$NightStart=$sunset->execCmd();
+					$timstamp=$this->CalculHeureEvent($sunset->execCmd(),false);
 				}
-				$timstamp=$this->CalculHeureEvent($NightStart,'DelaisNight');	
 				cache::set('Volets::Nuit::'.$this->getId(),$timstamp, 0);
 				if ($this->getConfiguration('Meteo'))
 					$cron = $this->CreateCron('* * * * * *', 'GestionMeteo', array('Volets_id' => intval($this->getId())));

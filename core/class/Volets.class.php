@@ -113,30 +113,29 @@ class Volets extends eqLogic {
 		switch($Gestion){
 			case 'Jour':
 				if (!$this->getConfiguration('Jour')
-				    || ($Mode != "Nuit" && $Mode != "Manuel"))
+				    || $Mode != "Nuit")
 					return false;
 			break;
 			case 'Nuit':
-				if (!$this->getConfiguration('Nuit')
-				    || $Mode != "Manuel")
+				if (!$this->getConfiguration('Nuit'))
 					return false;
 			break;
 			case 'Absent':
 				if (!$this->getConfiguration('Absent')
-				    || ($Mode == "Nuit" && $Mode != "Manuel"))
+				    || $Mode == "Nuit")
 					return false;
 			break;
 			case 'Meteo':					
 				if (!$this->getConfiguration('Meteo')
-				    || ($Mode == "Nuit" && $Mode != "Manuel")
-				    || ($Mode == "Absent" && $Mode != "Manuel"))
+				    || $Mode == "Nuit"
+				    || $Mode == "Absent")
 					return false;
 			break;
 			case 'Azimut':
 				if (!$this->getConfiguration('Azimut')
-				    || ($Mode == "Nuit" && $Mode != "Manuel")
-				    || ($Mode == "Absent" && $Mode != "Manuel")
-				    || ($Mode == "Meteo" && $Mode != "Manuel"))
+				    || $Mode == "Nuit" 
+				    || $Mode == "Absent" 
+				    || $Mode == "Meteo")
 					return false;
 			break;
 			

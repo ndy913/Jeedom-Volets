@@ -164,15 +164,7 @@ class Volets extends eqLogic {
 		$cache = cache::byKey('Volets::ChangeState::'.$this->getId());		
 		if($cache->getValue(false)){
 			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');
-			$HauteurChange = cache::byKey('Volets::HauteurChange::'.$this->getId());		
-			if($HauteurChange->getValue(false)){
-				//log::add('Volets','info',$this->getHumanName().' : [Gestion Azimut] Nous ne mettons pas a jours l\'état');			
-				cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
-				cache::set('Volets::HauteurChange::'.$this->getId(),false, 0);
-			}else{
-				if($this->getCmd(null,'position')->execCmd() == $State)
-					cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
-			}
+			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 		}else{
 			$this->GestionManuel($State);
 		}
@@ -425,11 +417,6 @@ class Volets extends eqLogic {
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Lancement aléatoire de volet');
 		shuffle($ActionMove);
 		for($loop=0;$loop<count($ActionMove);$loop++){
-			if(isset($ActionMove[$loop]['options'])){
-				$IdRatioVertical='#'.$this->getCmd(null,"RatioVertical")->getId().'#';
-				if(array_search($IdRatioVertical, $ActionMove[$loop]['options'])!== false)
-					cache::set('Volets::HauteurChange::'.$this->getId(),true, 0);
-			}
 			$this->ExecuteAction($ActionMove[$loop],$Gestion,$Hauteur);
 			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
 		}

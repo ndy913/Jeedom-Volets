@@ -748,14 +748,14 @@ class Volets extends eqLogic {
 		$this->AddCommande("Ratio Horizontal","RatioHorizontal","info", 'numeric',1);
 		$this->AddCommande("Gestion Active","gestion","info", 'string',1);
 		$state=$this->AddCommande("Position du soleil","state","info", 'binary',1,'sunInWindows');
-		$this->checkAndUpdateCmd('state',false);
+		//$this->checkAndUpdateCmd('state',false);
 		$isInWindows=$this->AddCommande("Etat mode","isInWindows","info","binary",0,'isInWindows');
 		$inWindows=$this->AddCommande("Mode","inWindows","action","select",1,'inWindows');
 		$inWindows->setConfiguration('listValue','1|Hivers;0|Eté');
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
 		$isArmed=$this->AddCommande("Etat activation","isArmed","info","binary",0,'lock');
-		$this->checkAndUpdateCmd('isArmed',true);
+		//$this->checkAndUpdateCmd('isArmed',true);
 		$Armed=$this->AddCommande("Activer","armed","action","other",1,'lock');
 		$Armed->setValue($isArmed->getId());
 		$Armed->setConfiguration('state', '1');

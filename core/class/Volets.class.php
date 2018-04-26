@@ -111,13 +111,17 @@ class Volets extends eqLogic {
 			return false;
 		$Mode = $this->getCmd(null,'gestion')->execCmd();
 		switch($Gestion){
-			case 'Jour':
-				if (!$this->getConfiguration('Jour')
-				    || $Mode != "Nuit")
+			case 'Manuel':
+				if (!$this->getConfiguration('Manuel'))
 					return false;
 			break;
 			case 'Nuit':
 				if (!$this->getConfiguration('Nuit'))
+					return false;
+			break;
+			case 'Jour':
+				if (!$this->getConfiguration('Jour')
+				    || $Mode != "Nuit")
 					return false;
 			break;
 			case 'Absent':
@@ -243,13 +247,15 @@ class Volets extends eqLogic {
 		return true;
 	}
 	public function GestionManuel($State){
-		if($this->getConfiguration('Manuel')){
-			$Saison=$this->getSaison();
-			log::add('Volets','info','Un evenement manuel a été détécté sur le volet '.$this->getHumanName().' La gestion a été désactivé');
-			$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
-			if($Evenement != false){
-				$this->CheckRepetivite('Manuel',$Evenement,$Saison);
-				$this->checkAndUpdateCmd('isArmed',false);
+		if ($this->AutorisationAction($State,'Manuel')){	
+			if($this->getConfiguration('Manuel')){
+				$Saison=$this->getSaison();
+				log::add('Volets','info','Un evenement manuel a été détécté sur le volet '.$this->getHumanName().' La gestion a été désactivé');
+				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
+				if($Evenement != false){
+					$this->CheckRepetivite('Manuel',$Evenement,$Saison);
+					$this->checkAndUpdateCmd('isArmed',false);
+				}
 			}
 		}
 	}

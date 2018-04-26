@@ -21,5 +21,6 @@
            //jeedom.cmd.execute({id: '#id#'});
           	jeedom.cmd.execute({id: '#id#', value: {select:$(this).attr('data-value')}});
         });
+        jeedom.cmd.update['#id#']({display_value:'#state#'});
     </script>
 </div>

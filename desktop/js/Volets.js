@@ -371,7 +371,9 @@ function addCmdToTable(_cmd) {
 		.append($('<input type="hidden" class="cmdAttr form-control input-sm" data-l1key="id">'))
 		.append($('<input type="hidden" class="cmdAttr form-control input-sm" data-l1key="type">'))
 		.append($('<input type="hidden" class="cmdAttr form-control input-sm" data-l1key="subType">'))
-		.append($('<input class="cmdAttr form-control input-sm" data-l1key="name" value="' + init(_cmd.name) + '" placeholder="{{Name}}" title="Name">')));
+		.append($('<input class="tooltips cmdAttr form-control input-sm" data-l1key="name" value="' + init(_cmd.name) + '" placeholder="{{Name}}" title="Name">'))
+		.append($('<input class="tooltips cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="minValue" placeholder="{{Min}}" title="{{Min}}" >'))
+		.append($('<input class="tooltips cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="maxValue" placeholder="{{Max}}" title="{{Max}}" >')))		);
 	var parmetre=$('<td>');	
 	if (is_numeric(_cmd.id)) {
 		parmetre.append($('<a class="btn btn-default btn-xs cmdAction" data-action="test">')

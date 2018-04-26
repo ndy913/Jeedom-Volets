@@ -13,5 +13,6 @@
         $('.cmd[data-cmd_id=#id#] .action').on('click', function () {
           	jeedom.cmd.execute({id: '#id#', value: {select:$(this).attr('data-value')}});
         });
+        jeedom.cmd.update['#id#']({display_value:'#state#'});
     </script>
 </div>

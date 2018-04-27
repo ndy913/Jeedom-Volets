@@ -23,7 +23,7 @@
         }
         jeedom.cmd.update['#id#']({display_value:'#state#'});
         $('.cmd[data-cmd_uid=#uid#] .iconCmd').off().on('click', function () {
-            jeedom.cmd.execute({id: '#id#'});
+            jeedom.cmd.execute({id: '#id#', value: {select:$(this).attr('data-value')}});
         });
     </script>
 </div>

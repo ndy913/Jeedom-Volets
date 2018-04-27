@@ -100,11 +100,16 @@ class Volets extends eqLogic {
 		}
 	}
 	public function RearmementAutomatique($Evenement,$Gestion) {   
+		if($this->getCmd(null,'isArmed')->execCmd())
+			return true;
 		$Saison=$this->getSaison();
 		if($this->checkCondition($Evenement,$Saison,$Gestion,true)){
 		 	log::add('Volets','info',$this->getHumanName().' : Réarmement automatique');	
 			$this->checkAndUpdateCmd('isArmed',true);
+			cache::set('Volets::RearmementAutomatique::'.$this->getId(),true, 0);
+			return true;
 		}
+		return false;
 	}
 	public function AutorisationAction($Evenement,$Gestion) {   
 		if (!$this->getIsEnable())
@@ -144,10 +149,7 @@ class Volets extends eqLogic {
 			break;
 			
 		}
-		$this->RearmementAutomatique($Evenement,$Gestion);
-		if(!$this->getCmd(null,'isArmed')->execCmd())
-			return false;
-		return true;
+		return $this->RearmementAutomatique($Evenement,$Gestion);
 	}		
 	public function CheckRealState($Value) {   
 		$SeuilRealState=$this->getConfiguration("SeuilRealState");
@@ -247,8 +249,9 @@ class Volets extends eqLogic {
 		return true;
 	}
 	public function GestionManuel($State){
-		if ($this->AutorisationAction($State,'Manuel')){	
-			if($this->getConfiguration('Manuel')){
+		if ($this->AutorisationAction($State,'Manuel')){
+			$RearmementAutomatique = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());		
+			if($RearmementAutomatique->getValue(false)){
 				$Saison=$this->getSaison();
 				log::add('Volets','info','Un evenement manuel a été détécté sur le volet '.$this->getHumanName().' La gestion a été désactivé');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
@@ -257,6 +260,8 @@ class Volets extends eqLogic {
 					$this->checkAndUpdateCmd('isArmed',false);
 				}
 			}
+			else
+				cache::set('Volets::RearmementAutomatique::'.$this->getId(),false, 0);
 		}
 	}
 	public function GestionJour() {    
@@ -619,6 +624,18 @@ class Volets extends eqLogic {
 		$cron = cron::byClassAndFunction('Volets', 'GestionMeteo', array('Volets_id' => $this->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
+		$cache = cache::byKey('Volets::Jour::'.$this->getId());
+		if (is_object($cache)) 	
+			$cache->remove();
+		$cache = cache::byKey('Volets::Nuit::'.$this->getId());
+		if (is_object($cache)) 	
+			$cache->remove();
+		$cache = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());
+		if (is_object($cache)) 	
+			$cache->remove();	
+		$cache = cache::byKey('Volets::ChangeState::'.$this->getId());	
+		if (is_object($cache)) 	
+			$cache->remove();	
 	}
 	public function StartDemon() {
 		if($this->getIsEnable()){
@@ -781,13 +798,25 @@ class Volets extends eqLogic {
 		$this->StopDemon();
 		$this->StartDemon();
 	}	
-	public function postRemove() {
+	public function preemove() {
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
 		if (is_object($listener))
 			$listener->remove();
 		$cron = cron::byClassAndFunction('Volets', 'GestionMeteo', array('Volets_id' => $this->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
+		$cache = cache::byKey('Volets::Jour::'.$this->getId());
+		if (is_object($cache)) 	
+			$cache->remove();
+		$cache = cache::byKey('Volets::Nuit::'.$this->getId());
+		if (is_object($cache)) 	
+			$cache->remove();
+		$cache = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());
+		if (is_object($cache)) 	
+			$cache->remove();	
+		$cache = cache::byKey('Volets::ChangeState::'.$this->getId());	
+		if (is_object($cache)) 	
+			$cache->remove();			
 	}
 }
 class VoletsCmd extends cmd {

@@ -436,7 +436,7 @@ class Volets extends eqLogic {
 			$min=0;
 		if($max == '')
 			$max=100;
-		return($Value/100)*($max-$min)+$min;
+		return round(($Value/100)*($max-$min)+$min);
 		
 	}
 	public function AleatoireActions($Gestion,$ActionMove,$Hauteur){

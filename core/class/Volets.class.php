@@ -424,6 +424,15 @@ class Volets extends eqLogic {
 		$this->_inverseCondition=false;
 		return $Hauteur;
 	}
+	public function RatioEchelle($Ratio,$Value){
+		$cmd=$this->getCmd(null, $Ratio);
+		if(is_object($cmd)){
+			$min=$cmd->getConfiguration('minValue');
+			$max=$cmd->getConfiguration('maxValue');
+			return($Value/100)*($max-$min)+$min;
+		}
+		return $Value;
+	}
 	public function AleatoireActions($Gestion,$ActionMove,$Hauteur){
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Lancement aléatoire de volet');
 		shuffle($ActionMove);
@@ -442,8 +451,8 @@ class Volets extends eqLogic {
 			$Change['Position']=true;
 		if($this->getCmd(null,'RatioHorizontal')->execCmd() != $this->_RatioHorizontal)
 			$Change['Position']=true;
-		$this->checkAndUpdateCmd('RatioVertical',$RatioVertical);
-		$this->checkAndUpdateCmd('RatioHorizontal',$this->_RatioHorizontal);	
+		$this->checkAndUpdateCmd('RatioVertical',$this->RatioEchelle('RatioVertical',$RatioVertical));
+		$this->checkAndUpdateCmd('RatioHorizontal',$this->RatioEchelle('RatioHorizontal',$this->_RatioHorizontal));
 		if($this->getPosition() != $Evenement)
 			$Change['Position']=true;
 		if ($this->getConfiguration('RealState') == '')

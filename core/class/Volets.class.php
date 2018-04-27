@@ -426,12 +426,18 @@ class Volets extends eqLogic {
 	}
 	public function RatioEchelle($Ratio,$Value){
 		$cmd=$this->getCmd(null, $Ratio);
-		if(is_object($cmd)){
-			$min=$cmd->getConfiguration('minValue');
-			$max=$cmd->getConfiguration('maxValue');
-			return($Value/100)*($max-$min)+$min;
-		}
-		return $Value;
+		if(!is_object($cmd))
+			return $Value;
+		$min=$cmd->getConfiguration('minValue');
+		$max=$cmd->getConfiguration('maxValue');
+		if($min == '' && $max == '')
+			return $Value;
+		if($min == '')
+			$min=0;
+		if($max == '')
+			$max=100;
+		return($Value/100)*($max-$min)+$min;
+		
 	}
 	public function AleatoireActions($Gestion,$ActionMove,$Hauteur){
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Lancement aléatoire de volet');

@@ -1,25 +1,29 @@
-<div style="width:100px;min-height:90px;" class="cmd #history# tooltips cmd-widget" data-type="action" data-subtype="select" data-cmd_id="#id#" title="#collectDate#">
+<div style="width:90px;min-height:80px;" class="cmd tooltips cmd-widget cursor" data-type="action" data-subtype="select" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#">
     <center>
-        <p class='cmdName' style="font-weight: bold;font-size : 12px;">#name#</p>
-        <img class="action iconCmd#id#" src="plugins/Volets/core/template/images/ModeOpen.png" width="60px">
+        <div style="font-weight: bold;font-size : 12px;#hideCmdName#">#valueName#</div>
+        <img class="action iconCmd" src="plugins/Volets/core/template/images/Open.png" width="40px">
     </center>
     <script>
-        $('.iconCmd#id#').empty();
-        if ('#state#' == '1' || '#state#' == '99' || '#state#' == 'on') {
-            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeOpen.png').attr('data-value',0);
-            if (jeedom.cmd.normalizeName('#name#') == 'on') {
-                $('.cmd[data-cmd_id=#id#]').hide();
-            }
-        } else {
-            $('.iconCmd#id#').attr('src','plugins/Volets/core/template/images/ModeClose.png').attr('data-value',1);
-            if (jeedom.cmd.normalizeName('#name#') == 'off') {
-                $('.cmd[data-cmd_id=#id#]').hide();
+        jeedom.cmd.update['#id#'] = function(_options){
+             if (_options.display_value == '1' || _options.display_value == 1 || _options.display_value == '99' || _options.display_value == 99 || _options.display_value == 'on') {
+                if (jeedom.cmd.normalizeName('#name#') == 'on') {
+                    $('.cmd[data-cmd_id=#id#]').hide();
+                }else{
+                    $('.cmd[data-cmd_id=#id#]').show();
+                    $('.cmd[data-cmd_id=#id#] .iconCmd').empty().attr('src','plugins/Volets/core/template/images/ModeOpen.png').attr('data-value',0);
+                }
+            } else {
+                if (jeedom.cmd.normalizeName('#name#') == 'off') {
+                    $('.cmd[data-cmd_id=#id#]').hide();
+                }else{
+                    $('.cmd[data-cmd_id=#id#]').show();
+                    $('.cmd[data-cmd_id=#id#] .iconCmd').empty().attr('src','plugins/Volets/core/template/images/ModeClose.png').attr('data-value',1);
+                }
             }
         }
-        $('.cmd[data-cmd_id=#id#] .action').off();
-        $('.cmd[data-cmd_id=#id#] .action').on('click', function () {
-           //jeedom.cmd.execute({id: '#id#'});
-          	jeedom.cmd.execute({id: '#id#', value: {select:$(this).attr('data-value')}});
+        jeedom.cmd.update['#id#']({display_value:'#state#'});
+        $('.cmd[data-cmd_uid=#uid#] .iconCmd').off().on('click', function () {
+            jeedom.cmd.execute({id: '#id#', value: {select:$(this).attr('data-value')}});
         });
     </script>
 </div>

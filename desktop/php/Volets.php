@@ -534,6 +534,7 @@ $eqLogics = eqLogic::byType('Volets');
 					<tr>
 						<th>{{Nom}}</th>
 						<th>{{Paramètre}}</th>
+						<th></th>
 					</tr>
 					</thead>
 					<tbody></tbody>

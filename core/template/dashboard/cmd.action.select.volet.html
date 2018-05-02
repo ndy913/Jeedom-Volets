@@ -5,21 +5,11 @@
     </center>
     <script>
         jeedom.cmd.update['#id#'] = function(_options){
-            if (_options.display_value == 'open') {
-                if (jeedom.cmd.normalizeName('#name#') == 'on') {
-                    $('.cmd[data-cmd_id=#id#]').hide();
-                }else{
-                    $('.cmd[data-cmd_id=#id#]').show();
+            if (_options.display_value == '1' || _options.display_value == 1 || _options.display_value == '99' || _options.display_value == 99 || _options.display_value == 'open')
                     $('.cmd[data-cmd_id=#id#] .iconCmd').empty().attr('src','plugins/Volets/core/template/images/Open.png').attr('data-value','close');
-                }
-            } else {
-                if (jeedom.cmd.normalizeName('#name#') == 'off') {
-                    $('.cmd[data-cmd_id=#id#]').hide();
-                }else{
-                    $('.cmd[data-cmd_id=#id#]').show();
+            else 
                     $('.cmd[data-cmd_id=#id#] .iconCmd').empty().attr('src','plugins/Volets/core/template/images/Close.png').attr('data-value','open');
-                }
-            }
+            
         }
         jeedom.cmd.update['#id#']({display_value:'#state#'});
         $('.cmd[data-cmd_uid=#uid#] .iconCmd').off().on('click', function () {

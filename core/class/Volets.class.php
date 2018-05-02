@@ -179,41 +179,21 @@ class Volets extends eqLogic {
 	}
 	public function CheckOtherGestion($Gestion) {   
 		$Saison=$this->getSaison();
+		$CurrentEvenement=$this->getPosition();
 		switch($Gestion){
 			case 'Manuel':
-				$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
-				if(is_object($heliotrope)){
-					if ($this->getConfiguration('Jour') && $this->getConfiguration('Nuit')){
-						$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDay'));
-						if(!is_object($sunrise))
-							return false;
-						if($this->getConfiguration('DayMin') != '' && $sunrise->execCmd() < $this->getConfiguration('DayMin'))
-							   $DelaisDay=$this->CalculHeureEvent($this->getConfiguration('DayMin'),false);
-						else
-							$DelaisDay=$this->CalculHeureEvent($sunrise->execCmd(),'DelaisDay');
-						$sunset=$heliotrope->getCmd(null,$this->getConfiguration('TypeNight'));
-						if(!is_object($sunset))
-							return false;
-						if($this->getConfiguration('NightMax') != '' && $sunset->execCmd() > $this->getConfiguration('NightMax'))
-							   $DelaisNight=$this->CalculHeureEvent($this->getConfiguration('NightMax'),false);
-						else
-							$DelaisNight=$this->CalculHeureEvent($sunset->execCmd(),'DelaisNight');
-						if(mktime() < $DelaisDay || mktime() > $DelaisNight){
-							$Evenement=$this->checkCondition('close',$Saison,'Nuit');   		
-							if($Evenement != false && $Evenement == "close"){
-								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il fait nuit la gestion Nuit prend le relais');
-								$this->CheckRepetivite('Nuit',$Evenement,$Saison);
-								return false;
-							}
-						}
-					}
-				}
+				$Jour = cache::byKey('Volets::Jour::'.$this->getId())->getValue(mktime()-60);
+				$Nuit = cache::byKey('Volets::Nuit::'.$this->getId())->getValue(mktime()+60);
+				if(mktime() < $Jour || mktime() > $Nuit)
+					$this->GestionNuit();
+				else
+					$this->GestionJour();
 			case 'Jour':
 				if ($this->getConfiguration('Absent')){	
 					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));
 					if(is_object($Commande) && $Commande->execCmd() == false){
-						$Evenement=$this->checkCondition('close',$Saison,'Absent');   		
-						if($Evenement != false && $Evenement == "close"){
+						$Evenement=$this->checkCondition($CurrentEvenement,$Saison,'Absent');   		
+						if($Evenement != false && $Evenement == $CurrentEvenement){
 							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
 							$this->CheckRepetivite('Absent',$Evenement,$Saison);
 							return false;
@@ -222,8 +202,8 @@ class Volets extends eqLogic {
 				}
 			case 'Absent':
 				if ($this->getConfiguration('Meteo')){
-					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
-					if($Evenement != false && $Evenement == "close"){
+					$Evenement=$this->checkCondition($CurrentEvenement,$Saison,'Meteo');   		
+					if($Evenement != false && $Evenement == $CurrentEvenement){
 						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion Meteo prend le relais');
 						$this->CheckRepetivite('Meteo',$Evenement,$Saison);
 						return false;
@@ -235,7 +215,7 @@ class Volets extends eqLogic {
 					if(is_object($heliotrope)){
 						$Azimut=$heliotrope->getCmd(null,'azimuth360')->execCmd();
 						$Evenement=$this->SelectAction($Azimut,$Saison);
-						if($Evenement != false && $Evenement == 'close'){
+						if($Evenement != false && $Evenement == $CurrentEvenement){
 							$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
 							if( $Evenement!= false){
 								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion par Azimut prend le relais');

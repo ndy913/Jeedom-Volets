@@ -174,7 +174,7 @@ class Volets extends eqLogic {
 			$this->GestionManuel($State);
 		}
 		$this->setPosition($State);
-		$this->checkAndUpdateCmd('RatioVertical',$Value);
+		//$this->checkAndUpdateCmd('RatioVertical',$Value);
 	}
 	public function CheckOtherGestion($Gestion,$Evenement) {  
 		$Saison=$this->getSaison();
@@ -225,7 +225,7 @@ class Volets extends eqLogic {
 	public function GestionManuel($State){
 		if ($this->AutorisationAction($State,'Manuel')){
 			$RearmementAutomatique = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());		
-			if($RearmementAutomatique->getValue(false)){
+			if(!$RearmementAutomatique->getValue(false)){
 				$Saison=$this->getSaison();
 				log::add('Volets','info','Un evenement manuel a été détécté sur le volet '.$this->getHumanName().' La gestion a été désactivé');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
@@ -233,9 +233,10 @@ class Volets extends eqLogic {
 					$this->CheckRepetivite('Manuel',$Evenement,$Saison);
 					$this->checkAndUpdateCmd('isArmed',false);
 				}
-			}
-			else
+			}else{
 				cache::set('Volets::RearmementAutomatique::'.$this->getId(),false, 0);
+              			log::add('Volets','debug',$this->getHumanName().' Le réarmement a eu lieu on ignore l\'action manuel');
+            		}
 		}
 	}
 	public function GestionJour($force=false) {    

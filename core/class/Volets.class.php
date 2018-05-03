@@ -100,6 +100,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public function RearmementAutomatique($Evenement,$Gestion) {   
+		cache::set('Volets::RearmementAutomatique::'.$this->getId(),false, 0);
 		if($this->getCmd(null,'isArmed')->execCmd())
 			return true;
 		$Saison=$this->getSaison();
@@ -175,8 +176,9 @@ class Volets extends eqLogic {
 		$this->setPosition($State);
 		$this->checkAndUpdateCmd('RatioVertical',$Value);
 	}
-	public function CheckOtherGestion($Gestion,$CurrentEvenement) {  
+	public function CheckOtherGestion($Gestion,$Evenement) {  
 		$Saison=$this->getSaison();
+		$CurrentEvenement = $this->getCmd(null,'gestion')->execCmd();
 		switch($Gestion){
 			case 'Jour':
 				if ($this->getConfiguration('Absent')){	
@@ -193,8 +195,8 @@ class Volets extends eqLogic {
 				}
 			case 'Absent':
 				if ($this->getConfiguration('Meteo')){
-					$Evenement=$this->checkCondition($CurrentEvenement,$Saison,'Meteo');   		
-					if($Evenement != false && $Evenement == $CurrentEvenement){
+					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
+					if($Evenement != false && $Evenement == 'close'){
 						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion Meteo prend le relais');
 						$this->CheckRepetivite('Meteo',$Evenement,$Saison);
 						return false;

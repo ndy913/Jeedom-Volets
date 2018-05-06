@@ -2,7 +2,7 @@ Description
 ===
 Ce plugin a pour objectif de gérer facilement et automatiquement vos volets.
 Celui-ci est basé sur le plugin Héliotrope qui est un prérequis pour son utilisation.
-> Avant l'utilisation de se plugin bien verifier le fonctionnement du plugin Heliotrope.
+> Avant l'utilisation de se plugin bien vérifier le fonctionnement du plugin Heliotrope.
 
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets au lever du soleil et à la tombée de la nuit,
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de la position du soleil,

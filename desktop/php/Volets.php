@@ -438,37 +438,37 @@ $eqLogics = eqLogic::byType('Volets');
 						<tr>
 							<th style="width: 100px;">{{Sur Action}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Si cochée, alors la condition sera tester avant l'execution d'action}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Si cochée, alors la condition sera testée avant l'execution d'action}}"></i>
 								</sup>
 							</th>
 							<th style="width: 100px;">{{Sur Réactivation (BETA)}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Si cochée, alors la condition sera tester pour un réarmement automatique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Si cochée, alors la condition sera testée pour un réarmement automatique}}"></i>
 								</sup>
 							</th>
 							<th style="width: 100px;">{{Inverser l'action}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Si cochée, et si la condition est fausse alors le plugin tester l'action inverse}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Si cochée, et si la condition est fausse alors le plugin testera l'action inverse}}"></i>
 								</sup>
 							</th>
 							<th>{{Condition}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Saisir la condition a tester}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Saisir la condition à tester}}"></i>
 								</sup>
 							</th>
 							<th style="width: 150px;">{{Type de gestion}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les gestions ou la condition s'applique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les gestions où la condition s'applique}}"></i>
 								</sup>
 							</th>
 							<th style="width: 150px;">{{Saison}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les saisons ou la condition s'applique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les saisons où la condition s'applique}}"></i>
 								</sup>
 							</th>
 							<th style="width: 150px;">{{Action}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les actiohs ou la condition s'applique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les actions où la condition s'applique}}"></i>
 								</sup>
 							</th>
 						</tr>
@@ -500,27 +500,27 @@ $eqLogics = eqLogic::byType('Volets');
 							</th>
 							<th style="width: 100px;">{{Mouvement}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Cocher si l'action déclanche un mouvement}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Cocher si l'action déclenche un mouvement}}"></i>
 								</sup>
 							</th>
 							<th>{{Action}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Saisir l'action et ses parametres}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Saisir l'action et ses paramètres}}"></i>
 								</sup>
 							</th>
 							<th style="width: 150px;">{{Type de gestion}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les gestions ou l'action s'applique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les gestions où l'action s'applique}}"></i>
 								</sup>
 							</th>
 							<th style="width: 150px;">{{Saison}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les saisons ou l'action s'applique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les saisons où l'action s'applique}}"></i>
 								</sup>
 							</th>
 							<th style="width: 150px;">{{Action}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les actiohs ou l'action s'applique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les actions où l'action s'applique}}"></i>
 								</sup>
 							</th>
 						</tr>

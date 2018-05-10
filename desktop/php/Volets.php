@@ -40,7 +40,7 @@ $eqLogics = eqLogic::byType('Volets');
 				<center>
 			      		<i class="fa fa-check" style="font-size : 5em;color:#767676;"></i>
 			    	</center>
-			    	<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#767676"><center>Configuration</center></span>
+			    	<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#767676"><center>Testeur d'expressions</center></span>
 			</div>
 		</div>
 		<legend>{{Mes zones}}</legend>
@@ -48,7 +48,7 @@ $eqLogics = eqLogic::byType('Volets');
 		<div class="eqLogicThumbnailContainer">
 			<?php	
 			if (count($eqLogics) == 0) {
-				echo "<br/><br/><br/><center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez pas encore de module KNX, cliquez sur Ajouter pour commencer}}</span></center>";
+				echo "<br/><br/><br/><center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez pas encore de zones, cliquez sur Ajouter pour commencer}}</span></center>";
 			} else {
 				foreach ($eqLogics as $eqLogic) {
 					$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');

@@ -166,8 +166,11 @@ class Volets extends eqLogic {
 				$State='close';
 		}
 		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
-		$cache = cache::byKey('Volets::ChangeState::'.$this->getId());		
-		if($cache->getValue(false)){
+		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
+			if(cache::byKey('Volets::ChangeDynamicState::'.$this->getId())->getValue(false)){
+				$State=cache::byKey('Volets::CurrentState::'.$this->getId())->getValue('close');
+				cache::set('Volets::ChangeDynamicState::'.$this->getId(),true, 0);
+			}
 			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');
 			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 		}else{
@@ -447,6 +450,7 @@ class Volets extends eqLogic {
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
 		$ActionMove=null;
 		foreach($this->getConfiguration('action') as $Cmd){	
+			cache::set('Volets::CurrentState::'.$this->getId(),$Evenement, 0);
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
 				continue;
 			if($Cmd['isVoletMove']){
@@ -476,8 +480,11 @@ class Volets extends eqLogic {
 		} catch (Exception $e) {
 			log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$Gestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . jeedom::toHumanReadable($Cmd['cmd']) . __('. Détails : ', __FILE__) . $e->getMessage());
 		}
-		if($Cmd['isVoletMove'])
+		if($Cmd['isVoletMove']){
+			if(count($options) >0)
+				cache::set('Volets::ChangeDynamicState::'.$this->getId(),true, 0);
 			cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
+		}
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {
 		if(strlen($HeureStart)==3)

@@ -426,6 +426,8 @@ class Volets extends eqLogic {
 		}
 	}
 	public function CheckRepetivite($Gestion,$Evenement,$Saison){
+		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
+			return;
 		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
 		if($this->getPosition() == $Evenement && $this->getCmd(null,'gestion')->execCmd() == $Gestion && $this->getCmd(null,'RatioVertical')->execCmd() == $Hauteur)
 			return;
@@ -476,14 +478,14 @@ class Volets extends eqLogic {
 					$options[$key]=jeedom::evaluateExpression($option);
 			}
 			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
+			if($Cmd['isVoletMove']){
+				if(count($options) >0)
+					cache::set('Volets::ChangeDynamicState::'.$this->getId(),true, 0);
+				cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
+			}
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.jeedom::toHumanReadable($Cmd['cmd']).' ('.json_encode($options).')');
 		} catch (Exception $e) {
 			log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$Gestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . jeedom::toHumanReadable($Cmd['cmd']) . __('. Détails : ', __FILE__) . $e->getMessage());
-		}
-		if($Cmd['isVoletMove']){
-			if(count($options) >0)
-				cache::set('Volets::ChangeDynamicState::'.$this->getId(),true, 0);
-			cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 		}
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {

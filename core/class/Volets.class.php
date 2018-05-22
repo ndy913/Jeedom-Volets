@@ -167,10 +167,10 @@ class Volets extends eqLogic {
 		}
 		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
-			if(cache::byKey('Volets::ChangeDynamicState::'.$this->getId())->getValue(false)){
+			/*if(cache::byKey('Volets::ChangeDynamicState::'.$this->getId())->getValue(false)){
 				$State=cache::byKey('Volets::CurrentState::'.$this->getId())->getValue('close');
 				cache::set('Volets::ChangeDynamicState::'.$this->getId(),true, 0);
-			}
+			}*/
 			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');
 			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 		}else{
@@ -443,7 +443,7 @@ class Volets extends eqLogic {
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
 			return;
 		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
-		if($this->getPosition() == $Evenement && $this->getCmd(null,'gestion')->execCmd() == $Gestion && $this->getCmd(null,'RatioVertical')->execCmd() == $Hauteur)
+		if($this->getPosition() == $Evenement && $this->getCmd(null,'gestion')->execCmd() == $Gestion && $this->getCmd(null,'RatioVertical')->execCmd() == $RatioVertical)
 			return;
 		$Change['Position']=false;
 		$Change['Gestion']=false;
@@ -466,7 +466,7 @@ class Volets extends eqLogic {
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
 		$ActionMove=null;
 		foreach($this->getConfiguration('action') as $Cmd){	
-			cache::set('Volets::CurrentState::'.$this->getId(),$Evenement, 0);
+			//cache::set('Volets::CurrentState::'.$this->getId(),$Evenement, 0);
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
 				continue;
 			if($Cmd['isVoletMove']){
@@ -493,8 +493,8 @@ class Volets extends eqLogic {
 			}
 			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
 			if($Cmd['isVoletMove']){
-				if(count($options) >0)
-					cache::set('Volets::ChangeDynamicState::'.$this->getId(),true, 0);
+				/*if(count($options) >0)
+					cache::set('Volets::ChangeDynamicState::'.$this->getId(),true, 0);*/
 				cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 			}
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.jeedom::toHumanReadable($Cmd['cmd']).' ('.json_encode($options).')');

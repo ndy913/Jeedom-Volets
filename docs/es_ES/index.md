@@ -2,7 +2,7 @@ Description
 ===
 Ce plugin a pour objectif de gérer facilement et automatiquement vos volets.
 Celui-ci est basé sur le plugin Héliotrope qui est un prérequis pour son utilisation.
-> Avant l'utilisation de se plugin bien verifier le fonctionnement du plugin Heliotrope.
+> Avant l'utilisation de se plugin bien vérifier le fonctionnement du plugin Heliotrope.
 
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets au lever du soleil et à la tombée de la nuit,
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de la position du soleil,
@@ -17,6 +17,16 @@ Pour chaque équipement, le plugin va créer des commandes.
 
 ![introduction01](../images/Volets_screenshot_Widget.jpg)
 
+* `Activer` / `Désactiver` => `Etat activation` : Permet de gere l'armement du plugin par une voie externe (scénario, plugins, ...)
+* `Etat du volet`: Etat determinant si le volet doit etre ouvert ou fermer
+* `Position du volet`: Mise a jour de l'état
+* `Position du soleil` : Détermine si le soleil est dans la fenêtre ou non
+* `Ratio Horizontal` : Estimation par le plugin du ratio d'ouverture Horizontal
+* `Ratio Vertical` : Estimation par le plugin du ratio d'ouverture Vertical
+* `Mode` : Determine dans quel Mode (Saison) fonctionne le plugin 
+* `Etat mode` : Représentation du mode actif
+* `Gestion Active` : Indicateur de gestion en cours d'utilisation
+
 
 Gestion Active
 ---
@@ -27,7 +37,7 @@ Cette commande permet de déterminer quelle gestion est en cours actuellement.
 * `Nuit` : il fait nuit, toutes les autres gestions sont désactivées.
 * `Abscent` : il n'y a personne à la maison, on ferme les volets. La gestion de présence interdit toutes autres actions hormis la `Nuit`.
 * `Meteo` : si toutes les conditions météo sont vérifiées, on ferme les volets. La gestion météo interdit toutes autres gestions hormis la gestion `Nuit`.
-* `Azimut` : si le soleil est dans lé fenêtre, on ferme les volets. La gestion par azimuth autorise toutes autres gestions. 
+* `Azimut` : si le soleil est dans la fenêtre, on ferme les volets. La gestion par azimuth autorise toutes autres gestions. 
 
 La position du volet et son état
 ---
@@ -45,10 +55,12 @@ C'est à vous de déterminer à quel moment il faut gérer ce changement.
 ![introduction01](../images/ModeClose.png)
 
 L'icône ci-dessus montre le mode "été", le volet est fermé lorsque le soleil est dans la fenêtre.
+Le volet se fermera pour garder la fraicheur.
 
 ![introduction01](../images/ModeOpen.png)
 
 L'icône ci-dessus montre le mode "hiver", le volet est ouvert lorsque le soleil est dans la fenêtre.
+Le volet s'ouvrira pour accumuler la chaleur
 
 la position du soleil
 ---
@@ -93,8 +105,8 @@ Configuration générale Jeedom
 
 ### Gestion de l'etat reel
 
-* `Objet etat réel` : Commande Jeedom permetant de définir l'etat réel du volet
-* `Hauteur de fermeture` : Seuil de la hauteur de l'etat reel séparant l'ouverture de la fermeture
+* `Objet etat réel` : Commande Jeedom permetant de définir l'état réel du volet
+* `Hauteur de fermeture` : Seuil de la hauteur de l'état réel séparant l'ouverture de la fermeture
 
 Gestion du lever et coucher du soleil
 ---
@@ -106,23 +118,21 @@ Il faut activer la gestion pour faire apparaitre les champs de configuration sp�
 ### Général
 
 * `Ouverture et fermeture aléatoire` : Si vous avez plusieurs volet sur la zone et que vous souhaitez un ouverture aléatoire (Attention il est impératif que les action de mouvement soit renseigné dans les action)
-* `Délai maximal du mode aléatoire (s)` : Delais maximal qui sera appliqué entre chaque execution de mouvement aléatoire
+* `Délai maximal du mode aléatoire (s)` : Délais maximal qui sera appliqué entre chaque exécution de mouvement aléatoire
 
 ### Gestion du jour
 
-* `Réarmement automatique ` : Ce parametre autorise le plugin a se rearmer automatiquement lors de la gestion de jour
 * `Heure d'ouverture minimum` : Permet d'imposer au plugin un heure minimum a partir de laquel le plugin ne tiendra plus compte de l'heure du lever du soleil 
 * `Type de lever du soleil` : permet de choisir quel type d'horaire vous voulez pour le lever du jour
 * `Délai au lever du jour (min)` : délai avant (-) ou après (+) l'heure du lever du jour
 
 ### Gestion de la nuit
 
-* `Réarmement automatique ` : Ce parametre autorise le plugin a se rearmer automatiquement lors de la gestion de nuit
 * `Heure de fermeture maximum` :  Permet d'imposer au plugin un heure maximum a partir de laquel le plugin ne tiendra plus compte de l'heure du coucher du soleil 
 * `Type de coucher du soleil` : permet de choisir quel type d'horaire vous voulez pour la tombée de la nuit
 * `Délai à la tombée de la nuit (min)` : délai avant (-) ou après (+) l'heure de la tombée de la nuit
 
-Il est important que ses 2 gestions fonctionne ensemble.
+Il est important que ses 2 gestions fonctionnent ensemble.
 Si la gestion de Jour n'est pas activé le plugin restera en gestion de Nuit.
 
 Pour compléter cette gestion, il est possible d'ajouter des conditions.
@@ -153,7 +163,7 @@ Lorsque la gestion de presence détecte une absence, toutes les autres gestions 
 
 Gestion Météo
 ---
-La gestion météo verifie toutes les minutes les conditions enregistrées.
+La gestion météo vérifie toutes les minutes les conditions enregistrées.
 Si toutes les conditions que vous avez complétées sont valides, alors l'ordre de fermeture sera donné et toutes les autres gestions hormis la gestion de la nuit sont inactives.
 
 Gestion par Azimut
@@ -181,27 +191,28 @@ J'ajouterai donc une condition de ce type.
 
 ![introduction01](../images/ConditionTemps.jpg)
 
-Conditions d'exécution
+
+Conditions d'exécution et de réarmeent
 ---
 
 Afin d'affiner tous les cas d'utilisation de gestion de nos volets, nous pouvons ajouter des conditions.
 
 ![introduction01](../images/Volets_screenshot_ConfigurationCondition.jpg)
 
+Paramètres complémentaires :
+* `Sur Action` : Permet d'identifier les conditions à tester pour executer une action   
+* `Sur Réactivation` :  Permet d'identifier les conditions à tester pour rearmer le plugin automatiquement
+* `Inverser l'action` : Permet de relancer une évaluation des conditions avec un position inverse du volet  
+* `Condition` : Saisir votre contions. L'ensemble de condion forme un ET logique
+* `Type de gestion` : sélectionner toutes les gestions où la condition doit être vérifiée (avec la touche `Ctrl`)
+* `Mode` : sélectionner tous les modes où la condition doit être vérifiée (avec la touche `Ctrl`)
+* `Action` : sélectionner toutes les actions où la condition doit être vérifiée (avec la touche `Ctrl`)
 
 Pour vous aider à la configuration des conditions, un éditeur est ajouté.
 
 ![introduction01](../images/ConfigurationConditionEditeur.jpg)
 
 ![introduction01](../images/ConfigurationConditionEditeur2.jpg)
-
-
-Paramètres complémentaires :
-
-* `Inverser l'état si faux` : permet de relancer une évaluation des conditions avec un position inverse du volet
-* `Type de gestion` : sélectionner toutes les gestions où la condition doit être vérifiée (avec la touche `Ctrl`)
-* `Mode` : sélectionner tous les modes où la condition doit être vérifiée (avec la touche `Ctrl`)
-* `Action` : sélectionner toutes les actions où la condition doit être vérifiée (avec la touche `Ctrl`)
 
 Pour que chaque condition soit validée et les actions éxécutées, ces paramètres doivent être validés.
 
@@ -215,13 +226,16 @@ Choisissez les actions à mener sans oublier de configurer leurs valeurs.
 
 Paramètres complémentaires:
 
-* `Activer si l'action execute un mouvement du volet` : Permet de determiner quel action execute une commande de volet
-* `Type de gestion` : sélectionner toutes les gestions où l'action doit être exécutée (avec la touche `Ctrl`)
-* `Mode` : sélectionner tous les modes où l'action doit être exécutée (avec la touche `Ctrl`)
-* `Action` : Sélectionner toutes les actions où l'action doit être exécutée (avec la touche `Ctrl`)
+* `Activation` : Permet d'activer ou non l'action
+* `Mouvement` : Permet de déterminer si l'action est une action de mouvement et donnera un retour d'état.
+* `Type de gestion` : sélectionner toutes les gestions où l'action doit être exécutée (avec la touche `Ctrl`).
+* `Action` : Saisir / choisir votre commande. Il est possible de saisir des opération arithmétique dans les options.
+* `Mode` : sélectionner tous les modes où l'action doit être exécutée (avec la touche `Ctrl`).
+* `Action` : Sélectionner toutes les actions où l'action doit être exécutée (avec la touche `Ctrl`).
 
 Pour la gestion azimut en été, le plugin calcul la hauteur du volet pour que le rayonnement du soleil soit masqué.
-Pour utiliser la commande hauteur dans une action du plugin, il suffit de mettre en valeur le tag #Hauteur#
+Si vous souhaitez utiliser les commandes de ration il suffit de les sélectionner en action.
+Mettre à jours sa valeur
 
 FAQ
 ===
@@ -230,13 +244,21 @@ FAQ
 > Verifier que la gestion de jours est activé
 
 **Le plugin reste en mode manuel**
-> Pour sortir du mode manuel il faut rearmer **Manuellement ou par scénario** le plugin.
+> Pour sortir du mode manuel il faut réarmer **Manuellement ou par scénario** le plugin.
 
 **Je ne veux pas que mes volets s'ouvre le matin avant 10h**
-> Pour cela il faut ajouté une condition sur la gestion jour
+> Pour cela il faut ajouter une condition sur la gestion jour
 
 **Mes Volets ne se bouge plus**
 > Verifier que la gestion manuel ne soit pas active
 
 **Le cadenas est ouvert, mais le plugin contiue a analysé les inforamtion d'héliotrope**
-> Le plugin est désarmé, mais le plugin continue a mettre a jours ses parametres 
+> Le plugin est désarmé, mais le plugin continue de mettre à jours ses paramètres 
+
+**Je suis passée en mode manuel dans la journée, comment réarmer automatiquement le plugin**
+> Pour le réarmement automatique il est nécessaire d'ajouter une condition de réarmement sur la gestion et le mouvement profuit.
+Par exemple pour le réarmement en gestion de nuit, je vais ajouter une condition du style #time# ++ 2000 en gestion de nuit et sur la fermeture
+
+**J'ai configuré ma gestion Azimut avec le ratio mais il fait tros de mouvement**
+> Il est possible de limiter les mouvements avec une formule dans les options.
+![introduction01](../images/ActionRatioLimite.png)

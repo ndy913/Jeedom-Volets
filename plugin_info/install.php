@@ -17,6 +17,24 @@ function Volets_update(){
 		$cron = cron::byClassAndFunction('Volets', 'GestionMeteo', array('Volets_id' => $Volet->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
+		$Commande=$Volet->getCmd(null,"hauteur");
+		if (is_object($Commande)){
+			$Commande->setName("Ratio Vertical");
+			$Commande->setLogicalId("RatioVertical");
+			$Commande->save();
+		}
+		$Commande=$Volet->getCmd(null,"RatioVertical");
+		if (is_object($Commande)){
+			$Cmds=$Volet->getConfiguration('action');
+			for($loop=0;$loop<count($Cmds);$loop++){	
+				if(isset($Cmds[$loop]['options'])){
+					if(array_search('#Hauteur#', $Cmds[$loop]['options'])!== false){
+						$Cmds[$loop]['options']=str_replace('#Hauteur#','#'.$Commande->getId().'#',$Cmds[$loop]['options']);
+					}
+				}
+			}
+		}
+		$Volet->setConfiguration('action',$Cmds);
 		$Volet->save();
 	}
 	log::add('Volets','debug','Fin du script de mise a jours');

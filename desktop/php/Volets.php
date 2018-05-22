@@ -31,16 +31,16 @@ $eqLogics = eqLogic::byType('Volets');
 				<span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#406E88"><center>{{Ajouter}}</center></span>
 			</div>
 			<div class="cursor eqLogicAction" data-action="gotoPluginConf" style="height: 120px; margin-bottom: 10px; padding: 5px; border-radius: 2px; width: 160px; margin-left: 10px; position: absolute; left: 170px; top: 0px; background-color: rgb(255, 255, 255);">
-				<center>
+				    <center>
 			      		<i class="fa fa-wrench" style="font-size : 5em;color:#767676;"></i>
 			    	</center>
 			    	<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#767676"><center>Configuration</center></span>
 			</div>
 			<div class="cursor bt_showExpressionTest" style="height: 120px; margin-bottom: 10px; padding: 5px; border-radius: 2px; width: 160px; margin-left: 10px; position: absolute; left: 170px; top: 0px; background-color: rgb(255, 255, 255);">
-				<center>
+				  <center>
 			      		<i class="fa fa-check" style="font-size : 5em;color:#767676;"></i>
-			    	</center>
-			    	<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#767676"><center>Configuration</center></span>
+			    </center>
+			    <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#767676"><center>Testeur d'expressions</center></span>
 			</div>
 		</div>
 		<legend>{{Mes zones}}</legend>
@@ -48,7 +48,7 @@ $eqLogics = eqLogic::byType('Volets');
 		<div class="eqLogicThumbnailContainer">
 			<?php	
 			if (count($eqLogics) == 0) {
-				echo "<br/><br/><br/><center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez pas encore de module KNX, cliquez sur Ajouter pour commencer}}</span></center>";
+				echo "<br/><br/><br/><center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez pas encore de zones, cliquez sur Ajouter pour commencer}}</span></center>";
 			} else {
 				foreach ($eqLogics as $eqLogic) {
 					$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
@@ -317,16 +317,6 @@ $eqLogics = eqLogic::byType('Volets');
 						<legend>Gestion Jour</legend>
 						<fieldset>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Réarmement automatique}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="{{Réarmer automatiquement les gestions au lever du jour}}"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoArmDay" />
-								</div>
-							</div>	
-							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Heure d'ouverture minimum (HHMM)}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="{{Si le soleil se lève avant, l'heure d'ouverture sera ce paramètre}}"></i>
@@ -368,16 +358,6 @@ $eqLogics = eqLogic::byType('Volets');
 					<form class="form-horizontal">
 						<legend>Gestion Nuit</legend>
 						<fieldset>
-							<div class="form-group">
-								<label class="col-sm-2 control-label">{{Réarmement automatique}}
-									<sup>
-										<i class="fa fa-question-circle tooltips" title="{{Réarmer automatiquement les gestions au coucher du soleil}}"></i>
-									</sup>
-								</label>
-								<div class="col-sm-5">
-									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autoArmNight" />
-								</div>
-							</div>	
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Heure de fermeture maximum (HHMM)}}
 									<sup>
@@ -458,37 +438,37 @@ $eqLogics = eqLogic::byType('Volets');
 						<tr>
 							<th style="width: 100px;">{{Sur Action}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Si cochée, alors la condition sera tester avant l'execution d'action}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Si cochée, alors la condition sera testée avant l'execution d'action}}"></i>
 								</sup>
 							</th>
 							<th style="width: 100px;">{{Sur Réactivation (BETA)}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Si cochée, alors la condition sera tester pour un réarmement automatique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Si cochée, alors la condition sera testée pour un réarmement automatique}}"></i>
 								</sup>
 							</th>
 							<th style="width: 100px;">{{Inverser l'action}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Si cochée, et si la condition est fausse alors le plugin tester l'action inverse}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Si cochée, et si la condition est fausse alors le plugin testera l'action inverse}}"></i>
 								</sup>
 							</th>
 							<th>{{Condition}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Saisir la condition a tester}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Saisir la condition à tester}}"></i>
 								</sup>
 							</th>
 							<th style="width: 150px;">{{Type de gestion}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les gestions ou la condition s'applique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les gestions où la condition s'applique}}"></i>
 								</sup>
 							</th>
 							<th style="width: 150px;">{{Saison}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les saisons ou la condition s'applique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les saisons où la condition s'applique}}"></i>
 								</sup>
 							</th>
 							<th style="width: 150px;">{{Action}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les actiohs ou la condition s'applique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les actions où la condition s'applique}}"></i>
 								</sup>
 							</th>
 						</tr>
@@ -520,27 +500,27 @@ $eqLogics = eqLogic::byType('Volets');
 							</th>
 							<th style="width: 100px;">{{Mouvement}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Cocher si l'action déclanche un mouvement}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Cocher si l'action déclenche un mouvement}}"></i>
 								</sup>
 							</th>
 							<th>{{Action}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Saisir l'action et ses parametres}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Saisir l'action et ses paramètres}}"></i>
 								</sup>
 							</th>
 							<th style="width: 150px;">{{Type de gestion}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les gestions ou l'action s'applique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les gestions où l'action s'applique}}"></i>
 								</sup>
 							</th>
 							<th style="width: 150px;">{{Saison}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les saisons ou l'action s'applique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les saisons où l'action s'applique}}"></i>
 								</sup>
 							</th>
 							<th style="width: 150px;">{{Action}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les actiohs ou l'action s'applique}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Sélectionner les actions où l'action s'applique}}"></i>
 								</sup>
 							</th>
 						</tr>
@@ -554,6 +534,7 @@ $eqLogics = eqLogic::byType('Volets');
 					<tr>
 						<th>{{Nom}}</th>
 						<th>{{Paramètre}}</th>
+						<th></th>
 					</tr>
 					</thead>
 					<tbody></tbody>

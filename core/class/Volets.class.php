@@ -273,14 +273,21 @@ class Volets extends eqLogic {
 		if (is_object($Volet) && $Volet->AutorisationAction('close','Meteo')){
 			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Meteo] : Exécution de la gestion météo');
 			$Saison=$Volet->getSaison();
-			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');   		
-			if($Evenement== false && $Volet->getCmd(null,'gestion')->execCmd()=='Meteo'){
-				if(!$Volet->CheckOtherGestion('Meteo',$Evenement))
-					return;
-				$Evenement=$Volet->checkCondition('open',$Saison,'Meteo');   	
-			} 
-			if($Evenement != false)
+			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');   
+			if( $Evenement != false ){
+				if($Evenement != 'close' ){
+					if(!$Volet->CheckOtherGestion('Meteo',$Evenement))
+						return;	
+					$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(0);
+					$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(0);
+					if(mktime() < $Jour || mktime() > $Nuit)
+						$Volet->GestionNuit();
+					else
+						$Volet->GestionJour();
+					return;	
+				}
 				$Volet->CheckRepetivite('Meteo',$Evenement,$Saison);
+			}
 		}
 	}
   	public function GestionAbsent($Etat,$force=false) {
@@ -291,10 +298,17 @@ class Volets extends eqLogic {
 		if ($this->AutorisationAction($Evenement,'Absent') || $force){
 			$Saison=$this->getSaison();
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Absent');
-			if( $Evenement!= false ){
-				if($Evenement!= 'close' ){
+			if( $Evenement != false ){
+				if($Evenement != 'close' ){
 					if(!$this->CheckOtherGestion('Absent',$Evenement))
 						return;	
+					$Jour = cache::byKey('Volets::Jour::'.$this->getId())->getValue(0);
+					$Nuit = cache::byKey('Volets::Nuit::'.$this->getId())->getValue(0);
+					if(mktime() < $Jour || mktime() > $Nuit)
+						$this->GestionNuit();
+					else
+						$this->GestionJour();
+					return;	
 				}
 				$this->CheckRepetivite('Absent',$Evenement,$Saison);
 			}

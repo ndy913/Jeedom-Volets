@@ -72,8 +72,12 @@ class Volets extends eqLogic {
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
-						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la position du soleil');	
+						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'azimut du soleil');	
 						$Volet->GestionAzimute($_option['value']);
+					break;
+					case 'altitude':
+						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'altitude du soleil');	
+						$Volet->checkAltitude($_option['value']);
 					break;
 					case $Volet->getConfiguration('TypeDay'):
 						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');
@@ -414,7 +418,7 @@ class Volets extends eqLogic {
 		elseif($Evenement == 'close')
 			$Hauteur=0;
 		if ($Gestion == 'Azimut' && $Saison != 'hiver' && $this->getCmd(null,'state')->execCmd() && !$this->_inverseCondition)
-			$Hauteur=$this->checkAltitude();
+			$Hauteur=cache::byKey('Volets::HauteurAlt::'.$this->getId())->getValue(0);
 		if($this->getConfiguration('InverseHauteur'))
 			$Hauteur=100-$Hauteur;
 		$this->_inverseCondition=false;
@@ -628,22 +632,15 @@ class Volets extends eqLogic {
 		}
 		return floatval($angle % 360);
 	}
-	public function checkAltitude() { 
-		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
-		if(is_object($heliotrope)){
-			$Altitude =$heliotrope->getCmd(null,'altitude');
-			if(!is_object($Altitude))
-				return false;
-			if (!$heliotrope->getConfiguration('zenith', '')) {
-			    $zenith = '90.58';
-			} else {
-			    $zenith = $heliotrope->getConfiguration('zenith', '');
-			}
-			$Hauteur=round($Altitude->execCmd()*100/$zenith);
-			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');
-			return $Hauteur;
+	public function checkAltitude($Altitude) { 
+		if (!$heliotrope->getConfiguration('zenith', '')) {
+		    $zenith = '90.58';
+		} else {
+		    $zenith = $heliotrope->getConfiguration('zenith', '');
 		}
-		return false;
+		$Hauteur=round($Altitude->execCmd()*100/$zenith);
+		log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');
+		cache::set('Volets::HauteurAlt::'.$this->getId(),$Hauteur,0);
 	}
 	public function StopDemon(){
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
@@ -699,6 +696,7 @@ class Volets extends eqLogic {
 						$this->setPosition($State);
 					}
 				}
+				$listener->addEvent($heliotrope->getCmd(null,'altitude')->getId());
 				if ($this->getConfiguration('Azimut'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
 				if ($this->getConfiguration('Absent'))

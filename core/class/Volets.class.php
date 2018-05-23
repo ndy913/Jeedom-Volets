@@ -633,7 +633,7 @@ class Volets extends eqLogic {
 	}
 	public function checkAltitude($Altitude) { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
--		if(!is_object($heliotrope))
+		if(!is_object($heliotrope))
 			return;
 		$zenith = $heliotrope->getConfiguration('zenith','90.58');
 		$Hauteur=round($Altitude->execCmd()*100/$zenith);

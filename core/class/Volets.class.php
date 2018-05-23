@@ -417,7 +417,7 @@ class Volets extends eqLogic {
 		elseif($Evenement == 'close')
 			$Hauteur=0;
 		if ($Gestion == 'Azimut' && $Saison != 'hiver' && $this->getCmd(null,'state')->execCmd() && !$this->_inverseCondition)
-			$Hauteur=cache::byKey('Volets::HauteurAlt::'.$this->getId())->getValue(0);
+			$Hauteur=$this->checkAltitude();
 		if($this->getConfiguration('InverseHauteur'))
 			$Hauteur=100-$Hauteur;
 		$this->_inverseCondition=false;
@@ -631,15 +631,21 @@ class Volets extends eqLogic {
 		}
 		return floatval($angle % 360);
 	}
-	public function checkAltitude($Altitude) { 
-		/*$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
-		if(!is_object($heliotrope))
-			return;
-		$zenith = intval($heliotrope->getConfiguration('zenith','90.58'));*/
-		$zenith =90.58;
-		$Hauteur=round($Altitude->execCmd()*100/$zenith);
-		log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');
-		cache::set('Volets::HauteurAlt::'.$this->getId(),$Hauteur,0);
+	public function checkAltitude() { 
+		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));	
+		if(is_object($heliotrope)){	
+			$Altitude =$heliotrope->getCmd(null,'altitude');	
+			if(!is_object($Altitude))	  
+				return false;	
+			if (!$heliotrope->getConfiguration('zenith', '')) {	
+			    $zenith = '90.58';	
+			} else {	
+			    $zenith = $heliotrope->getConfiguration('zenith', '');	
+			}	
+			$Hauteur=round($Altitude->execCmd()*100/$zenith);	
+			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');	
+			return $Hauteur;
+		}
 	}
 	public function StopDemon(){
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
@@ -695,7 +701,7 @@ class Volets extends eqLogic {
 						$this->setPosition($State);
 					}
 				}
-				$listener->addEvent($heliotrope->getCmd(null,'altitude')->getId());
+				//$listener->addEvent($heliotrope->getCmd(null,'altitude')->getId());
 				if ($this->getConfiguration('Azimut'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
 				if ($this->getConfiguration('Absent'))

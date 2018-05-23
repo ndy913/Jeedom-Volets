@@ -173,10 +173,8 @@ class Volets extends eqLogic {
 		}
 		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
-			/*if(cache::byKey('Volets::ChangeDynamicState::'.$this->getId())->getValue(false)){
-				$State=cache::byKey('Volets::CurrentState::'.$this->getId())->getValue('close');
-				cache::set('Volets::ChangeDynamicState::'.$this->getId(),true, 0);
-			}*/
+			if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
+				return;
 			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');
 			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 		}else{
@@ -437,11 +435,11 @@ class Volets extends eqLogic {
 		return round(($Value/100)*($max-$min)+$min);
 		
 	}
-	public function AleatoireActions($Gestion,$ActionMove,$Hauteur){
+	public function AleatoireActions($Gestion,$ActionMove,$Evenement){
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Lancement aléatoire de volet');
 		shuffle($ActionMove);
 		for($loop=0;$loop<count($ActionMove);$loop++){
-			$this->ExecuteAction($ActionMove[$loop],$Gestion,$Hauteur);
+			$this->ExecuteAction($ActionMove[$loop],$Gestion);
 			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
 		}
 	}
@@ -472,7 +470,6 @@ class Volets extends eqLogic {
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
 		$ActionMove=null;
 		foreach($this->getConfiguration('action') as $Cmd){	
-			//cache::set('Volets::CurrentState::'.$this->getId(),$Evenement, 0);
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
 				continue;
 			if($Cmd['isVoletMove']){
@@ -481,29 +478,40 @@ class Volets extends eqLogic {
 					continue;
 				}
 				if($Change['Position'])
-					$this->ExecuteAction($Cmd,$Gestion);
+					$this->ExecuteAction($Cmd,$Gestion,$Evenement);
 			} else {
 				if($Change['Gestion'] || $Change['Position'])
-					$this->ExecuteAction($Cmd,$Gestion);
+					$this->ExecuteAction($Cmd,$Gestion,$Evenement);
 			}
 		}
 		if($this->getConfiguration('RandExecution') && $ActionMove != null)
-			$this->AleatoireActions($Gestion,$ActionMove);
+			$this->AleatoireActions($Gestion,$ActionMove,$Evenement);
 	}
-	public function ExecuteAction($Cmd,$Gestion){		
+	public function ExecuteAction($Cmd,$Gestion,$Evenement){		
 		try {
 			$options = array();
 			if(isset($Cmd['options'])){
-				foreach($Cmd['options'] as $key => $option)
+				foreach($Cmd['options'] as $key => $option){
 					$options[$key]=jeedom::evaluateExpression($option);
+					if($key == 'slider'){
+						if($Cmd['isVoletMove']){
+							cache::set('Volets::CurrentState::'.$this->getId(),$options[$key], 0);
+						}
+					}
+				}
+			}else{
+				if($Cmd['isVoletMove']){
+					if($Evenement == 'open')
+						cache::set('Volets::CurrentState::'.$this->getId(),100, 0);
+					else
+						cache::set('Volets::CurrentState::'.$this->getId(),0, 0);
+				}
 			}
-			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
 			if($Cmd['isVoletMove']){
-				/*if(count($options) >0)
-					cache::set('Volets::ChangeDynamicState::'.$this->getId(),true, 0);*/
 				cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 				cache::set('Volets::LastChangeState::'.$this->getId(),time(), 0);
 			}
+			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.jeedom::toHumanReadable($Cmd['cmd']).' ('.json_encode($options).')');
 		} catch (Exception $e) {
 			log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$Gestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . jeedom::toHumanReadable($Cmd['cmd']) . __('. Détails : ', __FILE__) . $e->getMessage());

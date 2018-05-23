@@ -380,7 +380,8 @@ class Volets extends eqLogic {
 		return $result;
 	}	
 	public function getSaison() {
-		$isInWindows=$this->getCmd(null,'isInWindows');		if(!is_object($isInWindows))
+		$isInWindows=$this->getCmd(null,'isInWindows');		
+		if(!is_object($isInWindows))
 			return false;
 		if($isInWindows->execCmd()){
 			log::add('Volets','debug',$this->getHumanName().' : Le plugin est configuré en mode hiver');
@@ -631,11 +632,10 @@ class Volets extends eqLogic {
 		return floatval($angle % 360);
 	}
 	public function checkAltitude($Altitude) { 
-		if (!$heliotrope->getConfiguration('zenith', '')) {
-		    $zenith = '90.58';
-		} else {
-		    $zenith = $heliotrope->getConfiguration('zenith', '');
-		}
+		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
+-		if(!is_object($heliotrope))
+			return;
+		$zenith = $heliotrope->getConfiguration('zenith','90.58');
 		$Hauteur=round($Altitude->execCmd()*100/$zenith);
 		log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');
 		cache::set('Volets::HauteurAlt::'.$this->getId(),$Hauteur,0);

@@ -222,7 +222,7 @@ class Volets extends eqLogic {
 						if($Evenement != false && $Evenement == $CurrentEvenement){
 							//$this->GestionAzimute($Azimut,true);
 							$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
-							if( $Evenement!= false){
+							if( $Evenement != false){
 								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion par Azimut prend le relais');
 								$this->CheckRepetivite('Azimut',$Evenement,$Saison);
 								return false;
@@ -283,18 +283,16 @@ class Volets extends eqLogic {
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');   
 			if( $Evenement != false ){
-				if($Evenement != 'close' ){
-					if(!$Volet->CheckOtherGestion('Meteo',$Evenement))
-						return;	
-					$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(0);
-					$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(0);
-					if(mktime() < $Jour || mktime() > $Nuit)
-						$Volet->GestionNuit();
-					else
-						$Volet->GestionJour();
-					return;	
-				}
 				$Volet->CheckRepetivite('Meteo',$Evenement,$Saison);
+			}else{
+				if(!$Volet->CheckOtherGestion('Meteo',$Evenement))
+					return;	
+				$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(0);
+				$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(0);
+				if(mktime() < $Jour || mktime() > $Nuit)
+					$Volet->GestionNuit(true);
+				else
+					$Volet->GestionJour(true);
 			}
 		}
 	}
@@ -307,15 +305,15 @@ class Volets extends eqLogic {
 			$Saison=$this->getSaison();
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Absent');
 			if( $Evenement != false ){
-				if($Evenement != 'close' ){
+				if($Evenement == 'open'){
 					if(!$this->CheckOtherGestion('Absent',$Evenement))
 						return;	
 					$Jour = cache::byKey('Volets::Jour::'.$this->getId())->getValue(0);
 					$Nuit = cache::byKey('Volets::Nuit::'.$this->getId())->getValue(0);
 					if(mktime() < $Jour || mktime() > $Nuit)
-						$this->GestionNuit();
+						$this->GestionNuit(true);
 					else
-						$this->GestionJour();
+						$this->GestionJour(true);
 					return;	
 				}
 				$this->CheckRepetivite('Absent',$Evenement,$Saison);

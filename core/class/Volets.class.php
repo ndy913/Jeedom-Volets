@@ -633,7 +633,7 @@ class Volets extends eqLogic {
 	}
 	public function checkAltitude($Altitude) { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
-		/if(!is_object($heliotrope))
+		if(!is_object($heliotrope))
 			return;
 		$zenith = intval($heliotrope->getConfiguration('zenith','90.58'));
 		$Hauteur=round($Altitude->execCmd()*100/$zenith);
@@ -840,7 +840,10 @@ class Volets extends eqLogic {
 			$cache->remove();	
 		$cache = cache::byKey('Volets::ChangeState::'.$this->getId());	
 		if (is_object($cache)) 	
-			$cache->remove();			
+			$cache->remove();
+		$cache = cache::byKey('Volets::HauteurAlt::'.$this->getId());	
+		if (is_object($cache)) 	
+			$cache->remove();
 	}
 }
 class VoletsCmd extends cmd {

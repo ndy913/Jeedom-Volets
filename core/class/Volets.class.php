@@ -11,6 +11,12 @@ class Volets extends eqLogic {
 		if ($deamon_info['state'] != 'ok') 
 			return;
 		foreach(eqLogic::byType('Volets') as $Volet){
+			if(cache::byKey('Volets::ChangeState::'.$Volet->getId())->getValue(false)){
+				if(time() - 60 >= cache::byKey('Volets::LastChangeState::'.$Volet->getId())->getValue(time()-60)){
+					cache::set('Volets::ChangeState::'.$Volet->getId(),false, 0);
+					cache::set('Volets::LastChangeState::'.$Volet->getId(),time(), 0);
+				}
+			}
 			if (!$Volet->getConfiguration('Jour') && !$Volet->getConfiguration('Nuit'))
 				break;
 			$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
@@ -496,6 +502,7 @@ class Volets extends eqLogic {
 				/*if(count($options) >0)
 					cache::set('Volets::ChangeDynamicState::'.$this->getId(),true, 0);*/
 				cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
+				cache::set('Volets::LastChangeState::'.$this->getId(),time(), 0);
 			}
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.jeedom::toHumanReadable($Cmd['cmd']).' ('.json_encode($options).')');
 		} catch (Exception $e) {
@@ -811,7 +818,7 @@ class Volets extends eqLogic {
 		$this->StopDemon();
 		$this->StartDemon();
 	}	
-	public function preemove() {
+	public function preRemove() {
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
 		if (is_object($listener))
 			$listener->remove();

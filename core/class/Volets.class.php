@@ -440,8 +440,8 @@ class Volets extends eqLogic {
 		}
 	}
 	public function CheckRepetivite($Gestion,$Evenement,$Saison){
-		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
-			return;
+		/*if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
+			return;*/
 		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
 		if($this->getPosition() == $Evenement && $this->getCmd(null,'gestion')->execCmd() == $Gestion && $this->getCmd(null,'RatioVertical')->execCmd() == $RatioVertical)
 			return;

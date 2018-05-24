@@ -285,6 +285,8 @@ class Volets extends eqLogic {
 			if( $Evenement != false ){
 				$Volet->CheckRepetivite('Meteo',$Evenement,$Saison);
 			}else{
+				if($Volet->getCmd(null,'gestion')->execCmd() != 'Meteo')
+					return;	
 				if(!$Volet->CheckOtherGestion('Meteo',$Evenement))
 					return;	
 				$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(0);

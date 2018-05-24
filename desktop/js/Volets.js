@@ -1,6 +1,106 @@
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+$('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
+	var message = $('<div class="row">')
+		.append($('<div class="col-md-12">')
+			.append($('<form class="form-horizontal" onsubmit="return false;">')
+				.append($('<div class="form-group">')
+					.append($('<label class="col-xs-5 control-label" >')
+						.text('{{Nom de votre zone}}'))
+					.append($('<div class="col-xs-7">')
+						.append($('<input class="EqLogicTemplateAttr form-control" data-l1key="name"/>'))))
+				.append($('<div class="form-group">')
+					.append($('<label class="col-xs-5 control-label" >')
+						.text('{{Objet parent}}'))
+					.append($('<div class="col-xs-7">')
+						.append($('<select class="EqLogicTemplateAttr form-control" data-l1key="object_id">')
+						       .append($('.eqLogicAttr[data-l1key=object_id] option').clone()))))
+				.append($('<div class="form-group">')
+					.append($('<label class="col-xs-5 control-label" >')
+						.text('{{Template de votre zone}}'))
+					.append($('<div class="col-xs-3">')
+						.append($('<select class="EqLogicTemplateAttr form-control" data-l1key="template">')
+							   .append($('<option>')
+								.text('{{Séléctionner un template}}')))))
+				   .append($('<label>').text('{{Configurer les adresse de groupe}}'))));
+	$.ajax({
+		type: 'POST',            
+		async: false,
+		url: 'plugins/Volets/core/ajax/Volets.ajax.php',
+		data:
+			{
+			action: 'getTemplate',
+			},
+		dataType: 'json',
+		global: false,
+		error: function(request, status, error) {},
+		success: function(data) {
+			if (!data.result){
+				$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
+				return;
+			}
+			$.each(data.result,function(index, value){
+				message.find('.EqLogicTemplateAttr[data-l1key=template]')
+					.append($('<option value="'+index+'">')
+				.text(value.name))
+			});
+		}
+	});
+	bootbox.dialog({
+		title: "{{Ajout d'un équipement avec template}}",
+		message: message,
+		height: "800px",
+		width: "auto",
+		buttons: {
+			"Annuler": {
+				className: "btn-default",
+				callback: function () {
+					//el.atCaret('insert', result.human);
+				}
+			},
+			success: {
+				label: "Valider",
+				className: "btn-primary",
+				callback: function () {
+					if($('.EqLogicTemplateAttr[data-l1key=template]').value() != "" && $('.EqLogicTemplateAttr[data-l1key=name]').value() != ""){
+						var eqLogic=template[$('.EqLogicTemplateAttr[data-l1key=template]').value()];
+						eqLogic.name=$('.EqLogicTemplateAttr[data-l1key=name]').value();
+						if (typeof(eqLogic.object_id) === 'undefined')
+							eqLogic.object_id=new Object();
+						eqLogic.object_id=$('.EqLogicTemplateAttr[data-l1key=object_id]').value();
+						if (typeof(eqLogic.configuration) === 'undefined')
+							eqLogic.configuration=new Object();
+						$.each(eqLogic.cmd,function(index, value){
+							eqLogic.cmd[index].logicalId=$('.CmdEqLogicTemplateAttr[data-l1key='+index+']').value();
+							if (typeof(eqLogic.cmd[index].value) !== 'undefined')
+								eqLogic.cmd[index].value="#["+$('.EqLogicTemplateAttr[data-l1key=object_id] option:selected').text()+"]["+eqLogic.name+"]["+eqLogic.cmd[index].value+"]#";
+						});
+						jeedom.eqLogic.save({
+							type: 'Volets',
+							eqLogics: [eqLogic],
+							error: function (error) {
+								$('#div_alert').showAlert({message: error.message, level: 'danger'});
+							},
+							success: function (_data) {
+								var vars = getUrlVars();
+								var url = 'index.php?';
+								for (var i in vars) {
+									if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+										url += i + '=' + vars[i].replace('#', '') + '&';
+									}
+								}
+								modifyWithoutSave = false;
+								url += 'id=' + _data.id + '&saveSuccessFull=1';
+								loadPage(url);
+							}
+						});
+					}
+				}
+			},
+		}
+	});
+});
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').on('change',function(){
 	if($(this).val() != 'Aucun'){
 		$.ajax({
@@ -54,10 +154,6 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').on('change',f
 		      $('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(CentreLatLng))
 		}
 	}
-});
-$('.eqLogicAction[data-action=addByTemplate]').off('click').on('click', function () {
-  	$('#md_modal').dialog({title: "{{Ajout par Template}}"});
-	$('#md_modal').load('index.php?v=d&modal=template&plugin=Volets&type=Volets').dialog('open');
 });
 $('.bt_showExpressionTest').off('click').on('click', function () {
   $('#md_modal').dialog({title: "{{Testeur d'expression}}"});

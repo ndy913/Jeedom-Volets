@@ -450,14 +450,14 @@ class Volets extends eqLogic {
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
 			return;
 		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
-		if($this->getPosition() == $Evenement && $this->getCmd(null,'gestion')->execCmd() == $Gestion && $this->getCmd(null,'RatioVertical')->execCmd() == $RatioVertical)
-			return;
+		$Change['RatioVertical']=false;
+		$Change['RatioHorizontal']=false;
 		$Change['Position']=false;
 		$Change['Gestion']=false;
 		if($this->getCmd(null,'RatioVertical')->execCmd() != $RatioVertical)
-			$Change['Position']=true;
+			$Change['RatioVertical']=true;
 		if($this->getCmd(null,'RatioHorizontal')->execCmd() != $this->_RatioHorizontal)
-			$Change['Position']=true;
+			$Change['RatioHorizontal']=true;
 		$this->checkAndUpdateCmd('RatioVertical',$this->RatioEchelle('RatioVertical',$RatioVertical));
 		$this->checkAndUpdateCmd('RatioHorizontal',$this->RatioEchelle('RatioHorizontal',$this->_RatioHorizontal));
 		if($this->getPosition() != $Evenement)
@@ -479,6 +479,18 @@ class Volets extends eqLogic {
 				if($this->getConfiguration('RandExecution')){
 					$ActionMove[]=$Cmd;
 					continue;
+				}
+				if($Change['RatioVertical']){
+					if(stripos($Cmd['cmd'],$this->getCmd(null,'RatioVertical')->getId()) !== FALSE){
+						$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+						continue;
+					}
+				}
+				if($Change['RatioHorizontal']){
+					if(stripos($Cmd['cmd'],$this->getCmd(null,'RatioHorizontal')->getId()) !== FALSE){
+						$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+						continue;
+					}
 				}
 				if($Change['Position'])
 					$this->ExecuteAction($Cmd,$Gestion,$Evenement);

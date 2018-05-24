@@ -1,0 +1,74 @@
+{
+	"ManuelJourNuitAzimut":{
+		"name":"Manuel / Jour / Nuit / Azimut",
+		"isVisible":"1",
+		"isEnable":"1",
+		"configuration":{
+			"Absent":"0",
+			"Jour":"1",
+			"Nuit":"1",
+			"Azimut":"1",
+			"Manuel":"1",
+			"TypeDay":"aubeciv",
+			"DelaisDay":"0",
+			"TypeNight":"crepciv",
+			"DelaisNight":"0",
+			"condition":[
+				{
+					"enable":"1",
+					"autoArm":"0",
+					"Inverse":"1",
+					"expression":"#[Chambre grise][Thermostat][Température ambiante]# > 23",
+					"TypeGestion":["Azimut"],
+					"saison":["été"],
+					"evaluation":["close"]
+				},
+				{
+					"enable":"1",
+					"autoArm":"0",
+					"Inverse":"1",
+					"expression":"#[Jardin][Saint-Georges-Motel][Température]# < 5  ",
+					"TypeGestion":["Azimut"],
+					"saison":["hiver"],
+					"evaluation":["close"]
+				},
+				{
+					"enable":"0",
+					"autoArm":"1",
+					"Inverse":"0",
+					"expression":"#[Chambre grise][Volet][Hauteur]# > 50  ",
+					"TypeGestion":["Manuel","Jour"],
+					"saison":["été","hiver"],"evaluation":["close","open"]
+				}
+			],
+			"action":
+			[
+				{
+					"enable":"1",
+					"isVoletMove":"1",
+					"cmd":"#[Chambre grise][Volet][Position]#",
+					"options":{"slider":"round(#[Chambre grise][Gestion volet][Ratio Vertical]#\/5)*5"},
+					"TypeGestion":["Azimut"],
+					"saison":["été","hiver"],
+					"evaluation":["close","open"]
+				},
+				{
+					"enable":"1",
+					"isVoletMove":"1",
+					"cmd":"#[Chambre grise][Volet][Montée]#",
+					"TypeGestion":["Jour","Nuit","Meteo","Absent"],
+					"saison":["été","hiver"],
+					"evaluation":["open"]
+				},
+				{
+					"enable":"1",
+					"isVoletMove":"1",
+					"cmd":"#[Chambre grise][Volet][Descendre]#",
+					"TypeGestion":["Jour","Nuit","Meteo","Absent"],
+					"saison":["été","hiver"],
+					"evaluation":["close"]
+				}
+			]
+		}
+	}
+}

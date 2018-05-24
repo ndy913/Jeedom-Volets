@@ -443,14 +443,14 @@ class Volets extends eqLogic {
 		/*if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
 			return;*/
 		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
-		if($this->getPosition() == $Evenement && $this->getCmd(null,'gestion')->execCmd() == $Gestion && $this->getCmd(null,'RatioVertical')->execCmd() == $RatioVertical)
-			return;
+		/*if($this->getPosition() == $Evenement && $this->getCmd(null,'gestion')->execCmd() == $Gestion && $this->getCmd(null,'RatioVertical')->execCmd() == $RatioVertical)
+			return;*/
 		$Change['Position']=false;
 		$Change['Gestion']=false;
-		if($this->getCmd(null,'RatioVertical')->execCmd() != $RatioVertical)
+		/*if($this->getCmd(null,'RatioVertical')->execCmd() != $RatioVertical)
 			$Change['Position']=true;
 		if($this->getCmd(null,'RatioHorizontal')->execCmd() != $this->_RatioHorizontal)
-			$Change['Position']=true;
+			$Change['Position']=true;*/
 		$this->checkAndUpdateCmd('RatioVertical',$this->RatioEchelle('RatioVertical',$RatioVertical));
 		$this->checkAndUpdateCmd('RatioHorizontal',$this->RatioEchelle('RatioHorizontal',$this->_RatioHorizontal));
 		if($this->getPosition() != $Evenement)

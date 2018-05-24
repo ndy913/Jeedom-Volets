@@ -18,7 +18,7 @@
 					"enable":"1",
 					"autoArm":"0",
 					"Inverse":"1",
-					"expression":"#[Chambre grise][Thermostat][Température ambiante]# > 23",
+					"expression":"#Update[Température Ambiante] > 23",
 					"TypeGestion":["Azimut"],
 					"saison":["été"],
 					"evaluation":["close"]
@@ -27,7 +27,7 @@
 					"enable":"1",
 					"autoArm":"0",
 					"Inverse":"1",
-					"expression":"#[Jardin][Saint-Georges-Motel][Température]# < 5  ",
+					"expression":"#Update[Température Exterieur] < 5  ",
 					"TypeGestion":["Azimut"],
 					"saison":["hiver"],
 					"evaluation":["close"]
@@ -36,7 +36,7 @@
 					"enable":"0",
 					"autoArm":"1",
 					"Inverse":"0",
-					"expression":"#[Chambre grise][Volet][Hauteur]# > 50  ",
+					"expression":"#Update[Hauteur du volet pour rearmement] > 50  ",
 					"TypeGestion":["Manuel","Jour"],
 					"saison":["été","hiver"],"evaluation":["close","open"]
 				}
@@ -46,8 +46,8 @@
 				{
 					"enable":"1",
 					"isVoletMove":"1",
-					"cmd":"#[Chambre grise][Volet][Position]#",
-					"options":{"slider":"round(#[Chambre grise][Gestion volet][Ratio Vertical]#\/5)*5"},
+					"cmd":"#Update[Commande Hauteur proportionnelle]#",
+					"options":{"slider":"round(#[$Object$][$Name$][Ratio Vertical]#\/5)*5"},
 					"TypeGestion":["Azimut"],
 					"saison":["été","hiver"],
 					"evaluation":["close","open"]
@@ -55,7 +55,7 @@
 				{
 					"enable":"1",
 					"isVoletMove":"1",
-					"cmd":"#[Chambre grise][Volet][Montée]#",
+					"cmd":"#Update[Commande Montée]",
 					"TypeGestion":["Jour","Nuit","Meteo","Absent"],
 					"saison":["été","hiver"],
 					"evaluation":["open"]
@@ -63,7 +63,7 @@
 				{
 					"enable":"1",
 					"isVoletMove":"1",
-					"cmd":"#[Chambre grise][Volet][Descendre]#",
+					"cmd":"#Update[Commande Descendre]",
 					"TypeGestion":["Jour","Nuit","Meteo","Absent"],
 					"saison":["été","hiver"],
 					"evaluation":["close"]

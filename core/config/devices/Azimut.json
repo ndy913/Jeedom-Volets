@@ -1,0 +1,62 @@
+{
+	"Azimut":{
+		"update":{
+      			"configuration":{
+				"condition":[
+					{
+						"expression":"TempAmbiante",
+						"Description":"Température Ambiante"
+					},
+					{
+						"expression":"TempExterieur",
+						"Description":"Température Exterieur"
+					}
+				],
+				"action":[
+					{
+						"cmd":"Prop",
+						"Description":"Commande Hauteur proportionnelle"
+					}
+				]
+			}
+		},
+		"config":{
+			"isVisible":"1",
+			"isEnable":"1",
+			"configuration":{
+				"condition":[
+					{
+						"enable":"1",
+						"autoArm":"0",
+						"Inverse":"1",
+						"expression":"#TempAmbiante > 23",
+						"TypeGestion":["Azimut"],
+						"saison":["été"],
+						"evaluation":["close"]
+					},
+					{
+						"enable":"1",
+						"autoArm":"0",
+						"Inverse":"1",
+						"expression":"#TempExterieur < 0",
+						"TypeGestion":["Azimut"],
+						"saison":["hiver"],
+						"evaluation":["close"]
+					}
+				],
+				"action":
+				[
+					{
+						"enable":"1",
+						"isVoletMove":"1",
+						"TypeGestion":["Azimut"],
+						"saison":["été","hiver"],
+						"cmd":"#Prop",
+						"options":{"slider":"round(#[$Object][$Name][Ratio Vertical]#\/5)*5"},
+						"evaluation":["close","open"]
+					}
+				]
+			}
+		}
+	}
+}

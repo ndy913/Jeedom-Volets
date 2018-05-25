@@ -22,7 +22,8 @@ $.ajax({
 	}
 });
 $('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
-	var message =  $('#eqlogictab').find('form').clone().switchClass('eqLogicAttr', 'EqLogicTemplateAttr');
+	var message =  $('#eqlogictab').find('form').clone();
+	message.switchClass('eqLogicAttr', 'EqLogicTemplateAttr');
 	bootbox.dialog({
 		title: "{{Ajout d'un équipement avec template}}",
 		message: message,

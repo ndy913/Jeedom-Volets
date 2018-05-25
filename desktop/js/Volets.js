@@ -1,54 +1,28 @@
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
-var Template;
-$('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
-	var message = $('<div class="row">')
-		.append($('<div class="col-md-12">')
-			.append($('<form class="form-horizontal" onsubmit="return false;">')
-				.append($('<div class="form-group">')
-					.append($('<label class="col-xs-5 control-label" >')
-						.text('{{Nom de votre zone}}'))
-					.append($('<div class="col-xs-7">')
-						.append($('<input class="EqLogicTemplateAttr form-control" data-l1key="name"/>'))))
-				.append($('<div class="form-group">')
-					.append($('<label class="col-xs-5 control-label" >')
-						.text('{{Objet parent}}'))
-					.append($('<div class="col-xs-7">')
-						.append($('<select class="EqLogicTemplateAttr form-control" data-l1key="object_id">')
-						       .append($('.eqLogicAttr[data-l1key=object_id] option').clone()))))
-				.append($('<div class="form-group">')
-					.append($('<label class="col-xs-5 control-label" >')
-						.text('{{Template de votre zone}}'))
-					.append($('<div class="col-xs-3">')
-						.append($('<select class="EqLogicTemplateAttr form-control" data-l1key="template">')
-							   .append($('<option>')
-								.text('{{Séléctionner un template}}')))))
-				   .append($('<label>').text('{{Configurer les parametres}}'))));
-	$.ajax({
-		type: 'POST',            
-		async: false,
-		url: 'plugins/Volets/core/ajax/Volets.ajax.php',
-		data:
-			{
-			action: 'getTemplate',
-			},
-		dataType: 'json',
-		global: false,
-		error: function(request, status, error) {},
-		success: function(data) {
-			if (!data.result){
-				$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
-				return;
-			}
-			Template=data.result;
-			$.each(Template,function(index, value){
-				message.find('.EqLogicTemplateAttr[data-l1key=template]')
-					.append($('<option value="'+index+'">')
-				.text(value.name))
-			});
+var Template=null;
+$.ajax({
+	type: 'POST',            
+	async: false,
+	url: 'plugins/Volets/core/ajax/Volets.ajax.php',
+	data:
+		{
+		action: 'getTemplate',
+		},
+	dataType: 'json',
+	global: false,
+	error: function(request, status, error) {},
+	success: function(data) {
+		if (!data.result){
+			$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
+			return;
 		}
-	});
+		Template=data.result;
+	}
+});
+$('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
+	var message =  $('#eqlogictab').find('form').clone().switchClass('eqLogicAttr', 'EqLogicTemplateAttr');
 	bootbox.dialog({
 		title: "{{Ajout d'un équipement avec template}}",
 		message: message,
@@ -103,15 +77,15 @@ $('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
 		}
 	});
 });
-$('body').on('change','.EqLogicTemplateAttr[data-l1key=template]', function () {
+$('body').on('change','.Gestions .EqLogicTemplateAttr[data-l1key=configuration]', function () {
 	//Creation du formulaire du template
 	var form=$(this).closest('form');
 	var Parameters=$('<div class="form-horizontal ParametersTempates">');
-	$.each(Template[$(this).value()],function(index, value){
+	$.each(Template[$(this).value()].update,function(index, value){
 		if($.isArray(value)){
-			$.each(Template[$(this).value()],function(index2, value2){
+			$.each(value,function(index2, value2){
 				if($.isArray(value2)){
-					$.each(Template[$(this).value()],function(index3, value3){
+					$.each(value2,function(index3, value3){
 						Parameters.append(HtmlParameter('data-l1key="'+index+'" data-l2key="'+index2+'" data-l3key="'+index3+'"'));
 					});
 				}

@@ -4,11 +4,11 @@
       			"configuration":{
 				"action":[
 					{
-						"cmd":"",
+						"cmd":"Up",
 						"Description":"Commande Montée"
 					},
 					{
-						"cmd":"",
+						"cmd":"Down",
 						"Description":"Commande Descendre"
 					}
 				]
@@ -24,6 +24,7 @@
 					{
 						"enable":"1",
 						"isVoletMove":"1",
+						"cmd":"#Up",
 						"TypeGestion":["Jour"],
 						"saison":["été","hiver"],
 						"evaluation":["open"]
@@ -31,6 +32,7 @@
 					{
 						"enable":"1",
 						"isVoletMove":"1",
+						"cmd":"#Down",
 						"TypeGestion":["Jour"],
 						"saison":["été","hiver"],
 						"evaluation":["close"]

@@ -22,9 +22,11 @@ $.ajax({
 	}
 });
 $('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
+	$('#table_cmd tbody tr:last').setValues({}, '.cmdAttr');
 	var message =  $('#eqlogictab').find('form').clone();
-	message.switchClass('eqLogicAttr', 'EqLogicTemplateAttr');
-	bootbox.dialog({
+	message.find('.eqLogicAttr').addClass('EqLogicTemplateAttr').removeClass('eqLogicAttr');
+ 	message.find('fieldset').append($('<div class="form-horizontal ParametersTempates">'));
+  	bootbox.dialog({
 		title: "{{Ajout d'un équipement avec template}}",
 		message: message,
 		height: "800px",
@@ -81,32 +83,28 @@ $('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
 $('body').on('change','.Gestions .EqLogicTemplateAttr[data-l1key=configuration]', function () {
 	//Creation du formulaire du template
 	var form=$(this).closest('form');
-	var Parameters=$('<div class="form-horizontal ParametersTempates">');
-	$.each(Template[$(this).value()].update,function(index, value){
-		if($.isArray(value)){
-			$.each(value,function(index2, value2){
-				if($.isArray(value2)){
-					$.each(value2,function(index3, value3){
-						Parameters.append(HtmlParameter('data-l1key="'+index+'" data-l2key="'+index2+'" data-l3key="'+index3+'"'));
-					});
-				}
-				else
-					Parameters.append(HtmlParameter('data-l1key="'+index+'" data-l2key="'+index2+'"'));
-			});
-		}
-		else
-			Parameters.append(HtmlParameter('data-l1key="'+index+'"'));
+	var Parameters=$('<div>').addClass($(this).attr('data-l2key'));
+  	if($(this).is(':checked')){
+      		$.each(Template[$(this).attr('data-l2key')].update.configuration.action,function(index, value){
+				Parameters.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="cmd"',value.Description));
 		
-	});
-	form.find('.ParametersTempates').remove();
-	form.append(Parameters);
+		});
+      		$.each(Template[$(this).attr('data-l2key')].update.configuration.condition,function(index, value){
+				Parameters.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="expression"',value.Description));
+		
+		});
+		form.find('.ParametersTempates').append(Parameters);
+    	}else
+		form.find('.'+$(this).attr('data-l2key')).remove();
 });
-function HtmlParameter(index){
-	return $('<div class="form-group">')
+function HtmlParameter(id,index,Description){
+	return $('<div class="input-group">')
 		.append($('<label class="col-xs-5 control-label" >')
-			.text('{{Nom de votre zone}}'))
-		.append($('<div class="col-xs-7">')
-			.append($('<input class="EqLogicTemplateAttr form-control" '+index+'/>')));
+			.text(Description))
+		.append($('<input class="EqLogicTemplateAttr form-control input-sm cmdAction" '+index+'/>'))
+		.append($('<span class="input-group-btn">')
+			.append($('<a class="btn btn-success btn-sm listCmdAction data-type="action"">')
+				.append($('<i class="fa fa-list-alt">'))));
 }
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').on('change',function(){
 	if($(this).val() != 'Aucun'){

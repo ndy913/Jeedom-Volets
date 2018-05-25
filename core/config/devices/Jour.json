@@ -1,9 +1,8 @@
 {
 	"Jour":{
 		"update":{
-      "configuration":{
-				"action":
-				[
+      			"configuration":{
+				"action":[
 					{
 						"cmd":"",
 						"Description":"Commande Montée"
@@ -21,8 +20,7 @@
 			"configuration":{
 				"TypeDay":"aubeciv",
 				"DelaisDay":"0",
-				"action":
-				[
+				"action":[
 					{
 						"enable":"1",
 						"isVoletMove":"1",

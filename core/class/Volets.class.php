@@ -84,7 +84,7 @@ class Volets extends eqLogic {
 						if($Volet->getConfiguration('DayMin') != '' && $_option['value'] < $Volet->getConfiguration('DayMin'))
 						  	$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($Volet->getConfiguration('DayMin')),false);
 						else
-							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisDay');
+							$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($_option['value']),'DelaisDay');
 						cache::set('Volets::Jour::'.$Volet->getId(),$timstamp, 0);
 						break;
 					case $Volet->getConfiguration('TypeNight'):
@@ -92,7 +92,7 @@ class Volets extends eqLogic {
 						if($Volet->getConfiguration('NightMax') != '' && $_option['value'] > $Volet->getConfiguration('NightMax'))
 							$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($Volet->getConfiguration('NightMax')),false);
 						else
-							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');						
+							$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($_option['value']),'DelaisNight');						
 						cache::set('Volets::Nuit::'.$Volet->getId(),$timstamp, 0);
 					break;
 					default:

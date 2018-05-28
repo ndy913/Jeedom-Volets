@@ -18,6 +18,7 @@
 			"isVisible":"1",
 			"isEnable":"1",
 			"configuration":{
+				"Nuit":1,
 				"TypeNight":"crepciv",
 				"DelaisNight":"0",
 				"action":[

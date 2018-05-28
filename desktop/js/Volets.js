@@ -43,17 +43,18 @@ $('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
 				className: "btn-primary",
 				callback: function () {
 					if($('.EqLogicTemplateAttr[data-l1key=template]').value() != "" && $('.EqLogicTemplateAttr[data-l1key=name]').value() != ""){
-						var eqLogic=template[$('.EqLogicTemplateAttr[data-l1key=template]').value()];
+						var eqLogic=new Object();
 						eqLogic.name=$('.EqLogicTemplateAttr[data-l1key=name]').value();
 						if (typeof(eqLogic.object_id) === 'undefined')
 							eqLogic.object_id=new Object();
 						eqLogic.object_id=$('.EqLogicTemplateAttr[data-l1key=object_id]').value();
 						if (typeof(eqLogic.configuration) === 'undefined')
 							eqLogic.configuration=new Object();
-						$.each(eqLogic.cmd,function(index, value){
-							eqLogic.cmd[index].logicalId=$('.CmdEqLogicTemplateAttr[data-l1key='+index+']').value();
-							if (typeof(eqLogic.cmd[index].value) !== 'undefined')
-								eqLogic.cmd[index].value="#["+$('.EqLogicTemplateAttr[data-l1key=object_id] option:selected').text()+"]["+eqLogic.name+"]["+eqLogic.cmd[index].value+"]#";
+						$('.Gestions .EqLogicTemplateAttr[data-l1key=configuration]').each(function(){
+							eqLogic=$.merge(eqLogic,Template[$(this).attr('data-l2key')].config);
+						});
+						$('.ParametersTempates input').each(function(){
+							eqLogic.replace('#'+$(this).attr('id'),$(this).val());
 						});
 						jeedom.eqLogic.save({
 							type: 'Volets',
@@ -101,7 +102,7 @@ function HtmlParameter(id,index,Description){
 	return $('<div class="input-group">')
 		.append($('<label class="col-xs-5 control-label" >')
 			.text(Description))
-		.append($('<input class="EqLogicTemplateAttr form-control input-sm cmdAction" '+index+'/>'))
+		.append($('<input id="'+id+'" class="EqLogicTemplateAttr form-control input-sm cmdAction" '+index+'/>'))
 		.append($('<span class="input-group-btn">')
 			.append($('<a class="btn btn-success btn-sm listCmdAction data-type="action"">')
 				.append($('<i class="fa fa-list-alt">'))));

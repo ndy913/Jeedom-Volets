@@ -18,6 +18,7 @@
 			"isVisible":"1",
 			"isEnable":"1",
 			"configuration":{
+				"Jour":1,
 				"TypeDay":"aubeciv",
 				"DelaisDay":"0",
 				"action":[

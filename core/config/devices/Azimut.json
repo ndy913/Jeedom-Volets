@@ -24,6 +24,7 @@
 			"isVisible":"1",
 			"isEnable":"1",
 			"configuration":{
+				"Azimut":1,
 				"condition":[
 					{
 						"enable":"1",

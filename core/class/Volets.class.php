@@ -84,7 +84,7 @@ class Volets extends eqLogic {
 						if($Volet->getConfiguration('DayMin') != '' && $_option['value'] < $Volet->getConfiguration('DayMin'))
 						  	$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($Volet->getConfiguration('DayMin')),false);
 						else
-							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisDay');
+							$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($_option['value']),'DelaisDay');
 						cache::set('Volets::Jour::'.$Volet->getId(),$timstamp, 0);
 						break;
 					case $Volet->getConfiguration('TypeNight'):
@@ -92,7 +92,7 @@ class Volets extends eqLogic {
 						if($Volet->getConfiguration('NightMax') != '' && $_option['value'] > $Volet->getConfiguration('NightMax'))
 							$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($Volet->getConfiguration('NightMax')),false);
 						else
-							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');						
+							$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($_option['value']),'DelaisNight');						
 						cache::set('Volets::Nuit::'.$Volet->getId(),$timstamp, 0);
 					break;
 					default:
@@ -176,6 +176,7 @@ class Volets extends eqLogic {
 				$State='close';
 		}
 		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
+		$this->setPosition($State);
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
 			if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
 				return;
@@ -184,7 +185,6 @@ class Volets extends eqLogic {
 		}else{
 			$this->GestionManuel($State);
 		}
-		$this->setPosition($State);
 		//$this->checkAndUpdateCmd('RatioVertical',$Value);
 	}
 	public function CheckOtherGestion($Gestion,$Evenement) {  

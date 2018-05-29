@@ -176,6 +176,7 @@ class Volets extends eqLogic {
 				$State='close';
 		}
 		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
+		$this->setPosition($State);
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
 			if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
 				return;
@@ -184,7 +185,6 @@ class Volets extends eqLogic {
 		}else{
 			$this->GestionManuel($State);
 		}
-		$this->setPosition($State);
 		//$this->checkAndUpdateCmd('RatioVertical',$Value);
 	}
 	public function CheckOtherGestion($Gestion,$Evenement) {  

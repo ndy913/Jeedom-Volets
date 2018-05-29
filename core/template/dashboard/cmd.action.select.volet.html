@@ -5,10 +5,10 @@
     </center>
     <script>
         jeedom.cmd.update['#id#'] = function(_options){
-            if (_options.display_value == '1' || _options.display_value == 1 || _options.display_value == '99' || _options.display_value == 99 || _options.display_value == 'open')
-                    $('.cmd[data-cmd_id=#id#] .iconCmd').empty().attr('src','plugins/Volets/core/template/images/Open.png').attr('data-value','close');
+            if (_options.display_value == '1' || _options.display_value == 1 || _options.display_value == 'open')
+                    $('.cmd[data-cmd_id=#id#] .iconCmd').attr('src','plugins/Volets/core/template/images/Open.png').attr('data-value','close');
             else 
-                    $('.cmd[data-cmd_id=#id#] .iconCmd').empty().attr('src','plugins/Volets/core/template/images/Close.png').attr('data-value','open');
+                    $('.cmd[data-cmd_id=#id#] .iconCmd').attr('src','plugins/Volets/core/template/images/Close.png').attr('data-value','open');
             
         }
         jeedom.cmd.update['#id#']({display_value:'#state#'});

@@ -483,13 +483,13 @@ class Volets extends eqLogic {
 					continue;
 				}
 				if($Change['RatioVertical']){
-					if(stripos($Cmd['cmd'],$this->getCmd(null,'RatioVertical')->getId()) !== FALSE){
+					if((array_search('#'.$Cmd['options'].'#',$this->getCmd(null,'RatioVertical')->getId()) !== FALSE){
 						$this->ExecuteAction($Cmd,$Gestion,$Evenement);
 						continue;
 					}
 				}
 				if($Change['RatioHorizontal']){
-					if(stripos($Cmd['cmd'],$this->getCmd(null,'RatioHorizontal')->getId()) !== FALSE){
+					if((array_search('#'.$Cmd['options'].'#',$this->getCmd(null,'RatioHorizontal')->getId()) !== FALSE){
 						$this->ExecuteAction($Cmd,$Gestion,$Evenement);
 						continue;
 					}

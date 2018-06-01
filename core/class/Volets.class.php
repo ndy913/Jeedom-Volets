@@ -753,8 +753,10 @@ class Volets extends eqLogic {
 				$listener->save();	
 				if(mktime() < $Jour || mktime() > $Nuit)
 					$this->GestionNuit(true);
-				else
-					$this->GestionJour(true);
+				else{
+					if($this->CheckOtherGestion('Jour','open'))
+						$this->GestionJour(true);
+				}
 			}
 		}
 	}
@@ -878,8 +880,10 @@ class VoletsCmd extends cmd {
 					$Nuit = cache::byKey('Volets::Nuit::'.$this->getEqLogic()->getId())->getValue(mktime()+60);
 					if(mktime() < $Jour || mktime() > $Nuit)
 						$this->getEqLogic()->GestionNuit(true);
-					else
-						$this->getEqLogic()->GestionJour(true);
+					else{
+						if($this->getEqLogic()->CheckOtherGestion('Jour','open'))
+							$this->getEqLogic()->GestionJour(true);
+					}
 				break;
 				case 'released':
 					$Listener->event(false);

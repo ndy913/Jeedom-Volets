@@ -447,7 +447,7 @@ $eqLogics = eqLogic::byType('Volets');
 									<i class="fa fa-question-circle tooltips" title="{{Si cochée, alors la condition sera testée avant l'execution d'action}}"></i>
 								</sup>
 							</th>
-							<th style="width: 100px;">{{Sur Réactivation (BETA)}}
+							<th style="width: 100px;">{{Sur Réactivation}}
 								<sup>
 									<i class="fa fa-question-circle tooltips" title="{{Si cochée, alors la condition sera testée pour un réarmement automatique}}"></i>
 								</sup>

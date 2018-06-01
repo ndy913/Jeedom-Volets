@@ -1,6 +1,112 @@
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+var Template=null;
+$.ajax({
+	type: 'POST',            
+	async: false,
+	url: 'plugins/Volets/core/ajax/Volets.ajax.php',
+	data:
+		{
+		action: 'getTemplate',
+		},
+	dataType: 'json',
+	global: false,
+	error: function(request, status, error) {},
+	success: function(data) {
+		if (!data.result){
+			$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
+			return;
+		}
+		Template=data.result;
+	}
+});
+$('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
+	$('#table_cmd tbody tr:last').setValues({}, '.cmdAttr');
+	var message =  $('#eqlogictab').find('form').clone();
+	message.find('.eqLogicAttr').addClass('EqLogicTemplateAttr').removeClass('eqLogicAttr');
+ 	message.find('fieldset').append($('<div class="form-horizontal ParametersTempates">'));
+  	bootbox.dialog({
+		title: "{{Ajout d'un équipement avec template}}",
+		message: message,
+		height: "800px",
+		width: "auto",
+		buttons: {
+			"Annuler": {
+				className: "btn-default",
+				callback: function () {
+					//el.atCaret('insert', result.human);
+				}
+			},
+			success: {
+				label: "Valider",
+				className: "btn-primary",
+				callback: function () {
+					if($('.EqLogicTemplateAttr[data-l1key=template]').value() != "" && $('.EqLogicTemplateAttr[data-l1key=name]').value() != ""){
+						var eqLogic=new Object();
+						eqLogic.name=$('.EqLogicTemplateAttr[data-l1key=name]').value();
+						if (typeof(eqLogic.object_id) === 'undefined')
+							eqLogic.object_id=new Object();
+						eqLogic.object_id=$('.EqLogicTemplateAttr[data-l1key=object_id]').value();
+						if (typeof(eqLogic.configuration) === 'undefined')
+							eqLogic.configuration=new Object();
+						$('.Gestions .EqLogicTemplateAttr[data-l1key=configuration]').each(function(){
+							eqLogic=$.merge(eqLogic,Template[$(this).attr('data-l2key')].config);
+						});
+						$('.ParametersTempates input').each(function(){
+							eqLogic.replace('#'+$(this).attr('id'),$(this).val());
+						});
+						jeedom.eqLogic.save({
+							type: 'Volets',
+							eqLogics: [eqLogic],
+							error: function (error) {
+								$('#div_alert').showAlert({message: error.message, level: 'danger'});
+							},
+							success: function (_data) {
+								var vars = getUrlVars();
+								var url = 'index.php?';
+								for (var i in vars) {
+									if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
+										url += i + '=' + vars[i].replace('#', '') + '&';
+									}
+								}
+								modifyWithoutSave = false;
+								url += 'id=' + _data.id + '&saveSuccessFull=1';
+								loadPage(url);
+							}
+						});
+					}
+				}
+			},
+		}
+	});
+});
+$('body').on('change','.Gestions .EqLogicTemplateAttr[data-l1key=configuration]', function () {
+	//Creation du formulaire du template
+	var form=$(this).closest('form');
+	var Parameters=$('<div>').addClass($(this).attr('data-l2key'));
+  	if($(this).is(':checked')){
+      		$.each(Template[$(this).attr('data-l2key')].update.configuration.action,function(index, value){
+				Parameters.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="cmd"',value.Description));
+		
+		});
+      		$.each(Template[$(this).attr('data-l2key')].update.configuration.condition,function(index, value){
+				Parameters.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="expression"',value.Description));
+		
+		});
+		form.find('.ParametersTempates').append(Parameters);
+    	}else
+		form.find('.'+$(this).attr('data-l2key')).remove();
+});
+function HtmlParameter(id,index,Description){
+	return $('<div class="input-group">')
+		.append($('<label class="col-xs-5 control-label" >')
+			.text(Description))
+		.append($('<input id="'+id+'" class="EqLogicTemplateAttr form-control input-sm cmdAction" '+index+'/>'))
+		.append($('<span class="input-group-btn">')
+			.append($('<a class="btn btn-success btn-sm listCmdAction data-type="action"">')
+				.append($('<i class="fa fa-list-alt">'))));
+}
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').on('change',function(){
 	if($(this).val() != 'Aucun'){
 		$.ajax({

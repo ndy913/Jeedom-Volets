@@ -1,0 +1,45 @@
+{
+	"Jour":{
+		"update":{
+      			"configuration":{
+				"action":[
+					{
+						"cmd":"Up",
+						"Description":"Commande Montée"
+					},
+					{
+						"cmd":"Down",
+						"Description":"Commande Descendre"
+					}
+				]
+			}
+		},
+		"config":{
+			"isVisible":"1",
+			"isEnable":"1",
+			"configuration":{
+				"Jour":1,
+				"TypeDay":"aubeciv",
+				"DelaisDay":"0",
+				"action":[
+					{
+						"enable":"1",
+						"isVoletMove":"1",
+						"cmd":"#Up",
+						"TypeGestion":["Jour"],
+						"saison":["été","hiver"],
+						"evaluation":["open"]
+					},
+					{
+						"enable":"1",
+						"isVoletMove":"1",
+						"cmd":"#Down",
+						"TypeGestion":["Jour"],
+						"saison":["été","hiver"],
+						"evaluation":["close"]
+					}
+				]
+			}
+		}
+	}
+}

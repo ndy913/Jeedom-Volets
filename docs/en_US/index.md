@@ -233,9 +233,10 @@ Paramètres complémentaires:
 * `Mode` : sélectionner tous les modes où l'action doit être exécutée (avec la touche `Ctrl`).
 * `Action` : Sélectionner toutes les actions où l'action doit être exécutée (avec la touche `Ctrl`).
 
-Pour la gestion azimut en été, le plugin calcul la hauteur du volet pour que le rayonnement du soleil soit masqué.
-Si vous souhaitez utiliser les commandes de ration il suffit de les sélectionner en action.
-Mettre à jours sa valeur
+### Utilisation des commandes Ratio
+
+Avec la gestion azimut, le plugin calcul et met a jours des commandes ratiométriques (Horizontal et Vertical) afin que le rayonnement du soleil soit masqué.
+Si vous souhaitez utiliser les commandes ratiométriques, il est juste necessaire de séléctioner la commande ratio en valeur de votre commande proportionnel de votre volet.
 
 FAQ
 ===

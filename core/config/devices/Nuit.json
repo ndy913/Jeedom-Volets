@@ -1,0 +1,45 @@
+{
+	"Nuit":{
+		"update":{
+      			"configuration":{
+				"action":[
+					{
+						"cmd":"Up",
+						"Description":"Commande Montée"
+					},
+					{
+						"cmd":"Down",
+						"Description":"Commande Descendre"
+					}
+				]
+			}
+		},
+		"config":{
+			"isVisible":"1",
+			"isEnable":"1",
+			"configuration":{
+				"Nuit":1,
+				"TypeNight":"crepciv",
+				"DelaisNight":"0",
+				"action":[
+					{
+						"enable":"1",
+						"isVoletMove":"1",
+						"cmd":"#Up",
+						"TypeGestion":["Nuit"],
+						"saison":["été","hiver"],
+						"evaluation":["open"]
+					},
+					{
+						"enable":"1",
+						"isVoletMove":"1",
+						"cmd":"#Down",
+						"TypeGestion":["Nuit"],
+						"saison":["été","hiver"],
+						"evaluation":["close"]
+					}
+				]
+			}
+		}
+	}
+}

@@ -756,7 +756,7 @@ class Volets extends eqLogic {
 				if(mktime() < $Jour || mktime() > $Nuit)
 					$this->GestionNuit(true);
 				else{
-					if($this->CheckOtherGestion('Jour'),true)
+					if($this->CheckOtherGestion('Jour',true))
 						$this->GestionJour(true);
 				}
 			}
@@ -883,7 +883,7 @@ class VoletsCmd extends cmd {
 					if(mktime() < $Jour || mktime() > $Nuit)
 						$this->getEqLogic()->GestionNuit(true);
 					else{
-						if($this->getEqLogic()->CheckOtherGestion('Jour'),true)
+						if($this->getEqLogic()->CheckOtherGestion('Jour',true))
 							$this->getEqLogic()->GestionJour(true);
 					}
 				break;

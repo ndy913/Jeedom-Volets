@@ -823,7 +823,7 @@ class Volets extends eqLogic {
 		//$this->checkAndUpdateCmd('state',false);
 		$isInWindows=$this->AddCommande("Etat mode","isInWindows","info","binary",0,'isInWindows');
 		$inWindows=$this->AddCommande("Mode","inWindows","action","select",1,'inWindows');
-		$inWindows->setConfiguration('listValue','1|Hivers;0|Eté');
+		$inWindows->setConfiguration('listValue','1|Hiver;0|Eté');
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
 		$isArmed=$this->AddCommande("Etat activation","isArmed","info","binary",0,'lock');

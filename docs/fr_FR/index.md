@@ -263,3 +263,8 @@ Par exemple pour le réarmement en gestion de nuit, je vais ajouter une conditio
 **J'ai configuré ma gestion Azimut avec le ratio mais il fait tros de mouvement**
 > Il est possible de limiter les mouvements avec une formule dans les options.
 ![introduction01](../images/ActionRatioLimite.png)
+
+**Le plugin ne fonctionne pas avec mon module Fibaro**
+> Les modules fibaro son gradué proportionnelement de 0 a 99%.
+Pour palier a ce probleme il est recommandé d'utiliser le plugin avec sont ratioVertical (ou ratioHorizontal) en configurant le min (0) et max (99) pour la commande ratio appliquer.
+Egalement la Hauteur de seuil (ouvert/ fermer) doit etre comprise entre 1 et 98%

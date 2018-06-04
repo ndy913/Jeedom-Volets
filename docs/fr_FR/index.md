@@ -2,7 +2,11 @@ Description
 ===
 Ce plugin a pour objectif de gérer facilement et automatiquement vos volets.
 Celui-ci est basé sur le plugin Héliotrope qui est un prérequis pour son utilisation.
+
 > Avant l'utilisation de se plugin bien vérifier le fonctionnement du plugin Heliotrope.
+
+> Pour le bon fonctionnement du plugin, tous les gestions pour un volet doivent etre activé sur la meme zone.
+Il est recommandée, mais pas obligatoire, d'utiliser une zone par volet afin de faciliter la configuration et la gestion
 
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets au lever du soleil et à la tombée de la nuit,
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de la position du soleil,
@@ -263,3 +267,8 @@ Par exemple pour le réarmement en gestion de nuit, je vais ajouter une conditio
 **J'ai configuré ma gestion Azimut avec le ratio mais il fait tros de mouvement**
 > Il est possible de limiter les mouvements avec une formule dans les options.
 ![introduction01](../images/ActionRatioLimite.png)
+
+**Le plugin ne fonctionne pas avec mon module Fibaro**
+> Les modules fibaro son gradué proportionnelement de 0 a 99%.
+Pour palier a ce probleme il est recommandé d'utiliser le plugin avec sont ratioVertical (ou ratioHorizontal) en configurant le min (0) et max (99) pour la commande ratio appliquer.
+Egalement la Hauteur de seuil (ouvert/ fermer) doit etre comprise entre 1 et 98%

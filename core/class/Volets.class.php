@@ -762,7 +762,7 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-	public function AddCommande($Name,$_logicalId,$Type="info", $SubType='binary',$visible,$Template='') {
+	public function AddCommande($Name,$_logicalId,$Type="info", $SubType='binary',$visible,$GenericType='',$Template='') {
 		$Commande = $this->getCmd(null,$_logicalId);
 		if (!is_object($Commande))
 		{
@@ -777,6 +777,7 @@ class Volets extends eqLogic {
 		$Commande->setSubType($SubType);
    		$Commande->setTemplate('dashboard',$Template );
 		$Commande->setTemplate('mobile', $Template);
+		$Commande->setGeneric_type($GenericType);
 		$Commande->save();
 		return $Commande;
 	}
@@ -816,30 +817,30 @@ class Volets extends eqLogic {
 		}
 	}
 	public function postSave() {
-		$this->AddCommande("Ratio Vertical","RatioVertical","info", 'numeric',1);
-		$this->AddCommande("Ratio Horizontal","RatioHorizontal","info", 'numeric',1);
-		$this->AddCommande("Gestion Active","gestion","info", 'string',1);
-		$state=$this->AddCommande("Position du soleil","state","info", 'binary',1,'sunInWindows');
+		$this->AddCommande("Ratio Vertical","RatioVertical","info", 'numeric',1,'FLAP_SLIDER');
+		$this->AddCommande("Ratio Horizontal","RatioHorizontal","info", 'numeric',1,'FLAP_SLIDER');
+		$this->AddCommande("Gestion Active","gestion","info", 'string',1,'GENERIC_INFO');
+		$state=$this->AddCommande("Position du soleil","state","info", 'binary',1,'GENERIC_INFO','sunInWindows');
 		//$this->checkAndUpdateCmd('state',false);
-		$isInWindows=$this->AddCommande("Etat mode","isInWindows","info","binary",0,'isInWindows');
-		$inWindows=$this->AddCommande("Mode","inWindows","action","select",1,'inWindows');
-		$inWindows->setConfiguration('listValue','1|Hivers;0|Eté');
+		$isInWindows=$this->AddCommande("Etat mode","isInWindows","info","binary",0,'','isInWindows');
+		$inWindows=$this->AddCommande("Mode","inWindows","action","select",1,'','inWindows');
+		$inWindows->setConfiguration('listValue','1|Hiver;0|Eté');
 		$inWindows->setValue($isInWindows->getId());
 		$inWindows->save();
-		$isArmed=$this->AddCommande("Etat activation","isArmed","info","binary",0,'lock');
+		$isArmed=$this->AddCommande("Etat activation","isArmed","info","binary",0,'LOCK_STATE','lock');
 		//$this->checkAndUpdateCmd('isArmed',true);
-		$Armed=$this->AddCommande("Activer","armed","action","other",1,'lock');
+		$Armed=$this->AddCommande("Activer","armed","action","other",1,'LOCK_CLOSE','lock');
 		$Armed->setValue($isArmed->getId());
 		$Armed->setConfiguration('state', '1');
 		$Armed->setConfiguration('armed', '1');
 		$Armed->save();
-		$Released=$this->AddCommande("Désactiver","released","action","other",1,'lock');
+		$Released=$this->AddCommande("Désactiver","released","action","other",1,'LOCK_OPEN','lock');
 		$Released->setValue($isArmed->getId());
 		$Released->save();
 		$Released->setConfiguration('state', '0');
 		$Released->setConfiguration('armed', '1');
-		$Position=$this->AddCommande("Etat du volet","position","info","string",0);
-		$VoletState=$this->AddCommande("Position du volet","VoletState","action","select",1,'volet');
+		$Position=$this->AddCommande("Etat du volet","position","info","string",0,'GENERIC_INFO');
+		$VoletState=$this->AddCommande("Position du volet","VoletState","action","select",1,'','volet');
 		$VoletState->setConfiguration('listValue','open|Ouvert;close|Fermé');
 		$VoletState->setDisplay('title_disable', 1);
 		$VoletState->setValue($Position->getId());

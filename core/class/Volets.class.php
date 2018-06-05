@@ -474,7 +474,7 @@ class Volets extends eqLogic {
 		$this->CheckActions($Gestion,$Evenement,$Saison,$Change);
 	}
 	public function CheckActions($Gestion,$Evenement,$Saison,$Change){
-		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions');
+		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions : '.json_encode($Change));
 		$ActionMove=null;
 		foreach($this->getConfiguration('action') as $Cmd){	
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
@@ -485,15 +485,21 @@ class Volets extends eqLogic {
 					continue;
 				}
 				if($Change['RatioVertical']){
-					if(array_search('#'.$Cmd['options'].'#',$this->getCmd(null,'RatioVertical')->getId()) !== FALSE){
-						$this->ExecuteAction($Cmd,$Gestion,$Evenement);
-						continue;
+                 			 foreach($Cmd['options'] as $key => $option){
+						if(stripos($option, '#'.$this->getCmd(null,'RatioVertical')->getId().'#') !== FALSE){
+							log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande RatioVertical est dans l\'option '.$key);
+							$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+							continue;
+						}
 					}
 				}
 				if($Change['RatioHorizontal']){
-					if(array_search('#'.$Cmd['options'].'#',$this->getCmd(null,'RatioHorizontal')->getId()) !== FALSE){
-						$this->ExecuteAction($Cmd,$Gestion,$Evenement);
-						continue;
+                 			 foreach($Cmd['options'] as $key => $option){
+						if(stripos($option, '#'.$this->getCmd(null,'RatioHorizontal')->getId().'#') !== FALSE){
+							log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande RatioHorizontal est dans l\'option '.$key);
+							$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+							continue;
+						}
 					}
 				}
 				if($Change['Position'])

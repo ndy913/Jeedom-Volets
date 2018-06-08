@@ -659,9 +659,9 @@ class Volets extends eqLogic {
 			$Altitude =$heliotrope->getCmd(null,'altitude');	
 			if(!is_object($Altitude))	  
 				return false;	
-			if($Altitude < $this->getConfiguration('ObstructionMin'))
+			if($this->getConfiguration('ObstructionMin') != '' && $Altitude < $this->getConfiguration('ObstructionMin'))
 				return 100;
-			if($Altitude > $this->getConfiguration('ObstructionMax'))
+			if($this->getConfiguration('ObstructionMax') != '' && $Altitude > $this->getConfiguration('ObstructionMax'))
 				return 100;
 			if (!$heliotrope->getConfiguration('zenith', ''))
 				$zenith = '90.58';	

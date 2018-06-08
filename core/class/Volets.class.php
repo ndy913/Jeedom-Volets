@@ -659,11 +659,14 @@ class Volets extends eqLogic {
 			$Altitude =$heliotrope->getCmd(null,'altitude');	
 			if(!is_object($Altitude))	  
 				return false;	
-			if (!$heliotrope->getConfiguration('zenith', '')) {	
-			    $zenith = '90.58';	
-			} else {	
-			    $zenith = $heliotrope->getConfiguration('zenith', '');	
-			}	
+			if($Altitude < $this->getConfiguration('ObstructionMin'))
+				return 100;
+			if($Altitude > $this->getConfiguration('ObstructionMax'))
+				return 100;
+			if (!$heliotrope->getConfiguration('zenith', ''))
+				$zenith = '90.58';	
+			else
+				$zenith = $heliotrope->getConfiguration('zenith', '');	
 			$Hauteur=round($Altitude->execCmd()*100/$zenith);	
 			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');	
 			return $Hauteur;

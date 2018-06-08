@@ -419,6 +419,23 @@ $eqLogics = eqLogic::byType('Volets');
 								<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AngleGauche" disabled />
 							</div>
 						</div>  
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{Altitude d'obstruction}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Ces paramètres permettent de limiter le ratio Vertical a l'altidude d'obstruction.}}"></i>
+								</sup>
+							</label>
+							<div class="col-sm-5">
+								<div class="input-group">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="ObstructionMin" placeholder="{{Altitude d'obstruction lorsque le soleil rase le sol}}"/>
+								</div>
+							</div>
+							<div class="col-sm-5">
+								<div class="input-group">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="ObstructionMax" placeholder="{{Altitude d'obstruction lorsque le soleil approche du Zenith}}"/>
+								</div>
+							</div>
+						</div>	
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>

@@ -908,6 +908,16 @@ class VoletsCmd extends cmd {
 										
 				break;
 				case 'VoletState':
+					$Value=$_options['select'];
+					$State=cmd::byKey($Volet->getConfiguration('RealState'));
+					if(is_object($State)){
+						if($State->execCmd())
+							$Value='open';
+						else
+			 #				$Value='close';
+					}
+					$Listener->event($Value);
+				break
 				case 'inWindows':
 					$Listener->event($_options['select']);
 				break;

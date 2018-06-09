@@ -914,7 +914,7 @@ class VoletsCmd extends cmd {
 						if($State->execCmd())
 							$Value='open';
 						else
-			 #				$Value='close';
+			 				$Value='close';
 					}
 					$Listener->event($Value);
 				break

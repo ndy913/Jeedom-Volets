@@ -917,7 +917,7 @@ class VoletsCmd extends cmd {
 			 				$Value='close';
 					}
 					$Listener->event($Value);
-				break
+				break;
 				case 'inWindows':
 					$Listener->event($_options['select']);
 				break;

@@ -30,12 +30,12 @@ $eqLogics = eqLogic::byType('Volets');
 				</center>
 				<span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#406E88"><center>{{Ajouter}}</center></span>
 			</div>
-			<div class="cursor eqLogicAction" data-action="addByTemplate" style="background-color : #ffffff; height : 140px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
+			<!--div class="cursor eqLogicAction" data-action="addByTemplate" style="background-color : #ffffff; height : 140px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
 				<center>
 					<i class="fa fa-plus-circle" style="font-size : 5em;color:#406E88;"></i>
 				</center>
 				<span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#406E88"><center>{{Par template}}</center></span>
-			</div>
+			</div-->
 			<div class="cursor eqLogicAction" data-action="gotoPluginConf" style="height: 120px; margin-bottom: 10px; padding: 5px; border-radius: 2px; width: 160px; margin-left: 10px; position: absolute; left: 170px; top: 0px; background-color: rgb(255, 255, 255);">
 				    <center>
 			      		<i class="fa fa-wrench" style="font-size : 5em;color:#767676;"></i>
@@ -422,15 +422,17 @@ $eqLogics = eqLogic::byType('Volets');
 						<div class="form-group">
 							<label class="col-sm-2 control-label">{{Altitude d'obstruction}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Ces paramètres permettent de limiter le ratio Vertical a l'altidude d'obstruction.}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Ces paramètres permettent de limiter le ratio Vertical a l'altidude d'obstruction. Si soleil est en dessous de min ou au dessus du max alors le volet sera ouvert}}"></i>
 								</sup>
 							</label>
 							<div class="col-sm-5">
+								<label class="col-sm-2 control-label">{{Min}}</label>
 								<div class="input-group">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="ObstructionMin" placeholder="{{Altitude d'obstruction lorsque le soleil rase le sol}}"/>
 								</div>
 							</div>
 							<div class="col-sm-5">
+								<label class="col-sm-2 control-label">{{Max}}</label>
 								<div class="input-group">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="ObstructionMax" placeholder="{{Altitude d'obstruction lorsque le soleil approche du Zenith}}"/>
 								</div>

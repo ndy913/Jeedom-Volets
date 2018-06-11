@@ -185,7 +185,6 @@ class Volets extends eqLogic {
 		}else{
 			$this->GestionManuel($State);
 		}
-		//$this->checkAndUpdateCmd('RatioVertical',$Value);
 	}
 	public function CheckOtherGestion($Gestion,$force=false) {  
 		$Saison=$this->getSaison();
@@ -420,7 +419,7 @@ class Volets extends eqLogic {
 			$Hauteur=100;
 		elseif($Evenement == 'close')
 			$Hauteur=0;
-		if ($Gestion == 'Azimut' && $Saison != 'hiver' /*&& $this->getCmd(null,'state')->execCmd() && !$this->_inverseCondition*/)
+		if ($Gestion == 'Azimut' && $Saison != 'hiver' && $this->getCmd(null,'state')->execCmd() /*&& !$this->_inverseCondition*/)
 			$Hauteur=$this->checkAltitude();
 		if($this->getConfiguration('InverseHauteur'))
 			$Hauteur=100-$Hauteur;
@@ -845,7 +844,6 @@ class Volets extends eqLogic {
 		$this->AddCommande("Ratio Horizontal","RatioHorizontal","info", 'numeric',1,'FLAP_SLIDER');
 		$this->AddCommande("Gestion Active","gestion","info", 'string',1,'GENERIC_INFO');
 		$state=$this->AddCommande("Position du soleil","state","info", 'binary',1,'GENERIC_INFO','sunInWindows');
-		//$this->checkAndUpdateCmd('state',false);
 		$isInWindows=$this->AddCommande("Etat mode","isInWindows","info","binary",0,'','isInWindows');
 		$inWindows=$this->AddCommande("Mode","inWindows","action","select",1,'','inWindows');
 		$inWindows->setConfiguration('listValue','1|Hiver;0|Eté');

@@ -491,24 +491,31 @@ class Volets extends eqLogic {
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
 				continue;
 			if($Cmd['isVoletMove']){
-				if($this->getConfiguration('RandExecution')){
-					$ActionMove[]=$Cmd;
-					continue;
-				}
 				if($Change['RatioVertical']){
 					if($this->CheckIsRatio($Cmd,'RatioVertical',$Gestion)){
-						$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+						if($this->getConfiguration('RandExecution'))
+							$ActionMove[]=$Cmd;
+						else
+							$this->ExecuteAction($Cmd,$Gestion,$Evenement);
 						continue;
 					}
 				}
 				if($Change['RatioHorizontal']){
 					if($this->CheckIsRatio($Cmd,'RatioHorizontal',$Gestion)){
-						$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+						if($this->getConfiguration('RandExecution'))
+							$ActionMove[]=$Cmd;
+						else
+							$this->ExecuteAction($Cmd,$Gestion,$Evenement);
 						continue;
 					}
 				}
-				if($Change['Position'])
-					$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+				if($Change['Position']){
+					if($this->getConfiguration('RandExecution'))
+						$ActionMove[]=$Cmd;
+					else
+						$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+					continue;
+				}
 			} else {
 				if($Change['Gestion'] || $Change['Position'])
 					$this->ExecuteAction($Cmd,$Gestion,$Evenement);

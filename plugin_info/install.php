@@ -35,10 +35,8 @@ function Volets_update(){
 			}
 		}
 		$Volet->setConfiguration('action',$Cmds);
-		if(!isset($Volet->getConfiguration('ObstructionMin')))
-			$Volet->setConfiguration('ObstructionMin','');
-		if(!isset($Volet->getConfiguration('ObstructionMax')))
-			$Volet->setConfiguration('ObstructionMax','');
+		$Volet->setConfiguration('ObstructionMin',$Volet->getConfiguration('ObstructionMax',''));
+		$Volet->setConfiguration('ObstructionMax',$Volet->getConfiguration('ObstructionMax',''));
 		$Volet->save();
 	}
 	log::add('Volets','debug','Fin du script de mise a jours');

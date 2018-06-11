@@ -174,6 +174,19 @@ Gestion par Azimut
 ---
 
 Ce mode de fonctionement permet de fermer les volets lorsque le soleil est entre les angles d'exposition au soleil de la fenêtre.
+Pour utiliser cette gestion il est impératif de bien définir l'angle d'exposition au soleil en positionnent correctement les curseurs.
+
+Pour améliorer l'experiance de la gestion Azimut, le plugin calcul des ratios d'ouverture du volet par raport a l'exposition du soleil
+
+- Ratio Vertical :  ce ratio reflet la hauteur d'ouverture du volet en fonction de l'altitude du soleil (Entre 0 et 100% par defaut)
+- Ratio Horizontal :  ce ratio reflet la penetration du soleil dans la feunetre en fonction de l'azimut du soleil (Entre 0 et 100% par defaut)
+
+Nous pouvons limiter le ratio Vertical avec les parametres d'altitude d'obstruction Min et Max.
+Si le soleil est en dessous du min ou au dessus du max alors le ratio sera a 100% ouvert
+
+Nous pouvons limiter le ratio Horizontal avec la définition de l'angle d'exposition au soleil.
+
+Pour appliquer ses ratios aller lire ce paragraphe [ici](https://mika-nt28.github.io/Jeedom-Volets/fr_FR/#tocAnchor-1-7-8)
 
 ### Définition de l'angle d'exposition au soleil 
 

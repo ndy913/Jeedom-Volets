@@ -664,10 +664,10 @@ class Volets extends eqLogic {
 			else
 				$zenith = $heliotrope->getConfiguration('zenith', '');	
 			$ObstructionMin=$this->getConfiguration('ObstructionMin');
-			if($ObstructionMin != '')
+			if($ObstructionMin == '')
 				$ObstructionMin = 0;
 			$ObstructionMax=$this->getConfiguration('ObstructionMax');
-			if($ObstructionMax != '')
+			if($ObstructionMax == '')
 				$ObstructionMax = $zenith;
 			if($Altitude < $ObstructionMin)
 				return 100;

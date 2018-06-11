@@ -474,10 +474,12 @@ class Volets extends eqLogic {
 		$this->CheckActions($Gestion,$Evenement,$Saison,$Change);
 	}
 	public function CheckIsRatio($Cmd,$Ratio,$Gestion){
-		 foreach($Cmd['options'] as $key => $option){
-			if(stripos($option, '#'.$this->getCmd(null,$Ratio)->getId().'#') !== FALSE){
-				log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.$Ratio.' est dans l\'option '.$key);
-				return true;
+		if(isset($Cmd['options'])){
+			 foreach($Cmd['options'] as $key => $option){
+				if(stripos($option, '#'.$this->getCmd(null,$Ratio)->getId().'#') !== FALSE){
+					log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.$Ratio.' est dans l\'option '.$key);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -659,24 +661,19 @@ class Volets extends eqLogic {
 	public function checkAltitude() { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));	
 		if(is_object($heliotrope)){	
-			$Altitude =$heliotrope->getCmd(null,'altitude');	
-			if(!is_object($Altitude))	  
-				return false;	
-			if (!$heliotrope->getConfiguration('zenith', ''))
-				$zenith = '90.58';	
-			else
-				$zenith = $heliotrope->getConfiguration('zenith', '');	
-			$ObstructionMin=$this->getConfiguration('ObstructionMin');
+			$Altitude =$heliotrope->getCmd(null,'altitude')->execCmd();	
+			$zenith = $heliotrope->getConfiguration('zenith', 90.58);	
+			$ObstructionMin = $this->getConfiguration('ObstructionMin', '');
 			if($ObstructionMin == '')
 				$ObstructionMin = 0;
-			$ObstructionMax=$this->getConfiguration('ObstructionMax');
+			$ObstructionMax = $this->getConfiguration('ObstructionMax', '');
 			if($ObstructionMax == '')
 				$ObstructionMax = $zenith;
-			if($Altitude < $ObstructionMin)
+			if($Altitude < intval($ObstructionMin))
 				return 100;
-			if($Altitude > $ObstructionMax)
+			if($Altitude > intval($ObstructionMax))
 				return 100;
-			$Hauteur=round($Altitude->execCmd()*100/$zenith);	
+			$Hauteur=round($Altitude*100/$zenith);	
 			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');	
 			return $Hauteur;
 		}

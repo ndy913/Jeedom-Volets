@@ -420,7 +420,7 @@ class Volets extends eqLogic {
 			$Hauteur=100;
 		elseif($Evenement == 'close')
 			$Hauteur=0;
-		if ($Gestion == 'Azimut' && $Saison != 'hiver' && $this->getCmd(null,'state')->execCmd() && !$this->_inverseCondition)
+		if ($Gestion == 'Azimut' && $Saison != 'hiver' /*&& $this->getCmd(null,'state')->execCmd() && !$this->_inverseCondition*/)
 			$Hauteur=$this->checkAltitude();
 		if($this->getConfiguration('InverseHauteur'))
 			$Hauteur=100-$Hauteur;
@@ -473,6 +473,17 @@ class Volets extends eqLogic {
 		$this->checkAndUpdateCmd('gestion',$Gestion);
 		$this->CheckActions($Gestion,$Evenement,$Saison,$Change);
 	}
+	public function CheckIsRatio($Cmd,$Ratio,$Gestion){
+		if(isset($Cmd['options'])){
+			 foreach($Cmd['options'] as $key => $option){
+				if(stripos($option, '#'.$this->getCmd(null,$Ratio)->getId().'#') !== FALSE){
+					log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.$Ratio.' est dans l\'option '.$key);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	public function CheckActions($Gestion,$Evenement,$Saison,$Change){
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions : '.json_encode($Change));
 		$ActionMove=null;
@@ -485,21 +496,15 @@ class Volets extends eqLogic {
 					continue;
 				}
 				if($Change['RatioVertical']){
-                 			 foreach($Cmd['options'] as $key => $option){
-						if(stripos($option, '#'.$this->getCmd(null,'RatioVertical')->getId().'#') !== FALSE){
-							log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande RatioVertical est dans l\'option '.$key);
-							$this->ExecuteAction($Cmd,$Gestion,$Evenement);
-							continue;
-						}
+					if($this->CheckIsRatio($Cmd,'RatioVertical',$Gestion)){
+						$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+						continue;
 					}
 				}
 				if($Change['RatioHorizontal']){
-                 			 foreach($Cmd['options'] as $key => $option){
-						if(stripos($option, '#'.$this->getCmd(null,'RatioHorizontal')->getId().'#') !== FALSE){
-							log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande RatioHorizontal est dans l\'option '.$key);
-							$this->ExecuteAction($Cmd,$Gestion,$Evenement);
-							continue;
-						}
+					if($this->CheckIsRatio($Cmd,'RatioHorizontal',$Gestion)){
+						$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+						continue;
 					}
 				}
 				if($Change['Position'])
@@ -656,24 +661,19 @@ class Volets extends eqLogic {
 	public function checkAltitude() { 
 		$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));	
 		if(is_object($heliotrope)){	
-			$Altitude =$heliotrope->getCmd(null,'altitude');	
-			if(!is_object($Altitude))	  
-				return false;	
-			if (!$heliotrope->getConfiguration('zenith', ''))
-				$zenith = '90.58';	
-			else
-				$zenith = $heliotrope->getConfiguration('zenith', '');	
-			$ObstructionMin=$this->getConfiguration('ObstructionMin');
-			if($ObstructionMin != '')
+			$Altitude =$heliotrope->getCmd(null,'altitude')->execCmd();	
+			$zenith = $heliotrope->getConfiguration('zenith', 90.58);	
+			$ObstructionMin = $this->getConfiguration('ObstructionMin', '');
+			if($ObstructionMin == '')
 				$ObstructionMin = 0;
-			$ObstructionMax=$this->getConfiguration('ObstructionMax');
-			if($ObstructionMax != '')
+			$ObstructionMax = $this->getConfiguration('ObstructionMax', '');
+			if($ObstructionMax == '')
 				$ObstructionMax = $zenith;
-			if($Altitude < $ObstructionMin)
+			if($Altitude < intval($ObstructionMin))
 				return 100;
-			if($Altitude > $ObstructionMax)
+			if($Altitude > intval($ObstructionMax))
 				return 100;
-			$Hauteur=round($Altitude->execCmd()*100/$zenith);	
+			$Hauteur=round($Altitude*100/$zenith);	
 			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');	
 			return $Hauteur;
 		}
@@ -774,6 +774,8 @@ class Volets extends eqLogic {
 					if($this->CheckOtherGestion('Jour',true))
 						$this->GestionJour(true);
 				}
+				cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
+				cache::set('Volets::LastChangeState::'.$this->getId(),time(), 0);
 			}
 		}
 	}
@@ -908,6 +910,16 @@ class VoletsCmd extends cmd {
 										
 				break;
 				case 'VoletState':
+					$Value=$_options['select'];
+					$State=cmd::byKey($this->getEqLogic()->getConfiguration('RealState'));
+					if(is_object($State)){
+						if($State->execCmd())
+							$Value='open';
+						else
+			 				$Value='close';
+					}
+					$Listener->event($Value);
+				break;
 				case 'inWindows':
 					$Listener->event($_options['select']);
 				break;

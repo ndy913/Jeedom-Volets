@@ -161,6 +161,7 @@ class Volets extends eqLogic {
 		return $this->RearmementAutomatique($Evenement,$Gestion);
 	}		
 	public function CheckRealState($Value) {   
+		cache::set('Volets::ActualState::'.$this->getId(),$Value, 0);
 		$SeuilRealState=$this->getConfiguration("SeuilRealState");
 		if($SeuilRealState == '')
 			$SeuilRealState=0;
@@ -419,7 +420,7 @@ class Volets extends eqLogic {
 			$Hauteur=100;
 		elseif($Evenement == 'close')
 			$Hauteur=0;
-		if ($Gestion == 'Azimut' && $Saison != 'hiver' && $this->getCmd(null,'state')->execCmd() /*&& !$this->_inverseCondition*/)
+		if ($Gestion == 'Azimut' && $Saison != 'hiver' && $this->getCmd(null,'state')->execCmd() && !$this->_inverseCondition)
 			$Hauteur=$this->checkAltitude();
 		if($this->getConfiguration('InverseHauteur'))
 			$Hauteur=100-$Hauteur;
@@ -531,6 +532,10 @@ class Volets extends eqLogic {
 					$options[$key]=jeedom::evaluateExpression($option);
 					if($key == 'slider'){
 						if($Cmd['isVoletMove']){
+							if(cache::byKey('Volets::ActualState::'.$this->getId())->getValue(0) == $options[$key]){
+								log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executé car la valeur est identique');
+								return;
+							}
 							cache::set('Volets::CurrentState::'.$this->getId(),$options[$key], 0);
 						}
 					}
@@ -890,6 +895,9 @@ class Volets extends eqLogic {
 		if (is_object($cache)) 	
 			$cache->remove();
 		$cache = cache::byKey('Volets::HauteurAlt::'.$this->getId());	
+		if (is_object($cache)) 	
+			$cache->remove();
+		$cache = cache::byKey('Volets::ActualState::'.$this->getId());	
 		if (is_object($cache)) 	
 			$cache->remove();
 	}

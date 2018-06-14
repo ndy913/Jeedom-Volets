@@ -924,12 +924,14 @@ class VoletsCmd extends cmd {
 				break;
 				case 'VoletState':
 					$Value=$_options['select'];
-					$State=cmd::byKey($this->getEqLogic()->getConfiguration('RealState'));
-					if(is_object($State)){
-						if($State->execCmd())
-							$Value='open';
-						else
-			 				$Value='close';
+					if($this->getEqLogic()->getConfiguration('RealState') != ''){
+						$State=cmd::byKey($this->getEqLogic()->getConfiguration('RealState'));
+						if(is_object($State)){
+							if($State->execCmd())
+								$Value='open';
+							else
+								$Value='close';
+						}
 					}
 					$Listener->event($Value);
 				break;

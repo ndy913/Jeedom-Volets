@@ -674,10 +674,10 @@ class Volets extends eqLogic {
 		if(is_object($heliotrope)){	
 			$Altitude =$heliotrope->getCmd(null,'altitude')->execCmd();	
 			$zenith = $heliotrope->getConfiguration('zenith', 90.58);	
-			$ObstructionMin = $this->getConfiguration('ObstructionMin', '');
+			$ObstructionMin = jeedom::evaluateExpression($this->getConfiguration('ObstructionMin', ''));
 			if($ObstructionMin == '')
 				$ObstructionMin = 0;
-			$ObstructionMax = $this->getConfiguration('ObstructionMax', '');
+			$ObstructionMax = jeedom::evaluateExpression($this->getConfiguration('ObstructionMax', ''));
 			if($ObstructionMax == '')
 				$ObstructionMax = $zenith;
 			if($Altitude < intval($ObstructionMin))

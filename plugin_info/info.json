@@ -4,7 +4,7 @@
 	"description" : "Ce plugin gère l'ouverture et la fermeture de nos volets",
 	"licence" : "AGPL",
 	"author" : "Halbout Michael",
-	"require" : "2.4",
+	"require" : "3.2.8",
 	"category" : "automatisation",
 	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"],
 	"hasOwnDeamon" : true,

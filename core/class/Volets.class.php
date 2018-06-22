@@ -931,7 +931,7 @@ class VoletsCmd extends cmd {
 					if($this->getEqLogic()->getConfiguration('RealState') != ''){
 						$State=cmd::byId(str_replace('#','',$this->getEqLogic()->getConfiguration('RealState')));
 						if(is_object($State))
-							$Value=$this->getEqLogic()->CheckState($State);
+							$Value=$this->getEqLogic()->CheckState($State->execCmd());
 					}
 					$Listener->event($Value);
 				break;

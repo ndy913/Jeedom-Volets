@@ -160,7 +160,7 @@ class Volets extends eqLogic {
 		}
 		return $this->RearmementAutomatique($Evenement,$Gestion);
 	}		
-	public function CheckRealState($Value) {   
+	public function CheckState($Value) {  
 		cache::set('Volets::ActualState::'.$this->getId(),$Value, 0);
 		$SeuilRealState=$this->getConfiguration("SeuilRealState");
 		if($SeuilRealState == '')
@@ -177,6 +177,10 @@ class Volets extends eqLogic {
 				$State='close';
 		}
 		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
+		return $State;
+	}
+	public function CheckRealState($Value) {   
+		$State=$this->CheckState($Value);
 		$this->setPosition($State);
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
 			if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
@@ -925,13 +929,9 @@ class VoletsCmd extends cmd {
 				case 'VoletState':
 					$Value=$_options['select'];
 					if($this->getEqLogic()->getConfiguration('RealState') != ''){
-						$State=cmd::byId($this->getEqLogic()->getConfiguration('RealState'));
-						if(is_object($State)){
-							if($State->execCmd())
-								$Value='open';
-							else
-								$Value='close';
-						}
+						$State=cmd::byId(str_replace('#','',$this->getEqLogic()->getConfiguration('RealState')));
+						if(is_object($State))
+							$Value=$this->getEqLogic()->CheckState($State);
 					}
 					$Listener->event($Value);
 				break;

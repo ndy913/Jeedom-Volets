@@ -804,13 +804,13 @@ class Volets extends eqLogic {
 			$Commande->setIsVisible($visible);
 			$Commande->setLogicalId($_logicalId);
 			$Commande->setEqLogic_id($this->getId());
+			$Commande->setType($Type);
+			$Commande->setSubType($SubType);
+			$Commande->setTemplate('dashboard',$Template );
+			$Commande->setTemplate('mobile', $Template);
+			$Commande->setGeneric_type($GenericType);
+			$Commande->save();
 		}
-		$Commande->setType($Type);
-		$Commande->setSubType($SubType);
-   		$Commande->setTemplate('dashboard',$Template );
-		$Commande->setTemplate('mobile', $Template);
-		$Commande->setGeneric_type($GenericType);
-		$Commande->save();
 		return $Commande;
 	}
 	public function setPosition($Evenement) {

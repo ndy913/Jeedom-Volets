@@ -15,6 +15,21 @@ Il est recommandée, mais pas obligatoire, d'utiliser une zone par volet afin de
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de votre présence.
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de la météo.
 
+Configuration général
+===
+
+Dans la configuration général il est possible d'ajouter une clef API Bing.
+Cette clef est optionnel, uniquement utile si vous souhaitez avoir des map plus recent ou satelite.
+Cela peut etre utile si votre maison est recente et pas encore dessinez sur le map OpenLayer.
+
+Obtenir une clef API BING
+----
+
+Pour obtenir une clef API bing, aller sur le site [bingmapsportal](https://www.bingmapsportal.com/Application#)
+puis cree une nouvelle application
+
+![introduction01](../images/BingAPiKeyCreate.jpg)
+
 Commandes et widgets
 ===
 Pour chaque équipement, le plugin va créer des commandes.

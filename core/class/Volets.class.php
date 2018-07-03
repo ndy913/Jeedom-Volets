@@ -435,8 +435,8 @@ class Volets extends eqLogic {
 		$cmd=$this->getCmd(null, $Ratio);
 		if(!is_object($cmd))
 			return $Value;
-		$min=$cmd->getConfiguration('minValue');
-		$max=$cmd->getConfiguration('maxValue');
+		$min=jeedom::evaluateExpression($cmd->getConfiguration('minValue'));
+		$max=jeedom::evaluateExpression($cmd->getConfiguration('maxValue'));
 		if($min == '' && $max == '')
 			return $Value;
 		if($min == '')

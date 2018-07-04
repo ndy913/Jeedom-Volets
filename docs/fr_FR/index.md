@@ -125,7 +125,8 @@ Configuration générale Jeedom
 ### Gestion de l'etat reel
 
 * `Objet etat réel` : Commande Jeedom permetant de définir l'état réel du volet
-* `Hauteur de fermeture` : Seuil de la hauteur de l'état réel séparant l'ouverture de la fermeture
+* `Seuil de fermeture du volet` : Seuil de la hauteur de l'état réel séparant l'ouverture de la fermeture
+* `Inverser Ratio` : Permet d'inversion le sens de calcul du ratio
 
 Gestion du lever et coucher du soleil
 ---

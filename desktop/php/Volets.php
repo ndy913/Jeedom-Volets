@@ -228,19 +228,19 @@ $eqLogics = eqLogic::byType('Volets');
 							</div>
 						</div>	
 						<div class="form-group">
-							<label class="col-sm-2 control-label">{{Hauteur de fermeture}}
+							<label class="col-sm-2 control-label">{{Seuil de fermeture du volet}}
 								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Ce paramètre permet de déterminer si le volet est considéré comme fermé (pour le retour d'état proportionnel).}}"></i>
+									<i class="fa fa-question-circle tooltips" title="{{Ce paramètre permet de déterminer si le volet est considéré comme fermée (pour le retour d'état proportionnel).}}"></i>
 								</sup>
 							</label>
 							<div class="col-sm-5">
 								<div class="input-group">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="SeuilRealState" placeholder="{{0 si binaire}}"/>
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="SeuilRealState" placeholder="{{Seuil de fermeture (%)}}"/>
 								</div>
 							</div>
 						</div>	
 						<div class="form-group">
-							<label class="col-sm-2 control-label">{{Hauteur calculée}}
+							<label class="col-sm-2 control-label">{{Ratio}}
 								<sup>
 									<i class="fa fa-question-circle tooltips" title="{{Ce paramètre permet d'inverser la hauteur calculée par le plugin).}}"></i>
 								</sup>

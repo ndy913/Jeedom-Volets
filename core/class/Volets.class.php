@@ -685,7 +685,20 @@ class Volets extends eqLogic {
 				return 100;
 			if($Altitude > intval($ObstructionMax))
 				return 100;
-			$Hauteur=round($Altitude*100/$zenith);	
+			switch($this->getConfiguration('TypeFenetre', '')){
+				case "porte":
+					$Min=0;	
+				break;
+				case "fenetre":
+					$Min=42;	
+				break;
+				case "toit":
+					$Min=66;
+				break;
+			}
+			$Hauteur=round((($Altitude-$Min)*100)/($zenith-$Min),0)
+			if($Hauteur < 0)
+				return 100;
 			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');	
 			return $Hauteur;
 		}

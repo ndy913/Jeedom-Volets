@@ -9,6 +9,6 @@
 	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"],
 	"hasOwnDeamon" : true,
 	"issue" : "https://github.com/mika-nt28/Jeedom-Volets/issues",
- 	"changelog" : "https://github.com/mika-nt28/Jeedom-Volets/commits/master",
+ 	"changelog" : "https://github.com/mika-nt28/Jeedom-Volets/commits/stable",
  	"documentation" : "https://mika-nt28.github.io/Jeedom-Volets/"
 }

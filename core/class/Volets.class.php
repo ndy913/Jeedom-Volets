@@ -699,7 +699,7 @@ class Volets extends eqLogic {
 			}
 			$Hauteur=round((($Altitude-$Min)*100)/($zenith-$Min),0);
 			if($Hauteur < 0)
-				return 100;
+				return 0;
 			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');	
 			return $Hauteur;
 		}

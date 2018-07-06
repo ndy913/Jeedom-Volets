@@ -202,7 +202,7 @@ class Volets extends eqLogic {
 						$Evenement=$this->checkCondition('close',$Saison,'Absent');   		
 						if($Evenement != false && $Evenement == 'close'){
 							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
-							$this->CheckRepetivite('Absent',$Evenement,$Saison);
+							$this->CheckRepetivite('Absent',$Evenement,$Saison,$force);
 							return false;
 						}
 					}
@@ -212,7 +212,7 @@ class Volets extends eqLogic {
 					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
 					if($Evenement != false && $Evenement == 'close'){
 						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion Meteo prend le relais');
-						$this->CheckRepetivite('Meteo',$Evenement,$Saison);
+						$this->CheckRepetivite('Meteo',$Evenement,$Saison,$force);
 						return false;
 					}
 				}
@@ -228,7 +228,7 @@ class Volets extends eqLogic {
 								$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
 								if( $Evenement != false){
 									log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion par Azimut prend le relais');
-									$this->CheckRepetivite('Azimut',$Evenement,$Saison);
+									$this->CheckRepetivite('Azimut',$Evenement,$Saison,$force);
 									return false;
 								}
 							}
@@ -451,7 +451,7 @@ class Volets extends eqLogic {
 			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
 		}
 	}
-	public function CheckRepetivite($Gestion,$Evenement,$Saison){
+	public function CheckRepetivite($Gestion,$Evenement,$Saison,$force=false){
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
 			return;
 		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
@@ -459,17 +459,17 @@ class Volets extends eqLogic {
 		$Change['RatioHorizontal']=false;
 		$Change['Position']=false;
 		$Change['Gestion']=false;
-		if($this->getCmd(null,'RatioVertical')->execCmd() != $RatioVertical)
+		if($force || $this->getCmd(null,'RatioVertical')->execCmd() != $RatioVertical)
 			$Change['RatioVertical']=true;
-		if($this->getCmd(null,'RatioHorizontal')->execCmd() != $this->_RatioHorizontal)
+		if($force || $this->getCmd(null,'RatioHorizontal')->execCmd() != $this->_RatioHorizontal)
 			$Change['RatioHorizontal']=true;
 		$this->checkAndUpdateCmd('RatioVertical',$this->RatioEchelle('RatioVertical',$RatioVertical));
 		$this->checkAndUpdateCmd('RatioHorizontal',$this->RatioEchelle('RatioHorizontal',$this->_RatioHorizontal));
-		if($this->getPosition() != $Evenement)
+		if($force || $this->getPosition() != $Evenement)
 			$Change['Position']=true;
-		if ($this->getConfiguration('RealState') == '')
+		if ($force || $this->getConfiguration('RealState') == '')
 			$this->setPosition($Evenement);
-		if($this->getCmd(null,'gestion')->execCmd() != $Gestion)
+		if($force || $this->getCmd(null,'gestion')->execCmd() != $Gestion)
 			$Change['Gestion']=true;
 		$this->checkAndUpdateCmd('gestion',$Gestion);
 		$this->CheckActions($Gestion,$Evenement,$Saison,$Change);

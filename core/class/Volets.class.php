@@ -399,7 +399,7 @@ class Volets extends eqLogic {
 	}	
 	public function SelectAction($Azimut,$saison) {
 		$Action=false;
-		if($this->CheckAngle($Azimut)){
+		if($this->CheckAngle($Azimut) && $this->checkAltitude() !== false){
 			$this->checkAndUpdateCmd('state',true);
 			log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil est dans la fenêtre');
 			if($saison =='hiver')
@@ -422,7 +422,7 @@ class Volets extends eqLogic {
 		elseif($Evenement == 'close')
 			$Hauteur=0;
 		if ($Gestion == 'Azimut' && $Saison != 'hiver' && $this->getCmd(null,'state')->execCmd() && !$this->_inverseCondition)
-			$Hauteur=$this->checkAltitude();
+			$Hauteur=$this->getHauteur();
 		if($this->getConfiguration('InverseHauteur'))
 			$Hauteur=100-$Hauteur;
 		$this->_inverseCondition=false;
@@ -681,28 +681,35 @@ class Volets extends eqLogic {
 			$ObstructionMax = jeedom::evaluateExpression($this->getConfiguration('ObstructionMax', ''));
 			if($ObstructionMax == '')
 				$ObstructionMax = $zenith;
-			if($Altitude < intval($ObstructionMin))
-				return 100;
-			if($Altitude > intval($ObstructionMax))
-				return 100;
-			switch($this->getConfiguration('TypeFenetre', '')){
-				default:
-				case "porte":
-					$Min=0;	
-				break;
-				case "fenetre":
-					$Min=42;	
-				break;
-				case "toit":
-					$Min=66;
-				break;
+			if($Altitude < intval($ObstructionMin) || $Altitude > intval($ObstructionMax)){
+				log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel n\'est pas dans la fenetre');
+				return false;
 			}
-			$Hauteur=round((($Altitude-$Min)*100)/($zenith-$Min),0);
-			if($Hauteur < 0)
-				return 0;
-			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');	
-			return $Hauteur;
+			return array($Altitude,$zenith); 
 		}
+	}
+	public function getHauteur() { 
+		$checkAltitude=$this->checkAltitude();
+		if($checkAltitude === FALSE)
+			return 100;
+		list($Altitude,$zenith)=$checkAltitude;
+		switch($this->getConfiguration('TypeFenetre', '')){
+			default:
+			case "porte":
+				$Min=0;	
+			break;
+			case "fenetre":
+				$Min=42;	
+			break;
+			case "toit":
+				$Min=66;
+			break;
+		}
+		$Hauteur=round((($Altitude-$Min)*100)/($zenith-$Min),0);
+		if($Hauteur < 0)
+			return 0;
+		log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');	
+		return $Hauteur;
 	}
 	public function StopDemon(){
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));

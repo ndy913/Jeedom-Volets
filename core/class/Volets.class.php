@@ -223,7 +223,7 @@ class Volets extends eqLogic {
 						$Azimut=$heliotrope->getCmd(null,'azimuth360')->execCmd();
 						$Evenement=$this->SelectAction($Azimut,$Saison);
 						if($Evenement != false){
-							if($force || $Evenement != $this->getPosition()){
+							if($force /*|| $Evenement != $this->getPosition()*/){
 								//$this->GestionAzimute($Azimut,true);
 								$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
 								if( $Evenement != false){

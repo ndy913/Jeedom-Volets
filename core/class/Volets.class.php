@@ -701,9 +701,11 @@ class Volets extends eqLogic {
 			case "fenetre":
 				$Min=42;	
 			break;
-			case "toit":
+			case "petit":
 				$Min=66;
 			break;
+			case "toit":
+				return 0;
 		}
 		$Hauteur=round((($Altitude-$Min)*100)/($zenith-$Min),0);
 		if($Hauteur < 0)

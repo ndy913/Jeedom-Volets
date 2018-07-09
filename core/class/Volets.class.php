@@ -422,7 +422,7 @@ class Volets extends eqLogic {
 		elseif($Evenement == 'close')
 			$Hauteur=0;
 		if ($Gestion == 'Azimut' && $Saison != 'hiver' && $this->getCmd(null,'state')->execCmd() && !$this->_inverseCondition)
-			$Hauteur=$this->getHauteur();
+			$Hauteur=$this->getAltitudeRatio();
 		if($this->getConfiguration('InverseHauteur'))
 			$Hauteur=100-$Hauteur;
 		$this->_inverseCondition=false;
@@ -688,7 +688,7 @@ class Volets extends eqLogic {
 			return array($Altitude,$zenith); 
 		}
 	}
-	public function getHauteur() { 
+	public function getAltitudeRatio() { 
 		$checkAltitude=$this->checkAltitude();
 		if($checkAltitude === FALSE)
 			return 100;

@@ -223,15 +223,13 @@ class Volets extends eqLogic {
 						$Azimut=$heliotrope->getCmd(null,'azimuth360')->execCmd();
 						$Evenement=$this->SelectAction($Azimut,$Saison);
 						if($Evenement != false){
-							if($force /*|| $Evenement != $this->getPosition()*/){
-								//$this->GestionAzimute($Azimut,true);
-								$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
-								if( $Evenement != false){
-									log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion par Azimut prend le relais');
-									$this->CheckRepetivite('Azimut',$Evenement,$Saison,$force);
-									return false;
-								}
-							}
+							$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
+							if($Evenement == false)
+								break;
+							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion par Azimut prend le relais');
+							$this->CheckRepetivite('Azimut',$Evenement,$Saison,$force);
+							return false;
+							
 						}
 					}
 				}
@@ -265,8 +263,8 @@ class Volets extends eqLogic {
 					return;
 				$this->CheckRepetivite('Jour',$Evenement,$Saison);
 			}
-		}elseif($force)
-			$this->CheckOtherGestion('Jour',true);
+		}elseif($force)			
+			$this->checkAndUpdateCmd('gestion','Jour');
 	}
 	public function GestionNuit($force=false) {
 		if ($this->AutorisationAction('close','Nuit')){
@@ -277,7 +275,7 @@ class Volets extends eqLogic {
 				$this->CheckRepetivite('Nuit',$Evenement,$Saison);
 			}
 		}elseif($force)
-			$this->CheckOtherGestion('Jour',true);
+			$this->checkAndUpdateCmd('gestion','Jour');
 	}
 	public static function GestionMeteo($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);

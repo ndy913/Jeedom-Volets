@@ -938,6 +938,7 @@ class VoletsCmd extends cmd {
 				break;
 				case 'released':
 					$Listener->event(false);
+					$this->getEqLogic()->GestionManuel($this->getEqLogic()->getPosition());
 										
 				break;
 				case 'VoletState':

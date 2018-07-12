@@ -202,7 +202,7 @@ class Volets extends eqLogic {
 						$Evenement=$this->checkCondition('close',$Saison,'Absent');   		
 						if($Evenement != false && $Evenement == 'close'){
 							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
-							$this->CheckRepetivite('Absent',$Evenement,$Saison);
+							$this->CheckRepetivite('Absent',$Evenement,$Saison,$force);
 							return false;
 						}
 					}
@@ -212,7 +212,7 @@ class Volets extends eqLogic {
 					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
 					if($Evenement != false && $Evenement == 'close'){
 						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion Meteo prend le relais');
-						$this->CheckRepetivite('Meteo',$Evenement,$Saison);
+						$this->CheckRepetivite('Meteo',$Evenement,$Saison,$force);
 						return false;
 					}
 				}
@@ -223,15 +223,13 @@ class Volets extends eqLogic {
 						$Azimut=$heliotrope->getCmd(null,'azimuth360')->execCmd();
 						$Evenement=$this->SelectAction($Azimut,$Saison);
 						if($Evenement != false){
-							if($force || $Evenement != $this->getPosition()){
-								//$this->GestionAzimute($Azimut,true);
-								$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
-								if( $Evenement != false){
-									log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion par Azimut prend le relais');
-									$this->CheckRepetivite('Azimut',$Evenement,$Saison);
-									return false;
-								}
-							}
+							$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
+							if($Evenement == false)
+								break;
+							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion par Azimut prend le relais');
+							$this->CheckRepetivite('Azimut',$Evenement,$Saison,$force);
+							return false;
+							
 						}
 					}
 				}
@@ -265,8 +263,8 @@ class Volets extends eqLogic {
 					return;
 				$this->CheckRepetivite('Jour',$Evenement,$Saison);
 			}
-		}elseif($force)
-			$this->CheckOtherGestion('Jour',true);
+		}elseif($force)			
+			$this->checkAndUpdateCmd('gestion','Jour');
 	}
 	public function GestionNuit($force=false) {
 		if ($this->AutorisationAction('close','Nuit')){
@@ -277,7 +275,7 @@ class Volets extends eqLogic {
 				$this->CheckRepetivite('Nuit',$Evenement,$Saison);
 			}
 		}elseif($force)
-			$this->CheckOtherGestion('Jour',true);
+			$this->checkAndUpdateCmd('gestion','Jour');
 	}
 	public static function GestionMeteo($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
@@ -399,7 +397,7 @@ class Volets extends eqLogic {
 	}	
 	public function SelectAction($Azimut,$saison) {
 		$Action=false;
-		if($this->CheckAngle($Azimut)){
+		if($this->CheckAngle($Azimut) && $this->checkAltitude() !== false){
 			$this->checkAndUpdateCmd('state',true);
 			log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil est dans la fenêtre');
 			if($saison =='hiver')
@@ -422,7 +420,7 @@ class Volets extends eqLogic {
 		elseif($Evenement == 'close')
 			$Hauteur=0;
 		if ($Gestion == 'Azimut' && $Saison != 'hiver' && $this->getCmd(null,'state')->execCmd() && !$this->_inverseCondition)
-			$Hauteur=$this->checkAltitude();
+			$Hauteur=$this->getAltitudeRatio();
 		if($this->getConfiguration('InverseHauteur'))
 			$Hauteur=100-$Hauteur;
 		$this->_inverseCondition=false;
@@ -451,7 +449,7 @@ class Volets extends eqLogic {
 			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
 		}
 	}
-	public function CheckRepetivite($Gestion,$Evenement,$Saison){
+	public function CheckRepetivite($Gestion,$Evenement,$Saison,$force=false){
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
 			return;
 		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
@@ -459,17 +457,17 @@ class Volets extends eqLogic {
 		$Change['RatioHorizontal']=false;
 		$Change['Position']=false;
 		$Change['Gestion']=false;
-		if($this->getCmd(null,'RatioVertical')->execCmd() != $RatioVertical)
+		if($force || $this->getCmd(null,'RatioVertical')->execCmd() != $RatioVertical)
 			$Change['RatioVertical']=true;
-		if($this->getCmd(null,'RatioHorizontal')->execCmd() != $this->_RatioHorizontal)
+		if($force || $this->getCmd(null,'RatioHorizontal')->execCmd() != $this->_RatioHorizontal)
 			$Change['RatioHorizontal']=true;
 		$this->checkAndUpdateCmd('RatioVertical',$this->RatioEchelle('RatioVertical',$RatioVertical));
 		$this->checkAndUpdateCmd('RatioHorizontal',$this->RatioEchelle('RatioHorizontal',$this->_RatioHorizontal));
-		if($this->getPosition() != $Evenement)
+		if($force || $this->getPosition() != $Evenement)
 			$Change['Position']=true;
-		if ($this->getConfiguration('RealState') == '')
+		if ($force || $this->getConfiguration('RealState') == '')
 			$this->setPosition($Evenement);
-		if($this->getCmd(null,'gestion')->execCmd() != $Gestion)
+		if($force || $this->getCmd(null,'gestion')->execCmd() != $Gestion)
 			$Change['Gestion']=true;
 		$this->checkAndUpdateCmd('gestion',$Gestion);
 		$this->CheckActions($Gestion,$Evenement,$Saison,$Change);
@@ -681,14 +679,37 @@ class Volets extends eqLogic {
 			$ObstructionMax = jeedom::evaluateExpression($this->getConfiguration('ObstructionMax', ''));
 			if($ObstructionMax == '')
 				$ObstructionMax = $zenith;
-			if($Altitude < intval($ObstructionMin))
-				return 100;
-			if($Altitude > intval($ObstructionMax))
-				return 100;
-			$Hauteur=round($Altitude*100/$zenith);	
-			log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');	
-			return $Hauteur;
+			if($Altitude < intval($ObstructionMin) || $Altitude > intval($ObstructionMax)){
+				log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel n\'est pas dans la fenetre');
+				return false;
+			}
+			return array($Altitude,$zenith); 
 		}
+	}
+	public function getAltitudeRatio() { 
+		$checkAltitude=$this->checkAltitude();
+		if($checkAltitude === FALSE)
+			return 100;
+		list($Altitude,$zenith)=$checkAltitude;
+		switch($this->getConfiguration('TypeFenetre', '')){
+			default:
+			case "porte":
+				$Min=0;	
+			break;
+			case "fenetre":
+				$Min=42;	
+			break;
+			case "petit":
+				$Min=66;
+			break;
+			case "toit":
+				return 0;
+		}
+		$Hauteur=round((($Altitude-$Min)*100)/($zenith-$Min),0);
+		if($Hauteur < 0)
+			return 0;
+		log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');	
+		return $Hauteur;
 	}
 	public function StopDemon(){
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
@@ -917,6 +938,7 @@ class VoletsCmd extends cmd {
 				break;
 				case 'released':
 					$Listener->event(false);
+					$this->getEqLogic()->GestionManuel($this->getEqLogic()->getPosition());
 										
 				break;
 				case 'VoletState':

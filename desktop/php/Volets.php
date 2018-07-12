@@ -438,6 +438,21 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>
 						</div>	
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{Type de fenêtre}}
+								<sup>
+									<i class="fa fa-question-circle tooltips" title="{{Choisir le type de fenêtre, permet d'adapter le ratio a la feunetre}}"></i>
+								</sup>
+							</label>
+							<div class="col-sm-5">
+								<select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="TypeFenetre">
+									<option value="porte">{{Porte fenêtre}}</option>
+									<option value="fenetre">{{Fenêtre}}</option>
+									<option value="petit">{{Petit fenêtre}}</option>
+									<option value="toit">{{Fenêtre de toit}}</option>
+								</select>
+							</div>
+						</div>
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Droite"/>
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Centre"/>
 						<input type="hidden" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="Gauche"/>

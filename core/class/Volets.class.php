@@ -259,7 +259,7 @@ class Volets extends eqLogic {
 			$Saison=$this->getSaison();
 			$Evenement=$this->checkCondition('open',$Saison,'Jour');
 			if( $Evenement!= false){
-				if(!$this->CheckOtherGestion('Jour'),$force)
+				if(!$this->CheckOtherGestion('Jour',$force))
 					return;
 				$this->CheckRepetivite('Jour',$Evenement,$Saison,$force);
 			}

@@ -244,7 +244,7 @@ class Volets extends eqLogic {
 				log::add('Volets','info','Un evenement manuel a été détécté sur le volet '.$this->getHumanName().' La gestion a été désactivé');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
 				if($Evenement != false){
-					$this->CheckRepetivite('Manuel',$Evenement,$Saison);
+					$this->CheckRepetivite('Manuel',$Evenement,$Saison,true);
 					$this->checkAndUpdateCmd('isArmed',false);
 				}
 			}else{
@@ -259,9 +259,9 @@ class Volets extends eqLogic {
 			$Saison=$this->getSaison();
 			$Evenement=$this->checkCondition('open',$Saison,'Jour');
 			if( $Evenement!= false){
-				if(!$this->CheckOtherGestion('Jour'))
+				if(!$this->CheckOtherGestion('Jour'),$force)
 					return;
-				$this->CheckRepetivite('Jour',$Evenement,$Saison);
+				$this->CheckRepetivite('Jour',$Evenement,$Saison,$force);
 			}
 		}elseif($force)			
 			$this->checkAndUpdateCmd('gestion','Jour');
@@ -272,7 +272,7 @@ class Volets extends eqLogic {
 			$Saison=$this->getSaison();
 			$Evenement=$this->checkCondition('close',$Saison,'Nuit');
 			if( $Evenement!= false){
-				$this->CheckRepetivite('Nuit',$Evenement,$Saison);
+				$this->CheckRepetivite('Nuit',$Evenement,$Saison,$force);
 			}
 		}elseif($force)
 			$this->checkAndUpdateCmd('gestion','Jour');
@@ -465,7 +465,7 @@ class Volets extends eqLogic {
 		$this->checkAndUpdateCmd('RatioHorizontal',$this->RatioEchelle('RatioHorizontal',$this->_RatioHorizontal));
 		if($force || $this->getPosition() != $Evenement)
 			$Change['Position']=true;
-		if ($force || $this->getConfiguration('RealState') == '')
+		if ($this->getConfiguration('RealState') == '')
 			$this->setPosition($Evenement);
 		if($force || $this->getCmd(null,'gestion')->execCmd() != $Gestion)
 			$Change['Gestion']=true;

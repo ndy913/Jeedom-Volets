@@ -284,10 +284,10 @@ FAQ
 > Pour cela il faut ajouter une condition sur la gestion jour
 
 **Mes Volets ne se bouge plus**
-> Verifier que la gestion manuel ne soit pas active
+> Verifier que l'armement de la zone est bien actif (Cadenas fermer sur le widget) et que la gestion active ne soit pas "Manuel"
 
 **Le cadenas est ouvert, mais le plugin contiue a analysé les inforamtion d'héliotrope**
-> Le plugin est désarmé, mais le plugin continue de mettre à jours ses paramètres 
+> Le plugin est désarmé, il n'y aurra pas d'action mais le plugin continue sa surveillance
 
 **Je suis passée en mode manuel dans la journée, comment réarmer automatiquement le plugin**
 > Pour le réarmement automatique il est nécessaire d'ajouter une condition de réarmement sur la gestion et le mouvement profuit.

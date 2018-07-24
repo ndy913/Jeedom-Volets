@@ -254,7 +254,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public function GestionJour($force=false) {    
-		if ($this->AutorisationAction('open','Jour')){	
+		if ($force || $this->AutorisationAction('open','Jour')){	
 			log::add('Volets', 'info', $this->getHumanName().'[Gestion Jour] : Exécution de la gestion du lever du soleil');
 			$Saison=$this->getSaison();
 			$Evenement=$this->checkCondition('open',$Saison,'Jour');
@@ -263,8 +263,10 @@ class Volets extends eqLogic {
 					return;
 				$this->CheckRepetivite('Jour',$Evenement,$Saison,$force);
 			}
-		}elseif($force)			
-			$this->checkAndUpdateCmd('gestion','Jour');
+		}elseif($force)	{
+			if(!$this->CheckOtherGestion('Jour',$force))
+				$this->checkAndUpdateCmd('gestion','Jour');
+		}
 	}
 	public function GestionNuit($force=false) {
 		if ($this->AutorisationAction('close','Nuit')){
@@ -274,8 +276,10 @@ class Volets extends eqLogic {
 			if( $Evenement!= false){
 				$this->CheckRepetivite('Nuit',$Evenement,$Saison,$force);
 			}
-		}elseif($force)
-			$this->checkAndUpdateCmd('gestion','Jour');
+		}elseif($force){
+			if(!$this->CheckOtherGestion('Jour',$force))
+				$this->checkAndUpdateCmd('gestion','Jour');
+		}
 	}
 	public static function GestionMeteo($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);

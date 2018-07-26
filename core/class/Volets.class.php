@@ -749,25 +749,8 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('RealState') != ''){
 					$listener->addEvent($this->getConfiguration('RealState'));
 					$RealState=cmd::byId($this->getConfiguration('RealState'));
-					if(is_object($RealState)){
-						$Value=$RealState->execCmd();
-						$this->checkAndUpdateCmd('RatioVertical',$Value);
-						$SeuilRealState=$this->getConfiguration("SeuilRealState");
-						if($SeuilRealState == '')
-							$SeuilRealState=0;
-						if($this->getConfiguration('InverseHauteur')){	
-							if($Value < $SeuilRealState)
-								$State='open';
-							else
-								$State='close';
-						}else{
-							if($Value > $SeuilRealState)
-								$State='open';
-							else
-								$State='close';
-						}
-						$this->setPosition($State);
-					}
+					if(is_object($RealState))
+						$this->setPosition($this->CheckState($RealState->execCmd()));
 				}
 				//$listener->addEvent($heliotrope->getCmd(null,'altitude')->getId());
 				if ($this->getConfiguration('Azimut'))

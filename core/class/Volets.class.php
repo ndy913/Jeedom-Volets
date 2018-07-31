@@ -737,6 +737,8 @@ class Volets extends eqLogic {
 	}
 	public function StartDemon() {
 		if($this->getIsEnable()){
+			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
+			cache::set('Volets::LastChangeState::'.$this->getId(),time(), 0);
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
@@ -792,8 +794,6 @@ class Volets extends eqLogic {
 					$this->GestionNuit(true);
 				else
 					$this->GestionJour(true);
-				cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
-				cache::set('Volets::LastChangeState::'.$this->getId(),time(), 0);
 			}
 		}
 	}

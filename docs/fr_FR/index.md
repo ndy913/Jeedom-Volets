@@ -274,30 +274,49 @@ Si vous souhaitez utiliser les commandes ratiométriques, il est juste necessair
 FAQ
 ===
 
-**Le plugin reste en gestion Nuit**
+Le plugin reste en gestion Nuit
+---
 > Verifier que la gestion de jours est activé
 
-**Le plugin reste en mode manuel**
+Le plugin reste en mode manuel
+---
 > Pour sortir du mode manuel il faut réarmer **Manuellement ou par scénario** le plugin.
 
-**Je ne veux pas que mes volets s'ouvre le matin avant 10h**
+Je ne veux pas que mes volets s'ouvre le matin avant 10h
+---
 > Pour cela il faut ajouter une condition sur la gestion jour
 
-**Mes Volets ne se bouge plus**
+Mes Volets ne se bouge plus
+---
 > Verifier que l'armement de la zone est bien actif (Cadenas fermer sur le widget) et que la gestion active ne soit pas "Manuel"
 
-**Le cadenas est ouvert, mais le plugin contiue a analysé les inforamtion d'héliotrope**
+Le cadenas est ouvert, mais le plugin contiue a analysé les inforamtion d'héliotrope
+---
 > Le plugin est désarmé, il n'y aurra pas d'action mais le plugin continue sa surveillance
 
-**Je suis passée en mode manuel dans la journée, comment réarmer automatiquement le plugin**
+Mon cadenas s'ouvre a chaque commande du plugin
+---
+> D'une maniere général, le plugin passe en mode manuel car il recois consequtivement plusieur retour d'etat qu'il a acquité.
+Ce probleme est liée a la gestion de *répétition de votre commande d'etat*.
+Pour le corrigé rendez-vous sur la page de configuration du plugin de controle de votre module volet et double cliquez sur la commande de retour d'etat.
+Jeedom vas vous ouvrir la page de paramettre avancé
+Allez dans l'onglet **Configuration** >> **Autres** et passée le parametre **Gestion de la répétition des valeurs** sur **Jamais répéter**
+
+![introduction01](../images/CmdParamAvanceRepetition.png)
+
+Je suis passée en mode manuel dans la journée, comment réarmer automatiquement le plugin
+---
 > Pour le réarmement automatique il est nécessaire d'ajouter une condition de réarmement sur la gestion et le mouvement profuit.
 Par exemple pour le réarmement en gestion de nuit, je vais ajouter une condition du style #time# ++ 2000 en gestion de nuit et sur la fermeture
 
-**J'ai configuré ma gestion Azimut avec le ratio mais il fait tros de mouvement**
+J'ai configuré ma gestion Azimut avec le ratio mais il fait tros de mouvement
+---
 > Il est possible de limiter les mouvements avec une formule dans les options.
+Dans l'exemple si dessous, on limite l'ouverture du volet de 0 a 100% par pas de 5%
 ![introduction01](../images/ActionRatioLimite.png)
 
-**Le plugin ne fonctionne pas avec mon module Fibaro**
+Le plugin ne fonctionne pas avec mon module Fibaro
+---
 > Les modules fibaro son gradué proportionnelement de 0 a 99%.
 Pour palier a ce probleme il est recommandé d'utiliser le plugin avec sont ratioVertical (ou ratioHorizontal) en configurant le min (0) et max (99) pour la commande ratio appliquer.
 Egalement la Hauteur de seuil (ouvert/ fermer) doit etre comprise entre 1 et 98%

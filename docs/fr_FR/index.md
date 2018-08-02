@@ -302,7 +302,7 @@ Pour le corrigé rendez-vous sur la page de configuration du plugin de controle 
 Jeedom vas vous ouvrir la page de paramettre avancé
 Allez dans l'onglet **Configuration** >> **Autres** et passée le parametre **Gestion de la répétition des valeurs** sur **Jamais répéter**
 
-![introduction01](../images/CmdParamAvanceRepetition.png)
+![Screen de configuration des parametres avancé d'une commande ](../images/CmdParamAvanceRepetition.jpg)
 
 Je suis passée en mode manuel dans la journée, comment réarmer automatiquement le plugin
 ---

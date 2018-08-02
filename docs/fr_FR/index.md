@@ -218,7 +218,8 @@ Attention toutefois à bien respecter la droite et la gauche de votre fenêtre v
 
 ### Conditionner
 
-Pour compléter cette gestion, il est possible d'ajouter des conditions.
+Pour compléter les gestions, il est possible d'ajouter des conditions.
+Les conditions vont venir autorisé ou non l'execution des actions de cette gestion
 Par exemple, je veux que les volets ne se ferment que si j'ai une température ambiante en été supérieure à 23.
 J'ajouterai donc une condition de ce type.
 
@@ -273,6 +274,11 @@ Si vous souhaitez utiliser les commandes ratiométriques, il est juste necessair
 
 FAQ
 ===
+
+Je veux que mon volet s'ouvre ou se ferme si ma conditon est fausse
+---
+> Lorsque l'on saisi une conditon, il est possible d'activer l'option *Inverser l'action*.
+Cette option vas donc inverser la demande de mouvement et relancer l'evaluation des conditions.
 
 Le plugin reste en gestion Nuit
 ---

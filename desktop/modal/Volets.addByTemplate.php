@@ -34,7 +34,7 @@
 								if(eqLogic.find(avalue.cmd)){
 									eqLogic.find(avalue.cmd).parent().TypeGestion.push(avalue.TypeGestion);
 								}else{
-									eqLogic.configuration.action.push({aindex:avalue});
+									eqLogic.configuration.action.add(aindex,avalue);
 								}
 							});
 						}else if(index == 'condition'){
@@ -44,12 +44,12 @@
 								if(eqLogic.find(cvalue.expression)){
 									eqLogic.find(cvalue.expression).parent().TypeGestion.push(cvalue.TypeGestion);
 								}else{
-									eqLogic.configuration.condition.push({cindex:cvalue});
+									eqLogic.configuration.condition.add(cindex,cvalue);
 								}
 							});
 						}else{
 					alert(JSON.stringify(eqLogic.configuration));
-							eqLogic.configuration.push({index:value});
+							eqLogic.configuration.add(index,value);
 						}
 					});
 					alert(JSON.stringify(eqLogic));

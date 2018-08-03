@@ -908,6 +908,40 @@ class Volets extends eqLogic {
 		if (is_object($cache)) 	
 			$cache->remove();
 	}
+	public static function getTemplate() {
+		$path = dirname(__FILE__) . '/../config/devices';
+		if (isset($_device) && $_device != '') {
+			$files = ls($path, $_device . '.json', false, array('files', 'quiet'));
+			if (count($files) == 1) {
+				try {
+					$content = file_get_contents($path . '/' . $files[0]);
+					if (is_json($content)) {
+						$deviceConfiguration = json_decode($content, true);
+						ajax::success($deviceConfiguration[$_device]);
+					}
+				} catch (Exception $e) {
+					ajax::error(displayExeption($e), $e->getCode());
+				}
+			}
+		}
+		$files = ls($path, '*.json', false, array('files', 'quiet'));
+		$return = array();
+		foreach ($files as $file) {
+			try {
+				$content = file_get_contents($path . '/' . $file);
+				if (is_json($content)) {
+					$return = array_merge($return, json_decode($content, true));
+				}
+			} catch (Exception $e) {
+			}
+		}
+		if (isset($_device) && $_device != '') {
+			if (isset($return[$_device])) {
+				return $return[$_device];
+			}
+		}
+		return $return;
+	}
 }
 class VoletsCmd extends cmd {
     	public function execute($_options = null) {

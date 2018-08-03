@@ -56,7 +56,7 @@
 		if($(this).is(':checked')){
 			$.each(Template[$(this).attr('data-l2key')].update.configuration.action,function(index, value){
 				if($('#'+value.cmd).length == 0)
-					form.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="cmd"',value.Description));
+					form.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="cmd"',value.Description)).append($('<div class"actionOptions">'));
 
 			});
 			$.each(Template[$(this).attr('data-l2key')].update.configuration.condition,function(index, value){

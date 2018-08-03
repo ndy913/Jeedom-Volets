@@ -11,9 +11,9 @@
 </a>
 <script>
 	$('#table_cmd tbody tr:last').setValues({}, '.cmdAttr');
-	$('TemplateContener').html($('#eqlogictab').find('form').clone());
-	$('TemplateContener').find('.eqLogicAttr').addClass('TemplateAttr').removeClass('eqLogicAttr');
- 	$('TemplateContener').find('fieldset').append($('<div class="form-horizontal ParametersTempates">'));
+	$('.TemplateContener').html($('#eqlogictab').find('form').clone());
+	$('.TemplateContener').find('.eqLogicAttr').addClass('TemplateAttr').removeClass('eqLogicAttr');
+ 	$('.TemplateContener').find('fieldset').append($('<div class="form-horizontal ParametersTempates">'));
 	$('body').on('click','.TemplateAction[data-action=save]', function () {
 		if($('.TemplateAttr[data-l1key=template]').value() != "" && $('.TemplateAttr[data-l1key=name]').value() != ""){
 			var eqLogic=new Object();

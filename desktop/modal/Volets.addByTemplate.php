@@ -25,7 +25,7 @@
 				eqLogic.configuration=new Object();
 			$('.Gestions .TemplateAttr[data-l1key=configuration]').each(function(){
 				if($(this).is(':checked')){
-					alert($(this).val());
+					alert($(this).attr('data-l2key'));
 					eqLogic=$.merge(eqLogic,Template[$(this).attr('data-l2key')].config);
 					alert(JSON.stringify(eqLogic));
 				}

@@ -25,7 +25,7 @@
 			if (typeof(eqLogic.configuration) === 'undefined')
 				eqLogic.configuration=new Object();
 			$('.Gestions .TemplateAttr[data-l1key=configuration]').each(function(){
-				eqLogic.configuration.push({$(this).attr('data-l2key'):$(this).is(':checked')});
+				eqLogic.configuration[$(this).attr('data-l2key')]=$(this).is(':checked');
 				if($(this).is(':checked')){
 					$.each(Template[$(this).attr('data-l2key')].config.configuration,function(index, value){
 						if(index == 'action'){
@@ -35,7 +35,7 @@
 								if(configuration.find(avalue.cmd)){
 									eqLogic.configuration.find(avalue.cmd).parent().TypeGestion.push(avalue.TypeGestion);
 								}else{
-									eqLogic.configuration.action.push({aindex,avalue});
+									eqLogic.configuration.action[aindex]=avalue;
 								}
 							});
 						}else if(index == 'condition'){
@@ -45,11 +45,11 @@
 								if(eqLogic.configuration.find(cvalue.expression)){
 									eqLogic.configuration.find(cvalue.expression).parent().TypeGestion.push(cvalue.TypeGestion);
 								}else{
-									eqLogic.configuration.condition.push({cindex:cvalue});
+									eqLogic.configuration.condition[cindex]=cvalue;
 								}
 							});
 						}else{
-							eqLogic.configuration.push({index:value});
+							eqLogic.configuration[index]=value;
 						}
 					});
 				}

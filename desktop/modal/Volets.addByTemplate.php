@@ -18,15 +18,37 @@
 		if($('.TemplateAttr[data-l1key=template]').value() != "" && $('.TemplateAttr[data-l1key=name]').value() != ""){
 			var eqLogic=new Object();
 			eqLogic.name=$('.TemplateAttr[data-l1key=name]').value();
-			if (typeof(eqLogic.object_id) === 'undefined')
-				eqLogic.object_id=new Object();
 			eqLogic.object_id=$('.TemplateAttr[data-l1key=object_id]').value();
+			eqLogic.isVisible=$('.TemplateAttr[data-l1key=isVisible]').value();
+			eqLogic.isEnable=$('.TemplateAttr[data-l1key=isEnable]').value();
+			eqLogic.category=$('.TemplateAttr[data-l1key=category]').getValues('.TemplateAttr');
 			if (typeof(eqLogic.configuration) === 'undefined')
 				eqLogic.configuration=new Object();
 			$('.Gestions .TemplateAttr[data-l1key=configuration]').each(function(){
 				if($(this).is(':checked')){
-					alert($(this).attr('data-l2key'));
-					eqLogic=$.extend(true,{},eqLogic,Template[$(this).attr('data-l2key')].config);
+					$.each(Template[$(this).attr('data-l2key')].config.configuration,function(index, value){
+						if(index == 'action'){
+							$.each(index,function(aindex, avalue){
+								if(eqLogic.find(avalue.cmd)){
+									eqLogic.find(avalue.cmd)=[eqLogic.find(avalue.cmd).val(),avalue];
+								}else{
+									eqLogic.configuration.action.push(aindex:avalue);
+								}
+							});
+						}elseif(index == 'condition'){
+							$.each(index,function(aindex, avalue){
+								if(eqLogic.find(avalue.cmd)){
+									eqLogic.find(avalue.cmd)=[eqLogic.find(avalue.cmd).val(),avalue];
+								}else{
+									eqLogic.configuration.condition.push(aindex:avalue);
+								}
+							});
+						}else{
+							eqLogic.configuration.push(index:value);
+						}
+					});
+					//alert($(this).attr('data-l2key'));
+					//eqLogic=$.extend(true,{},eqLogic,);
 					alert(JSON.stringify(eqLogic));
 				}
 			});
@@ -39,7 +61,6 @@
 				$.each(eqLogic.configuration.condition,function(index, value){
 					eqLogic.expression.replace('#'+$(this).attr('id'),$(this).val());
 				});
-				//
 			});
 			jeedom.eqLogic.save({
 				type: 'Volets',

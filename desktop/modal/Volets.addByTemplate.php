@@ -35,7 +35,7 @@
 								if(configuration.find(avalue.cmd)){
 									configuration.find(avalue.cmd).parent().TypeGestion.push(avalue.TypeGestion);
 								}else{
-									configuration.action.add(aindex,avalue);
+									configuration.action.push({aindex,avalue});
 								}
 							});
 						}else if(index == 'condition'){
@@ -45,11 +45,11 @@
 								if(configuration.find(cvalue.expression)){
 									configuration.find(cvalue.expression).parent().TypeGestion.push(cvalue.TypeGestion);
 								}else{
-									configuration.condition.add(cindex,cvalue);
+									configuration.condition.push({cindex:cvalue});
 								}
 							});
 						}else{
-							configuration.add(index,value);
+							configuration.push({index:value});
 						}
 					});
 				}

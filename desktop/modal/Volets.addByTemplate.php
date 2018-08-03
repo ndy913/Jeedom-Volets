@@ -35,17 +35,17 @@
 									eqLogic.configuration.action.push({aindex:avalue});
 								}
 							});
-						}/*elseif(index == 'condition'){
+						}else if(index == 'condition'){
 							$.each(value.condition,function(cindex, cvalue){
 								if(eqLogic.find(cvalue.expression)){
 									eqLogic.find(cvalue.expression).parent().TypeGestion.push(cvalue.TypeGestion);
 								}else{
-									//eqLogic.configuration.condition.push({cindex:cvalue});
+									eqLogic.configuration.condition.push({cindex:cvalue});
 								}
 							});
 						}else{
-							//eqLogic.configuration.push({index:value});
-						}*/
+							eqLogic.configuration.push({index:value});
+						}
 					});
 					alert(JSON.stringify(eqLogic));
 				}

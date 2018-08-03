@@ -26,7 +26,7 @@
 			$('.Gestions .TemplateAttr[data-l1key=configuration]').each(function(){
 				if($(this).is(':checked')){
 					alert($(this).attr('data-l2key'));
-					eqLogic=$.merge(eqLogic,Template[$(this).attr('data-l2key')].config);
+					eqLogic=$.extend(eqLogic,Template[$(this).attr('data-l2key')].config);
 					alert(JSON.stringify(eqLogic));
 				}
 			});

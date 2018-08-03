@@ -192,7 +192,7 @@ function addAction(_action,  _el) {
 			.append($('<span class="input-group-btn">')
 				.append($('<a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">')
 					.append($('<i class="fa fa-tasks">')))
-				.append($('<a class="btn btn-success btn-sm listCmdAction data-type="action"">')
+				.append($('<a class="btn btn-success btn-sm listCmdAction data-type="action">')
 					.append($('<i class="fa fa-list-alt">')))))
 		.append($('<div class="actionOptions">')
 	       		.append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options)))));
@@ -365,7 +365,7 @@ $("body").on('click', ".listCmdAction", function() {
 	jeedom.cmd.getSelectModal({cmd: {type: type}}, function (result) {
 		el.value(result.human);
 		jeedom.cmd.displayActionOption(result.human, '', function (html) {
-			el.closest('td').find('.actionOptions').html(html);
+			el.parent().find('.actionOptions').html(html);
 		});
 	});
 });

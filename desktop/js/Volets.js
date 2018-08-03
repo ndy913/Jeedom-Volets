@@ -11,6 +11,7 @@ $('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
 		message: message,
 		height: "800px",
 		width: "auto",
+		backdrop:true,
 		buttons: {
 			"Annuler": {
 				className: "btn-default",

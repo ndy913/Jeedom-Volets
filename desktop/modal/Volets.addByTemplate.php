@@ -10,7 +10,7 @@
 	Sauvegarder
 </a>
 <script>
-	$('#table_cmd tbody tr:last').setValues({}, '.cmdAttr');
+	$('#eqlogictab').setValues({}, '.eqLogicAttr');
 	$('.TemplateContener').html($('#eqlogictab').find('form').clone());
 	$('.TemplateContener').find('.eqLogicAttr').addClass('TemplateAttr').removeClass('eqLogicAttr');
  	$('.TemplateContener').find('fieldset').append($('<div class="form-horizontal ParametersTempates">'));
@@ -64,17 +64,18 @@
 					form.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="expression"',value.Description));
 
 			});
-			form.find('.ParametersTempates').append(Parameters);
 		}else
 			form.find('.'+$(this).attr('data-l2key')).remove();
 	});
 	function HtmlParameter(id,index,Description){
-		return $('<div class="input-group">')
+		return $('<div class="form-group">')
 			.append($('<label class="col-xs-5 control-label" >')
 				.text(Description))
-			.append($('<input id="'+id+'" class="TemplateAttr form-control input-sm cmdAction" '+index+'/>'))
-			.append($('<span class="input-group-btn">')
-				.append($('<a class="btn btn-success btn-sm listCmdAction data-type="action"">')
-					.append($('<i class="fa fa-list-alt">'))));
+			.append($('<div class="col-sm-5">')
+				.append($('<div class="input-group">')
+					.append($('<input id="'+id+'" class="TemplateAttr form-control input-sm cmdAction" '+index+'/>'))
+					.append($('<span class="input-group-btn">')
+						.append($('<a class="btn btn-success btn-sm listCmdAction data-type="action"">')
+							.append($('<i class="fa fa-list-alt">'))))));
 	}
 </script>

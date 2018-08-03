@@ -30,15 +30,15 @@
 						if(index == 'action'){
 							$.each(index.action,function(aindex, avalue){
 								if(eqLogic.find(avalue.cmd)){
-									//eqLogic.find(avalue.cmd)=[eqLogic.find(avalue.cmd).val(),avalue];
+									eqLogic.find(avalue.cmd).parent().TypeGestion.push(avalue.TypeGestion);
 								}else{
 									eqLogic.configuration.action.push(aindex:avalue);
 								}
 							});
 						}elseif(index == 'condition'){
 							$.each(index.condition,function(cindex, cvalue){
-								if(eqLogic.find(cvalue.cmd)){
-									//eqLogic.find(cvalue.cmd)=[eqLogic.find(cvalue.cmd).val(),cvalue];
+								if(eqLogic.find(cvalue.expression)){
+									eqLogic.find(cvalue.expression).parent().TypeGestion.push(cvalue.TypeGestion);
 								}else{
 									eqLogic.configuration.condition.push(cindex:cvalue);
 								}

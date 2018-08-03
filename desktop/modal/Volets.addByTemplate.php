@@ -14,7 +14,7 @@
 	$('.TemplateContener').html($('#eqlogictab').find('form').clone());
 	$('.TemplateContener').find('.eqLogicAttr').addClass('TemplateAttr').removeClass('eqLogicAttr');
  	$('.TemplateContener').find('fieldset').append($('<div class="form-horizontal ParametersTempates">'));
-	$('body').on('click','.TemplateAction[data-action=save]', function () {
+	$('.TemplateAction[data-action=save]').off().on('click', function () {
 		if($('.TemplateAttr[data-l1key=template]').value() != "" && $('.TemplateAttr[data-l1key=name]').value() != ""){
 			var eqLogic=new Object();
 			eqLogic.name=$('.TemplateAttr[data-l1key=name]').value();
@@ -24,7 +24,8 @@
 			if (typeof(eqLogic.configuration) === 'undefined')
 				eqLogic.configuration=new Object();
 			$('.Gestions .TemplateAttr[data-l1key=configuration]').each(function(){
-				eqLogic=$.merge(eqLogic,Template[$(this).attr('data-l2key')].config);
+				if($(this).is(':checked'))
+					eqLogic=$.merge(eqLogic,Template[$(this).attr('data-l2key')].config);
 			});
 			$('.ParametersTempates input').each(function(){
 				eqLogic.replace('#'+$(this).attr('id'),$(this).val());
@@ -50,22 +51,22 @@
 			});
 		}
 	});
-	$('body').on('change','.Gestions .TemplateAttr[data-l1key=configuration]', function () {
+	$('.Gestions .TemplateAttr[data-l1key=configuration]').off().on('change', function () {
 		//Creation du formulaire du template
-		var form=$(this).closest('form');
+		var Parameters=$(this).closest('form').find('.ParametersTempates');
 		if($(this).is(':checked')){
 			$.each(Template[$(this).attr('data-l2key')].update.configuration.action,function(index, value){
 				if($('#'+value.cmd).length == 0)
-					form.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="cmd"',value.Description)).append($('<div class"actionOptions">'));
-
+					Parameters.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="cmd"',value.Description)).append($('<div class"actionOptions">'));
+				$('#'+value.cmd).addClass($(this).attr('data-l2key'));
 			});
 			$.each(Template[$(this).attr('data-l2key')].update.configuration.condition,function(index, value){
 				if($('#'+value.cmd).length == 0)
-					form.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="expression"',value.Description));
-
+					Parameters.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="expression"',value.Description));
+				$('#'+value.cmd).addClass($(this).attr('data-l2key'));
 			});
 		}else
-			form.find('.'+$(this).attr('data-l2key')).remove();
+			Parameters.removeClass($(this).attr('data-l2key'));
 	});
 	function HtmlParameter(id,index,Description){
 		return $('<div class="form-group">')

@@ -28,19 +28,19 @@
 				if($(this).is(':checked')){
 					$.each(Template[$(this).attr('data-l2key')].config.configuration,function(index, value){
 						if(index == 'action'){
-							$.each(index,function(aindex, avalue){
+							$.each(index.action,function(aindex, avalue){
 								if(eqLogic.find(avalue.cmd)){
-									eqLogic.find(avalue.cmd)=[eqLogic.find(avalue.cmd).val(),avalue];
+									//eqLogic.find(avalue.cmd)=[eqLogic.find(avalue.cmd).val(),avalue];
 								}else{
 									eqLogic.configuration.action.push(aindex:avalue);
 								}
 							});
 						}elseif(index == 'condition'){
-							$.each(index,function(aindex, avalue){
-								if(eqLogic.find(avalue.cmd)){
-									eqLogic.find(avalue.cmd)=[eqLogic.find(avalue.cmd).val(),avalue];
+							$.each(index.condition,function(cindex, cvalue){
+								if(eqLogic.find(cvalue.cmd)){
+									//eqLogic.find(cvalue.cmd)=[eqLogic.find(cvalue.cmd).val(),cvalue];
 								}else{
-									eqLogic.configuration.condition.push(aindex:avalue);
+									eqLogic.configuration.condition.push(cindex:cvalue);
 								}
 							});
 						}else{

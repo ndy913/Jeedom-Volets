@@ -18,16 +18,17 @@
 		if($('.TemplateAttr[data-l1key=template]').value() != "" && $('.TemplateAttr[data-l1key=name]').value() != ""){
 			var eqLogic=new Object();
 			eqLogic.name=$('.TemplateAttr[data-l1key=name]').value();
-			eqLogic.object_id=$('.TemplateAttr[data-l1key=object_id]').value();
-			eqLogic.isVisible=$('.TemplateAttr[data-l1key=isVisible]').value();
-			eqLogic.isEnable=$('.TemplateAttr[data-l1key=isEnable]').value();
+			eqLogic.object_id=$('.TemplateAttr[data-l1key=object_id]').val();
+			eqLogic.isVisible=$('.TemplateAttr[data-l1key=isVisible]').val();
+			eqLogic.isEnable=$('.TemplateAttr[data-l1key=isEnable]').val();
 			eqLogic.category=$('.TemplateAttr[data-l1key=category]').getValues('.TemplateAttr');
 			if (typeof(eqLogic.configuration) === 'undefined')
 				eqLogic.configuration=new Object();
 			$('.Gestions .TemplateAttr[data-l1key=configuration]').each(function(){
+				eqLogic.configuration.push({$(this).attr('data-l2key'):$(this).is(':checked')});
 				if($(this).is(':checked')){
-					$.each(Template[$(this).attr('data-l2key')].config,function(index, value){
-						/*if(index == 'action'){
+					$.each(Template[$(this).attr('data-l2key')].config.configuration,function(index, value){
+						if(index == 'action'){
 							if (typeof(eqLogic.configuration.action) === 'undefined')
 								eqLogic.configuration.action=new Object();
 							$.each(value.action,function(aindex, avalue){
@@ -49,8 +50,7 @@
 							});
 						}else{
 							eqLogic.configuration.push({index:value});
-						}*/
-						eqLogic.configuration.extend(true,eqLogic.configuration,value);
+						}
 					});
 				}
 			});

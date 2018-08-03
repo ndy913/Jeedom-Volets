@@ -27,16 +27,16 @@
 			$('.Gestions .TemplateAttr[data-l1key=configuration]').each(function(){
 				if($(this).is(':checked')){
 					$.each(Template[$(this).attr('data-l2key')].config.configuration,function(index, value){
-					/*	if(index == 'action'){
-							$.each(index.action,function(aindex, avalue){
+						if(index == 'action'){
+							$.each(value.action,function(aindex, avalue){
 								if(eqLogic.find(avalue.cmd)){
 									eqLogic.find(avalue.cmd).parent().TypeGestion.push(avalue.TypeGestion);
 								}else{
 									//eqLogic.configuration.action.push({aindex:avalue});
 								}
 							});
-						}elseif(index == 'condition'){
-							$.each(index.condition,function(cindex, cvalue){
+						}/*elseif(index == 'condition'){
+							$.each(value.condition,function(cindex, cvalue){
 								if(eqLogic.find(cvalue.expression)){
 									eqLogic.find(cvalue.expression).parent().TypeGestion.push(cvalue.TypeGestion);
 								}else{

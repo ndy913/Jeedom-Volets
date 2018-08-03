@@ -4,6 +4,7 @@ throw new Exception('{{401 - Accès non autorisé}}');
 }
 sendVarToJS('eqType', 'Volets');
 sendVarToJS('GestionsVolets', Volets::$_Gestions);
+sendVarToJS('Template', Volets::getTemplate());
 $eqLogics = eqLogic::byType('Volets');
 ?>
 <div class="row row-overflow">

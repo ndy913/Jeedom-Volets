@@ -17,7 +17,7 @@
 	$('.TemplateAction[data-action=save]').off().on('click', function () {
 		if($('.TemplateAttr[data-l1key=template]').value() != "" && $('.TemplateAttr[data-l1key=name]').value() != ""){
 			var eqLogic=new Object();
-			eqLogic.name=$('.TemplateAttr[data-l1key=name]').value();
+			eqLogic.name=$('.TemplateAttr[data-l1key=name]').val();
 			eqLogic.object_id=$('.TemplateAttr[data-l1key=object_id]').val();
 			eqLogic.isVisible=$('.TemplateAttr[data-l1key=isVisible]').val();
 			eqLogic.isEnable=$('.TemplateAttr[data-l1key=isEnable]').val();

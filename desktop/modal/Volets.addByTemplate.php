@@ -28,6 +28,8 @@
 				if($(this).is(':checked')){
 					$.each(Template[$(this).attr('data-l2key')].config.configuration,function(index, value){
 						if(index == 'action'){
+							if (typeof(eqLogic.configuration.action) === 'undefined')
+								eqLogic.configuration.action=new Object();
 							$.each(value.action,function(aindex, avalue){
 								if(eqLogic.find(avalue.cmd)){
 									eqLogic.find(avalue.cmd).parent().TypeGestion.push(avalue.TypeGestion);
@@ -36,6 +38,8 @@
 								}
 							});
 						}else if(index == 'condition'){
+							if (typeof(eqLogic.configuration.condition) === 'undefined')
+								eqLogic.configuration.condition=new Object();
 							$.each(value.condition,function(cindex, cvalue){
 								if(eqLogic.find(cvalue.expression)){
 									eqLogic.find(cvalue.expression).parent().TypeGestion.push(cvalue.TypeGestion);

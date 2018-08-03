@@ -1,30 +1,10 @@
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
-var Template=null;
-$.ajax({
-	type: 'POST',            
-	async: false,
-	url: 'plugins/Volets/core/ajax/Volets.ajax.php',
-	data:
-		{
-		action: 'getTemplate',
-		},
-	dataType: 'json',
-	global: false,
-	error: function(request, status, error) {},
-	success: function(data) {
-		if (!data.result){
-			$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
-			return;
-		}
-		Template=data.result;
-	}
-});
 $('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
 	$('#table_cmd tbody tr:last').setValues({}, '.cmdAttr');
 	var message =  $('#eqlogictab').find('form').clone();
-	message.find('.eqLogicAttr').addClass('EqLogicTemplateAttr').removeClass('eqLogicAttr');
+	message.find('.eqLogicAttr').addClass('TemplateAttr').removeClass('eqLogicAttr');
  	message.find('fieldset').append($('<div class="form-horizontal ParametersTempates">'));
   	bootbox.dialog({
 		title: "{{Ajout d'un équipement avec template}}",
@@ -42,15 +22,15 @@ $('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
 				label: "Valider",
 				className: "btn-primary",
 				callback: function () {
-					if($('.EqLogicTemplateAttr[data-l1key=template]').value() != "" && $('.EqLogicTemplateAttr[data-l1key=name]').value() != ""){
+					if($('.TemplateAttr[data-l1key=template]').value() != "" && $('.TemplateAttr[data-l1key=name]').value() != ""){
 						var eqLogic=new Object();
-						eqLogic.name=$('.EqLogicTemplateAttr[data-l1key=name]').value();
+						eqLogic.name=$('.TemplateAttr[data-l1key=name]').value();
 						if (typeof(eqLogic.object_id) === 'undefined')
 							eqLogic.object_id=new Object();
-						eqLogic.object_id=$('.EqLogicTemplateAttr[data-l1key=object_id]').value();
+						eqLogic.object_id=$('.TemplateAttr[data-l1key=object_id]').value();
 						if (typeof(eqLogic.configuration) === 'undefined')
 							eqLogic.configuration=new Object();
-						$('.Gestions .EqLogicTemplateAttr[data-l1key=configuration]').each(function(){
+						$('.Gestions .TemplateAttr[data-l1key=configuration]').each(function(){
 							eqLogic=$.merge(eqLogic,Template[$(this).attr('data-l2key')].config);
 						});
 						$('.ParametersTempates input').each(function(){
@@ -81,17 +61,18 @@ $('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
 		}
 	});
 });
-$('body').on('change','.Gestions .EqLogicTemplateAttr[data-l1key=configuration]', function () {
+$('body').on('change','.Gestions .TemplateAttr[data-l1key=configuration]', function () {
 	//Creation du formulaire du template
 	var form=$(this).closest('form');
-	var Parameters=$('<div>').addClass($(this).attr('data-l2key'));
   	if($(this).is(':checked')){
       		$.each(Template[$(this).attr('data-l2key')].update.configuration.action,function(index, value){
-				Parameters.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="cmd"',value.Description));
+			if($('#'+value.cmd).length == 0)
+				form.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="cmd"',value.Description));
 		
 		});
       		$.each(Template[$(this).attr('data-l2key')].update.configuration.condition,function(index, value){
-				Parameters.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="expression"',value.Description));
+			if($('#'+value.cmd).length == 0)
+				form.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="expression"',value.Description));
 		
 		});
 		form.find('.ParametersTempates').append(Parameters);
@@ -102,7 +83,7 @@ function HtmlParameter(id,index,Description){
 	return $('<div class="input-group">')
 		.append($('<label class="col-xs-5 control-label" >')
 			.text(Description))
-		.append($('<input id="'+id+'" class="EqLogicTemplateAttr form-control input-sm cmdAction" '+index+'/>'))
+		.append($('<input id="'+id+'" class="TemplateAttr form-control input-sm cmdAction" '+index+'/>'))
 		.append($('<span class="input-group-btn">')
 			.append($('<a class="btn btn-success btn-sm listCmdAction data-type="action"">')
 				.append($('<i class="fa fa-list-alt">'))));

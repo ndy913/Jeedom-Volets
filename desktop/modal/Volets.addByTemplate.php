@@ -32,7 +32,7 @@
 								if(eqLogic.find(avalue.cmd)){
 									eqLogic.find(avalue.cmd).parent().TypeGestion.push(avalue.TypeGestion);
 								}else{
-									//eqLogic.configuration.action.push({aindex:avalue});
+									eqLogic.configuration.action.push({aindex:avalue});
 								}
 							});
 						}/*elseif(index == 'condition'){

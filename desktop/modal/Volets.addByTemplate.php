@@ -24,8 +24,11 @@
 			if (typeof(eqLogic.configuration) === 'undefined')
 				eqLogic.configuration=new Object();
 			$('.Gestions .TemplateAttr[data-l1key=configuration]').each(function(){
-				if($(this).is(':checked'))
+				if($(this).is(':checked')){
+					alert($(this).val());
 					eqLogic=$.merge(eqLogic,Template[$(this).attr('data-l2key')].config);
+					alert(JSON.stringify(eqLogic));
+				}
 			});
 			$('.ParametersTempates input').each(function(){
 				$.each(eqLogic.configuration.action,function(index, value){

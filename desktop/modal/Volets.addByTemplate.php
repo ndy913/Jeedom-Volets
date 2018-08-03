@@ -27,7 +27,7 @@
 			$('.Gestions .TemplateAttr[data-l1key=configuration]').each(function(){
 				if($(this).is(':checked')){
 					$.each(Template[$(this).attr('data-l2key')].config.configuration,function(index, value){
-						if(index == 'action'){
+					/*	if(index == 'action'){
 							$.each(index.action,function(aindex, avalue){
 								if(eqLogic.find(avalue.cmd)){
 									eqLogic.find(avalue.cmd).parent().TypeGestion.push(avalue.TypeGestion);
@@ -45,10 +45,8 @@
 							});
 						}else{
 							//eqLogic.configuration.push({index:value});
-						}
+						}*/
 					});
-					//alert($(this).attr('data-l2key'));
-					//eqLogic=$.extend(true,{},eqLogic,);
 					alert(JSON.stringify(eqLogic));
 				}
 			});

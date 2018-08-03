@@ -48,6 +48,7 @@
 								}
 							});
 						}else{
+					alert(JSON.stringify(eqLogic.configuration));
 							eqLogic.configuration.push({index:value});
 						}
 					});

@@ -24,37 +24,38 @@
 			eqLogic.category=$('.TemplateAttr[data-l1key=category]').getValues('.TemplateAttr');
 			if (typeof(eqLogic.configuration) === 'undefined')
 				eqLogic.configuration=new Object();
+			var configuration=eqLogic.configuration;
 			$('.Gestions .TemplateAttr[data-l1key=configuration]').each(function(){
 				if($(this).is(':checked')){
 					$.each(Template[$(this).attr('data-l2key')].config.configuration,function(index, value){
 						if(index == 'action'){
-							if (typeof(eqLogic.configuration.action) === 'undefined')
-								eqLogic.configuration.action=new Object();
+							if (typeof(configuration.action) === 'undefined')
+								configuration.action=new Object();
 							$.each(value.action,function(aindex, avalue){
-								if(eqLogic.find(avalue.cmd)){
-									eqLogic.find(avalue.cmd).parent().TypeGestion.push(avalue.TypeGestion);
+								if(configuration.find(avalue.cmd)){
+									configuration.find(avalue.cmd).parent().TypeGestion.push(avalue.TypeGestion);
 								}else{
-									eqLogic.configuration.action.add(aindex,avalue);
+									configuration.action.add(aindex,avalue);
 								}
 							});
 						}else if(index == 'condition'){
-							if (typeof(eqLogic.configuration.condition) === 'undefined')
-								eqLogic.configuration.condition=new Object();
+							if (typeof(configuration.condition) === 'undefined')
+								configuration.condition=new Object();
 							$.each(value.condition,function(cindex, cvalue){
-								if(eqLogic.find(cvalue.expression)){
-									eqLogic.find(cvalue.expression).parent().TypeGestion.push(cvalue.TypeGestion);
+								if(configuration.find(cvalue.expression)){
+									configuration.find(cvalue.expression).parent().TypeGestion.push(cvalue.TypeGestion);
 								}else{
-									eqLogic.configuration.condition.add(cindex,cvalue);
+									configuration.condition.add(cindex,cvalue);
 								}
 							});
 						}else{
-					alert(JSON.stringify(eqLogic.configuration));
-							eqLogic.configuration.add(index,value);
+							configuration.add(index,value);
 						}
 					});
-					alert(JSON.stringify(eqLogic));
 				}
 			});
+			eqLogic.configuration=configuration;
+			alert(JSON.stringify(eqLogic));
 			$('.ParametersTempates input').each(function(){
 				$.each(eqLogic.configuration.action,function(index, value){
 					eqLogic.cmd.replace('#'+$(this).attr('id'),$(this).val());

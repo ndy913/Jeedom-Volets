@@ -49,8 +49,7 @@
 				}
 			});
 		}
-	}
-
+	});
 	$('body').on('change','.Gestions .TemplateAttr[data-l1key=configuration]', function () {
 		//Creation du formulaire du template
 		var form=$(this).closest('form');

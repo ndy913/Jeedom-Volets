@@ -32,7 +32,7 @@
 								if(eqLogic.find(avalue.cmd)){
 									eqLogic.find(avalue.cmd).parent().TypeGestion.push(avalue.TypeGestion);
 								}else{
-									eqLogic.configuration.action.push(aindex:avalue);
+									eqLogic.configuration.action.push({aindex:avalue});
 								}
 							});
 						}elseif(index == 'condition'){
@@ -40,11 +40,11 @@
 								if(eqLogic.find(cvalue.expression)){
 									eqLogic.find(cvalue.expression).parent().TypeGestion.push(cvalue.TypeGestion);
 								}else{
-									eqLogic.configuration.condition.push(cindex:cvalue);
+									eqLogic.configuration.condition.push({cindex:cvalue});
 								}
 							});
 						}else{
-							eqLogic.configuration.push(index:value);
+							eqLogic.configuration.push({index:value});
 						}
 					});
 					//alert($(this).attr('data-l2key'));

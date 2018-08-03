@@ -28,7 +28,15 @@
 					eqLogic=$.merge(eqLogic,Template[$(this).attr('data-l2key')].config);
 			});
 			$('.ParametersTempates input').each(function(){
-				eqLogic.replace('#'+$(this).attr('id'),$(this).val());
+				$.each(eqLogic.configuration.action,function(index, value){
+					eqLogic.cmd.replace('#'+$(this).attr('id'),$(this).val());
+					eqLogic.options.replace('$Object',$('.TemplateAttr[data-l1key=object_id]').text());
+					eqLogic.options.replace('$Name',eqLogic.name);
+				});
+				$.each(eqLogic.configuration.condition,function(index, value){
+					eqLogic.expression.replace('#'+$(this).attr('id'),$(this).val());
+				});
+				//
 			});
 			jeedom.eqLogic.save({
 				type: 'Volets',

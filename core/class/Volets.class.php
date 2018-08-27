@@ -188,7 +188,8 @@ class Volets extends eqLogic {
 			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');
 			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 		}else{
-			$this->GestionManuel($State);
+			if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
+				$this->GestionManuel($State);
 		}
 	}
 	public function CheckOtherGestion($Gestion,$force=false) {  

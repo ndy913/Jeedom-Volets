@@ -131,6 +131,7 @@ function saveEqLogic(_eqLogic) {
    	return _eqLogic;
 }
 function printEqLogic(_eqLogic) {
+	$('.EvenementGroup').remove();
 	$('.ConditionGroup').remove();
 	$('.ActionGroup').remove();
 	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(_eqLogic.configuration.Droite));

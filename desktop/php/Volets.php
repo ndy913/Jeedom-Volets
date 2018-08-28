@@ -254,8 +254,8 @@ $eqLogics = eqLogic::byType('Volets');
 				</form>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="EvenementTab">
-				{{La gestion Evenement va fermer le volet lorsque la condition des objets surveillé est fausse.}}	
-				{{Seule la gestion de Nuit est autorisée à s'exécuter}}	
+				<p>{{La gestion Evenement va fermer le volet lorsque la condition des objets surveillé est vrai.}}</p>	
+				<p>{{Seule la gestion de Nuit est autorisée à s'exécuter}}</p>
 				<form class="form-horizontal">
 					<fieldset>
 						<legend>{{Evenements :}}
@@ -264,7 +264,7 @@ $eqLogics = eqLogic::byType('Volets');
 							</sup>
 							<a class="btn btn-success btn-xs EvenementAttr" data-action="add" style="margin-left: 5px;">
 								<i class="fa fa-plus-circle"></i>
-								{{Ajouter un objet a surveiller}}
+								{{Ajouter un objet}}
 							</a>
 						</legend>
 					</fieldset>

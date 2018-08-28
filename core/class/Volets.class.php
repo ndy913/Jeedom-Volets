@@ -99,10 +99,17 @@ class Volets extends eqLogic {
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
 							$Volet->CheckRealState($_option['value']);
-						}
-						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('cmdPresent'))){
-							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	
-							$Volet->GestionEvenement($_option['value']);
+						}else{
+							log::add('Volets','info',$Volet->getHumanName().' : Un evenement c\'est produit sur un objet ecouté');	
+							foreach($Volet->getConfiguration('Evenement') as $Evenement){
+								if ($Event->getId() == str_replace('#','',$Evenement['Cmd'])){
+									if (!$this->EvaluateCondition($_option['value'].$Evenement['Operande'].$Evenement['Value'],'Evenement'))
+										$Volet->GestionEvenement('open');
+									else
+										$Volet->GestionEvenement('close');
+									break;
+								}
+							}
 						}
 					break;
 				}
@@ -303,11 +310,7 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-  	public function GestionEvenement($Etat,$force=false) {
-		if($Etat)
-			$Evenement='open';
-		else
-			$Evenement='close';
+  	public function GestionEvenement($Evenement,$force=false) {		
 		if ($this->AutorisationAction($Evenement,'Evenement') || $force){
 			$Saison=$this->getSaison();
 			$Evenement=$this->checkCondition($Evenement,$Saison,'Evenement');
@@ -757,8 +760,12 @@ class Volets extends eqLogic {
 				//$listener->addEvent($heliotrope->getCmd(null,'altitude')->getId());
 				if ($this->getConfiguration('Azimut'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-				if ($this->getConfiguration('Evenement'))
-					$listener->addEvent($this->getConfiguration('cmdPresent'));
+				if ($this->getConfiguration('Evenement')){
+					foreach($this->getConfiguration('Evenement') as $Evenement){
+						if($Evenement['Cmd'] != '')
+							$listener->addEvent($Evenement['Cmd']);
+					}
+				}
 				if ($this->getConfiguration('Jour')){
 					$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDay'));
 					if(!is_object($sunrise))

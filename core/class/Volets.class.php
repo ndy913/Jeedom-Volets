@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
-	public static $_Gestions=array('Manuel','Jour','Nuit','Meteo','Absent','Azimut');
+	public static $_Gestions=array('Manuel','Jour','Nuit','Azimut','Evenement','Conditionnel');
 	public $_inverseCondition;
 	public $_RatioHorizontal;
 	public static function cron() {
@@ -40,8 +40,8 @@ class Volets extends eqLogic {
 				$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 				if (!is_object($listener))
 					return $return;
-				if ($Volet->getConfiguration('Meteo')){
-					$cron = cron::byClassAndFunction('Volets', 'GestionMeteo', array('Volets_id' => $Volet->getId()));
+				if ($Volet->getConfiguration('Conditionnel')){
+					$cron = cron::byClassAndFunction('Volets', 'GestionConditionnel', array('Volets_id' => $Volet->getId()));
 					if (!is_object($cron)) 	
 						return $return;
 				}			
@@ -99,10 +99,17 @@ class Volets extends eqLogic {
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
 							$Volet->CheckRealState($_option['value']);
-						}
-						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('cmdPresent'))){
-							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de la présence');	
-							$Volet->GestionAbsent($_option['value']);
+						}else{
+							log::add('Volets','info',$Volet->getHumanName().' : Un evenement c\'est produit sur un objet ecouté');	
+							foreach($Volet->getConfiguration('Evenement') as $Evenement){
+								if ($Event->getId() == str_replace('#','',$Evenement['Cmd'])){
+									if (!$this->EvaluateCondition($_option['value'].$Evenement['Operande'].$Evenement['Value'],'Evenement'))
+										$Volet->GestionEvenement('open');
+									else
+										$Volet->GestionEvenement('close');
+									break;
+								}
+							}
 						}
 					break;
 				}
@@ -139,21 +146,21 @@ class Volets extends eqLogic {
 				if (!$this->getConfiguration('Jour') || $Mode != "Nuit" || $Mode == "Jour")
 					return false;
 			break;
-			case 'Absent':
-				if (!$this->getConfiguration('Absent') || $Mode == "Nuit")
+			case 'Evenement':
+				if (!$this->getConfiguration('Evenement') || $Mode == "Nuit")
 					return false;
 			break;
-			case 'Meteo':					
-				if (!$this->getConfiguration('Meteo')
+			case 'Conditionnel':					
+				if (!$this->getConfiguration('Conditionnel')
 				    || $Mode == "Nuit"
-				    || $Mode == "Absent")
+				    || $Mode == "Evenement")
 					return false;
 			break;
 			case 'Azimut':
 				if (!$this->getConfiguration('Azimut')
 				    || $Mode == "Nuit" 
-				    || $Mode == "Absent" 
-				    || $Mode == "Meteo")
+				    || $Mode == "Evenement" 
+				    || $Mode == "Conditionnel")
 					return false;
 			break;
 			
@@ -188,35 +195,35 @@ class Volets extends eqLogic {
 			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');
 			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 		}else{
-			$this->GestionManuel($State);
+			if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
+				$this->GestionManuel($State);
 		}
 	}
 	public function CheckOtherGestion($Gestion,$force=false) {  
 		$Saison=$this->getSaison();
 		switch($Gestion){
 			case 'Jour':
-				if ($this->getConfiguration('Absent')){	
+				if ($this->getConfiguration('Evenement')){	
 					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));
 					if(is_object($Commande) && $Commande->execCmd() == false){
-						//$this->GestionAbsent($Etat,true);
-						$Evenement=$this->checkCondition('close',$Saison,'Absent');   		
+						$Evenement=$this->checkCondition('close',$Saison,'Evenement');   		
 						if($Evenement != false && $Evenement == 'close'){
 							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
-							$this->CheckRepetivite('Absent',$Evenement,$Saison,$force);
+							$this->CheckRepetivite('Evenement',$Evenement,$Saison,$force);
 							return false;
 						}
 					}
 				}
-			case 'Absent':
-				if ($this->getConfiguration('Meteo')){
-					$Evenement=$this->checkCondition('close',$Saison,'Meteo');   		
+			case 'Evenement':
+				if ($this->getConfiguration('Conditionnel')){
+					$Evenement=$this->checkCondition('close',$Saison,'Conditionnel');   		
 					if($Evenement != false && $Evenement == 'close'){
-						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion Meteo prend le relais');
-						$this->CheckRepetivite('Meteo',$Evenement,$Saison,$force);
+						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion Conditionnel prend le relais');
+						$this->CheckRepetivite('Conditionnel',$Evenement,$Saison,$force);
 						return false;
 					}
 				}
-			case 'Meteo':	
+			case 'Conditionnel':	
 				if ($this->getConfiguration('Azimut')){
 					$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 					if(is_object($heliotrope)){
@@ -241,7 +248,7 @@ class Volets extends eqLogic {
 			$RearmementAutomatique = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());		
 			if(!$RearmementAutomatique->getValue(false)){
 				$Saison=$this->getSaison();
-				log::add('Volets','info','Un evenement manuel a été détécté sur le volet '.$this->getHumanName().' La gestion a été désactivé');
+				log::add('Volets','info',$this->getHumanName().'Un evenement manuel a été détécté: La gestion a été désactivé');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
 				if($Evenement != false){
 					$this->CheckRepetivite('Manuel',$Evenement,$Saison,true);
@@ -281,18 +288,18 @@ class Volets extends eqLogic {
 				$this->checkAndUpdateCmd('gestion','Jour');
 		}
 	}
-	public static function GestionMeteo($_option) {
+	public static function GestionConditionnel($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
-		if (is_object($Volet) && $Volet->AutorisationAction('close','Meteo')){
-			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Meteo] : Exécution de la gestion météo');
+		if (is_object($Volet) && $Volet->AutorisationAction('close','Conditionnel')){
+			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Conditionnel] : Exécution de la gestion météo');
 			$Saison=$Volet->getSaison();
-			$Evenement=$Volet->checkCondition('close',$Saison,'Meteo');   
+			$Evenement=$Volet->checkCondition('close',$Saison,'Conditionnel');   
 			if( $Evenement != false ){
-				$Volet->CheckRepetivite('Meteo',$Evenement,$Saison);
+				$Volet->CheckRepetivite('Conditionnel',$Evenement,$Saison);
 			}else{
-				if($Volet->getCmd(null,'gestion')->execCmd() != 'Meteo')
+				if($Volet->getCmd(null,'gestion')->execCmd() != 'Conditionnel')
 					return;	
-				if(!$Volet->CheckOtherGestion('Meteo'))
+				if(!$Volet->CheckOtherGestion('Conditionnel'))
 					return;	
 				$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(0);
 				$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(0);
@@ -303,17 +310,13 @@ class Volets extends eqLogic {
 			}
 		}
 	}
-  	public function GestionAbsent($Etat,$force=false) {
-		if($Etat)
-			$Evenement='open';
-		else
-			$Evenement='close';
-		if ($this->AutorisationAction($Evenement,'Absent') || $force){
+  	public function GestionEvenement($Evenement,$force=false) {		
+		if ($this->AutorisationAction($Evenement,'Evenement') || $force){
 			$Saison=$this->getSaison();
-			$Evenement=$this->checkCondition($Evenement,$Saison,'Absent');
+			$Evenement=$this->checkCondition($Evenement,$Saison,'Evenement');
 			if( $Evenement != false ){
 				if($Evenement == 'open'){
-					if(!$this->CheckOtherGestion('Absent'))
+					if(!$this->CheckOtherGestion('Evenement'))
 						return;	
 					$Jour = cache::byKey('Volets::Jour::'.$this->getId())->getValue(0);
 					$Nuit = cache::byKey('Volets::Nuit::'.$this->getId())->getValue(0);
@@ -323,7 +326,7 @@ class Volets extends eqLogic {
 						$this->GestionJour(true);
 					return;	
 				}
-				$this->CheckRepetivite('Absent',$Evenement,$Saison);
+				$this->CheckRepetivite('Evenement',$Evenement,$Saison);
 			}
 		}
 	}
@@ -719,7 +722,7 @@ class Volets extends eqLogic {
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
 		if (is_object($listener))
 			$listener->remove();
-		$cron = cron::byClassAndFunction('Volets', 'GestionMeteo', array('Volets_id' => $this->getId()));
+		$cron = cron::byClassAndFunction('Volets', 'GestionConditionnel', array('Volets_id' => $this->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
 		$cache = cache::byKey('Volets::Jour::'.$this->getId());
@@ -757,8 +760,12 @@ class Volets extends eqLogic {
 				//$listener->addEvent($heliotrope->getCmd(null,'altitude')->getId());
 				if ($this->getConfiguration('Azimut'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
-				if ($this->getConfiguration('Absent'))
-					$listener->addEvent($this->getConfiguration('cmdPresent'));
+				if ($this->getConfiguration('Evenement')){
+					foreach($this->getConfiguration('Evenement') as $Evenement){
+						if($Evenement['Cmd'] != '')
+							$listener->addEvent($Evenement['Cmd']);
+					}
+				}
 				if ($this->getConfiguration('Jour')){
 					$sunrise=$heliotrope->getCmd(null,$this->getConfiguration('TypeDay'));
 					if(!is_object($sunrise))
@@ -787,8 +794,8 @@ class Volets extends eqLogic {
 					$Nuit=$this->CalculHeureEvent($sunset->execCmd(),false);
 				}
 				cache::set('Volets::Nuit::'.$this->getId(),$Nuit, 0);
-				if ($this->getConfiguration('Meteo'))
-					$cron = $this->CreateCron('* * * * * *', 'GestionMeteo', array('Volets_id' => intval($this->getId())));
+				if ($this->getConfiguration('Conditionnel'))
+					$cron = $this->CreateCron('* * * * * *', 'GestionConditionnel', array('Volets_id' => intval($this->getId())));
 				$listener->save();	
 				if(mktime() < $Jour || mktime() > $Nuit)
 					$this->GestionNuit(true);
@@ -886,7 +893,7 @@ class Volets extends eqLogic {
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $this->getId()));
 		if (is_object($listener))
 			$listener->remove();
-		$cron = cron::byClassAndFunction('Volets', 'GestionMeteo', array('Volets_id' => $this->getId()));
+		$cron = cron::byClassAndFunction('Volets', 'GestionConditionnel', array('Volets_id' => $this->getId()));
 		if (is_object($cron)) 	
 			$cron->remove();
 		$cache = cache::byKey('Volets::Jour::'.$this->getId());

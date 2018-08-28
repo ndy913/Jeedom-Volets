@@ -82,7 +82,7 @@ $eqLogics = eqLogic::byType('Volets');
 			</li>
 			<li role="presentation" class="active">
 				<a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
-					<i class="fa fa-tachometer"></i> {{Equipement</a>
+					<i class="fa fa-tachometer"></i> {{Equipement}}</a>
 			</li>
 			<li role="presentation" class="JourNuit">
 				<a href="#journuitab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">

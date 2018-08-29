@@ -100,7 +100,7 @@ class Volets extends eqLogic {
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
 							$Volet->CheckRealState($_option['value']);
 						}else{
-							foreach($Volet->getConfiguration('Evenement') as $Evenement){
+							foreach($Volet->getConfiguration('EvenementObject') as $Evenement){
 								if ($Event->getId() == str_replace('#','',$Evenement['Cmd'])){
 									log::add('Volets','info',$Volet->getHumanName().$Evenement['Cmd'].' : Un evenement c\'est produit sur un objet ecouté');
 									if (!$this->EvaluateCondition($_option['value'].$Evenement['Operande'].$Evenement['Value'],'Evenement'))
@@ -204,13 +204,15 @@ class Volets extends eqLogic {
 		switch($Gestion){
 			case 'Jour':
 				if ($this->getConfiguration('Evenement')){	
-					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));
-					if(is_object($Commande) && $Commande->execCmd() == false){
-						$Evenement=$this->checkCondition('close',$Saison,'Evenement');   		
-						if($Evenement != false && $Evenement == 'close'){
-							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
-							$this->CheckRepetivite('Evenement',$Evenement,$Saison,$force);
-							return false;
+					foreach($this->getConfiguration('EvenementObject') as $Evenement){
+						$Commande=cmd::byId(str_replace('#','',$Evenement['Cmd']));
+						if(is_object($Commande) && $Commande->execCmd() == false){
+							$Evenement=$this->checkCondition('close',$Saison,'Evenement');   		
+							if($Evenement != false && $Evenement == 'close'){
+								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
+								$this->CheckRepetivite('Evenement',$Evenement,$Saison,$force);
+								return false;
+							}
 						}
 					}
 				}
@@ -761,7 +763,7 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('Azimut'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
 				if ($this->getConfiguration('Evenement')){
-					foreach($this->getConfiguration('Evenement') as $Evenement){
+					foreach($this->getConfiguration('EvenementObject') as $Evenement){
 						if($Evenement['Cmd'] != '')
 							$listener->addEvent($Evenement['Cmd']);
 					}

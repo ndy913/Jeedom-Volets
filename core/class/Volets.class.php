@@ -205,13 +205,15 @@ class Volets extends eqLogic {
 			case 'Jour':
 				if ($this->getConfiguration('Evenement')){	
 					foreach($this->getConfiguration('EvenementObject') as $ObjectEvent){
-						$Commande=cmd::byId(str_replace('#','',$ObjectEvent['Cmd']));
-						if(is_object($Commande) && $this->EvaluateCondition($ObjectEvent['Cmd'].$ObjectEvent['Operande'].$ObjectEvent['Value'],'Evenement')){
-							$Evenement=$this->checkCondition('close',$Saison,'Evenement');   		
-							if($Evenement != false && $Evenement == 'close'){
-								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
-								$this->CheckRepetivite('Evenement',$Evenement,$Saison,$force);
-								return false;
+						if($this->EvaluateCondition($ObjectEvent['Cmd'].$ObjectEvent['Operande'].$ObjectEvent['Value'],'Evenement')){
+							$Commande=cmd::byId(str_replace('#','',$ObjectEvent['Cmd']));
+							if(is_object($Commande)){
+								$Evenement=$this->checkCondition('close',$Saison,'Evenement');   		
+								if($Evenement != false && $Evenement == 'close'){
+									log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
+									$this->CheckRepetivite('Evenement',$Evenement,$Saison,$force);
+									return false;
+								}
 							}
 						}
 					}
@@ -250,7 +252,7 @@ class Volets extends eqLogic {
 			$RearmementAutomatique = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());		
 			if(!$RearmementAutomatique->getValue(false)){
 				$Saison=$this->getSaison();
-				log::add('Volets','info',$this->getHumanName().'Un evenement manuel a été détécté: La gestion a été désactivé');
+				log::add('Volets','info',$this->getHumanName().'[Gestion Manuel] : Un evenement manuel a été détécté: La gestion a été désactivé');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
 				if($Evenement != false){
 					$this->CheckRepetivite('Manuel',$Evenement,$Saison,true);
@@ -459,7 +461,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public function CheckRepetivite($Gestion,$Evenement,$Saison,$force=false){
-		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
+		if($force || cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
 			return;
 		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
 		$Change['RatioVertical']=false;
@@ -618,7 +620,7 @@ class Volets extends eqLogic {
 			if (!$this->CheckValid($Condition,$Evenement,$Saison,$Gestion,$autoArm))
 				continue;
 			$isAutoArm=true;
-			if (!$this->EvaluateCondition($Condition,$Gestion)){
+			if (!$this->EvaluateCondition($Condition['expression'],$Gestion)){
 				if($Condition['Inverse']){
 					log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La condition inverse l\'état du volet');
 					if($Evenement == 'close')
@@ -653,8 +655,8 @@ class Volets extends eqLogic {
 	}
 	public function EvaluateCondition($Condition,$Gestion){
 		$_scenario = null;
-		$expression = scenarioExpression::setTags($Condition['expression'], $_scenario, true);
-		$message = __('Evaluation de la condition : ['.jeedom::toHumanReadable($Condition['expression']).'][', __FILE__) . trim($expression) . '] = ';
+		$expression = scenarioExpression::setTags($Condition, $_scenario, true);
+		$message = __('Evaluation de la condition : ['.jeedom::toHumanReadable($Condition).'][', __FILE__) . trim($expression) . '] = ';
 		$result = evaluate($expression);
 		$message .=$this->boolToText($result);
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : '.$message);

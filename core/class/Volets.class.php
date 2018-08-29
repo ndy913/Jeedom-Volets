@@ -100,9 +100,9 @@ class Volets extends eqLogic {
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
 							$Volet->CheckRealState($_option['value']);
 						}else{
-							log::add('Volets','info',$Volet->getHumanName().' : Un evenement c\'est produit sur un objet ecouté');	
 							foreach($Volet->getConfiguration('Evenement') as $Evenement){
 								if ($Event->getId() == str_replace('#','',$Evenement['Cmd'])){
+									log::add('Volets','info',$Volet->getHumanName().$Evenement['Cmd'].' : Un evenement c\'est produit sur un objet ecouté');
 									if (!$this->EvaluateCondition($_option['value'].$Evenement['Operande'].$Evenement['Value'],'Evenement'))
 										$Volet->GestionEvenement('open');
 									else

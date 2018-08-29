@@ -252,7 +252,7 @@ class Volets extends eqLogic {
 			$RearmementAutomatique = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());		
 			if(!$RearmementAutomatique->getValue(false)){
 				$Saison=$this->getSaison();
-				log::add('Volets','info',$this->getHumanName().'Un evenement manuel a été détécté: La gestion a été désactivé');
+				log::add('Volets','info',$this->getHumanName().'[Gestion Manuel] : Un evenement manuel a été détécté: La gestion a été désactivé');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
 				if($Evenement != false){
 					$this->CheckRepetivite('Manuel',$Evenement,$Saison,true);
@@ -461,7 +461,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public function CheckRepetivite($Gestion,$Evenement,$Saison,$force=false){
-		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
+		if($force || cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
 			return;
 		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
 		$Change['RatioVertical']=false;

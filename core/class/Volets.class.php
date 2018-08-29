@@ -100,10 +100,10 @@ class Volets extends eqLogic {
 							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
 							$Volet->CheckRealState($_option['value']);
 						}else{
-							log::add('Volets','info',$Volet->getHumanName().' : Un evenement c\'est produit sur un objet ecouté');	
-							foreach($Volet->getConfiguration('Evenement') as $Evenement){
-								if ($Event->getId() == str_replace('#','',$Evenement['Cmd'])){
-									if (!$this->EvaluateCondition($_option['value'].$Evenement['Operande'].$Evenement['Value'],'Evenement'))
+							foreach($Volet->getConfiguration('EvenementObject') as $ObjectEvent){
+								if ($Event->getId() == str_replace('#','',$ObjectEvent['Cmd'])){
+									log::add('Volets','info',$Volet->getHumanName().$ObjectEvent['Cmd'].' : Un evenement c\'est produit sur un objet ecouté');
+									if (!$Volet->EvaluateCondition($_option['value'].$ObjectEvent['Operande'].$ObjectEvent['Value'],'Evenement'))
 										$Volet->GestionEvenement('open');
 									else
 										$Volet->GestionEvenement('close');
@@ -204,13 +204,15 @@ class Volets extends eqLogic {
 		switch($Gestion){
 			case 'Jour':
 				if ($this->getConfiguration('Evenement')){	
-					$Commande=cmd::byId(str_replace('#','',$this->getConfiguration('cmdPresent')));
-					if(is_object($Commande) && $Commande->execCmd() == false){
-						$Evenement=$this->checkCondition('close',$Saison,'Evenement');   		
-						if($Evenement != false && $Evenement == 'close'){
-							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
-							$this->CheckRepetivite('Evenement',$Evenement,$Saison,$force);
-							return false;
+					foreach($this->getConfiguration('EvenementObject') as $ObjectEvent){
+						$Commande=cmd::byId(str_replace('#','',$ObjectEvent['Cmd']));
+						if(is_object($Commande) && $this->EvaluateCondition($ObjectEvent['Cmd'].$ObjectEvent['Operande'].$ObjectEvent['Value'],'Evenement')){
+							$Evenement=$this->checkCondition('close',$Saison,'Evenement');   		
+							if($Evenement != false && $Evenement == 'close'){
+								log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
+								$this->CheckRepetivite('Evenement',$Evenement,$Saison,$force);
+								return false;
+							}
 						}
 					}
 				}
@@ -761,7 +763,7 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('Azimut'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
 				if ($this->getConfiguration('Evenement')){
-					foreach($this->getConfiguration('Evenement') as $Evenement){
+					foreach($this->getConfiguration('EvenementObject') as $Evenement){
 						if($Evenement['Cmd'] != '')
 							$listener->addEvent($Evenement['Cmd']);
 					}

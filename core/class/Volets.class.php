@@ -51,7 +51,7 @@ class Volets extends eqLogic {
 		return $return;
 	}
 	public static function deamon_start($_debug = false) {
-		log::remove('Volets');
+		//log::remove('Volets');
 		self::deamon_stop();
 		$deamon_info = self::deamon_info();
 		if ($deamon_info['launchable'] != 'ok') 

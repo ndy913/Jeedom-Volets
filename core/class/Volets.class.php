@@ -805,6 +805,11 @@ class Volets extends eqLogic {
 					$this->GestionNuit(true);
 				else
 					$this->GestionJour(true);
+				if($this->getEqLogic()->getConfiguration('RealState') != ''){
+					$State=cmd::byId(str_replace('#','',$this->getEqLogic()->getConfiguration('RealState')));
+					if(is_object($State))
+						$this->getEqLogic()->CheckState($State->execCmd());
+				}
 			}
 		}
 	}
@@ -967,6 +972,11 @@ class VoletsCmd extends cmd {
 						$this->getEqLogic()->GestionNuit(true);
 					else
 						$this->getEqLogic()->GestionJour(true);
+					if($this->getEqLogic()->getConfiguration('RealState') != ''){
+						$State=cmd::byId(str_replace('#','',$this->getEqLogic()->getConfiguration('RealState')));
+						if(is_object($State))
+							$this->getEqLogic()->CheckState($State->execCmd());
+					}
 				break;
 				case 'released':
 					$Listener->event(false);

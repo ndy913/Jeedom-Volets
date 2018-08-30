@@ -5,7 +5,7 @@ function Volets_install(){
 function Volets_update(){
 	log::add('Volets','debug','Lancement du script de mise a jours'); 
 	foreach(eqLogic::byType('Volets') as $Volet){
-		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
+		/*$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 		if (is_object($listener))
 			$listener->remove();
 		$cron = cron::byClassAndFunction('Volets', 'GestionJour', array('Volets_id' => $Volet->getId()));
@@ -36,7 +36,7 @@ function Volets_update(){
 				$Actions[]=$Action;
 			}
 			$Volet->setConfiguration('action',$Actions)
-		}
+		}*/
 		$Volet->save();
 	}
 	log::add('Volets','debug','Fin du script de mise a jours');

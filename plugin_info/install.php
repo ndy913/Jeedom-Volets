@@ -35,7 +35,7 @@ function Volets_update(){
 				$Action['Conditionnel']=$Action['Meteo'];
 				$Actions[]=$Action;
 			}
-			$Volet->setConfiguration('action',$Action)
+			$Volet->setConfiguration('action',$Actions)
 		}
 		$Volet->save();
 	}

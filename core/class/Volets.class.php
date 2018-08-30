@@ -805,10 +805,10 @@ class Volets extends eqLogic {
 					$this->GestionNuit(true);
 				else
 					$this->GestionJour(true);
-				if($this->getEqLogic()->getConfiguration('RealState') != ''){
-					$State=cmd::byId(str_replace('#','',$this->getEqLogic()->getConfiguration('RealState')));
+				if($this->getConfiguration('RealState') != ''){
+					$State=cmd::byId(str_replace('#','',$this->getConfiguration('RealState')));
 					if(is_object($State))
-						$this->getEqLogic()->CheckState($State->execCmd());
+						$this->CheckState($State->execCmd());
 				}
 			}
 		}

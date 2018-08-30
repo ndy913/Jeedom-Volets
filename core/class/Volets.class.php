@@ -461,7 +461,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public function CheckRepetivite($Gestion,$Evenement,$Saison,$force=false){
-		if($force || cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
+		if(!$force && cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
 			return;
 		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
 		$Change['RatioVertical']=false;

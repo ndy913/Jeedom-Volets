@@ -51,7 +51,7 @@ class Volets extends eqLogic {
 		return $return;
 	}
 	public static function deamon_start($_debug = false) {
-		log::remove('Volets');
+		//log::remove('Volets');
 		self::deamon_stop();
 		$deamon_info = self::deamon_info();
 		if ($deamon_info['launchable'] != 'ok') 
@@ -461,7 +461,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public function CheckRepetivite($Gestion,$Evenement,$Saison,$force=false){
-		if($force || cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
+		if(!$force && cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
 			return;
 		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
 		$Change['RatioVertical']=false;
@@ -805,6 +805,11 @@ class Volets extends eqLogic {
 					$this->GestionNuit(true);
 				else
 					$this->GestionJour(true);
+				if($this->getConfiguration('RealState') != ''){
+					$State=cmd::byId(str_replace('#','',$this->getConfiguration('RealState')));
+					if(is_object($State))
+						$this->CheckState($State->execCmd());
+				}
 			}
 		}
 	}
@@ -967,6 +972,11 @@ class VoletsCmd extends cmd {
 						$this->getEqLogic()->GestionNuit(true);
 					else
 						$this->getEqLogic()->GestionJour(true);
+					if($this->getEqLogic()->getConfiguration('RealState') != ''){
+						$State=cmd::byId(str_replace('#','',$this->getEqLogic()->getConfiguration('RealState')));
+						if(is_object($State))
+							$this->getEqLogic()->CheckState($State->execCmd());
+					}
 				break;
 				case 'released':
 					$Listener->event(false);

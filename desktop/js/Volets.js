@@ -1,112 +1,11 @@
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_condition").sortable({axis: "y", cursor: "move", items: ".ConditionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $("#table_action").sortable({axis: "y", cursor: "move", items: ".ActionGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
-var Template=null;
-$.ajax({
-	type: 'POST',            
-	async: false,
-	url: 'plugins/Volets/core/ajax/Volets.ajax.php',
-	data:
-		{
-		action: 'getTemplate',
-		},
-	dataType: 'json',
-	global: false,
-	error: function(request, status, error) {},
-	success: function(data) {
-		if (!data.result){
-			$('#div_alert').showAlert({message: 'Aucun message recu', level: 'error'});
-			return;
-		}
-		Template=data.result;
-	}
-});
+$("#table_Evenement").sortable({axis: "y", cursor: "move", items: ".EvenementGroup", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 $('.eqLogicAction[data-action=addByTemplate]').on('click', function () {
-	$('#table_cmd tbody tr:last').setValues({}, '.cmdAttr');
-	var message =  $('#eqlogictab').find('form').clone();
-	message.find('.eqLogicAttr').addClass('EqLogicTemplateAttr').removeClass('eqLogicAttr');
- 	message.find('fieldset').append($('<div class="form-horizontal ParametersTempates">'));
-  	bootbox.dialog({
-		title: "{{Ajout d'un équipement avec template}}",
-		message: message,
-		height: "800px",
-		width: "auto",
-		buttons: {
-			"Annuler": {
-				className: "btn-default",
-				callback: function () {
-					//el.atCaret('insert', result.human);
-				}
-			},
-			success: {
-				label: "Valider",
-				className: "btn-primary",
-				callback: function () {
-					if($('.EqLogicTemplateAttr[data-l1key=template]').value() != "" && $('.EqLogicTemplateAttr[data-l1key=name]').value() != ""){
-						var eqLogic=new Object();
-						eqLogic.name=$('.EqLogicTemplateAttr[data-l1key=name]').value();
-						if (typeof(eqLogic.object_id) === 'undefined')
-							eqLogic.object_id=new Object();
-						eqLogic.object_id=$('.EqLogicTemplateAttr[data-l1key=object_id]').value();
-						if (typeof(eqLogic.configuration) === 'undefined')
-							eqLogic.configuration=new Object();
-						$('.Gestions .EqLogicTemplateAttr[data-l1key=configuration]').each(function(){
-							eqLogic=$.merge(eqLogic,Template[$(this).attr('data-l2key')].config);
-						});
-						$('.ParametersTempates input').each(function(){
-							eqLogic.replace('#'+$(this).attr('id'),$(this).val());
-						});
-						jeedom.eqLogic.save({
-							type: 'Volets',
-							eqLogics: [eqLogic],
-							error: function (error) {
-								$('#div_alert').showAlert({message: error.message, level: 'danger'});
-							},
-							success: function (_data) {
-								var vars = getUrlVars();
-								var url = 'index.php?';
-								for (var i in vars) {
-									if (i != 'id' && i != 'saveSuccessFull' && i != 'removeSuccessFull') {
-										url += i + '=' + vars[i].replace('#', '') + '&';
-									}
-								}
-								modifyWithoutSave = false;
-								url += 'id=' + _data.id + '&saveSuccessFull=1';
-								loadPage(url);
-							}
-						});
-					}
-				}
-			},
-		}
-	});
+	$('#md_modal').dialog({title: "{{Ajout d'un equipement par template}}"});
+	$('#md_modal').load('index.php?v=d&plugin=Volets&modal=Volets.addByTemplate').dialog('open');
 });
-$('body').on('change','.Gestions .EqLogicTemplateAttr[data-l1key=configuration]', function () {
-	//Creation du formulaire du template
-	var form=$(this).closest('form');
-	var Parameters=$('<div>').addClass($(this).attr('data-l2key'));
-  	if($(this).is(':checked')){
-      		$.each(Template[$(this).attr('data-l2key')].update.configuration.action,function(index, value){
-				Parameters.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="cmd"',value.Description));
-		
-		});
-      		$.each(Template[$(this).attr('data-l2key')].update.configuration.condition,function(index, value){
-				Parameters.append(HtmlParameter(value.cmd,'data-l1key="configuration" data-l2key="action" data-l3key="expression"',value.Description));
-		
-		});
-		form.find('.ParametersTempates').append(Parameters);
-    	}else
-		form.find('.'+$(this).attr('data-l2key')).remove();
-});
-function HtmlParameter(id,index,Description){
-	return $('<div class="input-group">')
-		.append($('<label class="col-xs-5 control-label" >')
-			.text(Description))
-		.append($('<input id="'+id+'" class="EqLogicTemplateAttr form-control input-sm cmdAction" '+index+'/>'))
-		.append($('<span class="input-group-btn">')
-			.append($('<a class="btn btn-success btn-sm listCmdAction data-type="action"">')
-				.append($('<i class="fa fa-list-alt">'))));
-}
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=heliotrope]').on('change',function(){
 	if($(this).val() != 'Aucun'){
 		$.ajax({
@@ -185,17 +84,17 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Nuit]').on('change',functio
 	else
 		$('.JourNuit').hide();
 });
-$('.eqLogicAttr[data-l1key=configuration][data-l2key=Absent]').on('change',function(){	
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=Evenement]').on('change',function(){	
 	if($(this).is(':checked'))
-		$('.Absent').show();
+		$('.Evenement').show();
 	else
-		$('.Absent').hide();
+		$('.Evenement').hide();
 });
-$('.eqLogicAttr[data-l1key=configuration][data-l2key=Meteo]').on('change',function(){	
+$('.eqLogicAttr[data-l1key=configuration][data-l2key=Conditionnel]').on('change',function(){	
 	if($(this).is(':checked'))
-		$('.Meteo').show();
+		$('.Conditionnel').show();
 	else
-		$('.Meteo').hide();
+		$('.Conditionnel').hide();
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=Azimut]').on('change',function(){	
 	if($(this).is(':checked')){
@@ -211,26 +110,39 @@ $('#bt_openMap').on('click',function(){
 	$('#md_modal').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets').dialog('open');
 });
 function saveEqLogic(_eqLogic) {
+	_eqLogic.configuration.EvenementObject=new Object();
 	_eqLogic.configuration.condition=new Object();
 	_eqLogic.configuration.action=new Object();
+	var EvenementArray= new Array();
 	var ConditionArray= new Array();
 	var ActionArray= new Array();
+	$('#EvenementTab .EvenementGroup').each(function( index ) {
+		EvenementArray.push($(this).getValues('.expressionAttr')[0]);
+	});
 	$('#conditiontab .ConditionGroup').each(function( index ) {
-		ConditionArray.push($(this).getValues('.expressionAttr')[0])
+		ConditionArray.push($(this).getValues('.expressionAttr')[0]);
 	});
 	$('#actiontab .ActionGroup').each(function( index ) {
-		ActionArray.push($(this).getValues('.expressionAttr')[0])
+		ActionArray.push($(this).getValues('.expressionAttr')[0]);
 	});
+	_eqLogic.configuration.EvenementObject=EvenementArray;
 	_eqLogic.configuration.condition=ConditionArray;
 	_eqLogic.configuration.action=ActionArray;
    	return _eqLogic;
 }
 function printEqLogic(_eqLogic) {
+	$('.EvenementGroup').remove();
 	$('.ConditionGroup').remove();
 	$('.ActionGroup').remove();
 	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Droite]').val(JSON.stringify(_eqLogic.configuration.Droite));
 	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Centre]').val(JSON.stringify(_eqLogic.configuration.Centre));
 	$('.eqLogicAttr[data-l1key=configuration][data-l2key=Gauche]').val(JSON.stringify(_eqLogic.configuration.Gauche));
+	if (typeof(_eqLogic.configuration.EvenementObject) !== 'undefined') {
+		for(var index in _eqLogic.configuration.EvenementObject) { 
+			if( (typeof _eqLogic.configuration.EvenementObject[index] === "object") && (_eqLogic.configuration.EvenementObject[index] !== null) )
+				addEvenement(_eqLogic.configuration.EvenementObject[index],$('#EvenementTab').find('table tbody'));
+		}
+	}
 	if (typeof(_eqLogic.configuration.condition) !== 'undefined') {
 		for(var index in _eqLogic.configuration.condition) { 
 			if( (typeof _eqLogic.configuration.condition[index] === "object") && (_eqLogic.configuration.condition[index] !== null) )
@@ -243,6 +155,32 @@ function printEqLogic(_eqLogic) {
 					addAction(_eqLogic.configuration.action[index],$('#actiontab').find('table tbody'));
 			}
 	}	
+}
+function addEvenement(_action,  _el) {
+	var tr = $('<tr class="EvenementGroup">');
+	tr.append($('<td>')
+		.append($('<div class="input-group">')
+			.append($('<span class="input-group-btn">')
+				.append($('<a class="btn btn-default EvenementAttr" data-action="remove">')
+					.append($('<i class="fa fa-minus-circle">'))))
+			.append($('<input type="text" class="expressionAttr form-control" data-l1key="Cmd" placeholder="{{Séléctionner une commande}}"/>'))
+			.append($('<span class="input-group-btn">')
+				.append($('<a class="btn btn-success btn-sm listCmdAction" data-type="info">')
+					.append($('<i class="fa fa-list-alt"></i>'))))));		
+	tr.append($('<td>')	
+		.append($('<select class="expressionAttr form-control" data-l1key="Operande">')	
+			.append($('<option value="==">').text('{{égal}}'))         	
+			.append($('<option value=">">').text('{{supérieur}}'))                  	
+			.append($('<option value="<">').text('{{inférieur}}'))                 	
+			.append($('<option value="!=">').text('{{différent}}'))));	
+	tr.append($('<td>')
+		.append($('<input type="text" class="expressionAttr form-control" data-l1key="Value" placeholder="{{Valeur pour validé la condition}}"/>')));
+									
+        _el.append(tr);
+        _el.find('tr:last').setValues(_action, '.expressionAttr');
+	$('.EvenementAttr[data-action=remove]').off().on('click',function () {
+		$(this).closest('.EvenementGroup').remove();
+	});
 }
 function addCondition(_condition,_el) {
 	var tr = $('<tr class="ConditionGroup">')
@@ -294,7 +232,7 @@ function addAction(_action,  _el) {
 			.append($('<span class="input-group-btn">')
 				.append($('<a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">')
 					.append($('<i class="fa fa-tasks">')))
-				.append($('<a class="btn btn-success btn-sm listCmdAction data-type="action"">')
+				.append($('<a class="btn btn-success btn-sm listCmdAction data-type="action">')
 					.append($('<i class="fa fa-list-alt">')))))
 		.append($('<div class="actionOptions">')
 	       		.append($(jeedom.cmd.displayActionOption(init(_action.cmd, ''), _action.options)))));
@@ -315,6 +253,9 @@ function addAction(_action,  _el) {
 $('#tab_zones a').click(function(e) {
     e.preventDefault();
     $(this).tab('show');
+});
+$('.EvenementAttr[data-action=add]').off().on('click',function(){
+	addEvenement({},$(this).closest('.tab-pane').find('table'));
 });
 $('.conditionAttr[data-action=add]').off().on('click',function(){
 	addCondition({},$(this).closest('.tab-pane').find('table'));
@@ -467,7 +408,7 @@ $("body").on('click', ".listCmdAction", function() {
 	jeedom.cmd.getSelectModal({cmd: {type: type}}, function (result) {
 		el.value(result.human);
 		jeedom.cmd.displayActionOption(result.human, '', function (html) {
-			el.closest('td').find('.actionOptions').html(html);
+			el.parent().find('.actionOptions').html(html);
 		});
 	});
 });

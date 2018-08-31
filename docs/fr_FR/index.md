@@ -12,8 +12,8 @@ Il est recommandée, mais pas obligatoire, d'utiliser une zone par volet afin de
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de la position du soleil,
     * en mode été, il fermera les volets lorsque le soleil sera dans la fenêtre afin de préserver une température idéale dans la maison,
     * en mode hiver, il ouvrira les volets pour permettre au soleil de chauffer la pièce et faire des économies d'énergie,
-* le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de votre présence.
-* le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de la météo.
+* le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de vos evenements.
+* le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de condtion.
 
 Configuration général
 ===
@@ -54,9 +54,9 @@ Cette commande permet de déterminer quelle gestion est en cours actuellement.
 * `Manuel` : Le plugin est en mode manuel et n'intervient plus
 * `Jour` : il fait jour, on active toutes les autres gestions. On vérife les autres gestions avant d'exécuter les actions.
 * `Nuit` : il fait nuit, toutes les autres gestions sont désactivées.
-* `Abscent` : il n'y a personne à la maison, on ferme les volets. La gestion de présence interdit toutes autres actions hormis la `Nuit`.
-* `Meteo` : si toutes les conditions météo sont vérifiées, on ferme les volets. La gestion météo interdit toutes autres gestions hormis la gestion `Nuit`.
 * `Azimut` : si le soleil est dans la fenêtre, on ferme les volets. La gestion par azimuth autorise toutes autres gestions.	
+* `Evenement` : Le plugin vas ecouté les evenements de vos commande et decidé de fermer selon vos parametres . La gestion Evenement interdit toutes autres actions hormis la `Nuit`.
+* `Conditionnel` : Le plugin verifie toute les minutes les conditons, si elle sont verifié alors, il fermera le volet. La gestion Conditionnel interdit toutes autres gestions hormis la gestion `Nuit`.
 
 La position du volet et son état
 ---
@@ -119,8 +119,8 @@ Configuration générale Jeedom
 * `Jour` : activation de la gestion en jour 
 * `Nuit` : activation de la gestion en nuit
 * `Azimut` : activation de la gestion en fonction de la position du soleil (dépend de l'équipement Héliotrope)
-* `Absent` : activation de la gestion en fonction de la présence
-* `Météo` : active la gestion météo. 
+* `Evenement` : activation de la gestion Evenement
+* `Conditionnel` : active la gestion Conditionnel. 
 
 ### Gestion de l'etat reel
 
@@ -169,23 +169,6 @@ Elle vas vous permetre de pouvoir autoriser des changement manuel en desarmant l
 
 Se sera donc a vous de gerer le réarmement pour retrouver un fonctionnement automatique de vos volets
 
-Gestion de présence
----
-
-![introduction01](../images/ConfigurationPresence.jpg)
-
-La gestion de présence permet de fermer les volets lorsque nous ne sommes pas là.
-Il faut activer la gestion pour faire apparaitre les champs de configuration spécifique.
-
-* Gestion de la présence : objet Jeedom indiquant s'il y a quelqu'un dans la maison.
-
-Lorsque la gestion de presence détecte une absence, toutes les autres gestions hormis la gestion de la nuit sont inactives.
-
-Gestion Météo
----
-La gestion météo vérifie toutes les minutes les conditions enregistrées.
-Si toutes les conditions que vous avez complétées sont valides, alors l'ordre de fermeture sera donné et toutes les autres gestions hormis la gestion de la nuit sont inactives.
-
 Gestion par Azimut
 ---
 
@@ -218,12 +201,30 @@ Attention toutefois à bien respecter la droite et la gauche de votre fenêtre v
 
 ### Conditionner
 
-Pour compléter cette gestion, il est possible d'ajouter des conditions.
+Pour compléter les gestions, il est possible d'ajouter des conditions.
+Les conditions vont venir autorisé ou non l'execution des actions de cette gestion
 Par exemple, je veux que les volets ne se ferment que si j'ai une température ambiante en été supérieure à 23.
 J'ajouterai donc une condition de ce type.
 
 ![introduction01](../images/ConditionTemps.jpg)
 
+Gestion Evenement
+---
+
+La gestion Evenement permet de fermer les volets lorsque un evenement Jeedom est validé.
+Il faut activer la gestion pour faire apparaitre les champs de configuration spécifique.
+
+![introduction01](../images/ConfigurationEvenement.jpg)
+
+Pour ajouter un evenement il vous suffit de cliquer **Ajouter un objet** et de completer la ligne cree.
+* `Objet` : Sélectioner une commande Jeedom a ecouter
+* `Operateur`: Choisir l'operation a effectuer pour valider la fermeture
+* `Valeur` : Saisir la valeur a comparer a l'objet
+
+Gestion Conditionnel
+---
+La gestion Conditionnel vérifie toutes les minutes les conditions enregistrées.
+Si toutes les conditions que vous avez complétées sont valides, alors l'ordre de fermeture sera donné et toutes les autres gestions hormis la gestion de la nuit sont inactives.
 
 Conditions d'exécution et de réarmeent
 ---
@@ -274,30 +275,54 @@ Si vous souhaitez utiliser les commandes ratiométriques, il est juste necessair
 FAQ
 ===
 
-**Le plugin reste en gestion Nuit**
+Je veux que mon volet s'ouvre ou se ferme si ma conditon est fausse
+---
+> Lorsque l'on saisi une conditon, il est possible d'activer l'option *Inverser l'action*.
+Cette option vas donc inverser la demande de mouvement et relancer l'evaluation des conditions.
+
+Le plugin reste en gestion Nuit
+---
 > Verifier que la gestion de jours est activé
 
-**Le plugin reste en mode manuel**
+Le plugin reste en mode manuel
+---
 > Pour sortir du mode manuel il faut réarmer **Manuellement ou par scénario** le plugin.
 
-**Je ne veux pas que mes volets s'ouvre le matin avant 10h**
+Je ne veux pas que mes volets s'ouvre le matin avant 10h
+---
 > Pour cela il faut ajouter une condition sur la gestion jour
 
-**Mes Volets ne se bouge plus**
+Mes Volets ne se bouge plus
+---
 > Verifier que l'armement de la zone est bien actif (Cadenas fermer sur le widget) et que la gestion active ne soit pas "Manuel"
 
-**Le cadenas est ouvert, mais le plugin contiue a analysé les inforamtion d'héliotrope**
+Le cadenas est ouvert, mais le plugin contiue a analysé les inforamtion d'héliotrope
+---
 > Le plugin est désarmé, il n'y aurra pas d'action mais le plugin continue sa surveillance
 
-**Je suis passée en mode manuel dans la journée, comment réarmer automatiquement le plugin**
+Mon cadenas s'ouvre a chaque commande du plugin
+---
+> D'une maniere général, le plugin passe en mode manuel car il recois consequtivement plusieur retour d'etat qu'il a acquité.
+Ce probleme est liée a la gestion de *répétition de votre commande d'etat*.
+Pour le corrigé rendez-vous sur la page de configuration du plugin de controle de votre module volet et double cliquez sur la commande de retour d'etat.
+Jeedom vas vous ouvrir la page de paramettre avancé
+Allez dans l'onglet **Configuration** >> **Autres** et passée le parametre **Gestion de la répétition des valeurs** sur **Jamais répéter**
+
+![Screen de configuration des parametres avancé d'une commande ](../images/CmdParamAvanceRepetition.jpg)
+
+Je suis passée en mode manuel dans la journée, comment réarmer automatiquement le plugin
+---
 > Pour le réarmement automatique il est nécessaire d'ajouter une condition de réarmement sur la gestion et le mouvement profuit.
 Par exemple pour le réarmement en gestion de nuit, je vais ajouter une condition du style #time# ++ 2000 en gestion de nuit et sur la fermeture
 
-**J'ai configuré ma gestion Azimut avec le ratio mais il fait tros de mouvement**
+J'ai configuré ma gestion Azimut avec le ratio mais il fait tros de mouvement
+---
 > Il est possible de limiter les mouvements avec une formule dans les options.
+Dans l'exemple si dessous, on limite l'ouverture du volet de 0 a 100% par pas de 5%
 ![introduction01](../images/ActionRatioLimite.png)
 
-**Le plugin ne fonctionne pas avec mon module Fibaro**
+Le plugin ne fonctionne pas avec mon module Fibaro
+---
 > Les modules fibaro son gradué proportionnelement de 0 a 99%.
 Pour palier a ce probleme il est recommandé d'utiliser le plugin avec sont ratioVertical (ou ratioHorizontal) en configurant le min (0) et max (99) pour la commande ratio appliquer.
 Egalement la Hauteur de seuil (ouvert/ fermer) doit etre comprise entre 1 et 98%

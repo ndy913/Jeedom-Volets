@@ -30,12 +30,12 @@ $eqLogics = eqLogic::byType('Volets');
 				</center>
 				<span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#406E88"><center>{{Ajouter}}</center></span>
 			</div>
-			<!--div class="cursor eqLogicAction" data-action="addByTemplate" style="background-color : #ffffff; height : 140px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
+			<div class="cursor eqLogicAction" data-action="addByTemplate" style="background-color : #ffffff; height : 140px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
 				<center>
 					<i class="fa fa-plus-circle" style="font-size : 5em;color:#406E88;"></i>
 				</center>
 				<span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#406E88"><center>{{Par template}}</center></span>
-			</div-->
+			</div>
 			<div class="cursor eqLogicAction" data-action="gotoPluginConf" style="height: 120px; margin-bottom: 10px; padding: 5px; border-radius: 2px; width: 160px; margin-left: 10px; position: absolute; left: 170px; top: 0px; background-color: rgb(255, 255, 255);">
 				    <center>
 			      		<i class="fa fa-wrench" style="font-size : 5em;color:#767676;"></i>
@@ -82,35 +82,35 @@ $eqLogics = eqLogic::byType('Volets');
 			</li>
 			<li role="presentation" class="active">
 				<a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
-					<i class="fa fa-tachometer"></i> Equipement</a>
+					<i class="fa fa-tachometer"></i> {{Equipement}}</a>
 			</li>
 			<li role="presentation" class="JourNuit">
 				<a href="#journuitab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
-					<i class="icon nature-weather1"></i> Gestion Jour / Nuit</a>
-			</li>
-			<li role="presentation" class="Absent">
-				<a href="#presentab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
-					<i class="icon loisir-runner5"></i> Gestion de l'absent</a>
-			</li>
-			<li role="presentation" class="Meteo">
-				<a href="#meteotab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
-					<i class="icon meteo-orage"></i> Gestion Météo</a>
+					<i class="icon nature-weather1"></i> {{Jour / Nuit}}</a>
 			</li>
 			<li role="presentation" class="Azimut">
 				<a href="#azimutab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
-					<i class="icon nature-planet5"></i> Gestion Azimut</a>
+					<i class="icon nature-planet5"></i> {{Azimut}}</a>
 			</li>
-			<li role="presentation">
-				<a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
-					<i class="fa fa-list-alt"></i> Commandes</a>
+			<li role="presentation" class="Evenement">
+				<a href="#EvenementTab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
+					<i class="icon loisir-runner5"></i> {{Evenement}}</a>
+			</li>
+			<li role="presentation" class="Conditionnel">
+				<a href="#ConditionnelTab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
+					<i class="icon meteo-orage"></i> {{Conditionnel}}</a>
 			</li>
 			<li role="presentation">
 				<a href="#conditiontab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
-					<i class="fa fa-cube"></i> {{Conditions d'exécution}}</a>
+					<i class="fa fa-cube"></i> {{Conditions}}</a>
 			</li>
 			<li role="presentation">
 				<a href="#actiontab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
 					<i class="icon divers-viral"></i> {{Actions}}</a>
+			</li>
+			<li role="presentation">
+				<a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
+					<i class="fa fa-list-alt"></i> {{Commandes}}</a>
 			</li>
 		</ul>
 		<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
@@ -253,39 +253,38 @@ $eqLogics = eqLogic::byType('Volets');
 					</fieldset>
 				</form>
 			</div>
-			<div role="tabpanel" class="tab-pane" id="presentab">
+			<div role="tabpanel" class="tab-pane" id="EvenementTab">
+				<p>{{La gestion Evenement va fermer le volet lorsque la condition des objets surveillé est vrai.}}</p>	
+				<p>{{Seule la gestion de Nuit est autorisée à s'exécuter}}</p>
 				<form class="form-horizontal">
 					<fieldset>
-						{{La gestion d'absence va fermer le volet lorsque l'objet de présence surveillé passe à False.}}	
-						{{Seule la gestion de Nuit est autorisée à s'exécuter}}	
-						<div class="form-group">
-							<label class="col-sm-2 control-label">{{Objet indiquant la présence}}
-								<sup>
-									<i class="fa fa-question-circle tooltips" title="{{Sélectionner la commande déterminant la présence}}"></i>
-								</sup>
-							</label>
-							<div class="col-sm-5">
-								<div class="input-group">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="cmdPresent" placeholder="{{Commande déterminant la présence}}"/>
-									<span class="input-group-btn">
-										<!--a class="btn btn-success btn-sm listAction" title="Sélectionner un mot-clé">
-											<i class="fa fa-tasks"></i>
-										</a-->
-										<a class="btn btn-success btn-sm listCmdAction data-type="info">
-											<i class="fa fa-list-alt"></i>
-										</a>
-									</span>
-								</div>
-							</div>
-						</div>	
+						<legend>{{Evenements :}}
+							<sup>
+								<i class="fa fa-question-circle tooltips" title="{{Saisir tous les objets a surveiller ainsi que l'operateur de la condition et sa valeur}}"></i>
+							</sup>
+							<a class="btn btn-success btn-xs EvenementAttr" data-action="add" style="margin-left: 5px;">
+								<i class="fa fa-plus-circle"></i>
+								{{Ajouter un objet}}
+							</a>
+						</legend>
 					</fieldset>
-				</form>
+				</form>			
+				<table id="table_Evenement" class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>{{Objet}}</th>
+							<th>{{Operateur}}</th>
+							<th>{{Valeur}}</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
 			</div>
-		<div role="tabpanel" class="tab-pane" id="meteotab">
+		<div role="tabpanel" class="tab-pane" id="ConditionnelTab">
 				<form class="form-horizontal">
 					<fieldset>
-						{{La gestion par météo est une tâche executée toutes les minutes qui va verifier les conditions météorologique que vous avez spécifées dans l'onget Condition}}	
-						{{Lorsque toutes les conditions sont vérifiées le plugin passe en mode Météo, les volets se ferment}}
+						{{La gestion Conditionnel est une tâche executée toutes les minutes qui va verifier les conditions, par exemple météorologique, spécifées dans l'onget Condition}}	
+						{{Lorsque toutes les conditions sont vérifiées le plugin passe en mode Conditionnel, les volets se ferment}}
 						{{Seule la gestion de Nuit est autorisée à s'exécuter}}		
 					</fieldset>
 				</form>

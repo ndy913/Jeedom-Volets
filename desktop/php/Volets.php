@@ -86,23 +86,23 @@ $eqLogics = eqLogic::byType('Volets');
 			</li>
 			<li role="presentation" class="JourNuit">
 				<a href="#journuitab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
-					<i class="icon nature-weather1"></i> {{Gestion Jour / Nuit}}</a>
+					<i class="icon nature-weather1"></i> {{Jour / Nuit}}</a>
 			</li>
 			<li role="presentation" class="Azimut">
 				<a href="#azimutab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
-					<i class="icon nature-planet5"></i> {{Gestion Azimut}}</a>
+					<i class="icon nature-planet5"></i> {{Azimut}}</a>
 			</li>
 			<li role="presentation" class="Evenement">
 				<a href="#EvenementTab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
-					<i class="icon loisir-runner5"></i> {{Gestion evenementiel}}</a>
+					<i class="icon loisir-runner5"></i> {{Evenement}}</a>
 			</li>
 			<li role="presentation" class="Conditionnel">
 				<a href="#ConditionnelTab" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
-					<i class="icon meteo-orage"></i> {{Gestion Conditionnel}}</a>
+					<i class="icon meteo-orage"></i> {{Conditionnel}}</a>
 			</li>
 			<li role="presentation">
 				<a href="#conditiontab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
-					<i class="fa fa-cube"></i> {{Conditions d'exécution}}</a>
+					<i class="fa fa-cube"></i> {{Conditions}}</a>
 			</li>
 			<li role="presentation">
 				<a href="#actiontab" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">

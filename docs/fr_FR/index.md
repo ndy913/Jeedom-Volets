@@ -280,6 +280,12 @@ Je veux que mon volet s'ouvre ou se ferme si ma conditon est fausse
 > Lorsque l'on saisi une conditon, il est possible d'activer l'option *Inverser l'action*.
 Cette option vas donc inverser la demande de mouvement et relancer l'evaluation des conditions.
 
+Mon volet ne remonte pas a la sortie de la soleil
+---
+> Si vous n'avez pas de remonté de volet en gestion Azimut lors de la sortie du soleil c'est que tres probablement, l'etat du volet sur le plugin est deja ouvert.
+Ce probleme est généralement du a une mauvaise configuration du seuil de fermeture.
+Le Seuil de fermeture doit etre superieur ou egale a la plus haute valeur proportionnel configurer dans les actions
+
 Le plugin reste en gestion Nuit
 ---
 > Verifier que la gestion de jours est activé

@@ -12,8 +12,8 @@ Il est recommandée, mais pas obligatoire, d'utiliser une zone par volet afin de
 * le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de la position du soleil,
     * en mode été, il fermera les volets lorsque le soleil sera dans la fenêtre afin de préserver une température idéale dans la maison,
     * en mode hiver, il ouvrira les volets pour permettre au soleil de chauffer la pièce et faire des économies d'énergie,
-* le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de votre présence.
-* le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de la météo.
+* le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de vos evenements.
+* le plugin gérera automatiquement l'ouverture et la fermeture de vos volets en fonction de condtion.
 
 Configuration général
 ===
@@ -54,9 +54,9 @@ Cette commande permet de déterminer quelle gestion est en cours actuellement.
 * `Manuel` : Le plugin est en mode manuel et n'intervient plus
 * `Jour` : il fait jour, on active toutes les autres gestions. On vérife les autres gestions avant d'exécuter les actions.
 * `Nuit` : il fait nuit, toutes les autres gestions sont désactivées.
-* `Abscent` : il n'y a personne à la maison, on ferme les volets. La gestion de présence interdit toutes autres actions hormis la `Nuit`.
-* `Meteo` : si toutes les conditions météo sont vérifiées, on ferme les volets. La gestion météo interdit toutes autres gestions hormis la gestion `Nuit`.
 * `Azimut` : si le soleil est dans la fenêtre, on ferme les volets. La gestion par azimuth autorise toutes autres gestions.	
+* `Evenement` : Le plugin vas ecouté les evenements de vos commande et decidé de fermer selon vos parametres . La gestion Evenement interdit toutes autres actions hormis la `Nuit`.
+* `Conditionnel` : Le plugin verifie toute les minutes les conditons, si elle sont verifié alors, il fermera le volet. La gestion Conditionnel interdit toutes autres gestions hormis la gestion `Nuit`.
 
 La position du volet et son état
 ---
@@ -119,8 +119,8 @@ Configuration générale Jeedom
 * `Jour` : activation de la gestion en jour 
 * `Nuit` : activation de la gestion en nuit
 * `Azimut` : activation de la gestion en fonction de la position du soleil (dépend de l'équipement Héliotrope)
-* `Absent` : activation de la gestion en fonction de la présence
-* `Météo` : active la gestion météo. 
+* `Evenement` : activation de la gestion Evenement
+* `Conditionnel` : active la gestion Conditionnel. 
 
 ### Gestion de l'etat reel
 
@@ -169,23 +169,6 @@ Elle vas vous permetre de pouvoir autoriser des changement manuel en desarmant l
 
 Se sera donc a vous de gerer le réarmement pour retrouver un fonctionnement automatique de vos volets
 
-Gestion de présence
----
-
-![introduction01](../images/ConfigurationPresence.jpg)
-
-La gestion de présence permet de fermer les volets lorsque nous ne sommes pas là.
-Il faut activer la gestion pour faire apparaitre les champs de configuration spécifique.
-
-* Gestion de la présence : objet Jeedom indiquant s'il y a quelqu'un dans la maison.
-
-Lorsque la gestion de presence détecte une absence, toutes les autres gestions hormis la gestion de la nuit sont inactives.
-
-Gestion Météo
----
-La gestion météo vérifie toutes les minutes les conditions enregistrées.
-Si toutes les conditions que vous avez complétées sont valides, alors l'ordre de fermeture sera donné et toutes les autres gestions hormis la gestion de la nuit sont inactives.
-
 Gestion par Azimut
 ---
 
@@ -225,6 +208,23 @@ J'ajouterai donc une condition de ce type.
 
 ![introduction01](../images/ConditionTemps.jpg)
 
+Gestion Evenement
+---
+
+La gestion Evenement permet de fermer les volets lorsque un evenement Jeedom est validé.
+Il faut activer la gestion pour faire apparaitre les champs de configuration spécifique.
+
+![introduction01](../images/ConfigurationEvenement.jpg)
+
+Pour ajouter un evenement il vous suffit de cliquer **Ajouter un objet** et de completer la ligne cree.
+* `Objet` : Sélectioner une commande Jeedom a ecouter
+* `Operateur`: Choisir l'operation a effectuer pour valider la fermeture
+* `Valeur` : Saisir la valeur a comparer a l'objet
+
+Gestion Conditionnel
+---
+La gestion Conditionnel vérifie toutes les minutes les conditions enregistrées.
+Si toutes les conditions que vous avez complétées sont valides, alors l'ordre de fermeture sera donné et toutes les autres gestions hormis la gestion de la nuit sont inactives.
 
 Conditions d'exécution et de réarmeent
 ---

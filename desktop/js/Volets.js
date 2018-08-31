@@ -161,7 +161,7 @@ function addEvenement(_action,  _el) {
 	tr.append($('<td>')
 		.append($('<div class="input-group">')
 			.append($('<span class="input-group-btn">')
-				.append($('<a class="btn btn-default EvenementAttr btn-sm" data-action="remove">')
+				.append($('<a class="btn btn-default EvenementAttr" data-action="remove">')
 					.append($('<i class="fa fa-minus-circle">'))))
 			.append($('<input type="text" class="expressionAttr form-control" data-l1key="Cmd" placeholder="{{Séléctionner une commande}}"/>'))
 			.append($('<span class="input-group-btn">')

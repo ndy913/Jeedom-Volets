@@ -118,6 +118,8 @@ class Volets extends eqLogic {
 	}
 	public function RearmementAutomatique($Evenement,$Gestion) {   
 		cache::set('Volets::RearmementAutomatique::'.$this->getId(),false, 0);
+		cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
+		cache::set('Volets::LastChangeState::'.$this->getId(),time(), 0);
 		if($this->getCmd(null,'isArmed')->execCmd())
 			return true;
 		$Saison=$this->getSaison();
@@ -965,7 +967,8 @@ class VoletsCmd extends cmd {
 		if (is_object($Listener)) {	
 			switch($this->getLogicalId()){
 				case 'armed':
-					$Listener->event(true);	
+					cache::set('Volets::ChangeState::'.$this->getEqLogic()->getId(),false, 0);
+					cache::set('Volets::LastChangeState::'.$this->getEqLogic()->getId(),time(), 0);
 					$Jour = cache::byKey('Volets::Jour::'.$this->getEqLogic()->getId())->getValue(mktime()-60);
 					$Nuit = cache::byKey('Volets::Nuit::'.$this->getEqLogic()->getId())->getValue(mktime()+60);
 					if(mktime() < $Jour || mktime() > $Nuit)
@@ -977,8 +980,11 @@ class VoletsCmd extends cmd {
 						if(is_object($State))
 							$this->getEqLogic()->CheckState($State->execCmd());
 					}
+					$Listener->event(true);	
 				break;
 				case 'released':
+					cache::set('Volets::ChangeState::'.$this->getEqLogic()->getId(),false, 0);
+					cache::set('Volets::LastChangeState::'.$this->getEqLogic()->getId(),time(), 0);
 					$Listener->event(false);
 					$this->getEqLogic()->GestionManuel($this->getEqLogic()->getPosition());
 										

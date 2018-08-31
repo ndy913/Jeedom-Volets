@@ -28,7 +28,7 @@ function Volets_update(){
 				$Condition['Conditionnel']=$Condition['Meteo'];
 				$Conditions[]=$Condition;
 			}
-			$Volet->setConfiguration('condition',$Condition);
+			$Volet->setConfiguration('condition',$Conditions);
 			$Actions=array();
 			foreach($Volet->getConfiguration('action') as $Action){
 				$Action['Evenement']=$Action['Absent'];

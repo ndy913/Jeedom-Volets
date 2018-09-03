@@ -24,15 +24,15 @@ function Volets_update(){
 			$Volet->setConfiguration('Absent',false);
 			$Conditions=array();
 			foreach($Volet->getConfiguration('condition') as $Condition){
-				$Condition['Evenement']=$Condition['Absent'];
-				$Condition['Conditionnel']=$Condition['Meteo'];
+				$Condition['TypeGestion']['Evenement']=$Condition['TypeGestion']['Absent'];
+				$Condition['TypeGestion']['Conditionnel']=$Condition['TypeGestion']['Meteo'];
 				$Conditions[]=$Condition;
 			}
 			$Volet->setConfiguration('condition',$Conditions);
 			$Actions=array();
 			foreach($Volet->getConfiguration('action') as $Action){
-				$Action['Evenement']=$Action['Absent'];
-				$Action['Conditionnel']=$Action['Meteo'];
+				$Action['TypeGestion']['Evenement']=$Action['TypeGestion']['Absent'];
+				$Action['TypeGestion']['Conditionnel']=$Action['TypeGestion']['Meteo'];
 				$Actions[]=$Action;
 			}
 			$Volet->setConfiguration('action',$Actions);

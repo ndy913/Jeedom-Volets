@@ -259,6 +259,7 @@ class Volets extends eqLogic {
 				if($Evenement != false){
 					$this->CheckRepetivite('Manuel',$Evenement,$Saison,true);
 					$this->checkAndUpdateCmd('isArmed',false);
+					$this->checkAndUpdateCmd('gestion','Manuel');
 				}
 			}else{
 				cache::set('Volets::RearmementAutomatique::'.$this->getId(),false, 0);

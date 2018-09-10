@@ -223,7 +223,7 @@ function addAction(_action,  _el) {
 		.append($('<label class="checkbox-inline">')
 			.append($('<input type="checkbox" class="expressionAttr" data-l1key="isVoletMove">'))
 			.append('{{Activer}}')));	
-	tr.append($('<td>')
+	tr.append($('<td class="form-group">')
 		.append($('<div class="input-group">')
 			.append($('<span class="input-group-btn">')
 				.append($('<a class="btn btn-default ActionAttr btn-sm" data-action="remove">')

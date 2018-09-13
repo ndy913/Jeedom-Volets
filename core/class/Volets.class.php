@@ -22,8 +22,8 @@ class Volets extends eqLogic {
 			$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
 			if(!is_object($heliotrope))
 				break;
-			$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(0);
-			$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(0);
+			$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(mktime()-60);
+			$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(mktime()+60);
 			if(mktime() < $Jour || mktime() > $Nuit)
 				$Volet->GestionNuit();
 			else
@@ -308,8 +308,8 @@ class Volets extends eqLogic {
 					return;	
 				if(!$Volet->CheckOtherGestion('Conditionnel'))
 					return;	
-				$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(0);
-				$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(0);
+				$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(mktime()-60);
+				$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(mktime()+60);
 				if(mktime() < $Jour || mktime() > $Nuit)
 					$Volet->GestionNuit(true);
 				else
@@ -325,8 +325,8 @@ class Volets extends eqLogic {
 				if($Evenement == 'open'){
 					if(!$this->CheckOtherGestion('Evenement'))
 						return;	
-					$Jour = cache::byKey('Volets::Jour::'.$this->getId())->getValue(0);
-					$Nuit = cache::byKey('Volets::Nuit::'.$this->getId())->getValue(0);
+					$Jour = cache::byKey('Volets::Jour::'.$this->getId())->getValue(mktime()-60);
+					$Nuit = cache::byKey('Volets::Nuit::'.$this->getId())->getValue(mktime()+60);
 					if(mktime() < $Jour || mktime() > $Nuit)
 						$this->GestionNuit(true);
 					else
@@ -972,6 +972,7 @@ class VoletsCmd extends cmd {
 					cache::set('Volets::LastChangeState::'.$this->getEqLogic()->getId(),time(), 0);
 					$Jour = cache::byKey('Volets::Jour::'.$this->getEqLogic()->getId())->getValue(mktime()-60);
 					$Nuit = cache::byKey('Volets::Nuit::'.$this->getEqLogic()->getId())->getValue(mktime()+60);
+					log::add('Volets','debug', $Nuit .' > '. mktime() .' > '. $Jour);
 					if(mktime() < $Jour || mktime() > $Nuit)
 						$this->getEqLogic()->GestionNuit(true);
 					else

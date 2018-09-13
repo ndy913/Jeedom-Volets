@@ -81,18 +81,18 @@ class Volets extends eqLogic {
 					break;
 					case $Volet->getConfiguration('TypeDay'):
 						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');
-						if($Volet->getConfiguration('DayMin') != '' && $_option['value'] < $Volet->getConfiguration('DayMin'))
+						if($Volet->getConfiguration('DayMin') != '' && $_option['value'] < jeedom::evaluateExpression($Volet->getConfiguration('DayMin')))
 						  	$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($Volet->getConfiguration('DayMin')),false);
 						else
-							$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($_option['value']),'DelaisDay');
+							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisDay');
 						cache::set('Volets::Jour::'.$Volet->getId(),$timstamp, 0);
 						break;
 					case $Volet->getConfiguration('TypeNight'):
 						log::add('Volets','info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil');
-						if($Volet->getConfiguration('NightMax') != '' && $_option['value'] > $Volet->getConfiguration('NightMax'))
+						if($Volet->getConfiguration('NightMax') != '' && $_option['value'] > jeedom::evaluateExpression($Volet->getConfiguration('NightMax')))
 							$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($Volet->getConfiguration('NightMax')),false);
 						else
-							$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($_option['value']),'DelaisNight');						
+							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');						
 						cache::set('Volets::Nuit::'.$Volet->getId(),$timstamp, 0);
 					break;
 					default:
@@ -778,7 +778,7 @@ class Volets extends eqLogic {
 					if(!is_object($sunrise))
 						return false;
 					$listener->addEvent($sunrise->getId());	
-					if($this->getConfiguration('DayMin') != '' && $sunrise->execCmd() < $this->getConfiguration('DayMin'))
+					if($this->getConfiguration('DayMin') != '' && $sunrise->execCmd() < jeedom::evaluateExpression($this->getConfiguration('DayMin')))
 						$Jour=$this->CalculHeureEvent(jeedom::evaluateExpression($this->getConfiguration('DayMin')),false);
 					else					  
 						$Jour=$this->CalculHeureEvent($sunrise->execCmd(),'DelaisDay');
@@ -792,7 +792,7 @@ class Volets extends eqLogic {
 					if(!is_object($sunset))
 						return false;
 					$listener->addEvent($sunset->getId());
-					if($this->getConfiguration('NightMax') != '' && $sunset->execCmd() > $this->getConfiguration('NightMax'))
+					if($this->getConfiguration('NightMax') != '' && $sunset->execCmd() > jeedom::evaluateExpression($this->getConfiguration('NightMax')))
 						$Nuit=$this->CalculHeureEvent(jeedom::evaluateExpression($this->getConfiguration('NightMax')),false);
 					else					  
 						$Nuit=$this->CalculHeureEvent($sunset->execCmd(),'DelaisNight');	

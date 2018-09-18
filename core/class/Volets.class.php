@@ -972,7 +972,7 @@ class VoletsCmd extends cmd {
 					cache::set('Volets::LastChangeState::'.$this->getEqLogic()->getId(),time(), 0);
 					$Jour = cache::byKey('Volets::Jour::'.$this->getEqLogic()->getId())->getValue(mktime()-60);
 					$Nuit = cache::byKey('Volets::Nuit::'.$this->getEqLogic()->getId())->getValue(mktime()+60);
-					log::add('Volets','debug', 'Jour :'.date('Y-m-d H:i:s',$Jour) .' > '. date('Y-m-d H:i:s',mktime()) .' > Nuit :'.date('Y-m-d H:i:s',$Nuit).);
+					log::add('Volets','debug', 'Jour :'.date('Y-m-d H:i:s',$Jour) .' > '. date('Y-m-d H:i:s',mktime()) .' > Nuit :'.date('Y-m-d H:i:s',$Nuit));
 					if(mktime() < $Jour || mktime() > $Nuit)
 						$this->getEqLogic()->GestionNuit(true);
 					else

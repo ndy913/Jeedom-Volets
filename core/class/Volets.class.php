@@ -285,12 +285,15 @@ class Volets extends eqLogic {
 		}
 	}
 	public function GestionNuit($force=false) {
-		if ($this->AutorisationAction('close','Nuit')){
+		if ($force || $this->AutorisationAction('close','Nuit')){
 			log::add('Volets', 'info',$this->getHumanName().'[Gestion Nuit] : Exécution de la gestion du coucher du soleil ');
 			$Saison=$this->getSaison();
 			$Evenement=$this->checkCondition('close',$Saison,'Nuit');
 			if( $Evenement!= false){
 				$this->CheckRepetivite('Nuit',$Evenement,$Saison,$force);
+			}elseif($force){
+				if(!$this->CheckOtherGestion('Jour',$force))
+					$this->checkAndUpdateCmd('gestion','Jour');
 			}
 		}elseif($force){
 			if(!$this->CheckOtherGestion('Jour',$force))

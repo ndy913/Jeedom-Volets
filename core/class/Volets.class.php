@@ -989,7 +989,7 @@ class VoletsCmd extends cmd {
 				case 'released':
 					cache::set('Volets::ChangeState::'.$this->getEqLogic()->getId(),false, 0);
 					cache::set('Volets::LastChangeState::'.$this->getEqLogic()->getId(),time(), 0);
-					$this->getEqLogic()->GestionManuel($this->getEqLogic()->getPosition());
+					$this->getEqLogic()->GestionManuel($this->getEqLogic()->getPosition(),true);
 					$Listener->event(false);
 					$this->checkAndUpdateCmd('gestion','Manuel');										
 				break;

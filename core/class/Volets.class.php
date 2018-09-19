@@ -249,14 +249,14 @@ class Volets extends eqLogic {
 		}
 		return true;
 	}
-	public function GestionManuel($State){
-		if ($this->AutorisationAction($State,'Manuel')){
+	public function GestionManuel($State,$force=false){
+		if ($force || $this->AutorisationAction($State,'Manuel')){
 			$RearmementAutomatique = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());		
 			if(!$RearmementAutomatique->getValue(false)){
 				$Saison=$this->getSaison();
 				log::add('Volets','info',$this->getHumanName().'[Gestion Manuel] : Un evenement manuel a été détécté: La gestion a été désactivé');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
-				if($Evenement != false){
+				if($force || $Evenement != false){
 					$this->CheckRepetivite('Manuel',$Evenement,$Saison,true);
 					$this->checkAndUpdateCmd('isArmed',false);
 					$this->checkAndUpdateCmd('gestion','Manuel');
@@ -265,6 +265,8 @@ class Volets extends eqLogic {
 				cache::set('Volets::RearmementAutomatique::'.$this->getId(),false, 0);
               			log::add('Volets','debug',$this->getHumanName().' Le réarmement a eu lieu on ignore l\'action manuel');
             		}
+		}elseif($force)	{
+			$this->checkAndUpdateCmd('gestion','Manuel');
 		}
 	}
 	public function GestionJour($force=false) {    
@@ -272,7 +274,7 @@ class Volets extends eqLogic {
 			log::add('Volets', 'info', $this->getHumanName().'[Gestion Jour] : Exécution de la gestion du lever du soleil');
 			$Saison=$this->getSaison();
 			$Evenement=$this->checkCondition('open',$Saison,'Jour');
-			if( $Evenement!= false){
+			if($Evenement!= false){
 				if(!$this->CheckOtherGestion('Jour',$force))
 					return;
 				$this->CheckRepetivite('Jour',$Evenement,$Saison,$force);
@@ -972,7 +974,7 @@ class VoletsCmd extends cmd {
 					cache::set('Volets::LastChangeState::'.$this->getEqLogic()->getId(),time(), 0);
 					$Jour = cache::byKey('Volets::Jour::'.$this->getEqLogic()->getId())->getValue(mktime()-60);
 					$Nuit = cache::byKey('Volets::Nuit::'.$this->getEqLogic()->getId())->getValue(mktime()+60);
-					log::add('Volets','debug', $Nuit .' > '. mktime() .' > '. $Jour);
+					log::add('Volets','debug', 'Jour :'.date('Y-m-d H:i:s',$Jour) .' > '. date('Y-m-d H:i:s',mktime()) .' > Nuit :'.date('Y-m-d H:i:s',$Nuit));
 					if(mktime() < $Jour || mktime() > $Nuit)
 						$this->getEqLogic()->GestionNuit(true);
 					else
@@ -987,9 +989,9 @@ class VoletsCmd extends cmd {
 				case 'released':
 					cache::set('Volets::ChangeState::'.$this->getEqLogic()->getId(),false, 0);
 					cache::set('Volets::LastChangeState::'.$this->getEqLogic()->getId(),time(), 0);
+					$this->getEqLogic()->GestionManuel($this->getEqLogic()->getPosition(),true);
 					$Listener->event(false);
-					$this->getEqLogic()->GestionManuel($this->getEqLogic()->getPosition());
-										
+					$this->checkAndUpdateCmd('gestion','Manuel');										
 				break;
 				case 'VoletState':
 					$Value=$_options['select'];

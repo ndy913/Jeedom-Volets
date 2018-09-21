@@ -994,7 +994,7 @@ class VoletsCmd extends cmd {
 					cache::set('Volets::LastChangeState::'.$this->getEqLogic()->getId(),time(), 0);
 					$this->getEqLogic()->GestionManuel($this->getEqLogic()->getPosition(),true);
 					$Listener->event(false);
-					$this->checkAndUpdateCmd('gestion','Manuel');										
+					$this->getEqLogic()->checkAndUpdateCmd('gestion','Manuel');										
 				break;
 				case 'VoletState':
 					$Value=$_options['select'];

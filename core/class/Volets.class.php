@@ -285,12 +285,15 @@ class Volets extends eqLogic {
 		}
 	}
 	public function GestionNuit($force=false) {
-		if ($this->AutorisationAction('close','Nuit')){
+		if ($force || $this->AutorisationAction('close','Nuit')){
 			log::add('Volets', 'info',$this->getHumanName().'[Gestion Nuit] : Exécution de la gestion du coucher du soleil ');
 			$Saison=$this->getSaison();
 			$Evenement=$this->checkCondition('close',$Saison,'Nuit');
 			if( $Evenement!= false){
 				$this->CheckRepetivite('Nuit',$Evenement,$Saison,$force);
+			}elseif($force){
+				if(!$this->CheckOtherGestion('Jour',$force))
+					$this->checkAndUpdateCmd('gestion','Jour');
 			}
 		}elseif($force){
 			if(!$this->CheckOtherGestion('Jour',$force))
@@ -970,6 +973,7 @@ class VoletsCmd extends cmd {
 		if (is_object($Listener)) {	
 			switch($this->getLogicalId()){
 				case 'armed':
+					$Listener->event(true);	
 					cache::set('Volets::ChangeState::'.$this->getEqLogic()->getId(),false, 0);
 					cache::set('Volets::LastChangeState::'.$this->getEqLogic()->getId(),time(), 0);
 					$Jour = cache::byKey('Volets::Jour::'.$this->getEqLogic()->getId())->getValue(mktime()-60);
@@ -984,14 +988,13 @@ class VoletsCmd extends cmd {
 						if(is_object($State))
 							$this->getEqLogic()->CheckState($State->execCmd());
 					}
-					$Listener->event(true);	
 				break;
 				case 'released':
 					cache::set('Volets::ChangeState::'.$this->getEqLogic()->getId(),false, 0);
 					cache::set('Volets::LastChangeState::'.$this->getEqLogic()->getId(),time(), 0);
 					$this->getEqLogic()->GestionManuel($this->getEqLogic()->getPosition(),true);
 					$Listener->event(false);
-					$this->checkAndUpdateCmd('gestion','Manuel');										
+					$this->getEqLogic()->checkAndUpdateCmd('gestion','Manuel');										
 				break;
 				case 'VoletState':
 					$Value=$_options['select'];

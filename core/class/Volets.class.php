@@ -19,9 +19,6 @@ class Volets extends eqLogic {
 			}
 			if (!$Volet->getConfiguration('Jour') && !$Volet->getConfiguration('Nuit'))
 				break;
-			$heliotrope=eqlogic::byId($Volet->getConfiguration('heliotrope'));
-			if(!is_object($heliotrope))
-				break;
 			$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(mktime()-60);
 			$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(mktime()+60);
 			if(mktime() < $Jour || mktime() > $Nuit)
@@ -80,20 +77,20 @@ class Volets extends eqLogic {
 						$Volet->checkAltitude($_option['value']);
 					break;
 					case $Volet->getConfiguration('TypeDay'):
-						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil');
 						if($Volet->getConfiguration('DayMin') != '' && $_option['value'] < jeedom::evaluateExpression($Volet->getConfiguration('DayMin')))
 						  	$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($Volet->getConfiguration('DayMin')),false);
 						else
 							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisDay');
 						cache::set('Volets::Jour::'.$Volet->getId(),$timstamp, 0);
+						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil à ' . date("d/m/Y H:i:s",$timstamp));
 						break;
 					case $Volet->getConfiguration('TypeNight'):
-						log::add('Volets','info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil');
 						if($Volet->getConfiguration('NightMax') != '' && $_option['value'] > jeedom::evaluateExpression($Volet->getConfiguration('NightMax')))
 							$timstamp=$Volet->CalculHeureEvent(jeedom::evaluateExpression($Volet->getConfiguration('NightMax')),false);
 						else
 							$timstamp=$Volet->CalculHeureEvent($_option['value'],'DelaisNight');						
 						cache::set('Volets::Nuit::'.$Volet->getId(),$timstamp, 0);
+						log::add('Volets','info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil à ' . date("d/m/Y H:i:s",$timstamp));
 					break;
 					default:
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
@@ -809,6 +806,7 @@ class Volets extends eqLogic {
 				if ($this->getConfiguration('Conditionnel'))
 					$cron = $this->CreateCron('* * * * * *', 'GestionConditionnel', array('Volets_id' => intval($this->getId())));
 				$listener->save();	
+				log::add('Volets','info',$Volet->getHumanName().' : Planification de l\'ouverture au lever du soleil à ' . date("d/m/Y H:i:s",$Jour) . ' et de la fermeture au coucher du soleil à ' . date("d/m/Y H:i:s",$Nuit));		
 				if(mktime() < $Jour || mktime() > $Nuit)
 					$this->GestionNuit(true);
 				else

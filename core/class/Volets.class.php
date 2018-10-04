@@ -11,6 +11,8 @@ class Volets extends eqLogic {
 		if ($deamon_info['state'] != 'ok') 
 			return;
 		foreach(eqLogic::byType('Volets') as $Volet){
+          		if(!$Volet->getIsEnable())
+              			continue;
 			if(cache::byKey('Volets::ChangeState::'.$Volet->getId())->getValue(false)){
 				if(time() - 60 >= cache::byKey('Volets::LastChangeState::'.$Volet->getId())->getValue(time()-60)){
 					cache::set('Volets::ChangeState::'.$Volet->getId(),false, 0);

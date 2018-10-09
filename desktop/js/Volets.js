@@ -172,7 +172,8 @@ function addEvenement(_action,  _el) {
 			.append($('<option value="==">').text('{{égal}}'))         	
 			.append($('<option value=">">').text('{{supérieur}}'))                  	
 			.append($('<option value="<">').text('{{inférieur}}'))                 	
-			.append($('<option value="!=">').text('{{différent}}'))));	
+			.append($('<option value="!=">').text('{{différent}}'))
+			.append($('<option value=" matches ">').text('{{Contient}}')) ));	
 	tr.append($('<td>')
 		.append($('<input type="text" class="expressionAttr form-control" data-l1key="Value" placeholder="{{Valeur pour validé la condition}}"/>')));
 									

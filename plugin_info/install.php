@@ -5,6 +5,9 @@ function Volets_install(){
 function Volets_update(){
 	log::add('Volets','debug','Lancement du script de mise a jours'); 
 	foreach(eqLogic::byType('Volets') as $Volet){
+		$cache = cache::byKey('Volets::ActualState::'.$Volet->getId());	
+		if (is_object($cache)) 	
+			$cache->remove();
 		$listener = listener::byClassAndFunction('Volets', 'pull', array('Volets_id' => $Volet->getId()));
 		if (is_object($listener))
 			$listener->remove();

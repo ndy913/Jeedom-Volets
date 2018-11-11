@@ -12,7 +12,7 @@ if (!isConnect()) {
 				<label class="col-lg-4 control-label">
 					{{Bing API Key (Optionelle)}}
 					<sup>
-						<i class="fa fa-question-circle tooltips" title="{{Ce champs de configuration permet d'obtenir les map de BING (Staellite)}}" style="font-size : 1em;color:grey;"></i>
+						<i class="fa fa-question-circle tooltips" title="{{Ce champ de configuration permet d'obtenir les cartes avec vue satellite par BING}}" style="font-size : 1em;color:grey;"></i>
 					</sup>
 				</label>
 				<div class="col-lg-4">

@@ -6,9 +6,11 @@ sendVarToJS('eqType', 'Volets');
 sendVarToJS('GestionsVolets', Volets::$_Gestions);
 $eqLogics = eqLogic::byType('Volets');
 ?>
-<div class="row row-overflow">
-	<link rel="stylesheet" href="https://openlayers.org/en/v4.1.1/css/ol.css" type="text/css">
-	<script src="https://openlayers.org/en/v4.3.3/build/ol.js" type="text/javascript"></script>
+<div class="row row-overflow">    
+	<link rel="stylesheet" href="https://openlayers.org/en/v5.3.0/css/ol.css" type="text/css">
+    	<!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+	<script src="https://openlayers.org/en/v5.3.0/build/ol.js" type="text/javascript"></script>
 	<div class="col-lg-2">
 		<div class="bs-sidebar">
 			<ul id="ul_eqLogic" class="nav nav-list bs-sidenav">

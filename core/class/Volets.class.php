@@ -169,7 +169,7 @@ class Volets extends eqLogic {
 		return $this->RearmementAutomatique($Evenement,$Gestion);
 	}		
 	public function CheckState($Value) {  
-		cache::set('Volets::ActualState::'.$this->getId(),$Value, 0);
+		cache::set('Volets::CurrentState::'.$this->getId(),$Value, 0);
 		$SeuilRealState=$this->getConfiguration("SeuilRealState");
 		if($SeuilRealState == '')
 			$SeuilRealState=0;
@@ -549,7 +549,7 @@ class Volets extends eqLogic {
 					$options[$key]=jeedom::evaluateExpression($option);
 					if($key == 'slider'){
 						if($Cmd['isVoletMove']){
-							if(cache::byKey('Volets::ActualState::'.$this->getId())->getValue(0) == $options[$key]){
+							if(cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0) == $options[$key]){
 								log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executé car la valeur est identique');
 								return;
 							}
@@ -928,7 +928,7 @@ class Volets extends eqLogic {
 		$cache = cache::byKey('Volets::HauteurAlt::'.$this->getId());	
 		if (is_object($cache)) 	
 			$cache->remove();
-		$cache = cache::byKey('Volets::ActualState::'.$this->getId());	
+		$cache = cache::byKey('Volets::CurrentState::'.$this->getId());	
 		if (is_object($cache)) 	
 			$cache->remove();
 	}

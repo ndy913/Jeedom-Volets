@@ -188,6 +188,8 @@ class Volets extends eqLogic {
 		return $State;
 	}
 	public function CheckRealState($Value) {   
+		$State=$this->CheckState($Value);
+		$this->setPosition($State);
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
 			/*if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
 				return;*/
@@ -197,8 +199,6 @@ class Volets extends eqLogic {
 			//if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
 				$this->GestionManuel($State);
 		}
-		$State=$this->CheckState($Value);
-		$this->setPosition($State);
 	}
 	public function CheckOtherGestion($Gestion,$force=false) {  
 		$Saison=$this->getSaison();

@@ -211,7 +211,7 @@ class Volets extends eqLogic {
 							if(is_object($Commande)){
 								$Evenement=$this->checkCondition('close',$Saison,'Evenement');   		
 								if($Evenement != false && $Evenement == 'close'){
-									log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
+									log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Une condition Evenementiel est valide, nous executons la gestion Evenement');
 									$this->CheckRepetivite('Evenement',$Evenement,$Saison,$force);
 									return false;
 								}

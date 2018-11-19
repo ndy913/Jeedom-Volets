@@ -188,17 +188,17 @@ class Volets extends eqLogic {
 		return $State;
 	}
 	public function CheckRealState($Value) {   
-		$State=$this->CheckState($Value);
-		$this->setPosition($State);
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
-			if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
-				return;
+			/*if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
+				return;*/
 			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');
 			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 		}else{
-			if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
+			//if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
 				$this->GestionManuel($State);
 		}
+		$State=$this->CheckState($Value);
+		$this->setPosition($State);
 	}
 	public function CheckOtherGestion($Gestion,$force=false) {  
 		$Saison=$this->getSaison();
@@ -806,7 +806,7 @@ class Volets extends eqLogic {
 				}
 				cache::set('Volets::Nuit::'.$this->getId(),$Nuit, 0);
 				if ($this->getConfiguration('Conditionnel'))
-					$cron = $this->CreateCron('* * * * * *', 'GestionConditionnel', array('Volets_id' => intval($this->getId())));
+					$cron = $this->CreateCron('* * * * *', 'GestionConditionnel', array('Volets_id' => intval($this->getId())));
 				$listener->save();	
 				log::add('Volets','info',$this->getHumanName().' : Planification de l\'ouverture au lever du soleil à ' . date("d/m/Y H:i:s",$Jour) . ' et de la fermeture au coucher du soleil à ' . date("d/m/Y H:i:s",$Nuit));		
 				if(mktime() < $Jour || mktime() > $Nuit)

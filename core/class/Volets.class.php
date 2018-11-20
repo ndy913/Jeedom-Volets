@@ -576,15 +576,16 @@ class Volets extends eqLogic {
 		}
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {
+		$delais=jeedom::evaluateExpression($this->getConfiguration($delais));
 		if(strlen($HeureStart)==3)
 			$Heure=substr($HeureStart,0,1);
 		else
 			$Heure=substr($HeureStart,0,2);
 		$Minute=floatval(substr($HeureStart,-2));
 		if($delais != false){
-			if($this->getConfiguration($delais)!='')
-				$Minute+=floatval($this->getConfiguration($delais));
-			while($Minute>=60){
+			if($delais != '')
+				$Minute+=floatval();
+			while($Minute >= 60){
 				$Minute-=60;
 				$Heure+=1;
 			}

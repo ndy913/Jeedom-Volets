@@ -253,12 +253,12 @@ class Volets extends eqLogic {
 			$RearmementAutomatique = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());		
 			if(!$RearmementAutomatique->getValue(false)){
 				$Saison=$this->getSaison();
-				log::add('Volets','info',$this->getHumanName().'[Gestion Manuel] : Un evenement manuel a été détécté: La gestion a été désactivé');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
 				if($force || $Evenement != false){
-					$this->CheckRepetivite('Manuel',$Evenement,$Saison,true);
 					$this->checkAndUpdateCmd('isArmed',false);
 					$this->checkAndUpdateCmd('gestion','Manuel');
+					log::add('Volets','info',$this->getHumanName().'[Gestion Manuel] : Un evenement manuel a été détécté: La gestion a été désactivé');
+					$this->CheckRepetivite('Manuel',$Evenement,$Saison,true);
 				}
 			}else{
 				cache::set('Volets::RearmementAutomatique::'.$this->getId(),false, 0);
@@ -302,7 +302,7 @@ class Volets extends eqLogic {
 	public static function GestionConditionnel($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->AutorisationAction('close','Conditionnel')){
-			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Conditionnel] : Exécution de la gestion météo');
+			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Conditionnel] : Exécution de la gestion Conditionnel');
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Conditionnel');   
 			if( $Evenement != false ){

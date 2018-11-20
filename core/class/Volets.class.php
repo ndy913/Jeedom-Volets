@@ -211,7 +211,7 @@ class Volets extends eqLogic {
 							if(is_object($Commande)){
 								$Evenement=$this->checkCondition('close',$Saison,'Evenement');   		
 								if($Evenement != false && $Evenement == 'close'){
-									log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Il n\'y a personne dans la maison la gestion Absent prend le relais');
+									log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Une condition Evenementiel est valide, nous executons la gestion Evenement');
 									$this->CheckRepetivite('Evenement',$Evenement,$Saison,$force);
 									return false;
 								}
@@ -253,12 +253,12 @@ class Volets extends eqLogic {
 			$RearmementAutomatique = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());		
 			if(!$RearmementAutomatique->getValue(false)){
 				$Saison=$this->getSaison();
-				log::add('Volets','info',$this->getHumanName().'[Gestion Manuel] : Un evenement manuel a été détécté: La gestion a été désactivé');
 				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
 				if($force || $Evenement != false){
-					$this->CheckRepetivite('Manuel',$Evenement,$Saison,true);
 					$this->checkAndUpdateCmd('isArmed',false);
 					$this->checkAndUpdateCmd('gestion','Manuel');
+					log::add('Volets','info',$this->getHumanName().'[Gestion Manuel] : Un evenement manuel a été détécté: La gestion a été désactivé');
+					$this->CheckRepetivite('Manuel',$Evenement,$Saison,true);
 				}
 			}else{
 				cache::set('Volets::RearmementAutomatique::'.$this->getId(),false, 0);
@@ -302,7 +302,7 @@ class Volets extends eqLogic {
 	public static function GestionConditionnel($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
 		if (is_object($Volet) && $Volet->AutorisationAction('close','Conditionnel')){
-			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Conditionnel] : Exécution de la gestion météo');
+			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Conditionnel] : Exécution de la gestion Conditionnel');
 			$Saison=$Volet->getSaison();
 			$Evenement=$Volet->checkCondition('close',$Saison,'Conditionnel');   
 			if( $Evenement != false ){
@@ -576,15 +576,16 @@ class Volets extends eqLogic {
 		}
 	}
 	public function CalculHeureEvent($HeureStart, $delais) {
+		$delais=jeedom::evaluateExpression($this->getConfiguration($delais));
 		if(strlen($HeureStart)==3)
 			$Heure=substr($HeureStart,0,1);
 		else
 			$Heure=substr($HeureStart,0,2);
 		$Minute=floatval(substr($HeureStart,-2));
 		if($delais != false){
-			if($this->getConfiguration($delais)!='')
-				$Minute+=floatval($this->getConfiguration($delais));
-			while($Minute>=60){
+			if($delais != '')
+				$Minute+=floatval();
+			while($Minute >= 60){
 				$Minute-=60;
 				$Heure+=1;
 			}

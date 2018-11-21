@@ -592,16 +592,16 @@ class Volets extends eqLogic {
 		if($Evenement != false){
 			$delais=jeedom::evaluateExpression($this->getConfiguration('Delais'.$Evenement));
 			if($delais != '')
-				$Minute+=floatval();
+				$Minute += floatval($delais);
 			while($Minute >= 60){
 				$Minute-=60;
 				$Heure+=1;
 			}
 			if($Evenement == 'Day')
-				$Horaire = jeedom::evaluateExpression($this->getConfiguration('DayMin'))
+				$Horaire = jeedom::evaluateExpression($this->getConfiguration('DayMin'));
 			else
-				$Horaire = jeedom::evaluateExpression($this->getConfiguration('NightMax'))
-			if($Horaire != '' && $HeureStart < $Horaire){
+				$Horaire = jeedom::evaluateExpression($this->getConfiguration('NightMax'));
+			if($Horaire != '' && $HeureStart < $Horaire)
 				list($Heure, $Minute) = $this->StringToHeure($Horaire);
 		}
 		return mktime($Heure,$Minute);

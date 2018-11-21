@@ -579,16 +579,16 @@ class Volets extends eqLogic {
 			log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$Gestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . jeedom::toHumanReadable($Cmd['cmd']) . __('. Détails : ', __FILE__) . $e->getMessage());
 		}
 	}
-	private function StringToHeure($HeureStart) {
-		if(strlen($HeureStart)==3)
-			$Heure=substr($HeureStart,0,1);
+	private function StringToHeure($Horaire) {
+		if(strlen($Horaire)==3)
+			$Heure=substr($Horaire,0,1);
 		else
-			$Heure=substr($HeureStart,0,2);
-		$Minute=floatval(substr($HeureStart,-2));
+			$Heure=substr($Horaire,0,2);
+		$Minute=floatval(substr($Horaire,-2));
 		return array($Heure, $Minute);
 	}
-	public function CalculHeureEvent($HeureStart,$Evenement=false) {
-		list($Heure, $Minute) = $this->StringToHeure($HeureStart);
+	public function CalculHeureEvent($Horaire,$Evenement=false) {
+		list($Heure, $Minute) = $this->StringToHeure($Horaire);
 		if($Evenement != false){
 			$delais=jeedom::evaluateExpression($this->getConfiguration('Delais'.$Evenement));
 			if($delais != '')
@@ -597,12 +597,15 @@ class Volets extends eqLogic {
 				$Minute-=60;
 				$Heure+=1;
 			}
-			if($Evenement == 'Day')
-				$Horaire = jeedom::evaluateExpression($this->getConfiguration('DayMin'));
-			else
-				$Horaire = jeedom::evaluateExpression($this->getConfiguration('NightMax'));
-			if($Horaire != '' && $HeureStart < $Horaire)
-				list($Heure, $Minute) = $this->StringToHeure($Horaire);
+			if($Evenement == 'Day'){
+				$HoraireImp = jeedom::evaluateExpression($this->getConfiguration('DayMin'));
+				if($HoraireImp != '' && $Horaire < $HoraireImp)
+					list($Heure, $Minute) = $this->StringToHeure($HoraireImp);
+			}else{
+				$HoraireImp = jeedom::evaluateExpression($this->getConfiguration('NightMax'));
+				if($HoraireImp != '' && $Horaire > $HoraireImp)
+					list($Heure, $Minute) = $this->StringToHeure($HoraireImp);
+			}
 		}
 		return mktime($Heure,$Minute);
 	}

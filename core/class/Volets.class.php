@@ -191,8 +191,8 @@ class Volets extends eqLogic {
 		$State=$this->CheckState($Value);
 		$this->setPosition($State);
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
-			/*if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
-				return;*/
+			if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
+				return;
 			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');
 			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 		}else{

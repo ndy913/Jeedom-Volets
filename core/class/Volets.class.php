@@ -599,11 +599,11 @@ class Volets extends eqLogic {
 			}
 			if($Evenement == 'Day'){
 				$HoraireImp = jeedom::evaluateExpression($this->getConfiguration('DayMin'));
-				if($HoraireImp != '' && $Horaire + $Minute + $Heure * 100 < $HoraireImp)
+				if($HoraireImp != '' && $Minute + $Heure * 100 < $HoraireImp)
 					list($Heure, $Minute) = $this->StringToHeure($HoraireImp);
 			}else{
 				$HoraireImp = jeedom::evaluateExpression($this->getConfiguration('NightMax'));
-				if($HoraireImp != '' && $Horaire + $Minute + $Heure * 100 > $HoraireImp)
+				if($HoraireImp != '' && $Minute + $Heure * 100 > $HoraireImp)
 					list($Heure, $Minute) = $this->StringToHeure($HoraireImp);
 			}
 		}

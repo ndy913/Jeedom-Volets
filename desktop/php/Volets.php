@@ -256,7 +256,7 @@ $eqLogics = eqLogic::byType('Volets');
 				</form>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="EvenementTab">
-				<p>{{La gestion Evenement va fermer le volet lorsque la condition des objets surveillé est vrai.}}</p>	
+				<p>{{La gestion Evenement va fermer le volet lorsque la condition des objets surveillés est vraie.}}</p>	
 				<p>{{Seule la gestion de Nuit est autorisée à s'exécuter}}</p>
 				<form class="form-horizontal">
 					<fieldset>
@@ -285,7 +285,7 @@ $eqLogics = eqLogic::byType('Volets');
 		<div role="tabpanel" class="tab-pane" id="ConditionnelTab">
 				<form class="form-horizontal">
 					<fieldset>
-						{{La gestion Conditionnel est une tâche executée toutes les minutes qui va verifier les conditions, par exemple météorologique, spécifées dans l'onget Condition}}	
+						{{La gestion Conditionnel est une tâche executée toutes les minutes qui va vérifier les conditions, par exemple météorologiques, spécifées dans l'onget Condition}}	
 						{{Lorsque toutes les conditions sont vérifiées le plugin passe en mode Conditionnel, les volets se ferment}}
 						{{Seule la gestion de Nuit est autorisée à s'exécuter}}		
 					</fieldset>

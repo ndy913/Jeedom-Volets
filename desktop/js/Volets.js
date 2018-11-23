@@ -104,7 +104,7 @@ $('.eqLogicAttr[data-l1key=configuration][data-l2key=Azimut]').on('change',funct
 });
 $('#bt_openMap').on('click',function(){
 	$('#md_modal').dialog({
-		title: "{{Séléctionner vos angles}}",
+		title: "{{Sélectionner vos angles}}",
 		resizable: true
 	});
 	$('#md_modal').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets').dialog('open');
@@ -163,7 +163,7 @@ function addEvenement(_action,  _el) {
 			.append($('<span class="input-group-btn">')
 				.append($('<a class="btn btn-default EvenementAttr" data-action="remove">')
 					.append($('<i class="fa fa-minus-circle">'))))
-			.append($('<input type="text" class="expressionAttr form-control" data-l1key="Cmd" placeholder="{{Séléctionner une commande}}"/>'))
+			.append($('<input type="text" class="expressionAttr form-control" data-l1key="Cmd" placeholder="{{Sélectionner une commande}}"/>'))
 			.append($('<span class="input-group-btn">')
 				.append($('<a class="btn btn-success btn-sm listCmdAction" data-type="info">')
 					.append($('<i class="fa fa-list-alt"></i>'))))));		
@@ -175,7 +175,7 @@ function addEvenement(_action,  _el) {
 			.append($('<option value="!=">').text('{{différent}}'))
 			.append($('<option value=" matches ">').text('{{Contient}}')) ));	
 	tr.append($('<td>')
-		.append($('<input type="text" class="expressionAttr form-control" data-l1key="Value" placeholder="{{Valeur pour validé la condition}}"/>')));
+		.append($('<input type="text" class="expressionAttr form-control" data-l1key="Value" placeholder="{{Valeur pour valider la condition}}"/>')));
 									
         _el.append(tr);
         _el.find('tr:last').setValues(_action, '.expressionAttr');

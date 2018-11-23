@@ -95,7 +95,7 @@ class Volets extends eqLogic {
 						}else{
 							foreach($Volet->getConfiguration('EvenementObject') as $ObjectEvent){
 								if ($Event->getId() == str_replace('#','',$ObjectEvent['Cmd'])){
-									log::add('Volets','info',$Volet->getHumanName().$ObjectEvent['Cmd'].' : Un evenement c\'est produit sur un objet ecouté');
+									log::add('Volets','info',$Volet->getHumanName().$ObjectEvent['Cmd'].' : Un evenement s\'est produit sur un objet ecouté');
 									if (!$Volet->EvaluateCondition($_option['value'].$ObjectEvent['Operande'].$ObjectEvent['Value'],'Evenement'))
 										$Volet->GestionEvenement('open');
 									else
@@ -205,7 +205,7 @@ class Volets extends eqLogic {
 							if(is_object($Commande)){
 								$Evenement=$this->checkCondition('close',$Saison,'Evenement');   		
 								if($Evenement != false && $Evenement == 'close'){
-									log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Une condition Evenementiel est valide, nous executons la gestion Evenement');
+									log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Une condition évenementielle est valide, nous exécutons la gestion Evenement');
 									$this->CheckRepetivite('Evenement',$Evenement,$Saison,$force);
 									return false;
 								}
@@ -251,12 +251,12 @@ class Volets extends eqLogic {
 				if($force || $Evenement != false){
 					$this->checkAndUpdateCmd('isArmed',false);
 					$this->checkAndUpdateCmd('gestion','Manuel');
-					log::add('Volets','info',$this->getHumanName().'[Gestion Manuel] : Un evenement manuel a été détécté: La gestion a été désactivé');
+					log::add('Volets','info',$this->getHumanName().'[Gestion Manuel] : Un evenement manuel a été détecté: La gestion a été désactivée');
 					$this->CheckRepetivite('Manuel',$Evenement,$Saison,true);
 				}
 			}else{
 				cache::set('Volets::RearmementAutomatique::'.$this->getId(),false, 0);
-              			log::add('Volets','debug',$this->getHumanName().' Le réarmement a eu lieu on ignore l\'action manuel');
+              			log::add('Volets','debug',$this->getHumanName().' Le réarmement a eu lieu on ignore l\'action manuelle');
             		}
 		}elseif($force)	{
 			$this->checkAndUpdateCmd('gestion','Manuel');
@@ -496,7 +496,7 @@ class Volets extends eqLogic {
 		return false;
 	}
 	public function CheckActions($Gestion,$Evenement,$Saison,$Change){
-		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'executer les actions : '.json_encode($Change));
+		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'exécuter les actions : '.json_encode($Change));
 		$ActionMove=null;
 		foreach($this->getConfiguration('action') as $Cmd){	
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
@@ -544,7 +544,7 @@ class Volets extends eqLogic {
 					if($key == 'slider'){
 						if($Cmd['isVoletMove']){
 							if(cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0) == $options[$key]){
-								log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executé car la valeur est identique');
+								log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
 								return;
 							}
 							cache::set('Volets::CurrentState::'.$this->getId(),$options[$key], 0);
@@ -718,7 +718,7 @@ class Volets extends eqLogic {
 			if($ObstructionMax == '')
 				$ObstructionMax = $zenith;
 			if($Altitude < intval($ObstructionMin) || $Altitude > intval($ObstructionMax)){
-				log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel n\'est pas dans la fenetre');
+				log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuelle n\'est pas dans la fenêtre');
 				return false;
 			}
 			return array($Altitude,$zenith); 
@@ -746,7 +746,7 @@ class Volets extends eqLogic {
 		$Hauteur=round((($Altitude-$Min)*100)/($zenith-$Min),0);
 		if($Hauteur < 0)
 			return 0;
-		log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuel est a '.$Hauteur.'% par rapport au zenith');	
+		log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuelle est à '.$Hauteur.'% par rapport au zenith');	
 		return $Hauteur;
 	}
 	public function StopDemon(){
@@ -862,15 +862,15 @@ class Volets extends eqLogic {
 	}
 	public function preSave() {
 		if($this->getConfiguration('heliotrope') == "Aucun")
-			throw new Exception(__('Impossible d\'enregister, la configuration de l\'equipement heliotrope n\'existe pas', __FILE__));
+			throw new Exception(__('Impossible d\'enregistrer, la configuration de l\'équipement heliotrope n\'existe pas', __FILE__));
 		else{
 			$heliotrope=eqlogic::byId($this->getConfiguration('heliotrope'));
 			if(is_object($heliotrope)){	
 				if($heliotrope->getConfiguration('geoloc') == "")
-					throw new Exception(__('Impossible d\'enregister, la configuration  heliotrope n\'est pas correcte', __FILE__));
+					throw new Exception(__('Impossible d\'enregistrer, la configuration  heliotrope n\'est pas correcte', __FILE__));
 				$geoloc = geotravCmd::byEqLogicIdAndLogicalId($heliotrope->getConfiguration('geoloc'),'location:coordinate');
 				if(is_object($geoloc) && $geoloc->execCmd() == '')	
-					throw new Exception(__('Impossible d\'enregister, la configuration de  "Localisation et trajet" (geotrav) n\'est pas correcte', __FILE__));
+					throw new Exception(__('Impossible d\'enregistrer, la configuration de  "Localisation et trajet" (geotrav) n\'est pas correcte', __FILE__));
 				$center=explode(",",$geoloc->execCmd());
 				$GeoLoc['lat']=$center[0];
 				$GeoLoc['lng']=$center[1];

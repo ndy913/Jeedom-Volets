@@ -664,6 +664,8 @@ class Volets extends eqLogic {
 			}
 		}
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Les conditions sont remplies pour '.$Evenement);
+		if($Gestion == "Conditionnel" && $isAutoArm == false) 
+			return false;
 		if($autoArm)
 			return $isAutoArm;
 		else

@@ -71,13 +71,13 @@ class Volets extends eqLogic {
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
-						if($this->getCmd(null,'gestion')->execCmd() != "Nuit"){
+						if($Volet->getCmd(null,'gestion')->execCmd() != "Nuit"){
 							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'azimut du soleil');	
 							$Volet->GestionAzimute($_option['value']);
 						}
 					break;
 					case 'altitude':
-						if($this->getCmd(null,'gestion')->execCmd() != "Nuit"){
+						if($Volet->getCmd(null,'gestion')->execCmd() != "Nuit"){
 							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'altitude du soleil');	
 							$Volet->checkAltitude($_option['value']);
 						}

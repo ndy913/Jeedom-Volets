@@ -71,12 +71,16 @@ class Volets extends eqLogic {
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
-						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'azimut du soleil');	
-						$Volet->GestionAzimute($_option['value']);
+						if($this->getCmd(null,'gestion')->execCmd() != "Nuit"){
+							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'azimut du soleil');	
+							$Volet->GestionAzimute($_option['value']);
+						}
 					break;
 					case 'altitude':
-						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'altitude du soleil');	
-						$Volet->checkAltitude($_option['value']);
+						if($this->getCmd(null,'gestion')->execCmd() != "Nuit"){
+							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'altitude du soleil');	
+							$Volet->checkAltitude($_option['value']);
+						}
 					break;
 					case $Volet->getConfiguration('TypeDay'):
 						$timstamp=$Volet->CalculHeureEvent($_option['value'],'Day');
@@ -393,8 +397,8 @@ class Volets extends eqLogic {
 		}
 		if(!$result)
 			$Ratio=100;
-			$this->_RatioHorizontal=round($Ratio);
-			log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : L\'azimut ' . $Azimut . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
+		$this->_RatioHorizontal=round($Ratio);
+		log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : L\'azimut ' . $Azimut . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
 		return $result;
 	}	
 	public function getSaison() {
@@ -1034,4 +1038,5 @@ class VoletsCmd extends cmd {
 	}
 }
 ?>
+
 

@@ -347,51 +347,54 @@ class Volets extends eqLogic {
 		}
 	}	
 	public function CheckAngle($Azimut) {
-		$Droite=$this->getConfiguration('Droite');
-		$Gauche=$this->getConfiguration('Gauche');
-		$Centre=$this->getConfiguration('Centre');
-		$AngleCntDrt=$this->getConfiguration('AngleDroite');
-		$AngleCntGau=$this->getConfiguration('AngleGauche');
-		if(!is_numeric($AngleCntDrt)&&!is_numeric($AngleCntGau)){
-			if(is_array($Droite)&&is_array($Centre)&&is_array($Gauche)){
-				$AngleCntDrt=$this->getAngle(
-					$Centre['lat'],
-					$Centre['lng'],
-					$Droite['lat'],
-					$Droite['lng']);
-				$AngleCntGau=$this->getAngle(
-					$Centre['lat'],
-					$Centre['lng'],
-					$Gauche['lat'],
-					$Gauche['lng']);
-				$this->setConfiguration('AngleDroite',$AngleCntDrt);
-				$this->setConfiguration('AngleGauche',$AngleCntGau);
-				$this->save();
-			}else{
-				log::add('Volets','debug',$this->getHumanName().'[Gestion Azimut] : Les coordonnées GPS de l\'angle d\'exposition au soleil de votre fenêtre sont mal configurées');
-				return false;	
-			}
-		}
 		$result=false;
-		$Ratio=0;
-		if ($AngleCntDrt < $AngleCntGau){
-			if($AngleCntDrt <= $Azimut && $Azimut <= $AngleCntGau)
-				$result= true;
-			$Ratio=($Azimut-$AngleCntDrt)*(100/($AngleCntGau-$AngleCntDrt));
-		}else{
-			if($AngleCntDrt <= $Azimut && $Azimut <= 360){
-				$result= true;
-				$Ratio=($Azimut-$AngleCntDrt+360)*(100/($AngleCntGau-$AngleCntDrt+360));
+		if($this->getCmd(null,'gestion')->execCmd() != "Nuit"){
+			$Droite=$this->getConfiguration('Droite');
+			$Gauche=$this->getConfiguration('Gauche');
+			$Centre=$this->getConfiguration('Centre');
+			$AngleCntDrt=$this->getConfiguration('AngleDroite');
+			$AngleCntGau=$this->getConfiguration('AngleGauche');
+			if(!is_numeric($AngleCntDrt)&&!is_numeric($AngleCntGau)){
+				if(is_array($Droite)&&is_array($Centre)&&is_array($Gauche)){
+					$AngleCntDrt=$this->getAngle(
+						$Centre['lat'],
+						$Centre['lng'],
+						$Droite['lat'],
+						$Droite['lng']);
+					$AngleCntGau=$this->getAngle(
+						$Centre['lat'],
+						$Centre['lng'],
+						$Gauche['lat'],
+						$Gauche['lng']);
+					$this->setConfiguration('AngleDroite',$AngleCntDrt);
+					$this->setConfiguration('AngleGauche',$AngleCntGau);
+					$this->save();
+				}else{
+					log::add('Volets','debug',$this->getHumanName().'[Gestion Azimut] : Les coordonnées GPS de l\'angle d\'exposition au soleil de votre fenêtre sont mal configurées');
+					return false;	
+				}
 			}
-			if(0 <= $Azimut && $Azimut <= $AngleCntGau){
-				$result= true;
-				$Ratio=($Azimut-($AngleCntDrt-360)+360)*(100/($AngleCntGau-($AngleCntDrt-360)+360));
+
+			$Ratio=0;
+			if ($AngleCntDrt < $AngleCntGau){
+				if($AngleCntDrt <= $Azimut && $Azimut <= $AngleCntGau)
+					$result= true;
+				$Ratio=($Azimut-$AngleCntDrt)*(100/($AngleCntGau-$AngleCntDrt));
+			}else{
+				if($AngleCntDrt <= $Azimut && $Azimut <= 360){
+					$result= true;
+					$Ratio=($Azimut-$AngleCntDrt+360)*(100/($AngleCntGau-$AngleCntDrt+360));
+				}
+				if(0 <= $Azimut && $Azimut <= $AngleCntGau){
+					$result= true;
+					$Ratio=($Azimut-($AngleCntDrt-360)+360)*(100/($AngleCntGau-($AngleCntDrt-360)+360));
+				}
 			}
 		}
 		if(!$result)
 			$Ratio=100;
-		$this->_RatioHorizontal=round($Ratio);
-		log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : L\'azimut ' . $Azimut . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
+			$this->_RatioHorizontal=round($Ratio);
+			log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : L\'azimut ' . $Azimut . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
 		return $result;
 	}	
 	public function getSaison() {
@@ -409,20 +412,22 @@ class Volets extends eqLogic {
 	}	
 	public function SelectAction($Azimut,$saison) {
 		$Action=false;
-		if($this->CheckAngle($Azimut) && $this->checkAltitude() !== false){
-			$this->checkAndUpdateCmd('state',true);
-			log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil est dans la fenêtre');
-			if($saison =='hiver')
-				$Action='open';
-			else
-				$Action='close';
-		}else{
-			$this->checkAndUpdateCmd('state',false);
-			log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil n\'est pas dans la fenêtre');
-			if($saison == 'été')
-				$Action='open';
-			else
-				$Action='close';
+		if($this->getCmd(null,'gestion')->execCmd() != "Nuit"){
+			if($this->CheckAngle($Azimut) && $this->checkAltitude() !== false){
+				$this->checkAndUpdateCmd('state',true);
+				log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil est dans la fenêtre');
+				if($saison =='hiver')
+					$Action='open';
+				else
+					$Action='close';
+			}else{
+				$this->checkAndUpdateCmd('state',false);
+				log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil n\'est pas dans la fenêtre');
+				if($saison == 'été')
+					$Action='open';
+				else
+					$Action='close';
+			}
 		}
 		return $Action;
 	}
@@ -1029,3 +1034,4 @@ class VoletsCmd extends cmd {
 	}
 }
 ?>
+

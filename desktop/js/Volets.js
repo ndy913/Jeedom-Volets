@@ -123,7 +123,7 @@ function getCache(div,parameter){
 		error: function(request, status, error) {},
 		success: function(data) {
 			var date = new Date(data.result*1000);
-			div.text(date.toLocaleDateString("fr-FR"));
+			div.text(date.toLocaleDateString("fr-FR") + ' ' + date.toLocaleTimeString("fr-FR"));
 		}
 	});
 }

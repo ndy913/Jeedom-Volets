@@ -465,8 +465,8 @@ function addCmdToTable(_cmd) {
 	tr.append(parmetre);
 	$('#table_cmd tbody').append(tr);
 	$('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
-	getCache($('.ProgrammationJour),'Volets::Jour::'+_cmd.id);
-	getCache($('.ProgrammationNuit),'Volets::Nuit::'+_cmd.id);
+	getCache($('.ProgrammationJour'),'Volets::Jour::'+_cmd.id);
+	getCache($('.ProgrammationNuit'),'Volets::Nuit::'+_cmd.id);
 	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 }
 function addParameters() {

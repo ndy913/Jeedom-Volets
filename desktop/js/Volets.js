@@ -109,6 +109,23 @@ $('#bt_openMap').on('click',function(){
 	});
 	$('#md_modal').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets').dialog('open');
 });
+function getCache(div,parameter){
+	$.ajax({
+		type: 'POST',   
+		url: 'plugins/Volets/core/ajax/Volets.ajax.php',
+		data:
+		{
+			action: 'getCache',
+			parameter: parameter
+		},
+		dataType: 'json',
+		global: true,
+		error: function(request, status, error) {},
+		success: function(data) {
+			div.text(data.result);
+		}
+	});
+}
 function saveEqLogic(_eqLogic) {
 	_eqLogic.configuration.EvenementObject=new Object();
 	_eqLogic.configuration.condition=new Object();
@@ -448,6 +465,8 @@ function addCmdToTable(_cmd) {
 	tr.append(parmetre);
 	$('#table_cmd tbody').append(tr);
 	$('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
+	getCache($('.ProgrammationJour),'Volets::Jour::'+_cmd.id);
+	getCache($('.ProgrammationNuit),'Volets::Nuit::'+_cmd.id);
 	jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 }
 function addParameters() {

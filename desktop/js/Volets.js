@@ -109,6 +109,24 @@ $('#bt_openMap').on('click',function(){
 	});
 	$('#md_modal').load('index.php?v=d&modal=Volets.MapsAngles&plugin=Volets&type=Volets').dialog('open');
 });
+function getCache(div,parameter){
+	$.ajax({
+		type: 'POST',   
+		url: 'plugins/Volets/core/ajax/Volets.ajax.php',
+		data:
+		{
+			action: 'getCache',
+			parameter: parameter
+		},
+		dataType: 'json',
+		global: true,
+		error: function(request, status, error) {},
+		success: function(data) {
+			var date = new Date(data.result*1000);
+			div.text(date.toLocaleDateString("fr-FR") + ' ' + date.toLocaleTimeString("fr-FR"));
+		}
+	});
+}
 function saveEqLogic(_eqLogic) {
 	_eqLogic.configuration.EvenementObject=new Object();
 	_eqLogic.configuration.condition=new Object();
@@ -131,6 +149,8 @@ function saveEqLogic(_eqLogic) {
    	return _eqLogic;
 }
 function printEqLogic(_eqLogic) {
+	getCache($('.ProgrammationJour'),'Volets::Jour::'+_eqLogic.id);
+	getCache($('.ProgrammationNuit'),'Volets::Nuit::'+_eqLogic.id);
 	$('.EvenementGroup').remove();
 	$('.ConditionGroup').remove();
 	$('.ActionGroup').remove();

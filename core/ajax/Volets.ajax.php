@@ -6,6 +6,9 @@ try {
 	if (!isConnect('admin')) {
 		throw new Exception(__('401 - Accès non autorisé', __FILE__));
 	}
+	if (init('action') == 'getCache') {
+		ajax::success(cache::byKey(init('parameter'))->getValue());
+	}
 	if (init('action') == 'getInformation') {
 		$result=array();
 		$heliotrope=eqLogic::byId(init('heliotrope'));

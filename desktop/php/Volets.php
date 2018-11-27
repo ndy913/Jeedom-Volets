@@ -324,6 +324,10 @@ $eqLogics = eqLogic::byType('Volets');
 						<legend>Gestion Jour</legend>
 						<fieldset>
 							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Heure programée}}</label>
+								<div class="col-sm-5 ProgrammationJour"></div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Heure d'ouverture minimum (HHMM)}}
 									<sup>
 										<i class="fa fa-question-circle tooltips" title="{{Si le soleil se lève avant, l'heure d'ouverture sera ce paramètre}}"></i>
@@ -365,6 +369,10 @@ $eqLogics = eqLogic::byType('Volets');
 					<form class="form-horizontal">
 						<legend>Gestion Nuit</legend>
 						<fieldset>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{Heure programée}}</label>
+								<div class="col-sm-5 ProgrammationNuit"></div>
+							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{Heure de fermeture maximum (HHMM)}}
 									<sup>

@@ -166,8 +166,7 @@ class Volets extends eqLogic {
 		}
 		return $this->RearmementAutomatique($Evenement,$Gestion);
 	}		
-	public function CheckState($Value) {  
-		cache::set('Volets::CurrentState::'.$this->getId(),$Value, 0);
+	/*public function CheckState($Value) {  
 		$SeuilRealState=$this->getConfiguration("SeuilRealState");
 		if($SeuilRealState == '')
 			$SeuilRealState=0;
@@ -184,19 +183,18 @@ class Volets extends eqLogic {
 		}
 		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
 		return $State;
-	}
-	public function CheckRealState($Value) {   
-		$State=$this->CheckState($Value);
-		$this->setPosition($State);
+	}*/
+	public function CheckRealState($Value) {   	
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
-			if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
+			if($Value != $this->getCmd(null,'position')->execCmd())
 				return;
 			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');
 			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 		}else{
-			//if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
+			//if($Value != $this->getCmd(null,'position')->execCmd())
 				$this->GestionManuel($State);
 		}
+		$this->checkAndUpdateCmd('position',$Value);
 	}
 	public function CheckOtherGestion($Gestion,$force=false) {  
 		$Saison=$this->getSaison();
@@ -480,10 +478,8 @@ class Volets extends eqLogic {
 			$Change['RatioHorizontal']=true;
 		$this->checkAndUpdateCmd('RatioVertical',$this->RatioEchelle('RatioVertical',$RatioVertical));
 		$this->checkAndUpdateCmd('RatioHorizontal',$this->RatioEchelle('RatioHorizontal',$this->_RatioHorizontal));
-		if($force || $this->getPosition() != $Evenement)
+		//if($force || $this->CheckPositionChange($Evenement,$Gestion))
 			$Change['Position']=true;
-		if ($this->getConfiguration('RealState') == '')
-			$this->setPosition($Evenement);
 		if($force || $this->getCmd(null,'gestion')->execCmd() != $Gestion)
 			$Change['Gestion']=true;
 		$this->checkAndUpdateCmd('gestion',$Gestion);
@@ -500,80 +496,60 @@ class Volets extends eqLogic {
 		}
 		return false;
 	}
+	
+	public function CheckPositionChange($Cmd,$Evenement,$Gestion){	
+		$options = array();
+		if(isset($Cmd['options'])){
+			foreach($Cmd['options'] as $key => $option){
+				$options[$key]=jeedom::evaluateExpression($option);
+				if($key == 'slider'){
+					$NewPosition = $options[$key];
+					if($this->getCmd(null,'position')->execCmd() == $NewPosition){
+						log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
+						return false;
+					}
+				}
+			}
+		}else{
+			if($Evenement == 'open'){
+				$RatioVertical = $this->getCmd(null,'RatioVertical');
+				$NewPosition=100;
+				if(is_object($RatioVertical))
+					$CurrentState = $RatioVertical->getConfiguration('minValue', $NewPosition);
+
+			}else{
+				$RatioVertical = $this->getCmd(null,'RatioVertical');
+				$NewPosition=100;
+				if(is_object($RatioVertical))
+					$NewPosition = $RatioVertical->getConfiguration('maxValue', $NewPosition);
+			}
+			if($this->getCmd(null,'position')->execCmd() == $NewPosition){
+				log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
+				return false;
+			}
+		}
+		return array($NewPosition,$options);
+	}
 	public function CheckActions($Gestion,$Evenement,$Saison,$Change){
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'exécuter les actions : '.json_encode($Change));
 		$ActionMove=null;
 		foreach($this->getConfiguration('action') as $Cmd){	
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
 				continue;
-			if($Cmd['isVoletMove']){
-				if($Change['RatioVertical']){
-					if($this->CheckIsRatio($Cmd,'RatioVertical',$Gestion)){
-						if($this->getConfiguration('RandExecution'))
-							$ActionMove[]=$Cmd;
-						else
-							$this->ExecuteAction($Cmd,$Gestion,$Evenement);
-						continue;
-					}
-				}
-				if($Change['RatioHorizontal']){
-					if($this->CheckIsRatio($Cmd,'RatioHorizontal',$Gestion)){
-						if($this->getConfiguration('RandExecution'))
-							$ActionMove[]=$Cmd;
-						else
-							$this->ExecuteAction($Cmd,$Gestion,$Evenement);
-						continue;
-					}
-				}
-				if($Change['Position']){
-					if($this->getConfiguration('RandExecution'))
-						$ActionMove[]=$Cmd;
-					else
-						$this->ExecuteAction($Cmd,$Gestion,$Evenement);
-					continue;
-				}
-			} else {
-				if($Change['Gestion'] || $Change['Position'])
-					$this->ExecuteAction($Cmd,$Gestion,$Evenement);
-			}
+			if(!$Cmd['isVoletMove'] && $Change['Position'] && !$Change['Gestion'])
+				continue;
+			$this->ExecuteAction($Cmd,$Gestion,$Evenement);
 		}
 		if($this->getConfiguration('RandExecution') && $ActionMove != null)
 			$this->AleatoireActions($Gestion,$ActionMove,$Evenement);
 	}
 	public function ExecuteAction($Cmd,$Gestion,$Evenement){		
 		try {
-			$options = array();
-			if(isset($Cmd['options'])){
-				foreach($Cmd['options'] as $key => $option){
-					$options[$key]=jeedom::evaluateExpression($option);
-					if($key == 'slider'){
-						if($Cmd['isVoletMove']){
-							if(cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0) == $options[$key]){
-								log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
-								return;
-							}
-							cache::set('Volets::CurrentState::'.$this->getId(),$options[$key], 0);
-						}
-					}
-				}
-			}else{
-				if($Cmd['isVoletMove']){
-					if($Evenement == 'open'){
-						$RatioVertical = $this->getCmd(null,'RatioVertical');
-						$CurrentState=100;
-						if(is_object($RatioVertical))
-							$CurrentState = $RatioVertical->getConfiguration('minValue', $CurrentState);
-						cache::set('Volets::CurrentState::'.$this->getId(),$CurrentState);
-						
-					}else{
-						$RatioVertical = $this->getCmd(null,'RatioVertical');
-						$CurrentState=100;
-						if(is_object($RatioVertical))
-							$CurrentState = $RatioVertical->getConfiguration('maxValue', $CurrentState);
-						cache::set('Volets::CurrentState::'.$this->getId(),$CurrentState);
-					}
-				}
-			}
+			if($PositionChange = $this->CheckPositionChange($Cmd,$Evenement,$Gestion) === false)
+				return;
+			list($NewPosition,$options)=$PositionChange;
+			if($this->getConfiguration('RealState') == '')
+				$this->checkAndUpdateCmd('position',$NewPosition);				
 			if($Cmd['isVoletMove']){
 				cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 				cache::set('Volets::LastChangeState::'.$this->getId(),time(), 0);
@@ -791,8 +767,9 @@ class Volets extends eqLogic {
 					$listener->addEvent($this->getConfiguration('RealState'));
 					$RealState=cmd::byId($this->getConfiguration('RealState'));
 					if(is_object($RealState))
-						$this->setPosition($this->CheckState($RealState->execCmd()));
-				}
+						$this->checkAndUpdateCmd('position',$RealState->execCmd());
+					
+				};
 				//$listener->addEvent($heliotrope->getCmd(null,'altitude')->getId());
 				if ($this->getConfiguration('Azimut'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
@@ -832,11 +809,6 @@ class Volets extends eqLogic {
 					$this->GestionNuit(true);
 				else
 					$this->GestionJour(true);
-				if($this->getConfiguration('RealState') != ''){
-					$State=cmd::byId(str_replace('#','',$this->getConfiguration('RealState')));
-					if(is_object($State))
-						$this->CheckState($State->execCmd());
-				}
 			}
 		}
 	}
@@ -858,12 +830,6 @@ class Volets extends eqLogic {
 			$Commande->setGeneric_type($GenericType);
 			$Commande->save();
 		return $Commande;
-	}
-	public function setPosition($Evenement) {
-		$this->checkAndUpdateCmd('position',$Evenement);
-	}
-	public function getPosition() {
-		return $this->getCmd(null,'position')->execCmd();
 	}
 	public function preSave() {
 		if($this->getConfiguration('heliotrope') == "Aucun")
@@ -916,9 +882,9 @@ class Volets extends eqLogic {
 		$Released->save();
 		$Released->setConfiguration('state', '0');
 		$Released->setConfiguration('armed', '1');
-		$Position=$this->AddCommande("Etat du volet","position","info","string",0,'GENERIC_INFO');
+		$Position=$this->AddCommande("Etat du volet","position","info","numeric",0,'GENERIC_INFO');
 		$VoletState=$this->AddCommande("Position du volet","VoletState","action","select",1,'DONT','volet');
-		$VoletState->setConfiguration('listValue','open|Ouvert;close|Fermé');
+		$VoletState->setConfiguration('listValue','100|Ouvert;0|Fermé');
 		$VoletState->setDisplay('title_disable', 1);
 		$VoletState->setValue($Position->getId());
 		$VoletState->save();
@@ -1003,9 +969,9 @@ class VoletsCmd extends cmd {
 					else
 						$this->getEqLogic()->GestionJour(true);
 					if($this->getEqLogic()->getConfiguration('RealState') != ''){
-						$State=cmd::byId(str_replace('#','',$this->getEqLogic()->getConfiguration('RealState')));
-						if(is_object($State))
-							$this->getEqLogic()->CheckState($State->execCmd());
+						$RealState=cmd::byId(str_replace('#','',$this->getEqLogic()->getConfiguration('RealState')));
+						if(is_object($RealState))
+							$this->getEqLogic()->checkAndUpdateCmd('position',$RealState->execCmd());	
 					}
 				break;
 				case 'released':
@@ -1018,9 +984,9 @@ class VoletsCmd extends cmd {
 				case 'VoletState':
 					$Value=$_options['select'];
 					if($this->getEqLogic()->getConfiguration('RealState') != ''){
-						$State=cmd::byId(str_replace('#','',$this->getEqLogic()->getConfiguration('RealState')));
-						if(is_object($State))
-							$Value=$this->getEqLogic()->CheckState($State->execCmd());
+						$RealState=cmd::byId(str_replace('#','',$this->getEqLogic()->getConfiguration('RealState')));
+						if(is_object($RealState))
+							$this->getEqLogic()->checkAndUpdateCmd('position',$RealState->execCmd());
 					}
 					$Listener->event($Value);
 				break;

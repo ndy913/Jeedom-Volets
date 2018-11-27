@@ -122,7 +122,8 @@ function getCache(div,parameter){
 		global: true,
 		error: function(request, status, error) {},
 		success: function(data) {
-			div.text(data.result);
+			var date = new Date(data.result*1000);
+			div.text(date.toLocaleDateString("fr-FR"));
 		}
 	});
 }

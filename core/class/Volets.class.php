@@ -85,12 +85,12 @@ class Volets extends eqLogic {
 					case $Volet->getConfiguration('TypeDay'):
 						$timestamp=$Volet->CalculHeureEvent($_option['value'],'Day');
 						cache::set('Volets::Jour::'.$Volet->getId(),$timestamp, 0);
-						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil à ' . date("d/m/Y H:i:s",$timestamp));
+						log::add('Volets','info',$Volet->getHumanName().' : Replanification de l\'ouverture au lever du soleil le ' . date("d/m/Y H:i:s",$timestamp));
 						break;
 					case $Volet->getConfiguration('TypeNight'):
 						$timestamp=$Volet->CalculHeureEvent($_option['value'],'Night');						
 						cache::set('Volets::Nuit::'.$Volet->getId(),$timestamp, 0);
-						log::add('Volets','info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil à ' . date("d/m/Y H:i:s",$timestamp));
+						log::add('Volets','info',$Volet->getHumanName().' : Replanification de la fermeture au coucher du soleil le ' . date("d/m/Y H:i:s",$timestamp));
 					break;
 					default:
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){

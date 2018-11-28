@@ -863,6 +863,7 @@ class Volets extends eqLogic {
 		$this->AddCommande("Ratio Vertical","RatioVertical","info", 'numeric',1,'DONT');
 		$this->AddCommande("Ratio Horizontal","RatioHorizontal","info", 'numeric',1,'DONT');
 		$this->AddCommande("Gestion Active","gestion","info", 'string',1,'GENERIC_INFO');
+		$this->AddCommande("Etat du volet","position","info","numeric",0,'GENERIC_INFO','SlidVolet');
 		$state=$this->AddCommande("Position du soleil","state","info", 'binary',1,'GENERIC_INFO','sunInWindows');
 		$isInWindows=$this->AddCommande("Etat mode","isInWindows","info","binary",0,'DONT','isInWindows');
 		$inWindows=$this->AddCommande("Mode","inWindows","action","select",1,'DONT','inWindows');
@@ -881,12 +882,6 @@ class Volets extends eqLogic {
 		$Released->save();
 		$Released->setConfiguration('state', '0');
 		$Released->setConfiguration('armed', '1');
-		$Position=$this->AddCommande("Etat du volet","position","info","numeric",0,'GENERIC_INFO');
-		$VoletState=$this->AddCommande("Position du volet","VoletState","action","select",1,'DONT','volet');
-		$VoletState->setConfiguration('listValue','100|Ouvert;0|Fermé');
-		$VoletState->setDisplay('title_disable', 1);
-		$VoletState->setValue($Position->getId());
-		$VoletState->save();
 		$this->StopDemon();
 		$this->StartDemon();
 	}	

@@ -544,7 +544,8 @@ class Volets extends eqLogic {
 	}
 	public function ExecuteAction($Cmd,$Gestion,$Evenement){		
 		try {
-			if($PositionChange = $this->CheckPositionChange($Cmd,$Evenement,$Gestion) === false)
+			$PositionChange = $this->CheckPositionChange($Cmd,$Evenement,$Gestion);
+			if($PositionChange == false)
 				return;
 			list($NewPosition,$options)=$PositionChange;
 			if($this->getConfiguration('RealState') == '')

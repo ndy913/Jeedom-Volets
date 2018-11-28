@@ -863,7 +863,7 @@ class Volets extends eqLogic {
 		$this->AddCommande("Ratio Vertical","RatioVertical","info", 'numeric',1,'DONT');
 		$this->AddCommande("Ratio Horizontal","RatioHorizontal","info", 'numeric',1,'DONT');
 		$this->AddCommande("Gestion Active","gestion","info", 'string',1,'GENERIC_INFO');
-		$this->AddCommande("Etat du volet","position","info","numeric",0,'GENERIC_INFO','SlidVolet');
+		$this->AddCommande("Etat du volet","position","info","numeric",1,'GENERIC_INFO','SlidVolet');
 		$state=$this->AddCommande("Position du soleil","state","info", 'binary',1,'GENERIC_INFO','sunInWindows');
 		$isInWindows=$this->AddCommande("Etat mode","isInWindows","info","binary",0,'DONT','isInWindows');
 		$inWindows=$this->AddCommande("Mode","inWindows","action","select",1,'DONT','inWindows');

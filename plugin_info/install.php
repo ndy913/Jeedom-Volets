@@ -8,11 +8,11 @@ function Volets_update(){
 		$Position=$Volet->getCmd(null,'position');
 		if($Position->getSubType() == 'string'){
 			$Position->setSubType('numeric');
-			$Position->setIsVisible(true);
-			$Position->setTemplate('dashboard','SlidVolet' );
-			$Position->setTemplate('mobile', 'SlidVolet');
-			$Position->save();
 		}
+		$Position->setIsVisible(true);
+		$Position->setTemplate('dashboard','SlidVolet' );
+		$Position->setTemplate('mobile', 'SlidVolet');
+		$Position->save();
 		$VoletState=$Volet->getCmd(null,'VoletState');
 		if(is_object($VoletState))
 			$VoletState->remove();

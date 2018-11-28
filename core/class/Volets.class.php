@@ -166,24 +166,22 @@ class Volets extends eqLogic {
 		}
 		return $this->RearmementAutomatique($Evenement,$Gestion);
 	}		
-	/*public function CheckState($Value) {  
-		$SeuilRealState=$this->getConfiguration("SeuilRealState");
-		if($SeuilRealState == '')
-			$SeuilRealState=0;
+	public function CheckState() {  
+		$State=$this->getCmd(null,'position')->execCmd();
 		if($this->getConfiguration('InverseHauteur')){	
-			if($Value < $SeuilRealState)
+			if($Value < 0)
 				$State='open';
 			else
 				$State='close';
 		}else{
-			if($Value > $SeuilRealState)
+			if($Value > 0)
 				$State='open';
 			else
 				$State='close';
 		}
 		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
 		return $State;
-	}*/
+	}
 	public function CheckRealState($Value) {   	
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
 			if($Value != $this->getCmd(null,'position')->execCmd())
@@ -192,7 +190,7 @@ class Volets extends eqLogic {
 			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 		}else{
 			//if($Value != $this->getCmd(null,'position')->execCmd())
-				$this->GestionManuel($State);
+				$this->GestionManuel();
 		}
 		$this->checkAndUpdateCmd('position',$Value);
 	}
@@ -244,7 +242,8 @@ class Volets extends eqLogic {
 		}
 		return true;
 	}
-	public function GestionManuel($State,$force=false){
+	public function GestionManuel($force=false){
+		$State=$this->CheckState();
 		if ($force || $this->AutorisationAction($State,'Manuel')){
 			$RearmementAutomatique = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());		
 			if(!$RearmementAutomatique->getValue(false)){
@@ -977,7 +976,7 @@ class VoletsCmd extends cmd {
 				case 'released':
 					cache::set('Volets::ChangeState::'.$this->getEqLogic()->getId(),false, 0);
 					cache::set('Volets::LastChangeState::'.$this->getEqLogic()->getId(),time(), 0);
-					$this->getEqLogic()->GestionManuel($this->getEqLogic()->getPosition(),true);
+					$this->getEqLogic()->GestionManuel(true);
 					$Listener->event(false);
 					$this->getEqLogic()->checkAndUpdateCmd('gestion','Manuel');										
 				break;

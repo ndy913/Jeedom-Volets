@@ -1,0 +1,52 @@
+<div class="cmd cmd-widget" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" >  
+	<style>
+		#voletvertical.slider.slider-vertical{height:85px; width:64px;}
+		#voletvertical.slider.slider-vertical .slider-track {width:63px; height:100%;}
+	</style>
+	<div class="slider-volet-value slid-v-left" id="SlidVal#id#"></div>
+	<div class="slider-volet" data-slider-handle="square"></div>
+	<div class="slider-volet-value slid-v-bottom" id="SlidValB#id#" style="display:none"></div>
+	<script>
+        	jeedom.cmd.update['#id#'] = function(_options){
+			$.include(['plugins/Volets/core/template/SlidVolet/bootstrapslider.js'], function() {  
+				$.include(['plugins/Volets/core/template/SlidVolet/slidervc.css'], function() {
+					$(".cmd[data-cmd_uid=#uid#] .slider-volet").bootstrapSlider({
+						id: 'voletvertical',
+						orientation: 'vertical',
+						reversed : 'true',
+						min: ('#minValue#' == '') ? 0 : parseInt('#minValue#'),
+						max: ('#maxValue#' == '') ? 100 : parseInt('#maxValue#'),
+						value: (_options.display_value == '') ? 0 : parseInt(_options.display_value),
+						enabled: false
+					})
+				});
+			});
+			if (_options.display_value == '0' || _options.display_value == 0 || _options.display_value == '') {
+				$(".cmd[data-cmd_uid=#uid#] .slider-vertical .slider-selection").css('background', "url(plugins/Volets/core/template/SlidVolet/lamep.png)");
+			}else {
+				if (_options.display_value != '0' || _options.display_value != 0) {
+					$(".cmd[data-cmd_uid=#uid#] .slider-vertical .slider-selection").css('background', "url(plugins/Volets/core/template/SlidVolet/lamej.png)");
+				}
+			}
+			if (_options.display_value == '' || _options.display_value == 0){
+				$("#SlidVal#id#").empty();
+				$("#SlidVal#id#").text("0 %");
+			}
+			if (_options.display_value == 99 || _options.display_value == '99'){
+				if ('#Fibaro#'.trim() == '1') {
+					$("#SlidVal#id#").empty();
+					$("#SlidVal#id#").text("100 %");
+					$("#SlidValB#id#").empty();
+					$("#SlidValB#id#").text("100 %");
+				}
+			}
+			if ('#PourcentLeft#'.trim() == '0') {
+				$("#SlidVal#id#").css("display","none");
+				$("#SlidValB#id#").css("display","block");
+				$(".cmd[data-cmd_id=#id#]").css("padding-top", "1%");
+				$(".cmd[data-cmd_id=#id#]").css("width", "75px");
+			}
+		    }
+		    jeedom.cmd.update['#id#']({display_value:'#state#',valueDate:'#valueDate#',collectDate:'#collectDate#',alertLevel:'#alertLevel#'});
+	</script>
+</div>

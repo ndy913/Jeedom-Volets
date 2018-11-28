@@ -8,8 +8,14 @@ function Volets_update(){
 		$Position=$Volet->getCmd(null,'position');
 		if($Position->getSubType() == 'string'){
 			$Position->setSubType('numeric');
-			$Position->save();
 		}
+		$Position->setIsVisible(true);
+		$Position->setTemplate('dashboard','SlidVolet' );
+		$Position->setTemplate('mobile', 'SlidVolet');
+		$Position->save();
+		$VoletState=$Volet->getCmd(null,'VoletState');
+		if(is_object($VoletState))
+			$VoletState->remove();
 		$Volet->save();
 	}
 	log::add('Volets','debug','Fin du script de mise a jours');

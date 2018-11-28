@@ -1,4 +1,4 @@
-<div class="cmd cmd-widget" style="width:130px; height:100px; padding-top: 8%;" data-type="action" data-subtype="slider" data-cmd_id="#id#" data-cmd_uid="#uid#" >  
+<div class="cmd cmd-widget" data-type="info" data-subtype="numeric" data-cmd_id="#id#" data-cmd_uid="#uid#" >  
 	<style>
 		#voletvertical.slider.slider-vertical{height:85px; width:64px;}
 		#voletvertical.slider.slider-vertical .slider-track {width:63px; height:100%;}
@@ -17,13 +17,10 @@
 					min: ('#minValue#' == '') ? 0 : parseInt('#minValue#'),
 					max: ('#maxValue#' == '') ? 100 : parseInt('#maxValue#'),
 					value: ('#state#' == '') ? 0 : parseInt('#state#'),
+					enabled: false
 				})
-				/*.on('slide', function (ev) {
-					$(".cmd[data-cmd_uid=#uid#] .slider-volet-value").text(ev.value +' %');
-				});*/
 			});
 		});
-
 		if ('#state#' == '0' || '#state#' == 0 || '#state#' == '') {
 			$(".cmd[data-cmd_uid=#uid#] .slider-vertical .slider-selection").css('background', "url(plugins/Volets/core/template/SlidVolet/lamep.png)");
 		}else {

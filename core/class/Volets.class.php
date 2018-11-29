@@ -94,7 +94,6 @@ class Volets extends eqLogic {
 					break;
 					default:
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
-							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
 							$Volet->CheckRealState($_option['value']);
 						}else{
 							foreach($Volet->getConfiguration('EvenementObject') as $ObjectEvent){
@@ -179,16 +178,17 @@ class Volets extends eqLogic {
 			else
 				$State='close';
 		}
-		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
 		return $State;
 	}
 	public function CheckRealState($Value) {   	
+		log::add('Volets','info',$Volet->getHumanName().'[Etat] : Changement de l\'état réel du volet => '.$Value.'%');
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
 			if($Value != $this->getCmd(null,'position')->execCmd())
 				return;
-			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');
+			log::add('Volets','debug',$this->getHumanName().'[Etat] : Le changement d\'état est autorisé');
 			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 		}else{
+			log::add('Volets','debug',$this->getHumanName().'[Etat] : Le changement d\'état n\'est pas autorisé');
 			//if($Value != $this->getCmd(null,'position')->execCmd())
 				$this->GestionManuel();
 		}

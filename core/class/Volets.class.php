@@ -544,10 +544,10 @@ class Volets extends eqLogic {
 			$PositionChange = $this->CheckPositionChange($Cmd,$Evenement,$Gestion);
 			if($PositionChange == false)
 				return;
-			list($NewPosition,$options)=$PositionChange;
-			if($this->getConfiguration('RealState') == '')
-				$this->checkAndUpdateCmd('position',$NewPosition);				
+			list($NewPosition,$options)=$PositionChange;			
 			if($Cmd['isVoletMove']){
+				if($this->getConfiguration('RealState') == '')
+					$this->checkAndUpdateCmd('position',$NewPosition);	
 				cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 				cache::set('Volets::LastChangeState::'.$this->getId(),time(), 0);
 			}

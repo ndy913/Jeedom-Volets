@@ -497,16 +497,13 @@ class Volets extends eqLogic {
 	}
 	
 	public function CheckPositionChange($Cmd,$Evenement,$Gestion){	
+		$NewPosition = 0;
 		$options = array();
 		if(isset($Cmd['options'])){
 			foreach($Cmd['options'] as $key => $option){
 				$options[$key]=jeedom::evaluateExpression($option);
 				if($key == 'slider'){
 					$NewPosition = $options[$key];
-					if($this->getCmd(null,'position')->execCmd() == $NewPosition){
-						log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
-						return false;
-					}
 				}
 			}
 		}else{
@@ -514,18 +511,18 @@ class Volets extends eqLogic {
 				$RatioVertical = $this->getCmd(null,'RatioVertical');
 				$NewPosition=100;
 				if(is_object($RatioVertical))
-					$CurrentState = $RatioVertical->getConfiguration('minValue', $NewPosition);
+					$CurrentState = $RatioVertical->getConfiguration('maxValue', $NewPosition);
 
 			}else{
 				$RatioVertical = $this->getCmd(null,'RatioVertical');
-				$NewPosition=100;
+				$NewPosition=0;
 				if(is_object($RatioVertical))
-					$NewPosition = $RatioVertical->getConfiguration('maxValue', $NewPosition);
+					$NewPosition = $RatioVertical->getConfiguration('minValue', $NewPosition);
 			}
-			if($this->getCmd(null,'position')->execCmd() == $NewPosition){
-				log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
-				return false;
-			}
+		}
+		if($this->getCmd(null,'position')->execCmd() == $NewPosition){
+			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
+			return false;
 		}
 		return array($NewPosition,$options);
 	}

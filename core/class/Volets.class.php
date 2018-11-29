@@ -94,7 +94,6 @@ class Volets extends eqLogic {
 					break;
 					default:
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
-							log::add('Volets','info',$Volet->getHumanName().' : Changement de l\'état réel du volet');
 							$Volet->CheckRealState($_option['value']);
 						}else{
 							foreach($Volet->getConfiguration('EvenementObject') as $ObjectEvent){
@@ -179,16 +178,17 @@ class Volets extends eqLogic {
 			else
 				$State='close';
 		}
-		log::add('Volets','debug',$this->getHumanName().' : '.$Value.' >= '.$SeuilRealState.' => '.$State);
 		return $State;
 	}
 	public function CheckRealState($Value) {   	
+		log::add('Volets','info',$Volet->getHumanName().'[Etat] : Changement de l\'état réel du volet => '.$Value.'%');
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
 			if($Value != $this->getCmd(null,'position')->execCmd())
 				return;
-			log::add('Volets','info',$this->getHumanName().' : Le changement d\'état est autorisé');
+			log::add('Volets','debug',$this->getHumanName().'[Etat] : Le changement d\'état est autorisé');
 			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
 		}else{
+			log::add('Volets','debug',$this->getHumanName().'[Etat] : Le changement d\'état n\'est pas autorisé');
 			//if($Value != $this->getCmd(null,'position')->execCmd())
 				$this->GestionManuel();
 		}
@@ -497,16 +497,13 @@ class Volets extends eqLogic {
 	}
 	
 	public function CheckPositionChange($Cmd,$Evenement,$Gestion){	
+		$NewPosition = 0;
 		$options = array();
 		if(isset($Cmd['options'])){
 			foreach($Cmd['options'] as $key => $option){
 				$options[$key]=jeedom::evaluateExpression($option);
 				if($key == 'slider'){
 					$NewPosition = $options[$key];
-					if($this->getCmd(null,'position')->execCmd() == $NewPosition){
-						log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
-						return false;
-					}
 				}
 			}
 		}else{
@@ -514,18 +511,18 @@ class Volets extends eqLogic {
 				$RatioVertical = $this->getCmd(null,'RatioVertical');
 				$NewPosition=100;
 				if(is_object($RatioVertical))
-					$CurrentState = $RatioVertical->getConfiguration('minValue', $NewPosition);
+					$CurrentState = $RatioVertical->getConfiguration('maxValue', $NewPosition);
 
 			}else{
 				$RatioVertical = $this->getCmd(null,'RatioVertical');
-				$NewPosition=100;
+				$NewPosition=0;
 				if(is_object($RatioVertical))
-					$NewPosition = $RatioVertical->getConfiguration('maxValue', $NewPosition);
+					$NewPosition = $RatioVertical->getConfiguration('minValue', $NewPosition);
 			}
-			if($this->getCmd(null,'position')->execCmd() == $NewPosition){
-				log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
-				return false;
-			}
+		}
+		if($this->getCmd(null,'position')->execCmd() == $NewPosition){
+			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
+			return false;
 		}
 		return array($NewPosition,$options);
 	}
@@ -547,10 +544,10 @@ class Volets extends eqLogic {
 			$PositionChange = $this->CheckPositionChange($Cmd,$Evenement,$Gestion);
 			if($PositionChange == false)
 				return;
-			list($NewPosition,$options)=$PositionChange;
-			if($this->getConfiguration('RealState') == '')
-				$this->checkAndUpdateCmd('position',$NewPosition);				
+			list($NewPosition,$options)=$PositionChange;			
 			if($Cmd['isVoletMove']){
+				if($this->getConfiguration('RealState') == '')
+					$this->checkAndUpdateCmd('position',$NewPosition);	
 				cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 				cache::set('Volets::LastChangeState::'.$this->getId(),time(), 0);
 			}

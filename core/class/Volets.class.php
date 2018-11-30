@@ -558,9 +558,9 @@ class Volets extends eqLogic {
 				}
 			}else{
 				if($Cmd['isVoletMove']){
-					if($Evenement == 'open'){
+					if($Evenement == 'close'){
 						$RatioVertical = $this->getCmd(null,'RatioVertical');
-						$CurrentState=100;
+						$CurrentState=0;
 						if(is_object($RatioVertical))
 							$CurrentState = $RatioVertical->getConfiguration('minValue', $CurrentState);
 						cache::set('Volets::CurrentState::'.$this->getId(),$CurrentState);

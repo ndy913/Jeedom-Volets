@@ -71,16 +71,12 @@ class Volets extends eqLogic {
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
-						if($Volet->getCmd(null,'gestion')->execCmd() != "Nuit"){
-							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'azimut du soleil');	
-							$Volet->GestionAzimute($_option['value']);
-						}
+						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'azimut du soleil');	
+						$Volet->GestionAzimute($_option['value']);
 					break;
 					case 'altitude':
-						if($Volet->getCmd(null,'gestion')->execCmd() != "Nuit"){
-							log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'altitude du soleil');	
-							$Volet->checkAltitude($_option['value']);
-						}
+						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'altitude du soleil');	
+						$Volet->checkAltitude($_option['value']);
 					break;
 					case $Volet->getConfiguration('TypeDay'):
 						$timestamp=$Volet->CalculHeureEvent($_option['value'],'Day');
@@ -94,6 +90,7 @@ class Volets extends eqLogic {
 					break;
 					default:
 						if ($Event->getId() == str_replace('#','',$Volet->getConfiguration('RealState'))){
+							//log::add('Volets','info',$Volet->getHumanName().'[Etat] : Changement de l\'état réel du volet => '.$_option['value'].'%');
 							$Volet->CheckRealState($_option['value']);
 						}else{
 							foreach($Volet->getConfiguration('EvenementObject') as $ObjectEvent){
@@ -181,7 +178,7 @@ class Volets extends eqLogic {
 		return $State;
 	}
 	public function CheckRealState($Value) {   	
-		log::add('Volets','info',$Volet->getHumanName().'[Etat] : Changement de l\'état réel du volet => '.$Value.'%');
+		log::add('Volets','info',$this->getHumanName().'[Etat] : Changement de l\'état réel du volet => '.$Value.'%');
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
 			if($Value != $this->getCmd(null,'position')->execCmd())
 				return;

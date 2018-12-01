@@ -180,7 +180,7 @@ class Volets extends eqLogic {
 	public function CheckRealState($Value) {   	
 		log::add('Volets','info',$this->getHumanName().'[Etat] : Changement de l\'état réel du volet => '.$Value.'%');
 		if(cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false)){
-			if($Value != $this->getCmd(null,'position')->execCmd())
+			if($Value != cache::byKey('Volets::CurrentState::'.$this->getId())->getValue(0))
 				return;
 			log::add('Volets','debug',$this->getHumanName().'[Etat] : Le changement d\'état est autorisé');
 			cache::set('Volets::ChangeState::'.$this->getId(),false, 0);
@@ -543,8 +543,7 @@ class Volets extends eqLogic {
 				return;
 			list($NewPosition,$options)=$PositionChange;			
 			if($Cmd['isVoletMove']){
-				if($this->getConfiguration('RealState') == '')
-					$this->checkAndUpdateCmd('position',$NewPosition);	
+				cache::set('Volets::CurrentState::'.$this->getId(),$NewPosition,0);
 				cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 				cache::set('Volets::LastChangeState::'.$this->getId(),time(), 0);
 			}

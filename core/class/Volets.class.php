@@ -163,7 +163,7 @@ class Volets extends eqLogic {
 		return $this->RearmementAutomatique($Evenement,$Gestion);
 	}		
 	public function CheckState() {  
-		$State=$this->getCmd(null,'position')->execCmd();
+		$Value=$this->getCmd(null,'position')->execCmd();
 		if($this->getConfiguration('InverseHauteur')){	
 			if($Value < 0)
 				$State='open';

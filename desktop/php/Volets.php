@@ -229,7 +229,7 @@ $eqLogics = eqLogic::byType('Volets');
 								</div>
 							</div>
 						</div>	
-						<div class="form-group">
+						<!--div class="form-group">
 							<label class="col-sm-2 control-label">{{Seuil de fermeture du volet}}
 								<sup>
 									<i class="fa fa-question-circle tooltips" title="{{Ce paramètre permet de déterminer si le volet est considéré comme fermée (pour le retour d'état proportionnel).}}"></i>
@@ -240,7 +240,7 @@ $eqLogics = eqLogic::byType('Volets');
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="SeuilRealState" placeholder="{{Seuil de fermeture (%)}}"/>
 								</div>
 							</div>
-						</div>	
+						</div-->	
 						<div class="form-group">
 							<label class="col-sm-2 control-label">{{Ratio}}
 								<sup>

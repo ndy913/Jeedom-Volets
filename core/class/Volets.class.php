@@ -3,7 +3,6 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class Volets extends eqLogic {
 	public static $_Gestions=array('Manuel','Jour','Nuit','Azimut','Evenement','Conditionnel');
 	public $_inverseCondition;
-	public $_RatioHorizontal;
 	public static function cron() {
 		$deamon_info = self::deamon_info();
 		if ($deamon_info['launchable'] != 'ok') 
@@ -74,10 +73,6 @@ class Volets extends eqLogic {
 						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'azimut du soleil');	
 						$Volet->GestionAzimute($_option['value']);
 					break;
-					case 'altitude':
-						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'altitude du soleil');	
-						$Volet->checkAltitude($_option['value']);
-					break;
 					case $Volet->getConfiguration('TypeDay'):
 						$timestamp=$Volet->CalculHeureEvent($_option['value'],'Day');
 						cache::set('Volets::Jour::'.$Volet->getId(),$timestamp, 0);
@@ -124,7 +119,7 @@ class Volets extends eqLogic {
 		}
 		return false;
 	}
-	public function AutorisationAction($Evenement,$Gestion) {   
+	public function AutorisationAction($Gestion) {   
 		if (!$this->getIsEnable())
 			return false;
 		$Mode = $this->getCmd(null,'gestion')->execCmd();
@@ -160,7 +155,7 @@ class Volets extends eqLogic {
 			break;
 			
 		}
-		return $this->RearmementAutomatique($Evenement,$Gestion);
+		return true;
 	}		
 	public function CheckState() {  
 		$Value=$this->getCmd(null,'position')->execCmd();
@@ -202,7 +197,7 @@ class Volets extends eqLogic {
 								$Evenement=$this->checkCondition('close',$Saison,'Evenement');   		
 								if($Evenement != false && $Evenement == 'close'){
 									log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : Une condition évenementielle est valide, nous exécutons la gestion Evenement');
-									$this->CheckRepetivite('Evenement',$Evenement,$Saison,$force);
+									$this->CheckActions('Evenement',$Evenement,$Saison,$force);
 									return false;
 								}
 							}
@@ -214,7 +209,7 @@ class Volets extends eqLogic {
 					$Evenement=$this->checkCondition('close',$Saison,'Conditionnel');   		
 					if($Evenement != false && $Evenement == 'close'){
 						log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion Conditionnel prend le relais');
-						$this->CheckRepetivite('Conditionnel',$Evenement,$Saison,$force);
+						$this->CheckActions('Conditionnel',$Evenement,$Saison,$force);
 						return false;
 					}
 				}
@@ -229,7 +224,7 @@ class Volets extends eqLogic {
 							if($Evenement == false)
 								break;
 							log::add('Volets', 'info', $this->getHumanName().'[Gestion '.$Gestion.'] : La gestion par Azimut prend le relais');
-							$this->CheckRepetivite('Azimut',$Evenement,$Saison,$force);
+							$this->CheckActions('Azimut',$Evenement,$Saison,$force);
 							return false;
 							
 						}
@@ -240,34 +235,38 @@ class Volets extends eqLogic {
 	}
 	public function GestionManuel($force=false){
 		$State=$this->CheckState();
-		if ($force || $this->AutorisationAction($State,'Manuel')){
-			$RearmementAutomatique = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());		
-			if(!$RearmementAutomatique->getValue(false)){
-				$Saison=$this->getSaison();
-				$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
-				if($force || $Evenement != false){
-					$this->checkAndUpdateCmd('isArmed',false);
-					$this->checkAndUpdateCmd('gestion','Manuel');
-					log::add('Volets','info',$this->getHumanName().'[Gestion Manuel] : Un evenement manuel a été détecté: La gestion a été désactivée');
-					$this->CheckRepetivite('Manuel',$Evenement,$Saison,true);
+		if ($force || $this->AutorisationAction('Manuel')){
+			if ($this->RearmementAutomatique($State,'Manuel')){
+				$RearmementAutomatique = cache::byKey('Volets::RearmementAutomatique::'.$this->getId());		
+				if(!$RearmementAutomatique->getValue(false)){
+					$Saison=$this->getSaison();
+					$Evenement=$this->checkCondition($State,$Saison,'Manuel');   		
+					if($force || $Evenement != false){
+						$this->checkAndUpdateCmd('isArmed',false);
+						$this->checkAndUpdateCmd('gestion','Manuel');
+						log::add('Volets','info',$this->getHumanName().'[Gestion Manuel] : Un evenement manuel a été détecté: La gestion a été désactivée');
+						$this->CheckActions('Manuel',$Evenement,$Saison,true);
+					}
+				}else{
+					cache::set('Volets::RearmementAutomatique::'.$this->getId(),false, 0);
+					log::add('Volets','debug',$this->getHumanName().' Le réarmement a eu lieu on ignore l\'action manuelle');
 				}
-			}else{
-				cache::set('Volets::RearmementAutomatique::'.$this->getId(),false, 0);
-              			log::add('Volets','debug',$this->getHumanName().' Le réarmement a eu lieu on ignore l\'action manuelle');
-            		}
+			}
 		}elseif($force)	{
 			$this->checkAndUpdateCmd('gestion','Manuel');
 		}
 	}
 	public function GestionJour($force=false) {    
-		if ($force || $this->AutorisationAction('open','Jour')){	
-			log::add('Volets', 'info', $this->getHumanName().'[Gestion Jour] : Exécution de la gestion du lever du soleil');
-			$Saison=$this->getSaison();
-			$Evenement=$this->checkCondition('open',$Saison,'Jour');
-			if($Evenement!= false){
-				if(!$this->CheckOtherGestion('Jour',$force))
-					return;
-				$this->CheckRepetivite('Jour',$Evenement,$Saison,$force);
+		if ($force || $this->AutorisationAction('Jour')){	
+			if ($this->RearmementAutomatique('open','Jour')){	
+				log::add('Volets', 'info', $this->getHumanName().'[Gestion Jour] : Exécution de la gestion du lever du soleil');
+				$Saison=$this->getSaison();
+				$Evenement=$this->checkCondition('open',$Saison,'Jour');
+				if($Evenement!= false){
+					if(!$this->CheckOtherGestion('Jour',$force))
+						return;
+					$this->CheckActions('Jour',$Evenement,$Saison,$force);
+				}
 			}
 		}elseif($force)	{
 			if(!$this->CheckOtherGestion('Jour',$force))
@@ -275,15 +274,17 @@ class Volets extends eqLogic {
 		}
 	}
 	public function GestionNuit($force=false) {
-		if ($force || $this->AutorisationAction('close','Nuit')){
-			log::add('Volets', 'info',$this->getHumanName().'[Gestion Nuit] : Exécution de la gestion du coucher du soleil ');
-			$Saison=$this->getSaison();
-			$Evenement=$this->checkCondition('close',$Saison,'Nuit');
-			if( $Evenement!= false){
-				$this->CheckRepetivite('Nuit',$Evenement,$Saison,$force);
-			}elseif($force){
-				if(!$this->CheckOtherGestion('Jour',$force))
-					$this->checkAndUpdateCmd('gestion','Jour');
+		if ($force || $this->AutorisationAction('Nuit')){
+			if ($this->RearmementAutomatique('close','Nuit')){
+				log::add('Volets', 'info',$this->getHumanName().'[Gestion Nuit] : Exécution de la gestion du coucher du soleil ');
+				$Saison=$this->getSaison();
+				$Evenement=$this->checkCondition('close',$Saison,'Nuit');
+				if( $Evenement!= false){
+					$this->CheckActions('Nuit',$Evenement,$Saison,$force);
+				}elseif($force){
+					if(!$this->CheckOtherGestion('Jour',$force))
+						$this->checkAndUpdateCmd('gestion','Jour');
+				}
 			}
 		}elseif($force){
 			if(!$this->CheckOtherGestion('Jour',$force))
@@ -292,54 +293,60 @@ class Volets extends eqLogic {
 	}
 	public static function GestionConditionnel($_option) {
 		$Volet = Volets::byId($_option['Volets_id']);
-		if (is_object($Volet) && $Volet->AutorisationAction('close','Conditionnel')){
-			log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Conditionnel] : Exécution de la gestion Conditionnel');
-			$Saison=$Volet->getSaison();
-			$Evenement=$Volet->checkCondition('close',$Saison,'Conditionnel');   
-			if( $Evenement != false ){
-				$Volet->CheckRepetivite('Conditionnel',$Evenement,$Saison);
-			}else{
-				if($Volet->getCmd(null,'gestion')->execCmd() != 'Conditionnel')
-					return;	
-				if(!$Volet->CheckOtherGestion('Conditionnel'))
-					return;	
-				$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(mktime()-60);
-				$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(mktime()+60);
-				if(mktime() < $Jour || mktime() > $Nuit)
-					$Volet->GestionNuit(true);
-				else
-					$Volet->GestionJour(true);
+		if (is_object($Volet) && $Volet->AutorisationAction('Conditionnel')){			
+			if ($Volet->RearmementAutomatique('close','Conditionnel')){
+				log::add('Volets', 'info',$Volet->getHumanName().'[Gestion Conditionnel] : Exécution de la gestion Conditionnel');
+				$Saison=$Volet->getSaison();
+				$Evenement=$Volet->checkCondition('close',$Saison,'Conditionnel');   
+				if( $Evenement != false ){
+					$Volet->CheckActions('Conditionnel',$Evenement,$Saison);
+				}else{
+					if($Volet->getCmd(null,'gestion')->execCmd() != 'Conditionnel')
+						return;	
+					if(!$Volet->CheckOtherGestion('Conditionnel'))
+						return;	
+					$Jour = cache::byKey('Volets::Jour::'.$Volet->getId())->getValue(mktime()-60);
+					$Nuit = cache::byKey('Volets::Nuit::'.$Volet->getId())->getValue(mktime()+60);
+					if(mktime() < $Jour || mktime() > $Nuit)
+						$Volet->GestionNuit(true);
+					else
+						$Volet->GestionJour(true);
+				}
 			}
 		}
 	}
   	public function GestionEvenement($Evenement,$force=false) {		
-		if ($this->AutorisationAction($Evenement,'Evenement') || $force){
-			$Saison=$this->getSaison();
-			$Evenement=$this->checkCondition($Evenement,$Saison,'Evenement');
-			if( $Evenement != false ){
-				if($Evenement == 'open'){
-					if(!$this->CheckOtherGestion('Evenement'))
+		if ($this->AutorisationAction('Evenement') || $force){		
+			if ($this->RearmementAutomatique($Evenement,'Evenement')){
+				$Saison=$this->getSaison();
+				$Evenement=$this->checkCondition($Evenement,$Saison,'Evenement');
+				if( $Evenement != false ){
+					if($Evenement == 'open'){
+						if(!$this->CheckOtherGestion('Evenement'))
+							return;	
+						$Jour = cache::byKey('Volets::Jour::'.$this->getId())->getValue(mktime()-60);
+						$Nuit = cache::byKey('Volets::Nuit::'.$this->getId())->getValue(mktime()+60);
+						if(mktime() < $Jour || mktime() > $Nuit)
+							$this->GestionNuit(true);
+						else
+							$this->GestionJour(true);
 						return;	
-					$Jour = cache::byKey('Volets::Jour::'.$this->getId())->getValue(mktime()-60);
-					$Nuit = cache::byKey('Volets::Nuit::'.$this->getId())->getValue(mktime()+60);
-					if(mktime() < $Jour || mktime() > $Nuit)
-						$this->GestionNuit(true);
-					else
-						$this->GestionJour(true);
-					return;	
+					}
+					$this->CheckActions('Evenement',$Evenement,$Saison);
 				}
-				$this->CheckRepetivite('Evenement',$Evenement,$Saison);
 			}
 		}
 	}
 	public function GestionAzimute($Azimut,$force=false) {
-		$Saison=$this->getSaison();
-		$Evenement=$this->SelectAction($Azimut,$Saison);
-		if ($this->AutorisationAction($Evenement,'Azimut') || $force){
+		if ($this->AutorisationAction('Azimut') || $force){	
+			$Saison=$this->getSaison();
+			$Evenement=$this->SelectAction($Azimut,$Saison);
 			if ($Evenement != false){
-				$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
-				if( $Evenement!= false)
-					$this->CheckRepetivite('Azimut',$Evenement,$Saison);
+				if ($this->RearmementAutomatique($Evenement,'Evenement')){
+					$Evenement=$this->checkCondition($Evenement,$Saison,'Azimut');
+					if( $Evenement!= false)
+						$this->CheckActions('Azimut',$Evenement,$Saison);
+				}
 			}
 		}
 	}	
@@ -370,7 +377,6 @@ class Volets extends eqLogic {
 				return false;	
 			}
 		}
-
 		$Ratio=0;
 		if ($AngleCntDrt < $AngleCntGau){
 			if($AngleCntDrt <= $Azimut && $Azimut <= $AngleCntGau)
@@ -388,8 +394,8 @@ class Volets extends eqLogic {
 		}
 		if(!$result)
 			$Ratio=100;
-		$this->_RatioHorizontal=round($Ratio);
-		log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : L\'azimut ' . $Azimut . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
+		$this->checkAndUpdateCmd('RatioHorizontal',$this->RatioEchelle('RatioHorizontal',round($Ratio)));
+		log::add('Volets','debug',$this->getHumanName().'[Gestion Azimut] : L\'azimut ' . $Azimut . '° est compris entre : '.$AngleCntDrt.'°  et '.$AngleCntGau.'° => '.$this->boolToText($result));
 		return $result;
 	}	
 	public function getSaison() {
@@ -407,16 +413,22 @@ class Volets extends eqLogic {
 	}	
 	public function SelectAction($Azimut,$saison) {
 		$Action=false;
-		if($this->CheckAngle($Azimut) && $this->checkAltitude() !== false){
-			$this->checkAndUpdateCmd('state',true);
-			log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil est dans la fenêtre');
+		$AnciennePositionSoleil=$this->getCmd(null,'state')->execCmd();
+		$PositionSoleil=$this->CheckAngle($Azimut);
+		if($PositionSoleil/* && $this->checkAltitude() !== false*/){
+			if($AnciennePositionSoleil != $PositionSoleil){
+				$this->checkAndUpdateCmd('state',true);
+				log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil vient d\'entrer dans la fenêtre');
+			}
 			if($saison =='hiver')
 				$Action='open';
 			else
 				$Action='close';
 		}else{
-			$this->checkAndUpdateCmd('state',false);
-			log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil n\'est pas dans la fenêtre');
+			if($AnciennePositionSoleil != $PositionSoleil){
+				$this->checkAndUpdateCmd('state',false);
+				log::add('Volets','info',$this->getHumanName().'[Gestion Azimut] : Le soleil vient de quitter la fenêtre');
+			}
 			if($saison == 'été')
 				$Action='open';
 			else
@@ -459,27 +471,6 @@ class Volets extends eqLogic {
 			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
 		}
 	}
-	public function CheckRepetivite($Gestion,$Evenement,$Saison,$force=false){
-		if(!$force && cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
-			return;
-		$RatioVertical=$this->getHauteur($Gestion,$Evenement,$Saison);
-		//$Change['RatioVertical']=false;
-		//$Change['RatioHorizontal']=false;
-		//$Change['Position']=false;
-		$Change['Gestion']=false;
-		//if($force || $this->getCmd(null,'RatioVertical')->execCmd() != $RatioVertical)
-		//	$Change['RatioVertical']=true;
-		//if($force || $this->getCmd(null,'RatioHorizontal')->execCmd() != $this->_RatioHorizontal)
-		//	$Change['RatioHorizontal']=true;
-		$this->checkAndUpdateCmd('RatioVertical',$this->RatioEchelle('RatioVertical',$RatioVertical));
-		$this->checkAndUpdateCmd('RatioHorizontal',$this->RatioEchelle('RatioHorizontal',$this->_RatioHorizontal));
-		//if($force || $this->CheckPositionChange($Evenement,$Gestion))
-			$Change['Position']=true;
-		if($force || $this->getCmd(null,'gestion')->execCmd() != $Gestion)
-			$Change['Gestion']=true;
-		$this->checkAndUpdateCmd('gestion',$Gestion);
-		$this->CheckActions($Gestion,$Evenement,$Saison,$Change);
-	}
 	public function CheckIsRatio($Cmd,$Ratio,$Gestion){
 		if(isset($Cmd['options'])){
 			 foreach($Cmd['options'] as $key => $option){
@@ -508,7 +499,6 @@ class Volets extends eqLogic {
 				$NewPosition=100;
 				if(is_object($RatioVertical))
 					$CurrentState = $RatioVertical->getConfiguration('maxValue', $NewPosition);
-
 			}else{
 				$RatioVertical = $this->getCmd(null,'RatioVertical');
 				$NewPosition=0;
@@ -522,18 +512,21 @@ class Volets extends eqLogic {
 		}
 		return array($NewPosition,$options);
 	}
-	public function CheckActions($Gestion,$Evenement,$Saison,$Change){
-		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Autorisation d\'exécuter les actions : '.json_encode($Change));
+	public function CheckActions($Gestion,$Evenement,$Saison,$force=false){
+		if(!$force && cache::byKey('Volets::ChangeState::'.$this->getId())->getValue(false))
+			return;
+		$this->checkAndUpdateCmd('RatioVertical',$this->RatioEchelle('RatioVertical',$this->getHauteur($Gestion,$Evenement,$Saison)));
 		$ActionMove=null;
 		foreach($this->getConfiguration('action') as $Cmd){	
 			if (!$this->CheckValid($Cmd,$Evenement,$Saison,$Gestion))
 				continue;
-			if(!$Cmd['isVoletMove'] && $Change['Position'] && !$Change['Gestion'])
+			if(!$force && !$Cmd['isVoletMove'] && $this->getCmd(null,'gestion')->execCmd() != $Gestion)
 				continue;
 			$this->ExecuteAction($Cmd,$Gestion,$Evenement);
 		}
 		if($this->getConfiguration('RandExecution') && $ActionMove != null)
 			$this->AleatoireActions($Gestion,$ActionMove,$Evenement);
+		$this->checkAndUpdateCmd('gestion',$Gestion);
 	}
 	public function ExecuteAction($Cmd,$Gestion,$Evenement){		
 		try {
@@ -676,7 +669,6 @@ class Volets extends eqLogic {
 		$x = (cos($rlatitudeOrigine)*sin($rlatitudeDest)) - (sin($rlatitudeOrigine)*cos($rlatitudeDest)*cos($longDelta)); 
 		$angle = rad2deg(atan2($y, $x)); 
 		if ($angle < 0) { 
-
 			$angle += 360; 
 		}
 		return floatval($angle % 360);
@@ -693,7 +685,7 @@ class Volets extends eqLogic {
 			if($ObstructionMax == '')
 				$ObstructionMax = $zenith;
 			if($Altitude < intval($ObstructionMin) || $Altitude > intval($ObstructionMax)){
-				log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuelle n\'est pas dans la fenêtre');
+				log::add('Volets','debug',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuelle n\'est pas dans la fenêtre');
 				return false;
 			}
 			return array($Altitude,$zenith); 
@@ -721,7 +713,7 @@ class Volets extends eqLogic {
 		$Hauteur=round((($Altitude-$Min)*100)/($zenith-$Min),0);
 		if($Hauteur < 0)
 			return 0;
-		log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuelle est à '.$Hauteur.'% par rapport au zenith');	
+		log::add('Volets','debug',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuelle est à '.$Hauteur.'% par rapport au zenith');	
 		return $Hauteur;
 	}
 	public function StopDemon(){
@@ -764,7 +756,6 @@ class Volets extends eqLogic {
 						$this->checkAndUpdateCmd('position',$RealState->execCmd());
 					
 				};
-				//$listener->addEvent($heliotrope->getCmd(null,'altitude')->getId());
 				if ($this->getConfiguration('Azimut'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
 				if ($this->getConfiguration('Evenement')){

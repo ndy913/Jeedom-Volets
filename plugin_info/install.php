@@ -13,13 +13,12 @@ function Volets_update(){
 		$Position->setTemplate('dashboard','SlidVolet' );
 		$Position->setTemplate('mobile', 'SlidVolet');
 		$Position->save();
+		$Volet->checkAndUpdateCmd('position',0);
 		if($Volet->getConfiguration('RealState') != ''){
 			$RealState=cmd::byId(str_replace('#','',$Volet->getConfiguration('RealState')));
 			if(is_object($RealState))
 				$Volet->checkAndUpdateCmd('position',$RealState->execCmd());
 		}
-		else
-			$Volet->checkAndUpdateCmd('position',0);
 		$VoletState=$Volet->getCmd(null,'VoletState');
 		if(is_object($VoletState))
 			$VoletState->remove();

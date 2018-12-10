@@ -377,7 +377,6 @@ class Volets extends eqLogic {
 				return false;	
 			}
 		}
-
 		$Ratio=0;
 		if ($AngleCntDrt < $AngleCntGau){
 			if($AngleCntDrt <= $Azimut && $Azimut <= $AngleCntGau)
@@ -500,7 +499,6 @@ class Volets extends eqLogic {
 				$NewPosition=100;
 				if(is_object($RatioVertical))
 					$CurrentState = $RatioVertical->getConfiguration('maxValue', $NewPosition);
-
 			}else{
 				$RatioVertical = $this->getCmd(null,'RatioVertical');
 				$NewPosition=0;
@@ -671,7 +669,6 @@ class Volets extends eqLogic {
 		$x = (cos($rlatitudeOrigine)*sin($rlatitudeDest)) - (sin($rlatitudeOrigine)*cos($rlatitudeDest)*cos($longDelta)); 
 		$angle = rad2deg(atan2($y, $x)); 
 		if ($angle < 0) { 
-
 			$angle += 360; 
 		}
 		return floatval($angle % 360);
@@ -688,7 +685,7 @@ class Volets extends eqLogic {
 			if($ObstructionMax == '')
 				$ObstructionMax = $zenith;
 			if($Altitude < intval($ObstructionMin) || $Altitude > intval($ObstructionMax)){
-				log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuelle n\'est pas dans la fenêtre');
+				log::add('Volets','debug',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuelle n\'est pas dans la fenêtre');
 				return false;
 			}
 			return array($Altitude,$zenith); 
@@ -716,7 +713,7 @@ class Volets extends eqLogic {
 		$Hauteur=round((($Altitude-$Min)*100)/($zenith-$Min),0);
 		if($Hauteur < 0)
 			return 0;
-		log::add('Volets','info',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuelle est à '.$Hauteur.'% par rapport au zenith');	
+		log::add('Volets','debug',$this->getHumanName().'[Gestion Altitude] : L\'altitude actuelle est à '.$Hauteur.'% par rapport au zenith');	
 		return $Hauteur;
 	}
 	public function StopDemon(){

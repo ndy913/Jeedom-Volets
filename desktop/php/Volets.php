@@ -32,12 +32,12 @@ $eqLogics = eqLogic::byType('Volets');
 				</center>
 				<span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#406E88"><center>{{Ajouter}}</center></span>
 			</div>
-			<div class="cursor eqLogicAction" data-action="addByTemplate" style="background-color : #ffffff; height : 140px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
+			<!--div class="cursor eqLogicAction" data-action="addByTemplate" style="background-color : #ffffff; height : 140px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
 				<center>
 					<i class="fa fa-plus-circle" style="font-size : 5em;color:#406E88;"></i>
 				</center>
 				<span style="font-size : 1.1em;position:relative; top : 23px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#406E88"><center>{{Par template}}</center></span>
-			</div>
+			</div-->
 			<div class="cursor eqLogicAction" data-action="gotoPluginConf" style="height: 120px; margin-bottom: 10px; padding: 5px; border-radius: 2px; width: 160px; margin-left: 10px; position: absolute; left: 170px; top: 0px; background-color: rgb(255, 255, 255);">
 				    <center>
 			      		<i class="fa fa-wrench" style="font-size : 5em;color:#767676;"></i>

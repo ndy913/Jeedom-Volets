@@ -73,10 +73,6 @@ class Volets extends eqLogic {
 						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'azimut du soleil');	
 						$Volet->GestionAzimute($_option['value']);
 					break;
-					case 'altitude':
-						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'altitude du soleil');	
-						$Volet->checkAltitude($_option['value']);
-					break;
 					case $Volet->getConfiguration('TypeDay'):
 						$timestamp=$Volet->CalculHeureEvent($_option['value'],'Day');
 						cache::set('Volets::Jour::'.$Volet->getId(),$timestamp, 0);
@@ -763,7 +759,6 @@ class Volets extends eqLogic {
 						$this->checkAndUpdateCmd('position',$RealState->execCmd());
 					
 				};
-				$listener->addEvent($heliotrope->getCmd(null,'altitude')->getId());
 				if ($this->getConfiguration('Azimut'))
 					$listener->addEvent($heliotrope->getCmd(null,'azimuth360')->getId());
 				if ($this->getConfiguration('Evenement')){

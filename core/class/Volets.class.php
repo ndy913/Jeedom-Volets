@@ -262,7 +262,7 @@ class Volets extends eqLogic {
 				log::add('Volets', 'info', $this->getHumanName().'[Gestion Jour] : Exécution de la gestion du lever du soleil');
 				$Saison=$this->getSaison();
 				$Evenement=$this->checkCondition('open',$Saison,'Jour');
-				if($Evenement!= false){
+				if($force || $Evenement!= false){
 					if(!$this->CheckOtherGestion('Jour',$force))
 						return;
 					$this->CheckActions('Jour',$Evenement,$Saison,$force);
@@ -279,7 +279,7 @@ class Volets extends eqLogic {
 				log::add('Volets', 'info',$this->getHumanName().'[Gestion Nuit] : Exécution de la gestion du coucher du soleil ');
 				$Saison=$this->getSaison();
 				$Evenement=$this->checkCondition('close',$Saison,'Nuit');
-				if( $Evenement!= false){
+				if($Evenement!= false){
 					$this->CheckActions('Nuit',$Evenement,$Saison,$force);
 				}elseif($force){
 					if(!$this->CheckOtherGestion('Jour',$force))

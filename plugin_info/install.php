@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 function Volets_install(){
 }
 function Volets_update(){
-	log::add('Volets','debug','Lancement du script de mise a jours'); 
+	log::add('Volets','debug','Lancement du script de mise à jour'); 
 	foreach(eqLogic::byType('Volets') as $Volet){
 		$Position=$Volet->getCmd(null,'position');
 		if($Position->getSubType() == 'string'){
@@ -24,7 +24,7 @@ function Volets_update(){
 			$VoletState->remove();
 		$Volet->save();
 	}
-	log::add('Volets','debug','Fin du script de mise a jours');
+	log::add('Volets','debug','Fin du script de mise à jour');
 }
 function Volets_remove(){
 	foreach(eqLogic::byType('Volets') as $Volet){

@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 function Volets_install(){
 }
 function Volets_update(){
-	log::add('Volets','debug','Lancement du script de mise a jours'); 
+	log::add('Volets','debug','Lancement du script de mise à jour'); 
 	foreach(eqLogic::byType('Volets') as $Volet){
 		$Position=$Volet->getCmd(null,'position');
 		if($Position->getSubType() == 'string'){
@@ -13,7 +13,7 @@ function Volets_update(){
 		$Position->setTemplate('dashboard','SlidVolet' );
 		$Position->setTemplate('mobile', 'SlidVolet');
 		$Position->save();
-		$Volet->checkAndUpdateCmd('position',0);
+		$Volet->checkAndUpdateCmd('position',100);
 		if($Volet->getConfiguration('RealState') != ''){
 			$RealState=cmd::byId(str_replace('#','',$Volet->getConfiguration('RealState')));
 			if(is_object($RealState))
@@ -24,7 +24,7 @@ function Volets_update(){
 			$VoletState->remove();
 		$Volet->save();
 	}
-	log::add('Volets','debug','Fin du script de mise a jours');
+	log::add('Volets','debug','Fin du script de mise à jour');
 }
 function Volets_remove(){
 	foreach(eqLogic::byType('Volets') as $Volet){

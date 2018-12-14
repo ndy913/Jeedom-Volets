@@ -527,13 +527,12 @@ class Volets extends eqLogic {
 		if($this->getConfiguration('RandExecution') && $ActionMove != null)
 			$this->AleatoireActions($Gestion,$ActionMove,$Evenement);
 		$this->checkAndUpdateCmd('gestion',$Gestion);
-		if(isset($NewPosition) && $NewPosition !== false)){
+		if(isset($NewPosition) && $NewPosition !== false){
 			if ($this->getConfiguration('RealState') == '')
 				$this->checkAndUpdateCmd('position',$NewPosition);
 		}
 	}
 	public function ExecuteAction($Cmd,$Gestion,$Evenement){	
-		$NewPosition=false;
 		try {
 			$PositionChange = $this->CheckPositionChange($Cmd,$Evenement,$Gestion);
 			if($PositionChange == false)
@@ -546,10 +545,11 @@ class Volets extends eqLogic {
 			}
 			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.jeedom::toHumanReadable($Cmd['cmd']).' ('.json_encode($options).')');
+			return $NewPosition;
 		} catch (Exception $e) {
 			log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$Gestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . jeedom::toHumanReadable($Cmd['cmd']) . __('. Détails : ', __FILE__) . $e->getMessage());
+			return false;
 		}
-		return $NewPosition;
 	}
 	private function StringToHeure($Horaire) {
 		if(strlen($Horaire)==3)

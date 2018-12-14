@@ -522,29 +522,33 @@ class Volets extends eqLogic {
 				continue;
 			if(!$force && !$Cmd['isVoletMove'] && $this->getCmd(null,'gestion')->execCmd() != $Gestion)
 				continue;
-			$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+			$NewPosition=$this->ExecuteAction($Cmd,$Gestion,$Evenement);
 		}
 		if($this->getConfiguration('RandExecution') && $ActionMove != null)
 			$this->AleatoireActions($Gestion,$ActionMove,$Evenement);
 		$this->checkAndUpdateCmd('gestion',$Gestion);
+		if(isset($NewPosition) && $NewPosition !== false){
+			if ($this->getConfiguration('RealState') == '')
+				$this->checkAndUpdateCmd('position',$NewPosition);
+		}
 	}
-	public function ExecuteAction($Cmd,$Gestion,$Evenement){		
+	public function ExecuteAction($Cmd,$Gestion,$Evenement){	
 		try {
 			$PositionChange = $this->CheckPositionChange($Cmd,$Evenement,$Gestion);
 			if($PositionChange == false)
 				return;
 			list($NewPosition,$options)=$PositionChange;			
 			if($Cmd['isVoletMove']){
-				if ($this->getConfiguration('RealState') == '')
-					$this->checkAndUpdateCmd('position',$NewPosition);
 				cache::set('Volets::CurrentState::'.$this->getId(),$NewPosition,0);
 				cache::set('Volets::ChangeState::'.$this->getId(),true, 0);
 				cache::set('Volets::LastChangeState::'.$this->getId(),time(), 0);
 			}
 			scenarioExpression::createAndExec('action', $Cmd['cmd'], $options);
 			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Exécution de '.jeedom::toHumanReadable($Cmd['cmd']).' ('.json_encode($options).')');
+			return $NewPosition;
 		} catch (Exception $e) {
 			log::add('Volets', 'error',$this->getHumanName().'[Gestion '.$Gestion.'] : '. __('Erreur lors de l\'exécution de ', __FILE__) . jeedom::toHumanReadable($Cmd['cmd']) . __('. Détails : ', __FILE__) . $e->getMessage());
+			return false;
 		}
 	}
 	private function StringToHeure($Horaire) {

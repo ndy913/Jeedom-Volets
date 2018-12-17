@@ -467,9 +467,10 @@ class Volets extends eqLogic {
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Lancement aléatoire de volet');
 		shuffle($ActionMove);
 		for($loop=0;$loop<count($ActionMove);$loop++){
-			$this->ExecuteAction($ActionMove[$loop],$Gestion);
+			$NewPosition=$this->ExecuteAction($ActionMove[$loop],$Gestion);
 			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
 		}
+		return $NewPosition;
 	}
 	public function CheckIsRatio($Cmd,$Ratio,$Gestion){
 		if(isset($Cmd['options'])){
@@ -522,10 +523,14 @@ class Volets extends eqLogic {
 				continue;
 			if(!$force && !$Cmd['isVoletMove'] && $this->getCmd(null,'gestion')->execCmd() != $Gestion)
 				continue;
-			$NewPosition=$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+			
+			if($this->getConfiguration('RandExecution'))
+				$ActionMove[]=$Cmd;
+			else
+				$NewPosition=$this->ExecuteAction($Cmd,$Gestion,$Evenement);
 		}
 		if($this->getConfiguration('RandExecution') && $ActionMove != null)
-			$this->AleatoireActions($Gestion,$ActionMove,$Evenement);
+			$NewPosition=$this->AleatoireActions($Gestion,$ActionMove,$Evenement);
 		$this->checkAndUpdateCmd('gestion',$Gestion);
 		if(isset($NewPosition) && $NewPosition !== false){
 			if ($this->getConfiguration('RealState') == '')

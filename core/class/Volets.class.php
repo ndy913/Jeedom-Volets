@@ -523,11 +523,14 @@ class Volets extends eqLogic {
 				continue;
 			if(!$force && !$Cmd['isVoletMove'] && $this->getCmd(null,'gestion')->execCmd() != $Gestion)
 				continue;
-			
-			if($this->getConfiguration('RandExecution'))
-				$ActionMove[]=$Cmd;
-			else
-				$NewPosition=$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+			if($Cmd['isVoletMove']){				
+				if($this->getConfiguration('RandExecution'))
+					$ActionMove[]=$Cmd;
+				else
+					$NewPosition=$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+			}else{
+				$this->ExecuteAction($Cmd,$Gestion,$Evenement);
+			}
 		}
 		if($this->getConfiguration('RandExecution') && $ActionMove != null)
 			$NewPosition=$this->AleatoireActions($Gestion,$ActionMove,$Evenement);

@@ -61,10 +61,12 @@ La position du volet
 ---
 
 L'etat du volet est important pour le plugin car il donne les autorisations d'execution ou non.
-L'etat peut etre reel, si vous configurer les champs 'Objet état réel' ou simulé par le plugin si le champs est vide
+L'etat peut etre reel, si vous configurer les champs `Objet état réel` ou simulé par le plugin si le champs est vide
 
 Pour un etat reel il faut bien s'assurer que l'etat du plugin suive l'etat reel lors de manipulation manuel
 Pour un etat simulé il peut y avoir des decalage lors de manipulation manuel de votre volet (Le mode manuel n'est donc pas possible)
+
+Lors de l'utilisation de commande non prorportionnel, le plugin met par defaut 0 ou 100%, si votre module (par exemple les FIBARO) ne sont pas sur cette plage il faut personalise le min et max de la commande `Etat du volet`
 
 Le mode et son état
 ---
@@ -283,8 +285,6 @@ Cette option va donc inverser la demande de mouvement et relancer l'évaluation 
 Mon volet ne remonte pas à la sortie du soleil de la fenêtre
 ---
 > Si vous n'avez pas de remontée de volet en gestion Azimut lors de la sortie du soleil, c'est que très probablement l'etat du volet sur le plugin est déjà ouvert.
-Ce problème est généralement dû à une mauvaise configuration du seuil de fermeture.
-Le Seuil de fermeture doit être supérieur ou égal à la plus haute valeur proportionnelle configurée dans les actions
 
 Le plugin reste en gestion Nuit
 ---
@@ -330,5 +330,4 @@ Dans l'exemple si dessous, on limite l'ouverture du volet de 0 à 100% par pas d
 Le plugin ne fonctionne pas avec mon module Fibaro
 ---
 > Les modules fibaro son gradués proportionnellement de 0 à 99%.
-Pour pallier à ce probleme il est recommandé d'utiliser le plugin avec son ratioVertical (ou ratioHorizontal) en configurant le min (0) et max (99) pour la commande ratio appliquée.
-Egalement la Hauteur de seuil (ouvert/ fermer) doit être comprise entre 1 et 98%
+Pour pallier à ce probleme il est recommandé de mettre a jours le min et max des commandes `Etat du volet`,`Ratio Horizontal`, `Ratio Vertical`.

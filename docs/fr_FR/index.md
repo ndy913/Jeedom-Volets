@@ -37,8 +37,7 @@ Pour chaque équipement, le plugin va créer des commandes.
 ![introduction01](../images/Volets_screenshot_Widget.jpg)
 
 * `Activer` / `Désactiver` => `Etat activation` : Permet de gérer l'armement du plugin par une voie externe (scénario, plugin, ...)
-* `Etat du volet`: Etat déterminant si le volet doit être ouvert ou fermé
-* `Position du volet`: Mise à jour de l'état
+* `Etat du volet`: Etat déterminant la position actuel du volet
 * `Position du soleil` : Détermine si le soleil est dans la fenêtre ou non
 * `Ratio Horizontal` : Estimation par le plugin du ratio d'ouverture horizontal
 * `Ratio Vertical` : Estimation par le plugin du ratio d'ouverture vertical
@@ -58,12 +57,14 @@ Cette commande permet de déterminer quelle gestion est en cours actuellement.
 * `Evenement` : Le plugin vas écouter les évènements de vos commandes et décider de fermer selon vos paramètres . La gestion Evenement interdit toutes autres gestions hormis la gestion `Nuit`.
 * `Conditionnel` : Le plugin vérifie toute les minutes les conditions, si elles sont vérifiées, alors, il fermera le volet. La gestion Conditionnel interdit toutes autres gestions hormis la gestion `Nuit`.
 
-La position du volet et son état
+La position du volet
 ---
 
-Une commande nous permet de mettre à jour manuellement l'état de la position du volet vue par le plugin.
-Cette commande nous permet de faire gérer certaines options par scénarios.
-L'état est également visible depuis le widget afin de faciliter la compréhension du plugin.
+L'etat du volet est important pour le plugin car il donne les autorisations d'execution ou non.
+L'etat peut etre reel, si vous configurer les champs 'Objet état réel' ou simulé par le plugin si le champs est vide
+
+Pour un etat reel il faut bien s'assurer que l'etat du plugin suive l'etat reel lors de manipulation manuel
+Pour un etat simulé il peut y avoir des decalage lors de manipulation manuel de votre volet (Le mode manuel n'est donc pas possible)
 
 Le mode et son état
 ---
@@ -125,7 +126,6 @@ Configuration générale Jeedom
 ### Gestion de l'état réel
 
 * `Objet état réel` : Commande Jeedom permettant de définir l'état réel du volet
-* `Seuil de fermeture du volet` : Seuil de la hauteur de l'état réel séparant l'ouverture de la fermeture
 * `Inverser Ratio` : Permet d'inversion le sens de calcul du ratio
 
 Gestion du lever et coucher du soleil

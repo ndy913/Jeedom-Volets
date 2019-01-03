@@ -467,7 +467,7 @@ class Volets extends eqLogic {
 		log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : Lancement aléatoire de volet');
 		shuffle($ActionMove);
 		for($loop=0;$loop<count($ActionMove);$loop++){
-			$NewPosition=$this->ExecuteAction($ActionMove[$loop],$Gestion);
+			$NewPosition=$this->ExecuteAction($ActionMove[$loop],$Gestion,$Evenement);
 			sleep(rand(0,$this->getConfiguration('maxDelaiRand')));
 		}
 		return $NewPosition;
@@ -484,7 +484,8 @@ class Volets extends eqLogic {
 		return false;
 	}
 	
-	public function CheckPositionChange($Cmd,$Evenement,$Gestion){	
+	public function CheckPositionChange($Cmd,$Evenement,$Gestion){
+		$MyPosition = $this->getCmd(null,'position');	
 		$NewPosition = 0;
 		$options = array();
 		if(isset($Cmd['options'])){
@@ -496,19 +497,19 @@ class Volets extends eqLogic {
 			}
 		}else{
 			if($Evenement == 'open'){
-				$RatioVertical = $this->getCmd(null,'RatioVertical');
 				$NewPosition=100;
-				if(is_object($RatioVertical))
-					$CurrentState = $RatioVertical->getConfiguration('maxValue', $NewPosition);
+				if(is_object($MyPosition))
+					$CurrentState = $MyPosition->getConfiguration('maxValue', $NewPosition);
 			}else{
-				$RatioVertical = $this->getCmd(null,'RatioVertical');
 				$NewPosition=0;
-				if(is_object($RatioVertical))
-					$NewPosition = $RatioVertical->getConfiguration('minValue', $NewPosition);
+				if(is_object($MyPosition))
+					$NewPosition = $MyPosition->getConfiguration('minValue', $NewPosition);
 			}
 		}
-		if($this->getCmd(null,'position')->execCmd() == $NewPosition){
+		if($MyPosition->execCmd() == $NewPosition){
 			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
+			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position actuel = '.$MyPosition->execCmd());
+			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position demandée = '.$NewPosition);
 			return false;
 		}
 		return array($NewPosition,$options);

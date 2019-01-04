@@ -499,17 +499,17 @@ class Volets extends eqLogic {
 			if($Evenement == 'open'){
 				$NewPosition=100;
 				if(is_object($MyPosition))
-					$CurrentState = $MyPosition->getConfiguration('maxValue', $NewPosition);
+					$NewPosition = $MyPosition->getConfiguration('maxValue', $NewPosition);
 			}else{
 				$NewPosition=0;
 				if(is_object($MyPosition))
 					$NewPosition = $MyPosition->getConfiguration('minValue', $NewPosition);
 			}
 		}
+		log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position actuel = '.$MyPosition->execCmd());
+		log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position demandée = '.$NewPosition);
 		if($MyPosition->execCmd() == $NewPosition){
 			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
-			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position actuel = '.$MyPosition->execCmd());
-			log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position demandée = '.$NewPosition);
 			return false;
 		}
 		return array($NewPosition,$options);

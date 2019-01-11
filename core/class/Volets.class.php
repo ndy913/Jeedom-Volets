@@ -487,7 +487,6 @@ class Volets extends eqLogic {
 	
 	public function CheckPositionChange($Cmd,$Evenement,$Gestion){
 		$MyPosition = $this->getCmd(null,'position');	
-		$NewPosition = 0;
 		$options = array();
 		if(isset($Cmd['options'])){
 			foreach($Cmd['options'] as $key => $option){
@@ -496,7 +495,8 @@ class Volets extends eqLogic {
 					$NewPosition = $options[$key];
 				}
 			}
-		}else{
+		}
+		if(!isset($NewPosition)){
 			if($Evenement == 'open'){
 				$NewPosition=100;
 				if(is_object($MyPosition))

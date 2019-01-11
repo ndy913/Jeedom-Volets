@@ -274,6 +274,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public function GestionNuit($force=false) {
+		$this->checkAndUpdateCmd('state',false);
 		if ($force || $this->AutorisationAction('Nuit')){
 			if ($this->RearmementAutomatique('close','Nuit')){
 				log::add('Volets', 'info',$this->getHumanName().'[Gestion Nuit] : Exécution de la gestion du coucher du soleil ');

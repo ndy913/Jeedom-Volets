@@ -274,6 +274,7 @@ class Volets extends eqLogic {
 		}
 	}
 	public function GestionNuit($force=false) {
+		$this->checkAndUpdateCmd('state',false);
 		if ($force || $this->AutorisationAction('Nuit')){
 			if ($this->RearmementAutomatique('close','Nuit')){
 				log::add('Volets', 'info',$this->getHumanName().'[Gestion Nuit] : Exécution de la gestion du coucher du soleil ');
@@ -486,7 +487,6 @@ class Volets extends eqLogic {
 	
 	public function CheckPositionChange($Cmd,$Evenement,$Gestion){
 		$MyPosition = $this->getCmd(null,'position');	
-		$NewPosition = 0;
 		$options = array();
 		if(isset($Cmd['options'])){
 			foreach($Cmd['options'] as $key => $option){
@@ -495,7 +495,8 @@ class Volets extends eqLogic {
 					$NewPosition = $options[$key];
 				}
 			}
-		}else{
+		}
+		if(!isset($NewPosition)){
 			if($Evenement == 'open'){
 				$NewPosition=100;
 				if(is_object($MyPosition))

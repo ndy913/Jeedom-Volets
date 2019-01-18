@@ -499,12 +499,20 @@ class Volets extends eqLogic {
 		if(!isset($NewPosition)){
 			if($Evenement == 'open'){
 				$NewPosition=100;
-				if(is_object($MyPosition))
-					$NewPosition = $MyPosition->getConfiguration('maxValue', $NewPosition);
+				if(is_object($MyPosition)){
+					if($this->getConfiguration('InverseHauteur'))
+						$NewPosition = $MyPosition->getConfiguration('minValue', $NewPosition);
+					else
+						$NewPosition = $MyPosition->getConfiguration('maxValue', $NewPosition);
+				}
 			}else{
 				$NewPosition=0;
-				if(is_object($MyPosition))
-					$NewPosition = $MyPosition->getConfiguration('minValue', $NewPosition);
+				if(is_object($MyPosition)){
+					if($this->getConfiguration('InverseHauteur'))
+						$NewPosition = $MyPosition->getConfiguration('maxValue', $NewPosition);
+					else
+						$NewPosition = $MyPosition->getConfiguration('minValue', $NewPosition);
+				}
 			}
 		}
 		log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position actuel = '.$MyPosition->execCmd());

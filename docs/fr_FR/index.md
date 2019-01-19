@@ -8,10 +8,10 @@ Celui-ci est basé sur le plugin Héliotrope qui est un prérequis pour son util
 > Pour le bon fonctionnement du plugin, toutes les gestions pour un volet doivent être activées sur la même zone.
 Il est recommandé, mais pas obligatoire, d'utiliser une zone par volet afin de faciliter la configuration et la gestion.
 
-* le plugin gèrera automatiquement l'ouverture et la fermeture de vos volets au lever du soleil et à la tombée de la nuit,
-* le plugin gèrera automatiquement l'ouverture et la fermeture de vos volets en fonction de la position du soleil,
-    * en mode été, il fermera les volets lorsque le soleil sera dans la fenêtre afin de préserver une température idéale dans la maison,
-    * en mode hiver, il ouvrira les volets pour permettre au soleil de chauffer la pièce et faire des économies d'énergie,
+* le plugin gèrera automatiquement l'ouverture et la fermeture de vos volets au lever du soleil et à la tombée de la nuit.
+* le plugin gèrera automatiquement l'ouverture et la fermeture de vos volets en fonction de la position du soleil.
+    * en mode été, il fermera les volets lorsque le soleil sera dans la fenêtre afin de préserver une température idéale dans la maison.
+    * en mode hiver, il ouvrira les volets pour permettre au soleil de chauffer la pièce et faire des économies d'énergie.
 * le plugin gèrera automatiquement l'ouverture et la fermeture de vos volets en fonction de vos évènements.
 * le plugin gèrera automatiquement l'ouverture et la fermeture de vos volets en fonction de conditions.
 

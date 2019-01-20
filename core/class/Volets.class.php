@@ -517,7 +517,7 @@ class Volets extends eqLogic {
 				}
 			}
 		}
-		log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position actuel = '.$MyPosition->execCmd());
+		log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position actuelle = '.$MyPosition->execCmd());
 		log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position demandée = '.$NewPosition);
 		if($MyPosition->execCmd() == $NewPosition){
 			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');

@@ -19,8 +19,8 @@ Configuration générale
 ===
 
 Dans la configuration générale il est possible d'ajouter une clef API Bing.
-Cette clef est optionnelle, uniquement utile si vous souhaitez avoir des map plus récentes ou satellite.
-Cela peut être utile si votre maison est récente et pas encore dessinée sur la map OpenLayer.
+Cette clef est optionnelle, uniquement utile si vous souhaitez avoir des cartes plus récentes ou satellite.
+Cela peut être utile si votre maison est récente et pas encore dessinée sur la carte OpenLayer.
 
 Obtenir une clef API BING
 ----
@@ -37,7 +37,7 @@ Pour chaque équipement, le plugin va créer des commandes.
 ![introduction01](../images/Volets_screenshot_Widget.jpg)
 
 * `Activer` / `Désactiver` => `Etat activation` : Permet de gérer l'armement du plugin par une voie externe (scénario, plugin, ...)
-* `Etat du volet`: Etat déterminant la position actuel du volet
+* `Etat du volet`: Etat déterminant la position actuelle du volet
 * `Position du soleil` : Détermine si le soleil est dans la fenêtre ou non
 * `Ratio Horizontal` : Estimation par le plugin du ratio d'ouverture horizontal
 * `Ratio Vertical` : Estimation par le plugin du ratio d'ouverture vertical
@@ -54,19 +54,19 @@ Cette commande permet de déterminer quelle gestion est en cours actuellement.
 * `Jour` : il fait jour, on active toutes les autres gestions. On vérifie les autres gestions avant d'exécuter les actions.
 * `Nuit` : il fait nuit, toutes les autres gestions sont désactivées.
 * `Azimut` : si le soleil est dans la fenêtre, on ferme les volets. La gestion par azimut autorise toutes autres gestions.	
-* `Evenement` : Le plugin vas écouter les évènements de vos commandes et décider de fermer selon vos paramètres . La gestion Evenement interdit toutes autres gestions hormis la gestion `Nuit`.
+* `Evènement` : Le plugin vas écouter les évènements de vos commandes et décider de fermer selon vos paramètres. La gestion Evènement interdit toutes autres gestions hormis la gestion `Nuit`.
 * `Conditionnel` : Le plugin vérifie toute les minutes les conditions, si elles sont vérifiées, alors, il fermera le volet. La gestion Conditionnel interdit toutes autres gestions hormis la gestion `Nuit`.
 
 La position du volet
 ---
 
-L'etat du volet est important pour le plugin car il donne les autorisations d'execution ou non.
-L'etat peut etre reel, si vous configurer les champs `Objet état réel` ou simulé par le plugin si le champs est vide
+L'état du volet est important pour le plugin car il donne les autorisations d'exécution ou non.
+L'état peut être réel, si vous configurer les champs `Objet état réel` ou simulé par le plugin si le champ est vide
 
-Pour un etat reel il faut bien s'assurer que l'etat du plugin suive l'etat reel lors de manipulation manuel
-Pour un etat simulé il peut y avoir des decalage lors de manipulation manuel de votre volet (Le mode manuel n'est donc pas possible)
+Pour un état réel il faut bien s'assurer que l'état du plugin suive l'état réel lors de manipulation manuel
+Pour un état simulé il peut y avoir des décalages lors de manipulation manuel de votre volet (Le mode manuel n'est donc pas possible)
 
-Lors de l'utilisation de commande non prorportionnel, le plugin met par defaut 0 ou 100%, si votre module (par exemple les FIBARO) ne sont pas sur cette plage il faut personalise le min et max de la commande `Etat du volet`
+Lors de l'utilisation de commande non proportionnelle, le plugin met par défaut 0 ou 100%, si votre module (par exemple les FIBARO) n’est pas sur cette plage il faut personnaliser le minimum et maximum de la commande `Etat du volet`
 
 Le mode et son état
 ---
@@ -84,7 +84,7 @@ Le volet se fermera pour garder la fraicheur.
 L'icône ci-dessus montre le mode "hiver", le volet est ouvert lorsque le soleil est dans la fenêtre.
 Le volet s'ouvrira pour accumuler la chaleur
 
-la position du soleil
+La position du soleil
 ---
 Cette commande nous informe si le soleil est dans la fenêtre ou pas.
  
@@ -122,7 +122,7 @@ Configuration générale Jeedom
 * `Jour` : activation de la gestion en jour 
 * `Nuit` : activation de la gestion en nuit
 * `Azimut` : activation de la gestion en fonction de la position du soleil (dépend de l'équipement Héliotrope)
-* `Evenement` : activation de la gestion Evenement
+* `Evènement` : activation de la gestion Evènement
 * `Conditionnel` : active la gestion Conditionnel. 
 
 ### Gestion de l'état réel
@@ -144,13 +144,13 @@ Il faut activer la gestion pour faire apparaitre les champs de configuration sp�
 
 ### Gestion du jour
 
-* `Heure d'ouverture minimum` : Permet d'imposer au plugin un heure minimum à partir de laquelle le plugin ne tiendra plus compte de l'heure du lever du soleil 
+* `Heure d'ouverture minimum` : Permet d'imposer au plugin une heure minimum à partir de laquelle le plugin ne tiendra plus compte de l'heure du lever du soleil 
 * `Type de lever du soleil` : permet de choisir quel type d'horaire vous voulez pour le lever du jour
 * `Délai au lever du jour (min)` : délai avant (-) ou après (+) l'heure du lever du jour
 
 ### Gestion de la nuit
 
-* `Heure de fermeture maximum` :  Permet d'imposer au plugin un heure maximum à partir de laquelle le plugin ne tiendra plus compte de l'heure du coucher du soleil 
+* `Heure de fermeture maximum` :  Permet d'imposer au plugin une heure maximum à partir de laquelle le plugin ne tiendra plus compte de l'heure du coucher du soleil 
 * `Type de coucher du soleil` : permet de choisir quel type d'horaire vous voulez pour la tombée de la nuit
 * `Délai à la tombée de la nuit (min)` : délai avant (-) ou après (+) l'heure de la tombée de la nuit
 
@@ -182,8 +182,8 @@ Pour améliorer l'expérience de la gestion Azimut, le plugin calcule des ratios
 - Ratio Vertical :  ce ratio reflète la hauteur d'ouverture du volet en fonction de l'altitude du soleil (Entre 0 et 100% par défaut)
 - Ratio Horizontal :  ce ratio reflète la pénétration du soleil dans la fenêtre en fonction de l'azimut du soleil (Entre 0 et 100% par défaut)
 
-Nous pouvons limiter le ratio Vertical avec les paramètres d'altitude d'obstruction Min et Max.
-Si le soleil est en dessous du min ou au dessus du max alors le ratio sera à 100% ouvert
+Nous pouvons limiter le ratio Vertical avec les paramètres d'altitude d'obstruction Minimum et Max.
+Si le soleil est au-dessous du minimum ou au-dessus du maximum alors le ratio sera à 100% ouvert
 
 Nous pouvons limiter le ratio Horizontal avec la définition de l'angle d'exposition au soleil.
 
@@ -197,7 +197,7 @@ Cette étape est importante pour le fonctionnement de la gestion en fonction de 
 
 Sur votre fenêtre doit apparaitre 3 curseurs. 
 Ces 3 curseurs vont donc former notre angle.
-Le point central doit être obligatoirement placé au dessus de notre fenêtre. 
+Le point central doit être obligatoirement placé au-dessus de notre fenêtre. 
 Les 2 autres vont former l'angle et peuvent être placés n'importe où à l'extérieur de la maison. 
 Attention toutefois à bien respecter la droite et la gauche de votre fenêtre vue de l'extérieur (indiqué sur les points de la carte).
 
@@ -210,10 +210,10 @@ J'ajouterai donc une condition de ce type.
 
 ![introduction01](../images/ConditionTemps.jpg)
 
-Gestion Evenement
+Gestion Evènement
 ---
 
-La gestion Evenement permet de fermer les volets lorsqu'un évènement Jeedom est validé.
+La gestion Evènement permet de fermer les volets lorsqu'un évènement Jeedom est validé.
 Il faut activer la gestion pour faire apparaitre les champs de configuration spécifiques.
 
 ![introduction01](../images/ConfigurationEvenement.jpg)
@@ -239,7 +239,7 @@ Paramètres complémentaires :
 * `Sur Action` : Permet d'identifier les conditions à tester pour exécuter une action 	
 * `Sur Réactivation` : 	Permet d'identifier les conditions à tester pour réarmer le plugin automatiquement
 * `Inverser l'action` : Permet de relancer une évaluation des conditions avec une position inverse du volet 	
-* `Condition` : Saisir votre conditions. L'ensemble des conditions forme un ET logique
+* `Condition` : Saisir votre condition. L'ensemble des conditions forme un ET logique
 * `Type de gestion` : sélectionner toutes les gestions où la condition doit être vérifiée (avec la touche `Ctrl`)
 * `Mode` : sélectionner tous les modes où la condition doit être vérifiée (avec la touche `Ctrl`)
 * `Action` : sélectionner toutes les actions où la condition doit être vérifiée (avec la touche `Ctrl`)
@@ -260,7 +260,7 @@ Actions d'ouverture et de fermeture
 Tout à droite, il est possible d'activer ou non la commande.
 Choisissez les actions à mener sans oublier de configurer leurs valeurs.
 
-Paramètres complémentaires:
+Paramètres complémentaires :
 
 * `Activation` : Permet d'activer ou non l'action
 * `Mouvement` : Permet de déterminer si l'action est une action de mouvement et donnera un retour d'état.
@@ -271,8 +271,8 @@ Paramètres complémentaires:
 
 ### Utilisation des commandes Ratio
 
-Avec la gestion azimut, le plugin calcule et met a jour des commandes ratiométriques (Horizontal et Vertical) afin que le rayonnement du soleil soit masqué.
-Si vous souhaitez utiliser les commandes ratiométriques, il est juste nécessaire de sélectionner la commande ratio en valeur de la commande proportionnelle de votre volet.
+Avec la gestion azimut, le plugin calcule et met à jour des commandes radiométriques (Horizontale et Verticale) afin que le rayonnement du soleil soit masqué.
+Si vous souhaitez utiliser les commandes radiométriques, il est juste nécessaire de sélectionner la commande ratio en valeur de la commande proportionnelle de votre volet.
 
 FAQ
 ===
@@ -284,7 +284,7 @@ Cette option va donc inverser la demande de mouvement et relancer l'évaluation 
 
 Mon volet ne remonte pas à la sortie du soleil de la fenêtre
 ---
-> Si vous n'avez pas de remontée de volet en gestion Azimut lors de la sortie du soleil, c'est que très probablement l'etat du volet sur le plugin est déjà ouvert.
+> Si vous n'avez pas de remontée de volet en gestion Azimut lors de la sortie du soleil, c'est que très probablement l'état du volet sur le plugin est déjà ouvert.
 
 Le plugin reste en gestion Nuit
 ---
@@ -314,7 +314,7 @@ Pour le corriger, rendez-vous sur la page de configuration du plugin de contrôl
 Jeedom va vous ouvrir la page de paramètre avancé
 Allez dans l'onglet **Configuration** >> **Autres** et passez le paramètre **Gestion de la répétition des valeurs** sur **Jamais répéter**
 
-![Screen de configuration des parametres avancé d'une commande ](../images/CmdParamAvanceRepetition.jpg)
+![Ecran de configuration des paramètres avancés d'une commande](../images/CmdParamAvanceRepetition.jpg)
 
 Je suis passé en mode manuel dans la journée, comment réarmer automatiquement le plugin
 ---
@@ -329,5 +329,5 @@ Dans l'exemple si dessous, on limite l'ouverture du volet de 0 à 100% par pas d
 
 Le plugin ne fonctionne pas avec mon module Fibaro
 ---
-> Les modules fibaro son gradués proportionnellement de 0 à 99%.
-Pour pallier à ce probleme il est recommandé de mettre a jours le min et max des commandes `Etat du volet`,`Ratio Horizontal`, `Ratio Vertical`.
+> Les modules fibaro sont gradués proportionnellement de 0 à 99%.
+Pour pallier à ce problème il est recommandé de mettre à jour le minimum et maximum des commandes `Etat du volet`,`Ratio Horizontal`, `Ratio Vertical`.

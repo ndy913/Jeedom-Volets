@@ -70,8 +70,10 @@ class Volets extends eqLogic {
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
-						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'azimut du soleil');	
+						if($Volet->getCmd(null,'gestion')->execCmd() != "Nuit"){
+							log::add('Volets','debug',$Volet->getHumanName().' : Mise à jour de l\'azimut du soleil');	
 						$Volet->GestionAzimute($_option['value']);
+						}
 					break;
 					case $Volet->getConfiguration('TypeDay'):
 						$timestamp=$Volet->CalculHeureEvent($_option['value'],'Day');
@@ -160,10 +162,10 @@ class Volets extends eqLogic {
 	public function CheckState() {  
 		$Value=$this->getCmd(null,'position')->execCmd();
 		if($this->getConfiguration('InverseHauteur')){	
-			if($Value < 0)
-				$State='open';
-			else
+			if($Value > 0)
 				$State='close';
+			else
+				$State='open';
 		}else{
 			if($Value > 0)
 				$State='open';
@@ -498,7 +500,10 @@ class Volets extends eqLogic {
 		}
 		if(!isset($NewPosition)){
 			if($Evenement == 'open'){
-				$NewPosition=100;
+				if($this->getConfiguration('InverseHauteur'))
+					$NewPosition=100;
+				else
+					$NewPosition=0;
 				if(is_object($MyPosition)){
 					if($this->getConfiguration('InverseHauteur'))
 						$NewPosition = $MyPosition->getConfiguration('minValue', $NewPosition);
@@ -506,7 +511,10 @@ class Volets extends eqLogic {
 						$NewPosition = $MyPosition->getConfiguration('maxValue', $NewPosition);
 				}
 			}else{
-				$NewPosition=0;
+				if($this->getConfiguration('InverseHauteur'))
+					$NewPosition=0;
+				else
+					$NewPosition=100;
 				if(is_object($MyPosition)){
 					if($this->getConfiguration('InverseHauteur'))
 						$NewPosition = $MyPosition->getConfiguration('maxValue', $NewPosition);
@@ -515,7 +523,7 @@ class Volets extends eqLogic {
 				}
 			}
 		}
-		log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position actuel = '.$MyPosition->execCmd());
+		log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position actuelle = '.$MyPosition->execCmd());
 		log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position demandée = '.$NewPosition);
 		if($MyPosition->execCmd() == $NewPosition){
 			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');

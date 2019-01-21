@@ -160,10 +160,10 @@ class Volets extends eqLogic {
 	public function CheckState() {  
 		$Value=$this->getCmd(null,'position')->execCmd();
 		if($this->getConfiguration('InverseHauteur')){	
-			if($Value < 0)
-				$State='open';
-			else
+			if($Value > 0)
 				$State='close';
+			else
+				$State='open';
 		}else{
 			if($Value > 0)
 				$State='open';
@@ -498,7 +498,10 @@ class Volets extends eqLogic {
 		}
 		if(!isset($NewPosition)){
 			if($Evenement == 'open'){
-				$NewPosition=100;
+				if($this->getConfiguration('InverseHauteur'))
+					$NewPosition=100;
+				else
+					$NewPosition=0;
 				if(is_object($MyPosition)){
 					if($this->getConfiguration('InverseHauteur'))
 						$NewPosition = $MyPosition->getConfiguration('minValue', $NewPosition);
@@ -506,7 +509,10 @@ class Volets extends eqLogic {
 						$NewPosition = $MyPosition->getConfiguration('maxValue', $NewPosition);
 				}
 			}else{
-				$NewPosition=0;
+				if($this->getConfiguration('InverseHauteur'))
+					$NewPosition=0;
+				else
+					$NewPosition=100;
 				if(is_object($MyPosition)){
 					if($this->getConfiguration('InverseHauteur'))
 						$NewPosition = $MyPosition->getConfiguration('maxValue', $NewPosition);

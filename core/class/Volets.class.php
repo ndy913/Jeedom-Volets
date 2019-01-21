@@ -70,8 +70,10 @@ class Volets extends eqLogic {
 			if(is_object($Event)){
 				switch($Event->getlogicalId()){
 					case 'azimuth360':
-						log::add('Volets','info',$Volet->getHumanName().' : Mise à jour de l\'azimut du soleil');	
+						if($Volet->getCmd(null,'gestion')->execCmd() != "Nuit"){
+							log::add('Volets','debug',$Volet->getHumanName().' : Mise à jour de l\'azimut du soleil');	
 						$Volet->GestionAzimute($_option['value']);
+						}
 					break;
 					case $Volet->getConfiguration('TypeDay'):
 						$timestamp=$Volet->CalculHeureEvent($_option['value'],'Day');
@@ -521,7 +523,7 @@ class Volets extends eqLogic {
 				}
 			}
 		}
-		log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position actuel = '.$MyPosition->execCmd());
+		log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position actuelle = '.$MyPosition->execCmd());
 		log::add('Volets','debug',$this->getHumanName().'[Gestion '.$Gestion.'] : Position demandée = '.$NewPosition);
 		if($MyPosition->execCmd() == $NewPosition){
 			log::add('Volets','info',$this->getHumanName().'[Gestion '.$Gestion.'] : La commande '.jeedom::toHumanReadable($Cmd['cmd']).' ne sera pas executée car la valeur est identique');
